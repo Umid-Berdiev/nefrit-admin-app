@@ -1,0 +1,10 @@
+# Ignore artifacts:
+build
+dist
+coverage
+node_modules
+public
+
+*.md
+generated-vars.sass
+generated-fallback.css
