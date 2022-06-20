@@ -5,7 +5,6 @@ import '@vue/runtime-core'
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    AdminLayout: typeof import('./src/layouts/AdminLayout.vue')['default']
     AnimatedLogo: typeof import('./src/components/svg/AnimatedLogo.vue')['default']
     AppLayout: typeof import('./src/layouts/AppLayout.vue')['default']
     ApplicantsSubsidebar: typeof import('./src/layouts/sidebar-subsidebar/ApplicantsSubsidebar.vue')['default']
@@ -107,6 +106,7 @@ declare module '@vue/runtime-core' {
     VTextEllipsis: typeof import('./src/components/base/typography/VTextEllipsis.vue')['default']
     VViewWrapper: typeof import('./src/components/base/layouts/VViewWrapper.vue')['default']
     VVivus: typeof import('./src/components/base/plugins/VVivus.vue')['default']
+    WidgetDropdown: typeof import('./src/components/partials/dropdowns/WidgetDropdown.vue')['default']
   }
 }
 

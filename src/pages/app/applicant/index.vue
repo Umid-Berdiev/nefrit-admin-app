@@ -1,123 +1,134 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import { useHead } from '@vueuse/head'
-import { useViewWrapper } from '/@src/stores/viewWrapper'
+import { ref, computed, onMounted } from 'vue'
 
-// we import our useApi helper
 import { useApi } from '/@src/composable/useApi'
-import { useRouter } from 'vue-router'
+import FlexTableDropdown from '/@src/components/partials/dropdowns/FlexTableDropdown.vue'
 
-const router = useRouter()
+// the total data will be set by the fetchData function
+const filterForm = ref({})
+const displayFilterForm = ref(false)
+const selectedRowsId = ref<string[]>([])
+const isAllSelected = computed(
+  () => fetchedData.value.length === selectedRowsId.value.length
+)
 
-// articles and fetchArticles variables can be provided by a composable function
-const articles = ref<ApplicantInterface[]>([]) // we know that the articles will be an array of Applicant
+// the fetchData function will be called each time one of the parameter changes
+const api = useApi()
+const fetchedData = ref([])
+const fetchData = async () => {
+  // async fetch data to our server
+  const { data: users } = await api.get(`/api/users`)
 
-async function fetchArticles() {
-  const api = useApi()
-
-  try {
-    const { data } = await api.get<ApplicantInterface[]>('/applicants') // we know that our api respond with an array of Applicant
-    articles.value = data
-  } catch (error) {
-    // here we can handle the error
-    console.error(error)
-  }
+  // the return of the function must be an array
+  return users
 }
 
-// We trigger the fetchArticles function when the component is mounted
-onMounted(fetchArticles)
-
-// don't forget to setup our page meta
-useHead({
-  title: 'Applicants',
+onMounted(async () => {
+  const res = await fetchData()
+  fetchedData.value = res
 })
 
-const viewWrapper = useViewWrapper()
-viewWrapper.setPageTitle('Applicants')
-
-function handleView(id: number) {
-  router.push('/app/applicant/' + id)
-}
-
-async function handleRemove(id: number) {
-  const api = useApi()
-  await api.delete('/applicant/' + id)
+// the select all checkbox click handler
+function toggleSelection() {
+  if (isAllSelected.value) {
+    selectedRowsId.value = []
+  } else {
+    selectedRowsId.value = fetchedData.value.map(({ initials }) => initials)
+  }
 }
 </script>
 
 <template>
   <div class="applicant-list-wrapper">
-    <!-- <ul>
-      <li v-for="article in articles" :key="article.id">
-        <RouterLink
-          :to="{
-            name: 'app-applicant-id',
-            params: {
-              id: article.id,
-            },
-          }"
-        >
-          {{ article.title }}
-        </RouterLink>
-      </li>
-    </ul> -->
+    <!-- filter block -->
+    <VBlock title="" center>
+      <template #action>
+        <VButtons>
+          <VButton outlined rounded color="warning" icon="feather:filter"
+            @click="displayFilterForm = !displayFilterForm">
+            Filter
+          </VButton>
+          <VButton outlined rounded color="info" icon="feather:eye"> View </VButton>
+          <VButton outlined rounded color="danger" icon="feather:trash"> Remove </VButton>
+          <VButton outlined rounded color="primary" icon="feather:edit-2"> Edit </VButton>
+        </VButtons>
+      </template>
+    </VBlock>
+    <div v-show="displayFilterForm" class="mb-5">
+      <VCard radius="small">
+        <h3 class="title is-5 mb-2">Filter form</h3>
+        <div class="columns is-desktop">
+          <VField class="column">
+            <VLabel>User</VLabel>
+            <VControl>
+              <VInput v-model="filterForm.applicantUser" type="text" placeholder="john.doe" />
+            </VControl>
+          </VField>
+          <VField class="column">
+            <VLabel>Status</VLabel>
+            <VControl>
+              <VInput v-model="filterForm.applicantStatus" type="text" placeholder="john.doe" />
+            </VControl>
+          </VField>
+          <VField class="column">
+            <VLabel>Boss name</VLabel>
+            <VControl>
+              <VInput v-model="filterForm.applicantBossName" type="text" placeholder="john.doe" />
+            </VControl>
+          </VField>
+          <!-- </div>
+            <div class="columns is-desktop"> -->
+          <VField class="column">
+            <VLabel>Name</VLabel>
+            <VControl>
+              <VInput v-model="filterForm.applicantName" type="text" placeholder="john.doe" />
+            </VControl>
+          </VField>
+          <VField class="column">
+            <VLabel>Phone</VLabel>
+            <VControl>
+              <VInput v-model="filterForm.applicantPhone" type="text" placeholder="john.doe" />
+            </VControl>
+          </VField>
+          <VField class="column">
+            <VLabel>Country</VLabel>
+            <VControl>
+              <VSelect v-model="filterForm.applicantsCountry">
+                <VOption value="">Select a Hero</VOption>
+                <VOption value="Superman">Superman</VOption>
+                <VOption value="Batman">Batman</VOption>
+                <VOption value="Spiderman">Spiderman</VOption>
+                <VOption value="Deadpool">Deadpool</VOption>
+                <VOption value="Spawn">Spawn</VOption>
+                <VOption value="Galactus">Galactus</VOption>
+              </VSelect>
+            </VControl>
+          </VField>
+        </div>
+      </VCard>
+    </div>
 
+    <!-- table -->
     <table class="table is-hoverable is-fullwidth">
       <thead>
         <tr>
-          <th scope="col">First Name</th>
-          <th scope="col">Last Name</th>
+          <VCheckbox :checked="isAllSelected" name="all_selected" color="primary" @click="toggleSelection" />
+          <th scope="col">Name</th>
           <th scope="col">Position</th>
+          <th scope="col">Location</th>
+          <th scope="col">Bio</th>
           <th scope="col" class="is-end">
             <div class="dark-inverted is-flex is-justify-content-flex-end">Actions</div>
           </th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>Tina</td>
-          <td>Bergmann</td>
-          <td>Head of Sales</td>
-          <td class="is-end">
-            <div class="is-flex is-justify-content-flex-end">
-              <FlexTableDropdown @view="handleView(1)" />
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>John</td>
-          <td>Wistmus</td>
-          <td>Senior Executive</td>
-          <td class="is-end">
-            <div class="is-flex is-justify-content-flex-end">
-              <FlexTableDropdown />
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>Sam</td>
-          <td>Watson</td>
-          <td>Software Engineer</td>
-          <td class="is-end">
-            <div class="is-flex is-justify-content-flex-end">
-              <FlexTableDropdown />
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>Jolaine</td>
-          <td>Joestar</td>
-          <td>HR Manager</td>
-          <td class="is-end">
-            <div class="is-flex is-justify-content-flex-end">
-              <FlexTableDropdown />
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>Anders</td>
-          <td>Jensen</td>
-          <td>Accountant</td>
+        <tr v-for="row in fetchedData" :key="row.id">
+          <VCheckbox v-model="selectedRowsId" :value="row.initials" name="selection" />
+          <td>{{ row.name }}</td>
+          <td>{{ row.position }}</td>
+          <td>{{ row.location }}</td>
+          <td>{{ row.bio }}</td>
           <td class="is-end">
             <div class="is-flex is-justify-content-flex-end">
               <FlexTableDropdown />
@@ -129,10 +140,10 @@ async function handleRemove(id: number) {
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style scoped lang="scss">
 .applicant-list-wrapper {
-  // Here we can add custom styles for the blog page
-  // They will be only applied to this component
+  .table {
+    border-radius: 0.675rem;
+  }
 }
 </style>
-

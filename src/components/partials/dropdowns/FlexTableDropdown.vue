@@ -10,17 +10,12 @@ const emits = defineEmits<{
 <template>
   <VDropdown icon="feather:more-vertical" class="is-pushed-mobile" spaced right>
     <template #content="{ close }">
-      <a
-        role="menuitem"
-        href="#"
-        class="dropdown-item is-media"
-        @click.prevent="
-          () => {
-            emits('view')
-            close()
-          }
-        "
-      >
+      <a role="menuitem" href="#" class="dropdown-item is-media" @click.prevent="
+        () => {
+          emits('view')
+          close()
+        }
+      ">
         <div class="icon">
           <i aria-hidden="true" class="lnil lnil-eye"></i>
         </div>
@@ -30,17 +25,12 @@ const emits = defineEmits<{
         </div>
       </a>
 
-      <a
-        role="menuitem"
-        href="#"
-        class="dropdown-item is-media"
-        @click.prevent="
-          () => {
-            emits('projects')
-            close()
-          }
-        "
-      >
+      <a role="menuitem" href="#" class="dropdown-item is-media" @click.prevent="
+        () => {
+          emits('projects')
+          close()
+        }
+      ">
         <div class="icon">
           <i aria-hidden="true" class="lnil lnil-briefcase"></i>
         </div>
@@ -50,17 +40,12 @@ const emits = defineEmits<{
         </div>
       </a>
 
-      <a
-        role="menuitem"
-        href="#"
-        class="dropdown-item is-media"
-        @click.prevent="
-          () => {
-            emits('schedule')
-            close()
-          }
-        "
-      >
+      <a role="menuitem" href="#" class="dropdown-item is-media" @click.prevent="
+        () => {
+          emits('schedule')
+          close()
+        }
+      ">
         <div class="icon">
           <i aria-hidden="true" class="lnil lnil-calendar"></i>
         </div>
@@ -72,17 +57,12 @@ const emits = defineEmits<{
 
       <hr class="dropdown-divider" />
 
-      <a
-        role="menuitem"
-        href="#"
-        class="dropdown-item is-media"
-        @click.prevent="
-          () => {
-            emits('remove')
-            close()
-          }
-        "
-      >
+      <a role="menuitem" href="#" class="dropdown-item is-media" @click.prevent="
+        () => {
+          emits('remove')
+          close()
+        }
+      ">
         <div class="icon">
           <i aria-hidden="true" class="lnil lnil-trash-can-alt"></i>
         </div>

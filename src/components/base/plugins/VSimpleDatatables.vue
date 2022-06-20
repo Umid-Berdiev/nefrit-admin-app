@@ -153,11 +153,11 @@ onMounted(() => {
   if (tableElement.value) {
     datatable.value = new DataTable(tableElement.value, props.options)
   }
-  registerEvents()
+  // registerEvents()
 })
 
 onBeforeUnmount(() => {
-  unregisterEvents()
+  // unregisterEvents()
 })
 
 if (isReactive(props.options)) {

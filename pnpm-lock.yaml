@@ -32,6 +32,7 @@ specifiers:
   axios: 0.26.1
   billboard.js: 3.4.1
   bulma: 0.9.3
+  bulma-checkradio: ^2.1.3
   bulma-css-vars: 0.7.0
   commitlint: 16.2.3
   cross-env: 7.0.3
@@ -133,6 +134,7 @@ dependencies:
   axios: 0.26.1
   billboard.js: 3.4.1
   bulma: 0.9.3
+  bulma-checkradio: 2.1.3
   bulma-css-vars: 0.7.0_bulma@0.9.3
   dayjs: 1.11.1
   defu: 6.0.0
@@ -3507,6 +3509,12 @@ packages:
     resolution: {integrity: sha512-zhaCDicdLuWN5UbN5IMnFqNMhNfo919sH85y2/ea+5Yg9TsTkeZxpL+JLbp6cgYFS4sRLp3YV4S6yDuqVWHYOw==}
     engines: {node: '>=6'}
     dev: true
+
+  /bulma-checkradio/2.1.3:
+    resolution: {integrity: sha512-8OmZ7PURyftNLGXSTNAYNTJHIe0OkoH/8z9iWfSXGxiv3AlrKneMtiVpBKofXsvc9ZHBUI1YjefiW5WFhgFgAQ==}
+    dependencies:
+      bulma: 0.9.3
+    dev: false
 
   /bulma-css-vars/0.7.0_bulma@0.9.3:
     resolution: {integrity: sha512-tQgWGZwoNPqMO350cGNLsMRsQgxiaQ8geNfIuOeW7ScjMEIMHcSf5KMSUsVeikvrTA4VkI4RsgRw8O+i6URXbg==}
