@@ -1,388 +1,375 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { reactive, ref, computed, h } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
-const selectedRowsId = ref<string[]>([])
-const filterForm = ref({})
-const displayFilterForm = ref(false)
+import FlexTableDropdown from '/@src/components/partials/dropdowns/FlexTableDropdown.vue'
+import type { VFlexTableWrapperDataResolver } from '/@src/components/base/table/VFlexTableWrapper.vue'
+import { useApi } from '/@src/composable/useApi'
+import sleep from '/@src/utils/sleep'
+import VPlaceload from '/@src/components/base/loader/VPlaceload.vue'
 
-// this is our data
-const datatableV3 = [
-  [
-    '/images/icons/files/pdf.svg',
-    'Company UX Guide',
-    '4.7 mb',
-    '1.5.2',
-    '/images/avatars/svg/vuero-1.svg',
-    'Erik K.',
-    '2 weeks ago',
-    '+1 234 567 89',
-    'Yes',
-  ],
-  [
-    '/images/icons/files/sheet.svg',
-    'Tech Summit Expenses',
-    '34 kb',
-    '1.1.3',
-    '/demo/avatars/7.jpg',
-    'Alice C.',
-    '3 days ago',
-    '+1 234 567 89',
-    'Yes',
-  ],
-  [
-    '/images/icons/files/doc-2.svg',
-    'Project Outline',
-    '77 kb',
-    '1.0.0',
-    '/demo/avatars/18.jpg',
-    'Esteban C.',
-    '5 days ago',
-    '+1 234 567 89',
-    'Yes',
-  ],
-  [
-    '/images/icons/files/ppt.svg',
-    'UX Presentation',
-    '2.3 mb',
-    '1.0.0',
-    '/demo/avatars/13.jpg',
-    'Tara S.',
-    '2 weeks ago',
-    '+1 234 567 89',
-    'Yes',
-  ],
-  [
-    '/images/icons/files/ai.svg',
-    'Website Homepage Redesign',
-    '4.8 mb',
-    '1.0.0',
-    '/demo/avatars/5.jpg',
-    'Mary L.',
-    '2 weeks ago',
-    '+1 234 567 89',
-    'Yes',
-  ],
-  [
-    '/images/icons/files/doc-2.svg',
-    'UX Ramp Up for Interns',
-    '1.8 mb',
-    '1.2.0',
-    '/images/avatars/svg/vuero-1.svg',
-    'Erik K.',
-    '2 months ago',
-    '+1 234 567 89',
-    'Yes',
-  ],
-  [
-    '/images/icons/files/pdf.svg',
-    '2020 Projects Digest',
-    '8.9 mb',
-    '1.3.4',
-    '/demo/avatars/27.jpg',
-    'Carmen E.',
-    '3 weeks ago',
-    '+1 234 567 89',
-    'Yes',
-  ],
-  [
-    '/images/icons/files/doc-2.svg',
-    'Financial Report - 2020',
-    '1.2 mb',
-    '1.0.4',
-    '/demo/avatars/10.jpg',
-    'Henry G.',
-    '5 days ago',
-    '+1 234 567 89',
-    'Yes',
-  ],
-  [
-    '/images/icons/files/doc-2.svg',
-    '2020 Supplier Expenses',
-    '250 kb',
-    '1.0.0',
-    '/demo/avatars/38.jpg',
-    'Christie D.',
-    '6 days ago',
-    '+1 234 567 89',
-    'Yes',
-  ],
-  [
-    '/images/icons/files/ai.svg',
-    'Website About Page Redesign',
-    '3.9 mb',
-    '1.2.1',
-    '/demo/avatars/5.jpg',
-    'Mary L.',
-    '4 days ago',
-    '+1 234 567 89',
-    'Yes',
-  ],
-  [
-    '/images/icons/files/ai.svg',
-    'Website Pricing Page Redesign',
-    '2.6 mb',
-    '1.1.0',
-    '/demo/avatars/5.jpg',
-    'Mary L.',
-    '3 days ago',
-    '+1 234 567 89',
-    'Yes',
-  ],
-  [
-    '/images/icons/files/doc-2.svg',
-    'Financial Report - 2019',
-    '1.1 mb',
-    '1.3.2',
-    '/demo/avatars/10.jpg',
-    'Henry G.',
-    '1 year ago',
-    '+1 234 567 89',
-    'Yes',
-  ],
-  [
-    '/images/icons/files/doc-2.svg',
-    '2019 Supplier Expenses',
-    '34 kb',
-    '1.2.1',
-    '/demo/avatars/38.jpg',
-    'Christie D.',
-    '1 year ago',
-    '+1 234 567 89',
-    'Yes',
-  ],
-  [
-    '/images/icons/files/ai.svg',
-    'Website Contact Page Redesign',
-    '5.8 mb',
-    '1.4.1',
-    '/demo/avatars/5.jpg',
-    'Mary L.',
-    '1 week ago',
-    '+1 234 567 89',
-    'Yes',
-  ],
-  [
-    '/images/icons/files/pdf.svg',
-    'Company Brand Book',
-    '5.3 mb',
-    '1.6.3',
-    '/images/avatars/svg/vuero-1.svg',
-    'Erik K.',
-    '3 months ago',
-    '+1 234 567 89',
-    'Yes',
-  ],
-  [
-    '/images/icons/files/pdf.svg',
-    '2019 Projects Digest',
-    '4.7 mb',
-    '1.2.1',
-    '/demo/avatars/27.jpg',
-    'Carmen E.',
-    '1 year ago',
-    '+1 234 567 89',
-    'Yes',
-  ],
-]
+// the total data will be set by the fetchData function
+const total = ref(0)
 
-// const isAllSelected = computed(() => datatableV3.length === selectedRowsId.value.length)
-const isAllSelected = computed({
-  get() {
-    return datatableV3.length === selectedRowsId.value.length
-  },
-  set(val) {
-    if (!val) {
-      selectedRowsId.value = []
-    } else {
-      selectedRowsId.value = datatableV3.map((row) => row[5])
-    }
-  },
-})
-
-// this is the columns configuration
+const selectedRowsId = ref<number[]>([])
+const isAllSelected = computed(() => fetchData.length === selectedRowsId.value.length)
+// we don't have to set "searchable" parameter
+// this will be handled by the fetchData function
 const columns = {
   select: {
     label: '',
     cellClass: 'is-flex-grow-0',
   },
-  company: {
-    label: 'Company',
+  name: {
+    label: 'Username',
+    media: true,
     grow: true,
+    sortable: true,
   },
-  type: 'Type',
-  industry: 'Industry',
-  status: 'Status',
-  contacts: {
-    label: 'Contacts',
+  location: {
+    label: 'Location',
+    sortable: true,
+  },
+  position: {
+    label: 'Positions',
+    sortable: true,
+  },
+  actions: {
+    label: 'Actions',
     align: 'end',
+    renderRow: (row: any) =>
+      h(FlexTableDropdown, {
+        // We can catch all events from vue
+        onView: () => {
+          console.log('viewing', row)
+        },
+        onProjects: () => {
+          console.log('projects', row)
+        },
+        onSchedule: () => {
+          console.log('schedule', row)
+        },
+        onRemove: () => {
+          console.log('remove', row)
+        },
+      }),
   },
+} as const
+
+// this is an example of useXxx function that we can reuse across components.
+// it will return writable computeds that works like ref values
+// but the values will be sync with the route query params
+function useQueryParam() {
+  const router = useRouter()
+  const route = useRoute()
+
+  // when the params match those value,
+  // we don't set their value to the query params
+  const defaultSearch = ''
+  const defaultSort = ''
+  const defaultLimit = 10
+  const defaultPage = 1
+
+  const searchTerm = computed({
+    get: () => {
+      let searchTermQuery: string
+
+      // read "search" from the query params
+      if (Array.isArray(route?.query?.search)) {
+        searchTermQuery = route.query.search?.[0] ?? defaultSearch
+      } else {
+        searchTermQuery = route.query.search ?? defaultSearch
+      }
+
+      return searchTermQuery
+    },
+    set(value) {
+      // update the route query params with our new "search" value.
+      // we can use router.replace instead of router.push
+      // to not write state to the browser history
+      router.push({
+        query: {
+          search: value === defaultSearch ? undefined : value,
+          sort: sort.value === defaultSort ? undefined : sort.value,
+          limit: limit.value === defaultLimit ? undefined : limit.value,
+          page: page.value === defaultPage ? undefined : page.value,
+        },
+      })
+    },
+  })
+
+  const sort = computed({
+    get: () => {
+      let sortQuery: string
+
+      // read "sort" from the query params
+      if (Array.isArray(route?.query?.sort)) {
+        sortQuery = route.query.sort?.[0] ?? defaultSort
+      } else {
+        sortQuery = route.query.sort ?? defaultSort
+      }
+
+      return sortQuery
+    },
+    set(value) {
+      // update the route query params with our new "sort" value.
+      // we can use router.replace instead of router.push
+      // to not write state to the browser history
+      router.push({
+        query: {
+          search: searchTerm.value === defaultSearch ? undefined : searchTerm.value,
+          sort: value === defaultSort ? undefined : value,
+          limit: limit.value === defaultLimit ? undefined : limit.value,
+          page: page.value === defaultPage ? undefined : page.value,
+        },
+      })
+    },
+  })
+
+  const limit = computed({
+    get: () => {
+      let limitQuery: number
+
+      // read "limit" from the query params
+      if (Array.isArray(route?.query?.limit)) {
+        limitQuery = parseInt(route.query.limit[0] ?? `${defaultLimit}`)
+      } else {
+        limitQuery = parseInt(route.query.limit ?? `${defaultLimit}`)
+      }
+
+      if (limitQuery === NaN) {
+        limitQuery = defaultLimit
+      }
+
+      return limitQuery
+    },
+    set(value) {
+      // update the route query params with our new "limit" value.
+      // we can use router.replace instead of router.push
+      // to not write state to the browser history
+      router.push({
+        query: {
+          search: searchTerm.value === defaultSearch ? undefined : searchTerm.value,
+          sort: sort.value === defaultSort ? undefined : sort.value,
+          limit: value === defaultLimit ? undefined : value,
+          page: page.value === defaultPage ? undefined : page.value,
+        },
+      })
+    },
+  })
+
+  const page = computed({
+    get: () => {
+      let pageQuery: number
+
+      if (Array.isArray(route?.query?.page)) {
+        pageQuery = parseInt(route.query.page[0] ?? `${defaultPage}`)
+      } else {
+        pageQuery = parseInt(route.query.page ?? `${defaultPage}`)
+      }
+
+      // read "page" from the query params
+      if (pageQuery === NaN) {
+        pageQuery = defaultPage
+      }
+
+      return pageQuery
+    },
+    set(value) {
+      // update the route query params with our new "page" value.
+      // we can use router.replace instead of router.push
+      // to not write state to the browser history
+      router.push({
+        query: {
+          search: searchTerm.value === defaultSearch ? undefined : searchTerm.value,
+          sort: sort.value === defaultSort ? undefined : sort.value,
+          limit: limit.value === defaultLimit ? undefined : limit.value,
+          page: value === defaultPage ? undefined : value,
+        },
+      })
+    },
+  })
+
+  return reactive({
+    searchTerm,
+    sort,
+    limit,
+    page,
+  })
+}
+const queryParam = useQueryParam()
+
+// the fetchData function will be called each time one of the parameter changes
+const api = useApi()
+const fetchData: VFlexTableWrapperDataResolver = async ({
+  searchTerm,
+  start,
+  limit,
+  sort,
+  controller,
+}) => {
+  // searchTerm will contains the value of the wrapperState.searchInput
+  // the update will be debounced to avoid to much requests
+  const searchQuery = searchTerm ? `&q=${searchTerm}` : ''
+  let sortQuery = ''
+
+  // sort will be a string like "name:asc"
+  if (sort && sort.includes(':')) {
+    let [sortField, sortOrder] = sort.split(':')
+    sortQuery = `&_sort=${sortField}&_order=${sortOrder}`
+  }
+
+  // async fetch data to our server
+  const { data: users, headers } = await api.get(
+    `/api/users?_start=${start}&_limit=${limit}${searchQuery}${sortQuery}`,
+    {
+      // controller is an instance of AbortController,
+      // this allow to abort the request when the state
+      // is invalidated (before fetchData will be retriggered)
+      signal: controller.signal,
+    }
+  )
+
+  // wait more time
+  await sleep(1000)
+
+  // our backend send us the count in the headers,
+  // but we can also get it from another request
+  if ('x-total-count' in headers) {
+    total.value = parseInt(headers['x-total-count'])
+  }
+
+  // the return of the function must be an array
+  return users
+}
+
+// those data are for the interaction example
+const openedRowId = ref<number>()
+function onRowClick(row: any) {
+  if (openedRowId.value === row.id) {
+    openedRowId.value = undefined
+  } else {
+    openedRowId.value = row.id
+  }
+}
+
+const incomingCallerId = ref<number>()
+function onCallClick(row: any) {
+  if (incomingCallerId.value === row.id) {
+    incomingCallerId.value = undefined
+  } else {
+    incomingCallerId.value = row.id
+  }
 }
 
 // the select all checkbox click handler
 function toggleSelection() {
+  console.log('fetchData:', fetchData)
+
   if (isAllSelected.value) {
     selectedRowsId.value = []
   } else {
-    selectedRowsId.value = datatableV3.map((row) => row[5])
+    selectedRowsId.value = fetchData.map((row: any) => row.id)
   }
 }
 
-function clickOnCheckbox(event: any) {
-  const val = event.target.value
-  if (selectedRowsId.value.includes(val)) {
-    selectedRowsId.value = selectedRowsId.value.filter((i) => i !== val)
+// this it the row click handler (enabled with clickable props)
+function clickOnRow(row: any) {
+  if (selectedRowsId.value.includes(row.id)) {
+    selectedRowsId.value = selectedRowsId.value.filter((i) => i !== row.id)
   } else {
-    selectedRowsId.value = [...selectedRowsId.value, val]
+    selectedRowsId.value = [...selectedRowsId.value, row.id]
   }
 }
 </script>
 
 <template>
-  <div class="applicant-list-wrapper">
-    <!-- filter block -->
-    <VBlock title="" center>
-      <template #action>
-        <VButtons>
-          <VButton outlined rounded color="warning" icon="feather:filter"
-            @click="displayFilterForm = !displayFilterForm">
-            Filter
-          </VButton>
-          <VButton outlined rounded color="info" icon="feather:eye"> View </VButton>
-          <VButton outlined rounded color="danger" icon="feather:trash"> Remove </VButton>
-          <VButton outlined rounded color="primary" icon="feather:edit-2"> Edit </VButton>
-        </VButtons>
-      </template>
-    </VBlock>
-    <div v-show="displayFilterForm" class="mb-5">
-      <VCard radius="small">
-        <h3 class="title is-5 mb-2">Filter form</h3>
-        <div class="columns is-desktop">
-          <VField class="column">
-            <VLabel>User</VLabel>
-            <VControl>
-              <VInput v-model="filterForm.applicantUser" type="text" placeholder="john.doe" />
-            </VControl>
-          </VField>
-          <VField class="column">
-            <VLabel>Status</VLabel>
-            <VControl>
-              <VInput v-model="filterForm.applicantStatus" type="text" placeholder="john.doe" />
-            </VControl>
-          </VField>
-          <VField class="column">
-            <VLabel>Boss name</VLabel>
-            <VControl>
-              <VInput v-model="filterForm.applicantBossName" type="text" placeholder="john.doe" />
-            </VControl>
-          </VField>
-          <!-- </div>
-        <div class="columns is-desktop"> -->
-          <VField class="column">
-            <VLabel>Name</VLabel>
-            <VControl>
-              <VInput v-model="filterForm.applicantName" type="text" placeholder="john.doe" />
-            </VControl>
-          </VField>
-          <VField class="column">
-            <VLabel>Phone</VLabel>
-            <VControl>
-              <VInput v-model="filterForm.applicantPhone" type="text" placeholder="john.doe" />
-            </VControl>
-          </VField>
-          <VField class="column">
-            <VLabel>Country</VLabel>
-            <VControl>
-              <VSelect v-model="filterForm.applicantsCountry">
-                <VOption value="">Select a Hero</VOption>
-                <VOption value="Superman">Superman</VOption>
-                <VOption value="Batman">Batman</VOption>
-                <VOption value="Spiderman">Spiderman</VOption>
-                <VOption value="Deadpool">Deadpool</VOption>
-                <VOption value="Spawn">Spawn</VOption>
-                <VOption value="Galactus">Galactus</VOption>
-              </VSelect>
-            </VControl>
-          </VField>
-        </div>
-      </VCard>
-    </div>
+  <!--
+    We use v-model to let VFlexTableWrapper update queryParam
+  -->
 
-    <!-- table -->
-    <table class="table is-hoverable is-fullwidth">
-      <thead>
-        <tr>
-          <th scope="col" data-sortable="false">
-            <VField>
-              <VControl>
-                <VCheckbox v-model="isAllSelected" color="primary" circle outlined />
-              </VControl>
-            </VField>
-          </th>
-          <th scope="col">{{ $t('User') }}</th>
-          <th scope="col">{{ $t('Status') }}</th>
-          <th scope="col">{{ $t('BossName') }}</th>
-          <th scope="col">{{ $t('Inn') }}</th>
-          <th scope="col">{{ $t('Name') }}</th>
-          <th scope="col">{{ $t('Phone') }}</th>
-          <th scope="col">{{ $t('is_national') }}</th>
-          <th scope="col" class="text-center has-text-centered" data-sortable="false">
-            {{ $t('Actions') }}
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(row, index) in datatableV3" :key="index">
-          <td>
-            <div class="field">
-              <input :id="'checked' + (index + 1)" v-model="selectedRowsId" class="is-checkradio is-circle"
-                type="checkbox" :value="row[5]" />
-              <label :for="'checked' + (index + 1)"></label>
-            </div>
-          </td>
-          <td>
-            <img class="file-icon" :src="row[0]" alt="" />
-          </td>
-          <td>
-            <span class="has-dark-text dark-inverted is-font-alt is-weight-600 rem-90">{{
-                row[1]
-            }}</span>
-          </td>
-          <td>
-            <span class="light-text">{{ row[2] }}</span>
-          </td>
-          <td>
-            <span class="light-text">{{ row[3] }}</span>
-          </td>
-          <td>
-            <div class="flex-media">
-              <VAvatar :picture="row[4]" size="small" />
+  <VFlexTableWrapper v-model:page="queryParam.page" v-model:limit="queryParam.limit"
+    v-model:searchTerm="queryParam.searchTerm" v-model:sort="queryParam.sort" :columns="columns" :data="fetchData"
+    :total="total" class="mt-4">
+    <!--
+      Here we retrieve the internal wrapperState.
+      Note that we can not destructure it
+    -->
+    <template #default="wrapperState">
+      <VFlex class="mb-5">
+        <VField>
+          <VControl icon="feather:search">
+            <input v-model="wrapperState.searchInput" type="text" class="input is-rounded" placeholder="Search..." />
+          </VControl>
+        </VField>
+      </VFlex>
 
-              <div class="meta">
-                <span>{{ row[5] }}</span>
-                <span>{{ row[6] }}</span>
-              </div>
+      <VFlexTable rounded>
+        <!-- header-column slot -->
+        <template #header-column="{ column }">
+          <VCheckbox v-if="column.key === 'select'" class="ml-2 mr-3" :checked="isAllSelected" name="all_selected"
+            color="primary" @click="toggleSelection" />
+        </template>
+
+        <template #body>
+          <!--
+            The wrapperState.loading will be update
+            when the fetchData function is running
+          -->
+          <div v-if="wrapperState.loading" class="flex-list-inner">
+            <div v-for="key in wrapperState.limit" :key="key" class="flex-table-item">
+              <VFlexTableCell>
+                <VPlaceload width="8%" height="50%" class="mx-3" />
+              </VFlexTableCell>
+              <VFlexTableCell :column="{ grow: true, media: true }">
+                <!-- <VPlaceloadAvatar size="medium" /> -->
+                <VPlaceloadText :lines="2" width="60%" last-line-width="20%" class="mx-2" />
+              </VFlexTableCell>
+              <VFlexTableCell>
+                <VPlaceload width="60%" class="mx-1" />
+              </VFlexTableCell>
+              <VFlexTableCell>
+                <VPlaceload width="60%" class="mx-1" />
+              </VFlexTableCell>
+              <VFlexTableCell :column="{ align: 'end' }">
+                <VPlaceload width="45%" class="mx-1" />
+              </VFlexTableCell>
             </div>
-          </td>
-          <td>
-            <span class="light-text">{{ row[7] }}</span>
-          </td>
-          <td>
-            <span class="light-text">{{ row[8] }}</span>
-          </td>
-          <td>
-            <VIconButton class="mr-2" outlined circle color="info" icon="feather:eye">
-              View
-            </VIconButton>
-            <VIconButton class="mr-2" outlined circle color="danger" icon="feather:trash">
-              Remove
-            </VIconButton>
-            <VIconButton class="mr-2" outlined circle color="primary" icon="feather:edit-2">
-              Edit
-            </VIconButton>
-            <FlexTableDropdown />
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+          </div>
+
+          <!-- This is the empty state -->
+          <div v-else-if="wrapperState.data.length === 0" class="flex-list-inner">
+            <VPlaceholderSection title="No matches" subtitle="There is no data that match your query." class="my-6">
+              <template #image>
+                <img class="light-image" src="/@src/assets/illustrations/placeholders/search-4.svg" alt="" />
+                <img class="dark-image" src="/@src/assets/illustrations/placeholders/search-4-dark.svg" alt="" />
+              </template>
+            </VPlaceholderSection>
+          </div>
+        </template>
+
+        <!-- We can inject content before any rows -->
+        <template #body-row-pre="{ row }">
+          <template v-if="row.id === incomingCallerId">
+            <VProgress size="tiny" class="m-0 mb-1" />
+          </template>
+        </template>
+
+        <!-- This is the body cell slot -->
+        <template #body-cell="{ row, column, value }">
+          <!--This is the slot for row.select cells-->
+          <VCheckbox v-if="column.key === 'select'" v-model="selectedRowsId" :value="row.id" name="selection"
+            @change="clickOnRow" />
+
+          <template v-if="column.key === 'actions'"">
+          
+          </template>
+        </template>
+      </VFlexTable>
+
+      <!--Table Pagination-->
+      <VFlexPagination v-model:current-page="wrapperState.page" class="mt-5" :item-per-page="wrapperState.limit"
+            :total-items="wrapperState.total" :max-links-displayed="2" no-router />
+        </template>
+  </VFlexTableWrapper>
 </template>

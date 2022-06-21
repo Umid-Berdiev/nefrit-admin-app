@@ -3,6 +3,7 @@ import { ref, computed, onMounted } from 'vue'
 
 import { useApi } from '/@src/composable/useApi'
 import FlexTableDropdown from '/@src/components/partials/dropdowns/FlexTableDropdown.vue'
+import VButton from '/@src/components/base/button/VButton.vue'
 
 // the total data will be set by the fetchData function
 const filterForm = ref({})
@@ -113,9 +114,21 @@ function toggleSelection() {
       <thead>
         <tr>
           <VCheckbox :checked="isAllSelected" name="all_selected" color="primary" @click="toggleSelection" />
-          <th scope="col">Name</th>
-          <th scope="col">Position</th>
-          <th scope="col">Location</th>
+          <th scope="col">
+            {{ '#' }}
+          </th>
+          <th scope="col">
+            {{ $t('Name') }}
+            <i class="lnir lnir-sort" aria-hidden="true"></i>
+          </th>
+          <th scope="col">
+            {{ $t('Position') }}
+            <i class="lnir lnir-sort" aria-hidden="true"></i>
+          </th>
+          <th scope="col">
+            {{ $t('Location') }}
+            <i class="lnir lnir-sort" aria-hidden="true"></i>
+          </th>
           <th scope="col">Bio</th>
           <th scope="col" class="is-end">
             <div class="dark-inverted is-flex is-justify-content-flex-end">Actions</div>
@@ -123,14 +136,33 @@ function toggleSelection() {
         </tr>
       </thead>
       <tbody>
-        <tr v-for="row in fetchedData" :key="row.id">
+        <tr v-for="(row, index) in fetchedData" :key="row.id">
           <VCheckbox v-model="selectedRowsId" :value="row.initials" name="selection" />
+          <td>{{ index + 1 }}</td>
           <td>{{ row.name }}</td>
           <td>{{ row.position }}</td>
           <td>{{ row.location }}</td>
           <td>{{ row.bio }}</td>
           <td class="is-end">
             <div class="is-flex is-justify-content-flex-end">
+              <VIconButton class="mr-2" outlined circle color="info" icon="feather:eye">
+                View
+              </VIconButton>
+              <VIconButton class="mr-2" outlined circle color="danger" icon="feather:trash">
+                Remove
+              </VIconButton>
+              <VIconButton class="mr-2" outlined circle color="primary" icon="feather:edit-2">
+                Edit
+              </VIconButton>
+              <!-- <button class="button is-outlined is-rounded is-primary mr-3 p-3">
+                <i class="iconify" data-icon="feather:eye" aria-hidden="true"></i>
+              </button>
+              <button class="button is-outlined is-rounded is-info mr-3 p-3">
+                <i class="iconify" data-icon="feather:edit" aria-hidden="true"></i>
+              </button>
+              <button class="button is-outlined is-rounded is-danger mr-3 p-3">
+                <i class="iconify" data-icon="feather:trash" aria-hidden="true"></i>
+              </button> -->
               <FlexTableDropdown />
             </div>
           </td>

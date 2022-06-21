@@ -5,6 +5,7 @@ import '@vue/runtime-core'
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    ActionButtons: typeof import('./src/components/partials/buttons/ActionButtons.vue')['default']
     AnimatedLogo: typeof import('./src/components/svg/AnimatedLogo.vue')['default']
     AppLayout: typeof import('./src/layouts/AppLayout.vue')['default']
     ApplicantsSubsidebar: typeof import('./src/layouts/sidebar-subsidebar/ApplicantsSubsidebar.vue')['default']
