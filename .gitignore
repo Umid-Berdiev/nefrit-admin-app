@@ -163,3 +163,5 @@ public/robots.txt
 # sonarqube
 
 .scannerwork
+
+.env
