@@ -4,6 +4,7 @@ import { useRoute } from 'vue-router'
 
 import type { SidebarTheme } from '/@src/components/navigation/desktop/Sidebar.vue'
 import { useViewWrapper } from '/@src/stores/viewWrapper'
+// import ApplicantsSubsidebar from './sidebar-subsidebar/ApplicantsSubsidebar.vue'
 
 const props = withDefaults(
   defineProps<{
@@ -57,10 +58,7 @@ watch(
     <div class="app-overlay"></div>
 
     <!-- Mobile navigation -->
-    <MobileNavbar
-      :is-open="isMobileSidebarOpen"
-      @toggle="isMobileSidebarOpen = !isMobileSidebarOpen"
-    >
+    <MobileNavbar :is-open="isMobileSidebarOpen" @toggle="isMobileSidebarOpen = !isMobileSidebarOpen">
       <template #brand>
         <RouterLink :to="{ name: 'index' }" class="navbar-item is-brand">
           <AnimatedLogo width="38px" height="38px" />
@@ -74,10 +72,7 @@ watch(
     </MobileNavbar>
 
     <!-- Mobile sidebar links -->
-    <MobileSidebar
-      :is-open="isMobileSidebarOpen"
-      @toggle="isMobileSidebarOpen = !isMobileSidebarOpen"
-    >
+    <MobileSidebar :is-open="isMobileSidebarOpen" @toggle="isMobileSidebarOpen = !isMobileSidebarOpen">
       <template #links>
         <li>
           <RouterLink :to="{ name: 'app' }">
@@ -97,60 +92,35 @@ watch(
 
     <!-- Mobile subsidebar links -->
     <Transition name="slide-x">
-      <DashboardsMobileSubsidebar
-        v-if="isMobileSidebarOpen && activeMobileSubsidebar === 'dashboard'"
-      />
+      <DashboardsMobileSubsidebar v-if="isMobileSidebarOpen && activeMobileSubsidebar === 'dashboard'" />
+      <DashboardsMobileSubsidebar v-else-if="isMobileSidebarOpen && activeMobileSubsidebar === 'applicant'" />
     </Transition>
 
     <Sidebar :theme="props.theme" :is-open="isDesktopSidebarOpen">
       <template #links>
         <!-- Dashboards -->
         <li>
-          <a
-            :class="[activeMobileSubsidebar === 'dashboard' && 'is-active']"
-            data-content="Dashboards"
-            tabindex="0"
-            @keydown.space.prevent="switchSidebar('dashboard')"
-            @click="switchSidebar('dashboard')"
-          >
-            <i
-              aria-hidden="true"
-              class="iconify sidebar-svg"
-              data-icon="feather:home"
-            ></i>
+          <a :class="{ 'is-active': activeMobileSubsidebar === 'dashboard' }" data-content="Dashboards"
+            @keydown.space.prevent="switchSidebar('dashboard')" @click="switchSidebar('dashboard')">
+            <i aria-hidden="true" class="iconify sidebar-svg" data-icon="feather:home"></i>
           </a>
         </li>
 
         <!-- Applicants -->
         <li>
-          <a
-            :class="[activeMobileSubsidebar === 'applicant' && 'is-active']"
-            data-content="Applicants"
-            tabindex="0"
-            @keydown.space.prevent="switchSidebar('applicant')"
-            @click="switchSidebar('applicant')"
-          >
-            <i
-              aria-hidden="true"
-              class="iconify sidebar-svg"
-              data-icon="feather:users"
-            ></i>
+          <a :class="{ 'is-active': activeMobileSubsidebar === 'applicant' }" data-content="Applicants"
+            @keydown.space.prevent="switchSidebar('applicant')" @click="switchSidebar('applicant')">
+            <i aria-hidden="true" class="iconify sidebar-svg" data-icon="feather:users"></i>
           </a>
         </li>
       </template>
     </Sidebar>
 
     <Transition name="slide-x">
-      <DashboardsSubsidebar
-        v-if="isDesktopSidebarOpen && activeMobileSubsidebar === 'dashboard'"
-        @close="isDesktopSidebarOpen = false"
-      />
-    </Transition>
-    <Transition name="slide-x">
-      <ApplicantsSubsidebar
-        v-if="isDesktopSidebarOpen && activeMobileSubsidebar === 'applicant'"
-        @close="isDesktopSidebarOpen = false"
-      />
+      <DashboardsSubsidebar v-if="isDesktopSidebarOpen && activeMobileSubsidebar === 'dashboard'"
+        @close="isDesktopSidebarOpen = false" />
+      <ApplicantsSubsidebar v-else-if="isDesktopSidebarOpen && activeMobileSubsidebar.startsWith('applicant')"
+        @close="isDesktopSidebarOpen = false" />
     </Transition>
 
     <LanguagesPanel />
@@ -159,12 +129,9 @@ watch(
       <VPageContent class="is-relative">
         <div class="page-title has-text-centered">
           <!-- Sidebar Trigger -->
-          <div
-            class="vuero-hamburger nav-trigger push-resize"
-            tabindex="0"
+          <div class="vuero-hamburger nav-trigger push-resize" tabindex="0"
             @keydown.space.prevent="isDesktopSidebarOpen = !isDesktopSidebarOpen"
-            @click="isDesktopSidebarOpen = !isDesktopSidebarOpen"
-          >
+            @click="isDesktopSidebarOpen = !isDesktopSidebarOpen">
             <span class="menu-toggle has-chevron">
               <span :class="[isDesktopSidebarOpen && 'active']" class="icon-box-toggle">
                 <span class="rotate">

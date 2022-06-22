@@ -46,12 +46,12 @@ useHead({
 <template>
   <div class="auth-wrapper-inner columns is-gapless">
     <!-- Image section (hidden on mobile) -->
-    <div class="column login-column is-8 h-hidden-mobile h-hidden-tablet-p hero-banner">
+    <div class="column login-column is-7 h-hidden-mobile h-hidden-tablet-p hero-banner">
       <div class="hero login-hero is-fullheight is-app-grey">
         <div class="hero-body">
           <div class="columns">
             <div class="column is-10 is-offset-1">
-              <img
+              <!-- <img
                 class="light-image has-light-shadow has-light-border"
                 src="/@src/assets/illustrations/apps/vuero-banking-light.png?format=webp"
                 alt=""
@@ -60,7 +60,7 @@ useHead({
                 class="dark-image has-light-shadow"
                 src="/@src/assets/illustrations/apps/vuero-banking-dark.png?format=webp"
                 alt=""
-              />
+              /> -->
             </div>
           </div>
         </div>
@@ -71,19 +71,12 @@ useHead({
     </div>
 
     <!-- Form section -->
-    <div class="column is-4">
+    <div class="column is-5">
       <div class="hero is-fullheight is-white">
         <div class="hero-heading">
-          <label
-            class="dark-mode ml-auto"
-            tabindex="0"
-            @keydown.space.prevent="(e) => (e.target as HTMLLabelElement).click()"
-          >
-            <input
-              type="checkbox"
-              :checked="!darkmode.isDark"
-              @change="darkmode.onChange"
-            />
+          <label class="dark-mode ml-auto" tabindex="0"
+            @keydown.space.prevent="(e) => (e.target as HTMLLabelElement).click()">
+            <input type="checkbox" :checked="!darkmode.isDark" @change="darkmode.onChange" />
             <span></span>
           </label>
           <div class="auth-logo">
@@ -97,7 +90,7 @@ useHead({
             <div class="columns">
               <div class="column is-12">
                 <div class="auth-content">
-                  <h2>Welcome Back.</h2>
+                  <h2>Welcome to NEFRIT</h2>
                   <p>Please sign in to your account</p>
                   <RouterLink :to="{ name: 'auth' }">
                     I do not have an account yet
@@ -110,22 +103,14 @@ useHead({
                       <!-- Username -->
                       <VField>
                         <VControl icon="feather:user">
-                          <VInput
-                            type="text"
-                            placeholder="Username"
-                            autocomplete="username"
-                          />
+                          <VInput type="text" placeholder="Username" autocomplete="username" />
                         </VControl>
                       </VField>
 
                       <!-- Password -->
                       <VField>
                         <VControl icon="feather:lock">
-                          <VInput
-                            type="password"
-                            placeholder="Password"
-                            autocomplete="current-password"
-                          />
+                          <VInput type="password" placeholder="Password" autocomplete="current-password" />
                         </VControl>
                       </VField>
 
@@ -138,14 +123,7 @@ useHead({
 
                       <!-- Submit -->
                       <div class="login">
-                        <VButton
-                          :loading="isLoading"
-                          color="primary"
-                          type="submit"
-                          bold
-                          fullwidth
-                          raised
-                        >
+                        <VButton :loading="isLoading" color="primary" type="submit" bold fullwidth raised>
                           Sign In
                         </VButton>
                       </div>

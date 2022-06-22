@@ -1,41 +1,114 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, h } from 'vue'
+import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 
-import { useApi } from '/@src/composable/useApi'
+import type {
+  VFlexTableWrapperSortFunction,
+  VFlexTableWrapperFilterFunction,
+} from '/@src/components/base/table/VFlexTableWrapper.vue'
+import { users } from '/@src/stores/usersMockData'
 import FlexTableDropdown from '/@src/components/partials/dropdowns/FlexTableDropdown.vue'
-import VButton from '/@src/components/base/button/VButton.vue'
+import ActionButtons from '/@src/components/partials/buttons/ActionButtons.vue'
+import { useViewWrapper } from '/@src/stores/viewWrapper'
+import ApplicantFormModal from '../../../components/base/modal/ApplicantFormModal.vue'
 
-// the total data will be set by the fetchData function
+const { t } = useI18n()
+const viewWrapper = useViewWrapper()
+viewWrapper.setPageTitle(t('Applicants_List'))
+
+type User = typeof users[0]
+
+// duplicate user data to grow the array
+const data: User[] = users
+// for (let i = 0; i < 100; i++) {
+//   data.push(...users)
+// }
 const filterForm = ref({})
+
+const isFormModalOpen = ref(false)
 const displayFilterForm = ref(false)
-const selectedRowsId = ref<string[]>([])
-const isAllSelected = computed(
-  () => fetchedData.value.length === selectedRowsId.value.length
-)
+const selectedRowsId = ref<number[]>([])
+const isAllSelected = computed(() => data.length === selectedRowsId.value.length)
+const router = useRouter()
 
-// the fetchData function will be called each time one of the parameter changes
-const api = useApi()
-const fetchedData = ref([])
-const fetchData = async () => {
-  // async fetch data to our server
-  const { data: users } = await api.get(`/api/users`)
+// this is a sample for custom sort function
+const locationSorter: VFlexTableWrapperSortFunction<User> = ({ order, a, b }) => {
+  if (order === 'asc') {
+    return a.location.localeCompare(b.location)
+  } else if (order === 'desc') {
+    return b.location.localeCompare(a.location)
+  }
 
-  // the return of the function must be an array
-  return users
+  return 0
 }
 
-onMounted(async () => {
-  const res = await fetchData()
-  fetchedData.value = res
-})
+// this is a sample for custom filter function
+const userFilter: VFlexTableWrapperFilterFunction<User> = ({ searchTerm, row }) => {
+  if (!searchTerm) {
+    return true
+  }
+
+  // search either in the name or the bio
+  return (
+    row.name.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase()) ||
+    row.bio.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase())
+  )
+}
+
+const columns = {
+  select: {
+    label: '',
+    cellClass: 'is-flex-grow-0',
+  },
+  orderNumber: {
+    label: '#',
+    // cellClass: 'is-flex-grow-0',
+  },
+  name: {
+    label: 'Username',
+    // media: true,
+    grow: true,
+    searchable: true,
+    sortable: true,
+    filter: userFilter,
+  },
+  location: {
+    label: 'Location',
+    sortable: true,
+    searchable: true,
+    sort: locationSorter,
+  },
+  role: 'Role',
+  actions: {
+    label: 'Actions',
+    align: 'center',
+  },
+} as const
 
 // the select all checkbox click handler
 function toggleSelection() {
+  // console.log('data:', data)
+
   if (isAllSelected.value) {
     selectedRowsId.value = []
   } else {
-    selectedRowsId.value = fetchedData.value.map(({ initials }) => initials)
+    selectedRowsId.value = data.map((row: any) => row.id)
   }
+}
+
+// this it the row click handler (enabled with clickable props)
+function clickOnRow(row: any) {
+  if (selectedRowsId.value.includes(row.id)) {
+    selectedRowsId.value = selectedRowsId.value.filter((i) => i !== row.id)
+  } else {
+    selectedRowsId.value = [...selectedRowsId.value, row.id]
+  }
+}
+
+function onActionTriggered(rowId) {
+  // console.log('event target: ', event)
+  router.push('/app/applicant/' + rowId)
 }
 </script>
 
@@ -45,13 +118,18 @@ function toggleSelection() {
     <VBlock title="" center>
       <template #action>
         <VButtons>
+          <VButton outlined rounded color="info" icon="feather:plus"> Add </VButton>
+          <VButton outlined rounded color="primary" icon="feather:printer">
+            Print
+          </VButton>
           <VButton outlined rounded color="warning" icon="feather:filter"
             @click="displayFilterForm = !displayFilterForm">
             Filter
           </VButton>
-          <VButton outlined rounded color="info" icon="feather:eye"> View </VButton>
-          <VButton outlined rounded color="danger" icon="feather:trash"> Remove </VButton>
-          <VButton outlined rounded color="primary" icon="feather:edit-2"> Edit </VButton>
+          <!-- <VButton outlined rounded color="info" icon="feather:eye"> View </VButton> -->
+          <VButton outlined rounded color="danger" icon="feather:trash">
+            Delete selected
+          </VButton>
         </VButtons>
       </template>
     </VBlock>
@@ -78,7 +156,7 @@ function toggleSelection() {
             </VControl>
           </VField>
           <!-- </div>
-            <div class="columns is-desktop"> -->
+              <div class="columns is-desktop"> -->
           <VField class="column">
             <VLabel>Name</VLabel>
             <VControl>
@@ -110,72 +188,87 @@ function toggleSelection() {
     </div>
 
     <!-- table -->
-    <table class="table is-hoverable is-fullwidth">
-      <thead>
-        <tr>
-          <VCheckbox :checked="isAllSelected" name="all_selected" color="primary" @click="toggleSelection" />
-          <th scope="col">
-            {{ '#' }}
-          </th>
-          <th scope="col">
-            {{ $t('Name') }}
-            <i class="lnir lnir-sort" aria-hidden="true"></i>
-          </th>
-          <th scope="col">
-            {{ $t('Position') }}
-            <i class="lnir lnir-sort" aria-hidden="true"></i>
-          </th>
-          <th scope="col">
-            {{ $t('Location') }}
-            <i class="lnir lnir-sort" aria-hidden="true"></i>
-          </th>
-          <th scope="col">Bio</th>
-          <th scope="col" class="is-end">
-            <div class="dark-inverted is-flex is-justify-content-flex-end">Actions</div>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(row, index) in fetchedData" :key="row.id">
-          <VCheckbox v-model="selectedRowsId" :value="row.initials" name="selection" />
-          <td>{{ index + 1 }}</td>
-          <td>{{ row.name }}</td>
-          <td>{{ row.position }}</td>
-          <td>{{ row.location }}</td>
-          <td>{{ row.bio }}</td>
-          <td class="is-end">
-            <div class="is-flex is-justify-content-flex-end">
-              <VIconButton class="mr-2" outlined circle color="info" icon="feather:eye">
-                View
-              </VIconButton>
-              <VIconButton class="mr-2" outlined circle color="danger" icon="feather:trash">
-                Remove
-              </VIconButton>
-              <VIconButton class="mr-2" outlined circle color="primary" icon="feather:edit-2">
-                Edit
-              </VIconButton>
-              <!-- <button class="button is-outlined is-rounded is-primary mr-3 p-3">
-                <i class="iconify" data-icon="feather:eye" aria-hidden="true"></i>
-              </button>
-              <button class="button is-outlined is-rounded is-info mr-3 p-3">
-                <i class="iconify" data-icon="feather:edit" aria-hidden="true"></i>
-              </button>
-              <button class="button is-outlined is-rounded is-danger mr-3 p-3">
-                <i class="iconify" data-icon="feather:trash" aria-hidden="true"></i>
-              </button> -->
-              <FlexTableDropdown />
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <VFlexTableWrapper :columns="columns" :data="data">
+      <!--
+        Here we retrieve the internal wrapperState.
+        Note that we can not destructure it
+      -->
+      <template #default="wrapperState">
+        <!-- We can place any content inside the default slot-->
+        <VFlexTableToolbar>
+          <template #left>
+            <!-- We can bind wrapperState.searchInput to any input -->
+            <VField>
+              <VControl icon="feather:search">
+                <input v-model="wrapperState.searchInput" type="text" class="input is-rounded"
+                  placeholder="Filter..." />
+              </VControl>
+            </VField>
+          </template>
+
+          <!-- We can also bind wrapperState.limit -->
+          <!-- <template #right>
+            <VField>
+              <VControl>
+                <div class="select is-rounded">
+                  <select v-model="wrapperState.limit">
+                    <option :value="1">1 results per page</option>
+                    <option :value="10">10 results per page</option>
+                    <option :value="15">15 results per page</option>
+                    <option :value="25">25 results per page</option>
+                    <option :value="50">50 results per page</option>
+                  </select>
+                </div>
+              </VControl>
+            </VField>
+          </template> -->
+        </VFlexTableToolbar>
+
+        <!--
+          The VFlexTable "data" and "columns" props
+          will be inherited from parent VFlexTableWrapper
+        -->
+        <VFlexTable rounded>
+          <!-- header-column slot -->
+          <template #header-column="{ column }">
+            <VCheckbox v-if="column.key === 'select'" class="ml-2 mr-3" :checked="isAllSelected" name="all_selected"
+              color="primary" @click="toggleSelection" />
+          </template>
+
+          <!-- Custom "name" cell content -->
+          <template #body-cell="{ row, column, value, index }">
+            <VCheckbox v-if="column.key === 'select'" v-model="selectedRowsId" :value="row.id" name="selection"
+              @change="clickOnRow" />
+
+            <template v-if="column.key === 'orderNumber'">
+              <span class="">
+                {{ index + 1 }}
+              </span>
+            </template>
+            <template v-if="column.key === 'name'">
+              <!-- <VAvatar size="medium" :picture="row.medias.avatar" :badge="row.medias.badge" :initials="row.initials" /> -->
+              <div>
+                <span class="dark-text" :title="row.name">
+                  {{ row.shortname }}
+                </span>
+                <VTextEllipsis width="280px" class="light-text" :title="row.bio">
+                  <small>{{ row.bio }}</small>
+                </VTextEllipsis>
+              </div>
+            </template>
+            <template v-if="column.key === 'actions'">
+              <div class="is-flex is-justify-content-flex-end">
+                <ActionButtons @view="onActionTriggered(row.id)" @edit="isFormModalOpen = true" />
+              </div>
+            </template>
+          </template>
+        </VFlexTable>
+
+        <!-- Table Pagination with wrapperState.page binded-->
+        <VFlexPagination v-model:current-page="wrapperState.page" class="mt-6" :item-per-page="wrapperState.limit"
+          :total-items="wrapperState.total" :max-links-displayed="5" no-router />
+      </template>
+    </VFlexTableWrapper>
+    <ApplicantFormModal v-model="isFormModalOpen" />
   </div>
 </template>
-
-<style scoped lang="scss">
-.applicant-list-wrapper {
-  .table {
-    border-radius: 0.675rem;
-  }
-}
-</style>

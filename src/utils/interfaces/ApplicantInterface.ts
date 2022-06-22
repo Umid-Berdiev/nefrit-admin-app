@@ -1,5 +1,5 @@
 export default interface ApplicantInterface {
-  id: number
+  id?: number
   user_id: number //filterga+ cols +
   status_id: number //filterga+ cols +
   boss_name: string //filterga+ cols +

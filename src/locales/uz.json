@@ -34,5 +34,9 @@
       }
     }
   },
-  "Applicants": "Arizachilar"
+  "Applicants": "Arizachilar",
+  "Applicantions": "Arizalar",
+  "Applicant_details": "Arizachini umumiy ma'lumotlari",
+  "Applicant_statements": "Arizachini arizalari",
+  "Chat": "Chat"
 }
