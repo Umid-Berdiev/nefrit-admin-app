@@ -7,35 +7,18 @@ const emit = defineEmits(['toggleMobileConversation'])
 <template>
   <div id="navbar-conversation-3" class="chat-area-content">
     <div class="chat-area-header">
-      <button
-        class="trigger conversations-mobile-trigger h-only-mobile h-only-tablet-p h-only-tablet-l"
-        @click="emit('toggleMobileConversation')"
-      >
+      <button class="trigger conversations-mobile-trigger h-only-mobile h-only-tablet-p h-only-tablet-l"
+        @click="emit('toggleMobileConversation')">
         <i aria-hidden="true" class="iconify" data-icon="feather:menu"></i>
       </button>
       <div class="chat-area-title">Work Group</div>
       <div class="chat-area-group">
-        <img
-          class="chat-area-profile"
-          src="/images/avatars/svg/vuero-1.svg"
-          alt=""
-          data-user-popover="3"
-          @error.once="(event) => onceImageErrored(event, '150x150')"
-        />
-        <img
-          class="chat-area-profile"
-          src="/demo/avatars/13.jpg"
-          alt=""
-          data-user-popover="6"
-          @error.once="(event) => onceImageErrored(event, '150x150')"
-        />
-        <img
-          class="chat-area-profile"
-          src="/demo/avatars/19.jpg"
-          alt=""
-          data-user-popover="17"
-          @error.once="(event) => onceImageErrored(event, '150x150')"
-        />
+        <img class="chat-area-profile" src="/images/avatars/svg/vuero-1.svg" alt="" data-user-popover="3"
+          @error.once="(event) => onceImageErrored(event, '150x150')" />
+        <img class="chat-area-profile" src="/images/avatars/svg/vuero-3.svg" alt="" data-user-popover="6"
+          @error.once="(event) => onceImageErrored(event, '150x150')" />
+        <img class="chat-area-profile" src="/images/avatars/svg/vuero-3.svg" alt="" data-user-popover="17"
+          @error.once="(event) => onceImageErrored(event, '150x150')" />
         <span>
           <span>4</span>
         </span>
@@ -44,23 +27,15 @@ const emit = defineEmits(['toggleMobileConversation'])
     <div class="chat-area-main">
       <div class="chat-msg">
         <div class="chat-msg-profile">
-          <img
-            class="chat-msg-img"
-            src="/demo/avatars/13.jpg"
-            alt=""
-            data-user-popover="6"
-            @error.once="(event) => onceImageErrored(event, '150x150')"
-          />
+          <img class="chat-msg-img" src="/images/avatars/svg/vuero-3.svg" alt="" data-user-popover="6"
+            @error.once="(event) => onceImageErrored(event, '150x150')" />
           <div class="chat-msg-date">Sent at 4:15pm</div>
         </div>
         <div class="chat-msg-content">
           <div class="chat-msg-text">Just found this marketing tool.</div>
           <div class="chat-msg-text">
-            <img
-              src="/demo/photos/demo-apps/1.jpg"
-              alt=""
-              @error.once="(event) => onceImageErrored(event, '400x300')"
-            />
+            <img src="/images/avatars/svg/vuero-3.svg" alt=""
+              @error.once="(event) => onceImageErrored(event, '400x300')" />
           </div>
           <div class="chat-msg-text">
             Features look nice. We could give it a try? Anyone want to review?
@@ -69,13 +44,8 @@ const emit = defineEmits(['toggleMobileConversation'])
       </div>
       <div class="chat-msg owner">
         <div class="chat-msg-profile">
-          <img
-            class="chat-msg-img"
-            src="/images/avatars/svg/vuero-1.svg"
-            alt=""
-            data-user-popover="3"
-            @error.once="(event) => onceImageErrored(event, '150x150')"
-          />
+          <img class="chat-msg-img" src="/images/avatars/svg/vuero-1.svg" alt="" data-user-popover="3"
+            @error.once="(event) => onceImageErrored(event, '150x150')" />
           <div class="chat-msg-date">Sent at 4:15pm</div>
         </div>
         <div class="chat-msg-content">
@@ -85,13 +55,8 @@ const emit = defineEmits(['toggleMobileConversation'])
       </div>
       <div class="chat-msg">
         <div class="chat-msg-profile">
-          <img
-            class="chat-msg-img"
-            src="/demo/avatars/19.jpg"
-            alt=""
-            data-user-popover="17"
-            @error.once="(event) => onceImageErrored(event, '150x150')"
-          />
+          <img class="chat-msg-img" src="/images/avatars/svg/vuero-3.svg" alt="" data-user-popover="17"
+            @error.once="(event) => onceImageErrored(event, '150x150')" />
           <div class="chat-msg-date">Sent at 4:27pm</div>
         </div>
         <div class="chat-msg-content">
@@ -107,13 +72,8 @@ const emit = defineEmits(['toggleMobileConversation'])
       </div>
       <div class="chat-msg owner">
         <div class="chat-msg-profile">
-          <img
-            class="chat-msg-img"
-            src="/images/avatars/svg/vuero-1.svg"
-            alt=""
-            data-user-popover="3"
-            @error.once="(event) => onceImageErrored(event, '150x150')"
-          />
+          <img class="chat-msg-img" src="/images/avatars/svg/vuero-1.svg" alt="" data-user-popover="3"
+            @error.once="(event) => onceImageErrored(event, '150x150')" />
           <div class="chat-msg-date">Sent at 4:31pm</div>
         </div>
         <div class="chat-msg-content">
@@ -123,13 +83,8 @@ const emit = defineEmits(['toggleMobileConversation'])
       </div>
       <div class="chat-msg">
         <div class="chat-msg-profile">
-          <img
-            class="chat-msg-img"
-            src="/demo/avatars/12.jpg"
-            alt=""
-            data-user-popover="2"
-            @error.once="(event) => onceImageErrored(event, '150x150')"
-          />
+          <img class="chat-msg-img" src="/images/avatars/svg/vuero-3.svg" alt="" data-user-popover="2"
+            @error.once="(event) => onceImageErrored(event, '150x150')" />
           <div class="chat-msg-date">Sent at 4:32pm</div>
         </div>
         <div class="chat-msg-content">
@@ -138,13 +93,8 @@ const emit = defineEmits(['toggleMobileConversation'])
       </div>
       <div class="chat-msg">
         <div class="chat-msg-profile">
-          <img
-            class="chat-msg-img"
-            src="/demo/avatars/7.jpg"
-            alt=""
-            data-user-popover="0"
-            @error.once="(event) => onceImageErrored(event, '150x150')"
-          />
+          <img class="chat-msg-img" src="/images/avatars/svg/vuero-3.svg" alt="" data-user-popover="0"
+            @error.once="(event) => onceImageErrored(event, '150x150')" />
           <div class="chat-msg-date">Sent at 4:32pm</div>
         </div>
         <div class="chat-msg-content">
@@ -156,13 +106,8 @@ const emit = defineEmits(['toggleMobileConversation'])
       </div>
       <div class="chat-msg owner">
         <div class="chat-msg-profile">
-          <img
-            class="chat-msg-img"
-            src="/images/avatars/svg/vuero-1.svg"
-            alt=""
-            data-user-popover="3"
-            @error.once="(event) => onceImageErrored(event, '150x150')"
-          />
+          <img class="chat-msg-img" src="/images/avatars/svg/vuero-1.svg" alt="" data-user-popover="3"
+            @error.once="(event) => onceImageErrored(event, '150x150')" />
           <div class="chat-msg-date">Sent at 4:33pm</div>
         </div>
         <div class="chat-msg-content">
@@ -174,13 +119,8 @@ const emit = defineEmits(['toggleMobileConversation'])
       </div>
       <div class="chat-msg">
         <div class="chat-msg-profile">
-          <img
-            class="chat-msg-img"
-            src="/demo/avatars/32.jpg"
-            alt=""
-            data-user-popover="28"
-            @error.once="(event) => onceImageErrored(event, '150x150')"
-          />
+          <img class="chat-msg-img" src="/images/avatars/svg/vuero-3.svg" alt="" data-user-popover="28"
+            @error.once="(event) => onceImageErrored(event, '150x150')" />
           <div class="chat-msg-date">Sent at 4:39pm</div>
         </div>
         <div class="chat-msg-content">

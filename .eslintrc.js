@@ -2,7 +2,7 @@ module.exports = {
   root: true,
   env: {
     browser: true,
-    node: true,
+    // node: true,
   },
   parserOptions: {
     parser: '@typescript-eslint/parser',
@@ -34,7 +34,7 @@ module.exports = {
         'plugin:@typescript-eslint/eslint-recommended',
         'plugin:vue/vue3-recommended',
         'plugin:vuejs-accessibility/recommended',
-        'plugin:prettier-vue/recommended',
+        // 'plugin:prettier-vue/recommended',
         'prettier',
       ],
       rules: {

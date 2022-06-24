@@ -1,5 +1,5 @@
 <template>
-  <div class="is-chat animated preFadeInUp fadeInUp">
+  <div class="animated container">
     <!-- Header -->
     <ChatHeader>
       <slot name="header"></slot>

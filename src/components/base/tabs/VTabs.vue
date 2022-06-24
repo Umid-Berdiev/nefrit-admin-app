@@ -82,7 +82,7 @@ watch(activeValue, (value) => {
         props.type === 'boxed' && 'is-boxed',
       ]">
         <ul>
-          <li v-for="(tab, key) in tabs" :key="key" :class="[activeValue === tab.value && 'is-active']">
+          <li v-for="(tab, key) in tabs" :key="key" :class="[activeValue === tab.value && 'is-active', 'px-5']">
             <slot name="tab-link" :active-value="activeValue" :tab="tab" :index="key" :toggle="toggle">
               <a tabindex="0" @keydown.space.prevent="toggle(tab.value)" @click="toggle(tab.value)">
                 <VIcon v-if="tab.icon" :icon="tab.icon" />

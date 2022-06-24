@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import { useHead } from '@vueuse/head'
-import { onMounted, watchPostEffect } from 'vue'
+import { onMounted } from 'vue'
 
 import { useChat } from '/@src/stores/chat'
-import { useSidebar } from '/@src/stores/sidebar'
 import { useLayoutSwitcher } from '/@src/stores/layoutSwitcher'
 import { useViewWrapper } from '/@src/stores/viewWrapper'
 import { useNotyf } from '/@src/composable/useNotyf'
@@ -17,12 +15,10 @@ const chat = useChat()
 // Those utilities are used to manage the layout
 const layoutSwitcher = useLayoutSwitcher()
 const viewWrapper = useViewWrapper()
-const sidebar = useSidebar()
 const notyf = useNotyf()
 
 // onMounted is a composition hook that is called when the component is mounted
 onMounted(async () => {
-  sidebar.setActive('messages')
 
   try {
     // Ask to the store to load conversations,
@@ -61,154 +57,28 @@ function selectConversation(id: number) {
   chat.selectConversastion(id)
 }
 
-// We set the page headers
-useHead({
-  title: 'Messaging chat - Sidebar - Vuero',
-})
-
-// Here we set the viewWrapper push state to match the active sidebar
-watchPostEffect(() => {
-  viewWrapper.setPushed(sidebar.active === 'messages')
-})
 </script>
 
 <template>
-  <MessagingLayout :theme="layoutSwitcher.sidebarLayoutTheme">
-    <template #default="{ isMobileSidebarOpen }">
-      <Transition name="slide-x">
-        <MessagesSubsidebar
-          v-if="sidebar.active === 'messages'"
-          :conversations="chat.conversations"
-          :selected-conversation-id="chat.selectedConversationId"
-          @add-conversation="addConversation"
-          @select-conversation="selectConversation"
-        />
-      </Transition>
-      <Transition name="slide-x">
-        <MessagesMobileSubsidebar
-          v-if="isMobileSidebarOpen"
-          :conversations="chat.conversations"
-          :selected-conversation-id="chat.selectedConversationId"
-          @select-conversation="selectConversation"
-        />
-      </Transition>
+  <!-- Chat Card -->
+  <ChatCard>
+    <template #body>
+      <li v-if="chat.messages.length === 0" class="no-messages">
+        <img class="light-image" src="/@src/assets/illustrations/placeholders/search-4.svg" alt="" />
+        <img class="dark-image" src="/@src/assets/illustrations/placeholders/search-4-dark.svg" alt="" />
+        <div class="text">
+          <h3>No messages yet</h3>
+          <p>Start the conversation by typing a message</p>
+        </div>
+      </li>
 
-      <CollapsedMessaging
-        :conversations="chat.conversations"
-        :selected-conversation-id="chat.selectedConversationId"
-        @add-conversation="addConversation"
-        @select-conversation="
-          (id) => {
-            chat.setAddConversationOpen(false)
-            chat.selectConversastion(id)
-          }
-        "
-      />
+      <ChatMsg v-for="message in chat.messages" :key="message.id" :message="message" />
 
-      <VViewWrapper
-        id="vuero-messaging"
-        :class="[sidebar.active === 'none' && 'is-pushed-messages']"
-      >
-        <VPageContentWrapper>
-          <VPageContent class="chat-content">
-            <div class="page-title has-text-centered is-hidden">
-              <div
-                class="vuero-hamburger nav-trigger push-resize"
-                tabindex="0"
-                @keydown.space.prevent="sidebar.toggle('messages')"
-                @click="sidebar.toggle('messages')"
-              >
-                <span class="menu-toggle has-chevron">
-                  <span
-                    :class="[sidebar.active !== 'none' && 'active']"
-                    class="icon-box-toggle"
-                  >
-                    <span class="rotate">
-                      <i aria-hidden="true" class="icon-line-top"></i>
-                      <i aria-hidden="true" class="icon-line-center"></i>
-                      <i aria-hidden="true" class="icon-line-bottom"></i>
-                    </span>
-                  </span>
-                </span>
-              </div>
-
-              <h1 class="title is-5">Messages</h1>
-            </div>
-
-            <!-- Chat Card -->
-            <ChatCard>
-              <template #header>
-                <div
-                  :class="[!chat.addConversationOpen && 'is-hidden']"
-                  class="is-autocomplete"
-                >
-                  <div class="control">
-                    <div class="easy-autocomplete">
-                      <input
-                        id="users-autocpl"
-                        type="text"
-                        class="input"
-                        aria-label="To"
-                        placeholder="Start typing a name"
-                      />
-                    </div>
-                    <div class="icon">
-                      <span>To:</span>
-                    </div>
-                    <div
-                      class="hide"
-                      tabindex="0"
-                      @keydown.space.prevent="chat.setAddConversationOpen(false)"
-                      @click="chat.setAddConversationOpen(false)"
-                    >
-                      <i aria-hidden="true" class="iconify" data-icon="feather:x"></i>
-                    </div>
-                  </div>
-                </div>
-              </template>
-
-              <template #body>
-                <li v-if="chat.messages.length === 0" class="no-messages">
-                  <img
-                    class="light-image"
-                    src="/@src/assets/illustrations/placeholders/search-4.svg"
-                    alt=""
-                  />
-                  <img
-                    class="dark-image"
-                    src="/@src/assets/illustrations/placeholders/search-4-dark.svg"
-                    alt=""
-                  />
-                  <div class="text">
-                    <h3>No messages yet</h3>
-                    <p>Start the conversation by typing a message</p>
-                  </div>
-                </li>
-
-                <ChatMsg
-                  v-for="message in chat.messages"
-                  :key="message.id"
-                  :message="message"
-                />
-
-                <li class="chat-loader" :class="[chat.loading && 'is-active']">
-                  <div class="loader is-loading"></div>
-                </li>
-              </template>
-
-              <template #side>
-                <ChatSide />
-              </template>
-            </ChatCard>
-
-            <ChatPlaceholder />
-          </VPageContent>
-        </VPageContentWrapper>
-      </VViewWrapper>
-
-      <ChatSideFab />
+      <li class="chat-loader" :class="[chat.loading && 'is-active']">
+        <div class="loader is-loading"></div>
+      </li>
     </template>
-  </MessagingLayout>
+  </ChatCard>
 </template>
 
 <style lang="scss">
@@ -229,6 +99,7 @@ watchPostEffect(() => {
         }
 
         .user-container {
+
           .is-badge,
           .is-count {
             border-color: var(--dark-sidebar-light-5) !important;

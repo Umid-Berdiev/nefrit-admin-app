@@ -57,13 +57,8 @@ const dropdown = useDropdown(dropdownElement)
           <i aria-hidden="true" class="iconify" data-icon="feather:smile"></i>
         </div>
       </div>
-      <input
-        id="chat-input"
-        class="input is-rounded"
-        type="text"
-        placeholder="Write a message ..."
-        aria-label="Write a message"
-      />
+      <input id="chat-input" class="input is-rounded" type="text" placeholder="Write a message ..."
+        aria-label="Write a message" />
       <div class="send-message">
         <div class="button v-button is-primary is-raised is-rounded">Send</div>
       </div>
@@ -87,7 +82,7 @@ const dropdown = useDropdown(dropdownElement)
   display: flex;
   align-items: center;
   height: 60px;
-  width: calc(100% - 320px);
+  width: 100%;
   padding: 0 16px;
   transition: all 0.3s; // transition-all test
   z-index: 2;
@@ -113,7 +108,7 @@ const dropdown = useDropdown(dropdownElement)
 
       &:hover,
       &:focus {
-        > div {
+        >div {
           .button {
             background: var(--fade-grey);
 
@@ -124,7 +119,7 @@ const dropdown = useDropdown(dropdownElement)
         }
       }
 
-      > div {
+      >div {
         display: flex;
         justify-content: center;
         align-items: center;

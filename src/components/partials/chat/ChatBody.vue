@@ -11,7 +11,7 @@
 
 .chat-body {
   position: relative;
-  width: calc(100% - 320px);
+  width: 100%;
   height: 100%;
   overflow-y: auto;
   list-style: none;
@@ -120,14 +120,14 @@
     }
   }
 
-  .other + .other,
-  .self + .self {
+  .other+.other,
+  .self+.self {
     .avatar {
       visibility: hidden !important;
     }
   }
 
-  .other.is-multi + .other.is-multi {
+  .other.is-multi+.other.is-multi {
     .avatar {
       visibility: visible !important;
     }
@@ -399,6 +399,7 @@
     }
   }
 }
+
 @media (max-width: 767px) {
   .chat-body {
     width: 100% !important;
@@ -423,6 +424,7 @@
     }
   }
 }
+
 @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) {
   .chat-body {
     width: 100% !important;

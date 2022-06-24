@@ -19,35 +19,35 @@
       "name": "Henry G.",
       "lastMessage": "3 minutes ago",
       "unreadMessages": true,
-      "avatar": "/demo/avatars/10.jpg"
+      "avatar": "/images/avatars/svg/vuero-2.svg"
     },
     {
       "id": 2,
       "name": "Melany W.",
       "lastMessage": "30 minutes ago",
       "unreadMessages": false,
-      "avatar": "/demo/avatars/25.jpg"
+      "avatar": "/images/avatars/svg/vuero-2.svg"
     },
     {
       "id": 3,
       "name": "Tara S.",
       "lastMessage": "1 day ago",
       "unreadMessages": false,
-      "avatar": "/demo/avatars/13.jpg"
+      "avatar": "/images/avatars/svg/vuero-2.svg"
     },
     {
       "id": 4,
       "name": "Esteban C.",
       "lastMessage": "1 day ago",
       "unreadMessages": false,
-      "avatar": "/demo/avatars/18.jpg"
+      "avatar": "/images/avatars/svg/vuero-2.svg"
     },
     {
       "id": 5,
       "name": "Alice C.",
       "lastMessage": "2 days ago",
       "unreadMessages": false,
-      "avatar": "/demo/avatars/7.jpg"
+      "avatar": "/images/avatars/svg/vuero-2.svg"
     }
   ],
   "messages": [
@@ -69,7 +69,7 @@
       "messageId": 1,
       "type": "msg",
       "sender": "other",
-      "avatar": "/demo/avatars/10.jpg",
+      "avatar": "/images/avatars/svg/vuero-2.svg",
       "content": {
         "text": "Hey Erik, I came accross a new Saas software while doing some research. You should definitely check it out.",
         "time": "08:17pm"
@@ -105,7 +105,7 @@
       "messageId": 4,
       "type": "msg",
       "sender": "other",
-      "avatar": "/demo/avatars/10.jpg",
+      "avatar": "/images/avatars/svg/vuero-2.svg",
       "content": {
         "text": "Here you go. There's also a full fledged documentation. Just click on the click in the top right corner.",
         "time": "11:27am"
@@ -117,12 +117,12 @@
       "messageId": 5,
       "type": "imagelink",
       "sender": "other",
-      "avatar": "/demo/avatars/10.jpg",
+      "avatar": "/images/avatars/svg/vuero-2.svg",
       "content": {
         "text": "Manage projects like you never did before with this new app",
         "subtext": "gettrueprojects.com",
         "time": null,
-        "link_image": "/demo/photos/demo-apps/1.jpg",
+        "link_image": "/images/avatars/svg/vuero-3.svg",
         "link_badge": "/images/icons/logos/slicer.svg"
       }
     },
@@ -144,7 +144,7 @@
       "messageId": 7,
       "type": "msg",
       "sender": "other",
-      "avatar": "/demo/avatars/10.jpg",
+      "avatar": "/images/avatars/svg/vuero-2.svg",
       "content": {
         "text": "You can start by reading the project whitepaper. Eveything you need is in there. You can also try the free demo and start exploring features.",
         "time": "11:43am"
@@ -156,7 +156,7 @@
       "messageId": 8,
       "type": "link",
       "sender": "other",
-      "avatar": "/demo/avatars/10.jpg",
+      "avatar": "/images/avatars/svg/vuero-2.svg",
       "content": {
         "text": "True Projects Whitepaper",
         "subtext": "Open Link",
@@ -172,7 +172,7 @@
       "avatar": "/images/avatars/svg/vuero-1.svg",
       "content": {
         "time": null,
-        "image_url": "/demo/photos/demo-apps/2.jpg"
+        "image_url": "/images/avatars/svg/vuero-3.svgg"
       }
     },
     {
@@ -205,7 +205,7 @@
       "messageId": 1,
       "type": "msg",
       "sender": "other",
-      "avatar": "/demo/avatars/25.jpg",
+      "avatar": "/images/avatars/svg/vuero-2.svg",
       "content": {
         "text": "I was wondering why Danny still works on Sketch when Figma is now cheap and accessible. This could really boost our process.",
         "time": "12:17pm"
@@ -241,7 +241,7 @@
       "messageId": 4,
       "type": "msg",
       "sender": "other",
-      "avatar": "/demo/avatars/25.jpg",
+      "avatar": "/images/avatars/svg/vuero-2.svg",
       "content": {
         "text": "There are plenty of reasons, one of them being awesome UI kits being released every day.",
         "time": "08:42am"
@@ -253,13 +253,13 @@
       "messageId": 5,
       "type": "imagelink",
       "sender": "other",
-      "avatar": "/demo/avatars/2.gif",
+      "avatar": "/images/avatars/svg/vuero-2.svg",
       "content": {
         "text": "iDesign Pro, iOS premium UI kit",
         "subtext": "figma-factory.com",
         "time": null,
-        "link_image": "/demo/photos/demo-apps/5.jpg",
-        "link_badge": "/demo/photos/misc/figma.png"
+        "link_image": "/images/avatars/svg/vuero-3.svg",
+        "link_badge": "/images/avatars/svg/vuero-3.svgg"
       }
     },
     {
@@ -280,7 +280,7 @@
       "messageId": 7,
       "type": "msg",
       "sender": "other",
-      "avatar": "/demo/avatars/25.jpg",
+      "avatar": "/images/avatars/svg/vuero-2.svg",
       "content": {
         "text": "Yes, this is exactly what I was thinking, do you think that he'll be willing to switch?",
         "time": "09:32am"
@@ -304,7 +304,7 @@
       "messageId": 9,
       "type": "msg",
       "sender": "other",
-      "avatar": "/demo/avatars/25.jpg",
+      "avatar": "/images/avatars/svg/vuero-2.svg",
       "content": {
         "text": "Well that's worth a try. Maybe we can schedule a meeting to discuss it with a proper presentation.",
         "time": "09:49am"
@@ -328,7 +328,7 @@
       "messageId": 1,
       "type": "msg",
       "sender": "other",
-      "avatar": "/demo/avatars/13.jpg",
+      "avatar": "/images/avatars/svg/vuero-2.svg",
       "content": {
         "text": "Hey Erik, I need the Heartman & Sons benchmark document that you mentionned in the meeting yesterday.",
         "time": "12:17pm"
@@ -364,7 +364,7 @@
       "messageId": 4,
       "type": "msg",
       "sender": "other",
-      "avatar": "/demo/avatars/13.jpg",
+      "avatar": "/images/avatars/svg/vuero-2.svg",
       "content": {
         "text": "Well the one about the webapp, I think it was something about the accounting app built with modern javascript frameworks.",
         "time": "08:42am"
@@ -376,12 +376,12 @@
       "messageId": 5,
       "type": "imagelink",
       "sender": "other",
-      "avatar": "/demo/avatars/2.gif",
+      "avatar": "/images/avatars/svg/vuero-2.svg",
       "content": {
         "text": "Smart Accounting made easy for everyone",
         "subtext": "titan-accounting.io",
         "time": null,
-        "link_image": "/demo/photos/demo-apps/1.png",
+        "link_image": "/images/avatars/svg/vuero-3.svg",
         "link_badge": "/images/icons/stacks/angular.svg"
       }
     },
@@ -403,7 +403,7 @@
       "messageId": 7,
       "type": "msg",
       "sender": "other",
-      "avatar": "/demo/avatars/13.jpg",
+      "avatar": "/images/avatars/svg/vuero-2.svg",
       "content": {
         "text": "I guess via email would be better, I'll need it more than once.",
         "time": "09:32am"
@@ -427,7 +427,7 @@
       "messageId": 9,
       "type": "msg",
       "sender": "other",
-      "avatar": "/demo/avatars/13.jpg",
+      "avatar": "/images/avatars/svg/vuero-2.svg",
       "content": {
         "text": "Thank you very much! Much appreciated.",
         "time": "09:49am"
@@ -451,7 +451,7 @@
       "messageId": 1,
       "type": "msg",
       "sender": "other",
-      "avatar": "/demo/avatars/18.jpg",
+      "avatar": "/images/avatars/svg/vuero-2.svg",
       "content": {
         "text": "Hello Erik, I'd like a detailed report about the crowd funding campaign that was launched yesterday",
         "time": "08:52am"
@@ -499,7 +499,7 @@
       "messageId": 5,
       "type": "msg",
       "sender": "other",
-      "avatar": "/demo/avatars/18.jpg",
+      "avatar": "/images/avatars/svg/vuero-2.svg",
       "content": {
         "text": "I'll go for web.",
         "time": "09:10am"
@@ -523,7 +523,7 @@
       "messageId": 7,
       "type": "msg",
       "sender": "other",
-      "avatar": "/demo/avatars/18.jpg",
+      "avatar": "/images/avatars/svg/vuero-2.svg",
       "content": {
         "text": "Great! thank you Erik",
         "time": "09:11"
@@ -547,7 +547,7 @@
       "messageId": 1,
       "type": "msg",
       "sender": "other",
-      "avatar": "/demo/avatars/7.jpg",
+      "avatar": "/images/avatars/svg/vuero-2.svg",
       "content": {
         "text": "Hey Erik, we have a reluctant customer who claims he talked to you.",
         "time": "03:47pm"
@@ -559,7 +559,7 @@
       "messageId": 2,
       "type": "msg",
       "sender": "other",
-      "avatar": "/demo/avatars/7.jpg",
+      "avatar": "/images/avatars/svg/vuero-2.svg",
       "content": {
         "text": "He is making pressing demands. It's someone from Heartman & Sons. Gary Wootten.",
         "time": "03:47pm"
@@ -595,7 +595,7 @@
       "messageId": 5,
       "type": "msg",
       "sender": "other",
-      "avatar": "/demo/avatars/7.jpg",
+      "avatar": "/images/avatars/svg/vuero-2.svg",
       "content": {
         "text": "You think that will be enough?",
         "time": "06:30pm"
@@ -619,7 +619,7 @@
       "messageId": 7,
       "type": "msg",
       "sender": "other",
-      "avatar": "/demo/avatars/7.jpg",
+      "avatar": "/images/avatars/svg/vuero-2.svg",
       "content": {
         "text": "Ok, thanks for the advice. I'll let you know.",
         "time": "06:58pm"
@@ -632,56 +632,56 @@
       "name": "Airbnb",
       "initials": "A",
       "location": "Los Angeles, CA",
-      "pic": "/demo/photos/brands/airbnb.svg"
+      "pic": "/images/avatars/svg/vuero-3.svgg"
     },
     {
       "id": 1,
       "name": "Facebook",
       "initials": "F",
       "location": "Los Angeles, CA",
-      "pic": "/demo/photos/brands/facebook.svg"
+      "pic": "/images/avatars/svg/vuero-3.svgg"
     },
     {
       "id": 2,
       "name": "GitHub",
       "initials": "A",
       "location": "Los Angeles, CA",
-      "pic": "/demo/photos/brands/github.svg"
+      "pic": "/images/avatars/svg/vuero-3.svgg"
     },
     {
       "id": 3,
       "name": "Gitlab",
       "initials": "A",
       "location": "Los Angeles, CA",
-      "pic": "/demo/photos/brands/gitlab.svg"
+      "pic": "/images/avatars/svg/vuero-3.svgg"
     },
     {
       "id": 4,
       "name": "Atlassian",
       "initials": "A",
       "location": "Los Angeles, CA",
-      "pic": "/demo/photos/brands/atlassian.svg"
+      "pic": "/images/avatars/svg/vuero-3.svgg"
     },
     {
       "id": 5,
       "name": "Google",
       "initials": "A",
       "location": "Los Angeles, CA",
-      "pic": "/demo/photos/brands/google.svg"
+      "pic": "/images/avatars/svg/vuero-3.svgg"
     },
     {
       "id": 6,
       "name": "Dribbble",
       "initials": "A",
       "location": "Los Angeles, CA",
-      "pic": "/demo/photos/brands/dribbble.svg"
+      "pic": "/images/avatars/svg/vuero-3.svgg"
     },
     {
       "id": 7,
       "name": "Hubspot",
       "initials": "A",
       "location": "Los Angeles, CA",
-      "pic": "/demo/photos/brands/hubspot.svg"
+      "pic": "/images/avatars/svg/vuero-3.svgg"
     }
   ],
   "users": [
@@ -690,7 +690,7 @@
       "name": "Alice C.",
       "initials": "AC",
       "location": "San Diego, CA",
-      "pic": "/demo/avatars/7.jpg",
+      "pic": "/images/avatars/svg/vuero-2.svg",
       "badge": "/images/icons/flags/united-states-of-america.svg",
       "position": "Software Engineer",
       "bio": "This is a nice user description that we can use as demo content"
@@ -700,7 +700,7 @@
       "name": "Anna B.",
       "initials": "AB",
       "location": "San Francisco, CA",
-      "pic": "/demo/avatars/9.jpg",
+      "pic": "/images/avatars/svg/vuero-2.svg",
       "badge": "/images/icons/flags/united-states-of-america.svg",
       "position": "UX Designer",
       "bio": "This is a nice user description that we can use as demo content"
@@ -710,7 +710,7 @@
       "name": "Joshua S.",
       "initials": "JS",
       "location": "Las Vegas, NV",
-      "pic": "/demo/avatars/12.jpg",
+      "pic": "/images/avatars/svg/vuero-2.svg",
       "badge": "/images/icons/flags/united-states-of-america.svg",
       "position": "Backend Developer",
       "bio": "This is a nice user description that we can use as demo content"
@@ -730,7 +730,7 @@
       "name": "Melany W.",
       "initials": "MW",
       "location": "San Jose, CA",
-      "pic": "/demo/avatars/25.jpg",
+      "pic": "/images/avatars/svg/vuero-2.svg",
       "badge": "/images/icons/flags/united-states-of-america.svg",
       "position": "Web Developer",
       "bio": "This is a nice user description that we can use as demo content"
@@ -740,7 +740,7 @@
       "name": "Jimmy H.",
       "initials": "JH",
       "location": "Los Angeles, CA",
-      "pic": "/demo/avatars/22.jpg",
+      "pic": "/images/avatars/svg/vuero-2.svg",
       "badge": "/images/icons/flags/united-states-of-america.svg",
       "position": "Project Manager",
       "bio": "This is a nice user description that we can use as demo content"
@@ -750,7 +750,7 @@
       "name": "Tara S.",
       "initials": "TS",
       "location": "New York, NY",
-      "pic": "/demo/avatars/13.jpg",
+      "pic": "/images/avatars/svg/vuero-2.svg",
       "badge": "/images/icons/flags/united-states-of-america.svg",
       "position": "UI/UX Designer",
       "bio": "This is a nice user description that we can use as demo content"
@@ -760,7 +760,7 @@
       "name": "Esteban C.",
       "initials": "EC",
       "location": "Miami, FL",
-      "pic": "/demo/avatars/18.jpg",
+      "pic": "/images/avatars/svg/vuero-2.svg",
       "badge": "/images/icons/flags/united-states-of-america.svg",
       "position": "UI/UX Designer",
       "bio": "This is a nice user description that we can use as demo content"
@@ -770,7 +770,7 @@
       "name": "Henry G.",
       "initials": "HG",
       "location": "Miami, FL",
-      "pic": "/demo/avatars/10.jpg",
+      "pic": "/images/avatars/svg/vuero-2.svg",
       "badge": "/images/icons/flags/united-states-of-america.svg",
       "position": "Business Analyst",
       "bio": "This is a nice user description that we can use as demo content"
@@ -780,7 +780,7 @@
       "name": "Mary L.",
       "initials": "ML",
       "location": "San Diego, CA",
-      "pic": "/demo/avatars/5.jpg",
+      "pic": "/images/avatars/svg/vuero-2.svg",
       "badge": "/images/icons/flags/united-states-of-america.svg",
       "position": "Project Manager",
       "bio": "This is a nice user description that we can use as demo content"
@@ -790,7 +790,7 @@
       "name": "Carmen E.",
       "initials": "CE",
       "location": "Madrid, Spain",
-      "pic": "/demo/avatars/27.jpg",
+      "pic": "/images/avatars/svg/vuero-2.svg",
       "badge": "/images/icons/flags/spain.svg",
       "position": "HR Manager",
       "bio": "This is a nice user description that we can use as demo content"
@@ -800,7 +800,7 @@
       "name": "Jeanne M.",
       "initials": "JM",
       "location": "Paris, France",
-      "pic": "/demo/avatars/40.jpg",
+      "pic": "/images/avatars/svg/vuero-2.svg",
       "badge": "/images/icons/flags/france.svg",
       "position": "Mobile Developer",
       "bio": "This is a nice user description that we can use as demo content"
@@ -810,7 +810,7 @@
       "name": "Daniel R.",
       "initials": "DR",
       "location": "Toronto, Canada",
-      "pic": "/demo/avatars/34.jpg",
+      "pic": "/images/avatars/svg/vuero-2.svg",
       "badge": "/images/icons/flags/canada.svg",
       "position": "Web Developer",
       "bio": "This is a nice user description that we can use as demo content"
@@ -820,7 +820,7 @@
       "name": "Kelly M.",
       "initials": "KM",
       "location": "London, UK",
-      "pic": "/demo/avatars/11.jpg",
+      "pic": "/images/avatars/svg/vuero-2.svg",
       "badge": "/images/icons/flags/england.svg",
       "position": "Product Manager",
       "bio": "This is a nice user description that we can use as demo content"
@@ -830,7 +830,7 @@
       "name": "Ryan B.",
       "initials": "RB",
       "location": "London, UK",
-      "pic": "/demo/avatars/14.jpg",
+      "pic": "/images/avatars/svg/vuero-2.svg",
       "badge": "/images/icons/flags/england.svg",
       "position": "Web Developer",
       "bio": "This is a nice user description that we can use as demo content"
@@ -840,7 +840,7 @@
       "name": "Hilde V.",
       "initials": "HV",
       "location": "Berlin, Germany",
-      "pic": "/demo/avatars/15.jpg",
+      "pic": "/images/avatars/svg/vuero-2.svg",
       "badge": "/images/icons/flags/germany.svg",
       "position": "Software Engineer",
       "bio": "This is a nice user description that we can use as demo content"
@@ -850,7 +850,7 @@
       "name": "Jason G.",
       "initials": "JG",
       "location": "Houston, TX",
-      "pic": "/demo/avatars/16.jpg",
+      "pic": "/images/avatars/svg/vuero-2.svg",
       "badge": "/images/icons/flags/united-states-of-america.svg",
       "position": "Business Analyst",
       "bio": "This is a nice user description that we can use as demo content"
@@ -860,7 +860,7 @@
       "name": "Greta K.",
       "initials": "GK",
       "location": "Berlin, Germany",
-      "pic": "/demo/avatars/19.jpg",
+      "pic": "/images/avatars/svg/vuero-2.svg",
       "badge": "/images/icons/flags/germany.svg",
       "position": "Sales Manager",
       "bio": "This is a nice user description that we can use as demo content"
@@ -870,7 +870,7 @@
       "name": "George W.",
       "initials": "GW",
       "location": "Los Angeles, CA",
-      "pic": "/demo/avatars/41.jpg",
+      "pic": "/images/avatars/svg/vuero-2.svg",
       "badge": "/images/icons/flags/united-states-of-america.svg",
       "position": "Software Engineer",
       "bio": "This is a nice user description that we can use as demo content"
@@ -880,7 +880,7 @@
       "name": "Elizabeth F.",
       "initials": "EF",
       "location": "London, UK",
-      "pic": "/demo/avatars/21.jpg",
+      "pic": "/images/avatars/svg/vuero-2.svg",
       "badge": "/images/icons/flags/england.svg",
       "position": "Mobile Developer",
       "bio": "This is a nice user description that we can use as demo content"
@@ -890,7 +890,7 @@
       "name": "Dwayne H.",
       "initials": "DH",
       "location": "Los Angeles, CA",
-      "pic": "/demo/avatars/22.jpg",
+      "pic": "/images/avatars/svg/vuero-2.svg",
       "badge": "/images/icons/flags/united-states-of-america.svg",
       "position": "Product Manager",
       "bio": "This is a nice user description that we can use as demo content"
@@ -900,7 +900,7 @@
       "name": "Irina V.",
       "initials": "IV",
       "location": "San Diego, CA",
-      "pic": "/demo/avatars/23.jpg",
+      "pic": "/images/avatars/svg/vuero-2.svg",
       "badge": "/images/icons/flags/united-states-of-america.svg",
       "position": "Project Manager",
       "bio": "This is a nice user description that we can use as demo content"
@@ -910,7 +910,7 @@
       "name": "Sandrine C.",
       "initials": "SC",
       "location": "Lyon, France",
-      "pic": "/demo/avatars/24.jpg",
+      "pic": "/images/avatars/svg/vuero-2.svg",
       "badge": "/images/icons/flags/france.svg",
       "position": "HR Manager",
       "bio": "This is a nice user description that we can use as demo content"
@@ -920,7 +920,7 @@
       "name": "Courtney W.",
       "initials": "CW",
       "location": "Melbourne, Australia",
-      "pic": "/demo/avatars/26.jpg",
+      "pic": "/images/avatars/svg/vuero-2.svg",
       "badge": "/images/icons/flags/australia.svg",
       "position": "Web Developer",
       "bio": "This is a nice user description that we can use as demo content"
@@ -930,7 +930,7 @@
       "name": "Edouard F.",
       "initials": "EF",
       "location": "Paris, France",
-      "pic": "/demo/avatars/28.jpg",
+      "pic": "/images/avatars/svg/vuero-2.svg",
       "badge": "/images/icons/flags/france.svg",
       "position": "Web Developer",
       "bio": "This is a nice user description that we can use as demo content"
@@ -940,7 +940,7 @@
       "name": "Hakeem C.",
       "initials": "HC",
       "location": "Berlin, Germany",
-      "pic": "/demo/avatars/29.jpg",
+      "pic": "/images/avatars/svg/vuero-2.svg",
       "badge": "/images/icons/flags/germany.svg",
       "position": "Software Engineer",
       "bio": "This is a nice user description that we can use as demo content"
@@ -950,7 +950,7 @@
       "name": "Clément D.",
       "initials": "CD",
       "location": "Toulouse, France",
-      "pic": "/demo/avatars/30.jpg",
+      "pic": "/images/avatars/svg/vuero-2.svg",
       "badge": "/images/icons/flags/france.svg",
       "position": "Software Engineer",
       "bio": "This is a nice user description that we can use as demo content"
@@ -960,7 +960,7 @@
       "name": "Yasseen A.",
       "initials": "YA",
       "location": "New York, NY",
-      "pic": "/demo/avatars/31.jpg",
+      "pic": "/images/avatars/svg/vuero-2.svg",
       "badge": "/images/icons/flags/united-states-of-america.svg",
       "position": "Business Analyst",
       "bio": "This is a nice user description that we can use as demo content"
@@ -970,7 +970,7 @@
       "name": "Jonathan K.",
       "initials": "JK",
       "location": "Los Angeles, CA",
-      "pic": "/demo/avatars/32.jpg",
+      "pic": "/images/avatars/svg/vuero-2.svg",
       "badge": "/images/icons/flags/united-states-of-america.svg",
       "position": "Product Manager",
       "bio": "This is a nice user description that we can use as demo content"
@@ -980,7 +980,7 @@
       "name": "Harvey M.",
       "initials": "JK",
       "location": "Los Angeles, CA",
-      "pic": "/demo/avatars/33.jpg",
+      "pic": "/images/avatars/svg/vuero-2.svg",
       "badge": "/images/icons/flags/united-states-of-america.svg",
       "position": "Web Developer",
       "bio": "This is a nice user description that we can use as demo content"
@@ -990,7 +990,7 @@
       "name": "Benoit L.",
       "initials": "BL",
       "location": "Paris, France",
-      "pic": "/demo/avatars/36.jpg",
+      "pic": "/images/avatars/svg/vuero-2.svg",
       "badge": "/images/icons/flags/france.svg",
       "position": "Software Engineer",
       "bio": "This is a nice user description that we can use as demo content"
@@ -1000,7 +1000,7 @@
       "name": "Helmut F.",
       "initials": "HF",
       "location": "Paris, France",
-      "pic": "/demo/avatars/37.jpg",
+      "pic": "/images/avatars/svg/vuero-2.svg",
       "badge": "/images/icons/flags/france.svg",
       "position": "Product Manager",
       "bio": "This is a nice user description that we can use as demo content"
@@ -1010,7 +1010,7 @@
       "name": "Christie D.",
       "initials": "CD",
       "location": "Los Angeles, CA",
-      "pic": "/demo/avatars/38.jpg",
+      "pic": "/images/avatars/svg/vuero-2.svg",
       "badge": "/images/icons/flags/united-states-of-america.svg",
       "position": "Web Developer",
       "bio": "This is a nice user description that we can use as demo content"
@@ -1020,7 +1020,7 @@
       "name": "Alejandro B.",
       "initials": "AB",
       "location": "New York, NY",
-      "pic": "/demo/avatars/39.jpg",
+      "pic": "/images/avatars/svg/vuero-2.svg",
       "badge": "/images/icons/flags/united-states-of-america.svg",
       "position": "Business Analyst",
       "bio": "This is a nice user description that we can use as demo content"

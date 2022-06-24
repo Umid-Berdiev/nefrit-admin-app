@@ -8,6 +8,7 @@ import { useApi } from '/@src/composable/useApi'
 import { useViewWrapper } from '/@src/stores/viewWrapper'
 import { useI18n } from 'vue-i18n'
 import VButton from '/@src/components/base/button/VButton.vue'
+import VFlexPagination from '/@src/components/base/pagination/VFlexPagination.vue'
 
 const { t } = useI18n()
 const viewWrapper = useViewWrapper()
@@ -22,38 +23,32 @@ const isFormModalOpen = ref(false)
 const data = [
   {
     id: 1,
+    statement_date: '2022-06-23',
+    statement_status: 'In process',
+    in_stage: '2-stage',
     company: 'Grubspot',
-    type: 'New Lead',
-    industry: 'Software',
-    status: 'Active',
-    contacts: [
-      {
-        id: 1,
-        picture: '/demo/avatars/25.jpg',
-        initials: 'AC',
-        color: 'info',
-      },
-      // and more contacts ..
-    ],
   },
   {
     id: 2,
+    statement_date: '2022-06-23',
+    statement_status: 'In process',
+    in_stage: '2-stage',
     company: 'Ferrario',
-    type: 'Old Bee',
-    industry: 'Enginering',
-    status: 'InActive',
-    contacts: [
-      {
-        id: 1,
-        picture: '/demo/avatars/25.jpg',
-        initials: 'AC',
-        color: 'info',
-      },
-      // and more contacts ..
-    ],
   },
   // and more data ...
 ]
+
+const columns = {
+  id: 'Id',
+  statement_date: 'Statement_date',
+  statement_status: 'Statement_status',
+  in_stage: 'In_stage',
+  company: 'Company',
+  actions: {
+    label: 'Actions',
+    align: 'center'
+  },
+}
 
 async function fetchApplicantById(id: number) {
   const api = useApi()
@@ -93,52 +88,33 @@ useHead({
   title: computed(() => applicant.value?.title ?? 'Loading applicant...'),
 })
 </script>
-
+ <!-- <i class="lnil lnil-tap" aria-hidden="true"></i> -->
 <template>
   <div class="applicant-detail-wrapper">
-    <VTabs type="boxed" selected="details" :tabs="[
-      { label: t('Applicant_details'), value: 'details' },
-      { label: t('Applicant_statements'), value: 'statements' },
-      { label: t('Chat'), value: 'chat' },
+    <VTabs selected="details" :tabs="[
+      { label: t('Applicant_details'), value: 'details', icon: 'lnil lnil-tap' },
+      {
+        label: t('Applicant_statements'),
+        value: 'statements',
+        icon: 'lnil lnil-euro-down',
+      },
+      { label: t('Chat'), value: 'chat', icon: 'fas fa-comments' },
     ]">
       <template #tab="{ activeValue }">
         <div v-if="activeValue === 'details'">
-          <VBlock title="" center>
-            <template #action>
-              <VButtons>
-                <VButton outlined rounded color="success" icon="feather:edit" @click="isFormModalOpen = true">
-                  {{ t('Edit') }}
-                </VButton>
-              </VButtons>
-            </template>
-          </VBlock>
-          <table class="table is-striped is-fullwidth">
-            <tbody>
-              <tr>
-                <td>Tina</td>
-                <td>Bergmann</td>
-              </tr>
-              <tr>
-                <td>John</td>
-                <td>Wistmus</td>
-              </tr>
-              <tr>
-                <td>Sam</td>
-                <td>Watson</td>
-              </tr>
-              <tr>
-                <td>Jolaine</td>
-                <td>Joestar</td>
-              </tr>
-              <tr>
-                <td>Anders</td>
-                <td>Jensen</td>
-              </tr>
-            </tbody>
-          </table>
+          <ApplicantForm />
         </div>
         <div v-else-if="activeValue === 'statements'">
-          <VFlexTable :data="data" rounded compact />
+          <VFlexTable :data="data" :columns="columns" rounded compact>
+            <template #body-cell="{ row, column, value }">
+              <VAction v-if="column.key === 'actions'">
+                Details
+              </VAction>
+            </template>
+          </VFlexTable>
+          <!-- Table Pagination with wrapperState.page binded-->
+          <VFlexPagination v-model:current-page="data.page" class="mt-6" :item-per-page="data.limit"
+            :total-items="data.total" :max-links-displayed="5" no-router />
         </div>
         <div v-else-if="activeValue === 'chat'">
           <MessagingV1 />

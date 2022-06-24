@@ -30,7 +30,7 @@ const emit = defineEmits(['update:modelValue'])
                   {
                     value: 'alice',
                     name: 'Alice Carasca',
-                    image: '/demo/avatars/7.jpg',
+                    image: '/images/avatars/svg/vuero-3.svg',
                   },
                   {
                     value: 'erik',
@@ -40,27 +40,27 @@ const emit = defineEmits(['update:modelValue'])
                   {
                     value: 'melany',
                     name: 'melany Wallace',
-                    image: '/demo/avatars/25.jpg',
+                    image: '/images/avatars/svg/vuero-3.svg',
                   },
                   {
                     value: 'tara',
                     name: 'Tara Svenson',
-                    image: '/demo/avatars/13.jpg',
+                    image: '/images/avatars/svg/vuero-3.svg',
                   },
                   {
                     value: 'mary',
                     name: 'Mary Lebowski',
-                    image: '/demo/avatars/5.jpg',
+                    image: '/images/avatars/svg/vuero-3.svg',
                   },
                   {
                     value: 'irina',
                     name: 'Irina Vierbovsky',
-                    image: '/demo/avatars/23.jpg',
+                    image: '/images/avatars/svg/vuero-3.svg',
                   },
                   {
                     value: 'jonathan',
                     name: 'Jonathan Krugger',
-                    image: '/demo/avatars/32.jpg',
+                    image: '/images/avatars/svg/vuero-3.svg',
                   },
                 ]" :max-height="145">
                   <template #singlelabel="{ value }">
