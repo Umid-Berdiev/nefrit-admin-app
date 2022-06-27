@@ -15,7 +15,7 @@ import CountrySelect from '/@src/components/forms/selects/CountrySelect.vue'
 
 const { t } = useI18n()
 const viewWrapper = useViewWrapper()
-viewWrapper.setPageTitle(t('Applicants_List'))
+viewWrapper.setPageTitle(t('Statements_List'))
 
 type User = typeof users[0]
 
@@ -62,46 +62,38 @@ const columns = {
     cellClass: 'is-flex-grow-0',
   },
   orderNumber: {
-    label: '#',
+    label: 'Ariza qabul raqami',
     // cellClass: 'is-flex-grow-0',
   },
-  name: {
-    label: t('Applicant_user_name'),
-    // media: true,
-    grow: true,
-    searchable: true,
-    sortable: true,
-    filter: userFilter,
-  },
-  shortname: {
-    label: t('Boss_name'),
-    // media: true,
-    grow: true,
-    searchable: true,
-    sortable: true,
-    filter: userFilter,
-  },
+  // name: {
+  //   label: t('User'),
+  //   // media: true,
+  //   // grow: true,
+  //   searchable: true,
+  //   sortable: true,
+  //   filter: userFilter,
+  // },
   company: {
-    label: t('Company_name'),
+    label: t('applied_legal_entity'),
     // media: true,
     // grow: true,
     searchable: true,
     sortable: true,
     filter: userFilter,
   },
-  phone: {
-    label: t('Phone_number'),
+  drug: {
+    label: t('drug_name'),
+    searchable: true,
+    // sortable: true,
+    // filter: userFilter,
+  },
+  date: {
+    label: t('applied_at'),
     sortable: true,
     searchable: true,
     sort: locationSorter,
   },
-  status: {
-    label: t('Status'),
-    sortable: true,
-    searchable: true,
-    sort: locationSorter,
-  },
-  location: t('Location'),
+  status: t('Status'),
   actions: {
     label: t('Actions'),
     align: 'center',
@@ -159,7 +151,7 @@ function onActionTriggered(rowId) {
         <h3 class="title is-5 mb-2">{{ t('Filter_form') }}</h3>
         <div class="columns is-desktop">
           <VField class="column">
-            <VLabel>{{ t('User') }}</VLabel>
+            <VLabel>{{ t('applied_legal_entity') }}</VLabel>
             <VControl>
               <VInput v-model="filterForm.applicantUser" type="text" placeholder="" />
             </VControl>
@@ -171,7 +163,7 @@ function onActionTriggered(rowId) {
             </VControl>
           </VField>
           <VField class="column">
-            <VLabel>{{ t('Boss_name') }}</VLabel>
+            <VLabel>{{ t('applied_at') }}</VLabel>
             <VControl>
               <VInput v-model="filterForm.applicantBossName" type="text" placeholder="" />
             </VControl>
@@ -179,7 +171,7 @@ function onActionTriggered(rowId) {
           <!-- </div>
               <div class="columns is-desktop"> -->
           <VField class="column">
-            <VLabel>{{ t('Applicant_name') }}</VLabel>
+            <VLabel>{{ t('stage') }}</VLabel>
             <VControl>
               <VInput v-model="filterForm.applicantName" type="text" placeholder="" />
             </VControl>
@@ -253,12 +245,12 @@ function onActionTriggered(rowId) {
             <VCheckbox v-if="column.key === 'select'" v-model="selectedRowsId" :value="row.id" name="selection"
               @change="clickOnRow" />
 
-            <template v-if="column.key === 'orderNumber'">
+            <template v-else-if="column.key === 'orderNumber'">
               <span class="w-5">
-                {{ index + 1 }}
+                {{ '00000' + (row.id + 1) }}
               </span>
             </template>
-            <!-- <template v-if="column.key === 'name'">
+            <!-- <template v-else-if="column.key === 'name'">
               <VAvatar size="medium" :picture="row.medias.avatar" :badge="row.medias.badge" :initials="row.initials" />
               <div>
                 <span class="dark-text" :title="row.name">
@@ -282,9 +274,9 @@ function onActionTriggered(rowId) {
                 {{ t(value) }}
               </VTag>
             </template>
-            <template v-if="column.key === 'actions'">
+            <template v-else-if="column.key === 'actions'">
               <div class="is-flex is-justify-content-flex-end">
-                <ActionButtons @view="onActionTriggered(row.id)" @edit="isFormModalOpen = true" />
+                <ActionButtons @edit="isFormModalOpen = true" />
               </div>
             </template>
           </template>

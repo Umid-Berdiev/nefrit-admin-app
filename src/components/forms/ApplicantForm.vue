@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { useWindowScroll } from '@vueuse/core'
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import moment from 'moment';
+import { users } from '/@src/stores/usersMockData'
 
 import VSelect from '/@src/components/base/form/VSelect.vue'
 import VCheckbox from '/@src/components/base/form/VCheckbox.vue'
@@ -15,9 +16,14 @@ const selectedCountry = ref('')
 const isNational = ref(false)
 const date = ref(new Date())
 const blockedAt = ref(new Date())
+const selectedUser = ref({})
 
 const { t } = useI18n()
 const { y } = useWindowScroll()
+
+onMounted(() => {
+  selectedUser.value = users[0]
+})
 
 const isStuck = computed(() => {
   return y.value > 30
@@ -30,6 +36,8 @@ const onSubmit = () => {
 function formatDate(value: Date) {
   return moment(value).format('YYYY-MM-DD');
 }
+
+
 </script>
 
 <template>
@@ -45,13 +53,13 @@ function formatDate(value: Date) {
       <div class="form-body">
         <div class="form-section">
           <div class="form-section-inner has-padding-bottom">
-            <h3 class="has-text-centered">User Information</h3>
+            <h3 class="has-text-centered">{{ t('User_information') }}</h3>
             <div class="columns is-multiline">
               <div class="column is-12 mb-3">
                 <VField>
-                  <VLabel>Arizachi</VLabel>
+                  <VLabel>{{ t('Applicant_user_name') }}</VLabel>
                   <VControl icon="feather:user">
-                    <VInput disabled type="text" :value="'Abdullaev Abdulla'" autocomplete="applicant-name" />
+                    <VInput type="text" :value="selectedUser.name" disabled autocomplete="applicant-name" />
                   </VControl>
                 </VField>
               </div>
@@ -59,15 +67,15 @@ function formatDate(value: Date) {
                 <VField>
                   <VLabel>Arizachini telefon raqami</VLabel>
                   <VControl icon="feather:phone">
-                    <VInput disabled type="tel" value="+998 90 975 0668" autocomplete="applicant-name" />
+                    <VInput type="tel" :value="selectedUser.phone" disabled autocomplete="applicant-name" />
                   </VControl>
                 </VField>
               </div>
               <div class="column is-12 mb-3">
                 <VField>
-                  <VLabel>Rahbar FIOsi</VLabel>
+                  <VLabel>{{ t('Boss_name') }}</VLabel>
                   <VControl icon="feather:user">
-                    <VInput type="text" placeholder="" autocomplete="boss-name" />
+                    <VInput type="text" :value="selectedUser.shortname" placeholder="" autocomplete="boss-name" />
                   </VControl>
                 </VField>
               </div>
@@ -75,15 +83,15 @@ function formatDate(value: Date) {
                 <VField>
                   <VLabel>Websayt (agar mavjud bo'lsa)</VLabel>
                   <VControl icon="feather:globe">
-                    <VInput type="text" placeholder="" autocomplete="website-name" />
+                    <VInput type="text" value="nefrit.uz" autocomplete="website-name" />
                   </VControl>
                 </VField>
               </div>
               <div class="column is-12 mb-3">
                 <VField>
-                  <VLabel>Email Address</VLabel>
+                  <VLabel>{{ t('Email_address') }}</VLabel>
                   <VControl icon="feather:mail">
-                    <VInput type="email" placeholder="" autocomplete="email" inputmode="email" />
+                    <VInput type="email" value="info@nefrit.uz" autocomplete="email" inputmode="email" />
                   </VControl>
                 </VField>
               </div>
@@ -92,35 +100,35 @@ function formatDate(value: Date) {
         </div>
         <div class="form-section">
           <div class="form-section-inner has-padding-bottom">
-            <h3 class="has-text-centered">Company Information</h3>
+            <h3 class="has-text-centered">{{ t('Company_information') }}</h3>
             <div class="columns is-multiline">
               <div class="column is-12 mb-3">
                 <VField>
-                  <VLabel>Company Name <span class="has-text-danger">*</span></VLabel>
+                  <VLabel>{{ t('Company_name') }} <span class="has-text-danger">*</span></VLabel>
                   <VControl icon="feather:briefcase">
-                    <VInput type="text" placeholder="" autocomplete="company_name" />
+                    <VInput type="text" :value="selectedUser.company" placeholder="" autocomplete="company_name" />
                   </VControl>
                 </VField>
               </div>
               <div class="column is-6 mb-3">
                 <VField>
-                  <VLabel>Company Phone <span class="has-text-danger">*</span></VLabel>
+                  <VLabel>{{ t('Company_phone') }} <span class="has-text-danger">*</span></VLabel>
                   <VControl icon="feather:phone">
-                    <VInput type="tel" placeholder="" autocomplete="tel" inputmode="tel" />
+                    <VInput type="tel" :value="selectedUser.phone" placeholder="" autocomplete="tel" inputmode="tel" />
                   </VControl>
                 </VField>
               </div>
               <div class="column is-6 mb-3">
                 <VField>
-                  <VLabel>Company Fax <span class="has-text-danger">*</span></VLabel>
-                  <VControl icon="feather:phone">
-                    <VInput type="tel" placeholder="" autocomplete="tel" inputmode="tel" />
+                  <VLabel>{{ t('Company_fax') }} <span class="has-text-danger">*</span></VLabel>
+                  <VControl icon="feather:printer">
+                    <VInput type="tel" :value="selectedUser.phone" placeholder="" autocomplete="tel" inputmode="tel" />
                   </VControl>
                 </VField>
               </div>
               <div class="column is-6 mb-3">
                 <VField>
-                  <VLabel>Country</VLabel>
+                  <VLabel>{{ t('Country') }}</VLabel>
                   <VControl class="has-icons-left" icon="fas fa-globe">
                     <VSelect v-model="selectedCountry">
                       <VOption value="" disabled>Select a Hero</VOption>
@@ -136,8 +144,8 @@ function formatDate(value: Date) {
               </div>
               <div class="column is-6 mb-3">
                 <VField>
-                  <VLabel>{{ t('STIR') }}</VLabel>
-                  <VControl icon="fas fa-globe">
+                  <VLabel>{{ t('stir') }}</VLabel>
+                  <VControl icon="fas fa-hashtag">
                     <VInput type="text" :placeholder="t('STIR')" autocomplete="stir" />
                   </VControl>
                 </VField>
@@ -162,14 +170,14 @@ function formatDate(value: Date) {
         </div>
         <div class="form-section">
           <div class="form-section-inner has-padding-bottom">
-            <h3 class="has-text-centered">Status Information</h3>
+            <h3 class="has-text-centered">{{ t('Applicant_status') }}</h3>
             <div class="columns is-multiline">
               <div class="column is-12 mb-3">
                 <VField>
-                  <VLabel>Status</VLabel>
-                  <VControl class="has-icons-left" icon="fas fa-globe">
+                  <VLabel>{{ t('Status') }}</VLabel>
+                  <VControl class="has-icons-left" icon="feather:layers">
                     <VSelect v-model="selectedCountry">
-                      <VOption value="" disabled>Select a Hero</VOption>
+                      <VOption value="" disabled>{{ t('Select') }} ...</VOption>
                       <VOption value="Superman">Superman</VOption>
                       <VOption value="Batman">Batman</VOption>
                       <VOption value="Spiderman">Spiderman</VOption>

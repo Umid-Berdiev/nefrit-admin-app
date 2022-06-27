@@ -15,11 +15,11 @@ const hello = ref('world')
     <VIconButton class="mr-2" outlined circle color="info" icon="feather:eye" @click.prevent="emits('view')">
       View
     </VIconButton>
-    <VIconButton class="mr-2" outlined circle color="danger" icon="feather:trash" @click.prevent="emits('remove')">
-      Remove
-    </VIconButton>
     <VIconButton class="mr-2" outlined circle color="primary" icon="feather:edit-2" @click.prevent="emits('edit')">
       Edit
+    </VIconButton>
+    <VIconButton class="mr-2" outlined circle color="danger" icon="feather:trash" @click.prevent="emits('remove')">
+      Remove
     </VIconButton>
   </div>
 </template>

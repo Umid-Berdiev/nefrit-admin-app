@@ -11,15 +11,12 @@ const props = defineProps<VViewWrapperProps>()
 </script>
 
 <template>
-  <div
-    class="view-wrapper"
-    :class="[
-      props.topNav && 'has-top-nav',
-      props.full && 'view-wrapper-full',
-      viewWrapper.isPushed && 'is-pushed-full',
-      viewWrapper.isPushedBlock && 'is-pushed-block',
-    ]"
-  >
+  <div class="view-wrapper" :class="[
+    props.topNav && 'has-top-nav',
+    props.full && 'view-wrapper-full',
+    viewWrapper.isPushed && 'is-pushed-full',
+    viewWrapper.isPushedBlock && 'is-pushed-block',
+  ]">
     <slot></slot>
   </div>
 </template>
@@ -96,9 +93,9 @@ const props = defineProps<VViewWrapperProps>()
   position: relative;
   height: 100%;
   min-height: 100vh;
-  width: calc(100% - 80px);
+  margin-left: 0px;
+  width: calc(100% - 0px);
   padding: 0 0 60px;
-  margin-left: 80px;
   background: var(--background-grey);
   transition: all 0.3s; // transition-all test
 
@@ -121,8 +118,8 @@ const props = defineProps<VViewWrapperProps>()
     position: fixed;
     top: 0;
     left: 0;
-    margin-left: 80px;
-    width: calc(100% - 80px);
+    margin-left: 0px;
+    width: calc(100% - 0px);
     z-index: 14;
   }
 }
@@ -137,6 +134,7 @@ const props = defineProps<VViewWrapperProps>()
 @media (max-width: 767px) {
   .view-wrapper {
     &.has-top-nav {
+
       .is-navbar-md,
       .is-navbar-lg,
       .is-navbar-xl {
@@ -153,6 +151,7 @@ const props = defineProps<VViewWrapperProps>()
 @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) {
   .view-wrapper {
     &.has-top-nav {
+
       .is-navbar-md,
       .is-navbar-lg,
       .is-navbar-xl {
@@ -165,6 +164,7 @@ const props = defineProps<VViewWrapperProps>()
     }
   }
 }
+
 @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) {
   .view-wrapper {
     width: calc(100% - 60px) !important;
@@ -176,7 +176,9 @@ const props = defineProps<VViewWrapperProps>()
     }
   }
 }
+
 @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) {
+
   // Layout
   .view-wrapper {
     width: 100% !important;
@@ -191,7 +193,9 @@ const props = defineProps<VViewWrapperProps>()
     }
   }
 }
+
 @media (max-width: 767px) {
+
   // Layout
   .view-wrapper {
     width: 100% !important;

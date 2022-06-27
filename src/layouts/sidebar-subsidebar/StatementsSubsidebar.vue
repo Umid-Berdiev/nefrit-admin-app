@@ -5,7 +5,7 @@ const emit = defineEmits(['close'])
 <template>
   <div class="sidebar-panel is-generic">
     <div class="subpanel-header">
-      <!-- <h3 class="no-mb">{{ $t('Applicants') }}</h3> -->
+      <h3 class="no-mb">{{ $t('Statements') }}</h3>
       <div class="panel-close" tabindex="0" @keydown.space.prevent="emit('close')" @click="emit('close')">
         <i aria-hidden="true" class="iconify" data-icon="feather:x"></i>
       </div>
@@ -13,21 +13,9 @@ const emit = defineEmits(['close'])
     <div class="inner" data-simplebar>
       <ul>
         <li>
-          <RouterLink :to="{ name: 'app' }">
-            <i aria-hidden="true" class="lnil lnil-home mr-2"></i>
-            {{ $t('Dashboard') }}
-          </RouterLink>
-        </li>
-        <li>
-          <RouterLink :to="{ name: 'app-applicant' }">
-            <i aria-hidden="true" class="lnil lnil-users mr-2"></i>
-            {{ $t('Applicants') }}
-          </RouterLink>
-        </li>
-        <li>
           <RouterLink :to="{ name: 'app-statement' }">
             <i aria-hidden="true" class="lnil lnil-users mr-2"></i>
-            {{ $t('Statements') }}
+            {{ $t('List') }}
           </RouterLink>
         </li>
       </ul>

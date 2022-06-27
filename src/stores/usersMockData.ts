@@ -11,6 +11,12 @@ export const users = [
       badge: '/images/icons/flags/united-states-of-america.svg',
     },
     progress: 65,
+    status: 'pending',
+    date: '2022-06-13',
+    stir: 456987123,
+    company: 'Amazon',
+    drug: 'Analgin',
+    phone: '+998998764321',
     social: [
       {
         channel: 'Linkedin',
@@ -46,6 +52,12 @@ export const users = [
       badge: '/images/icons/flags/france.svg',
     },
     progress: 38,
+    status: 'completed',
+    date: '2022-06-13',
+    stir: 456987123,
+    company: 'Google',
+    drug: 'Sitramon',
+    phone: '+998998764321n',
     social: [
       {
         channel: 'Linkedin',
@@ -81,6 +93,12 @@ export const users = [
       badge: '/images/icons/stacks/js.svg',
     },
     progress: 58,
+    status: 'pending',
+    date: '2022-06-13',
+    stir: 456987123,
+    company: 'Facebook',
+    drug: 'Kupen',
+    phone: '+998998764321',
     social: [
       {
         channel: 'Linkedin',
@@ -116,6 +134,12 @@ export const users = [
       badge: '/images/icons/stacks/python.svg',
     },
     progress: 85,
+    status: 'completed',
+    date: '2022-06-13',
+    stir: 456987123,
+    company: 'Microsoft',
+    drug: 'Analgin',
+    phone: '+998998764321',
     social: [
       {
         channel: 'Linkedin',
@@ -151,6 +175,12 @@ export const users = [
       badge: '/images/icons/flags/united-states-of-america.svg',
     },
     progress: 28,
+    status: 'pending',
+    date: '2022-06-13',
+    stir: 456987123,
+    company: 'Yahoo',
+    drug: 'Hydrolife',
+    phone: '+998998764321fe',
     social: [
       {
         channel: 'Linkedin',
@@ -186,6 +216,12 @@ export const users = [
       badge: '/images/icons/stacks/android.svg',
     },
     progress: 67,
+    status: 'rejected',
+    date: '2022-06-13',
+    stir: 456987123,
+    company: 'Yahoo',
+    drug: 'Analgin',
+    phone: '+998998764321',
     social: [
       {
         channel: 'Linkedin',
@@ -221,6 +257,12 @@ export const users = [
       badge: '/images/icons/flags/germany.svg',
     },
     progress: 56,
+    status: 'completed',
+    date: '2022-06-13',
+    stir: 456987123,
+    company: 'Amazon',
+    drug: 'Analgin',
+    phone: '+998998764321',
     social: [
       {
         channel: 'Linkedin',
@@ -256,6 +298,12 @@ export const users = [
       badge: '/images/icons/stacks/photoshop.svg',
     },
     progress: 12,
+    status: 'pending',
+    date: '2022-06-13',
+    stir: 456987123,
+    company: 'Riddit LLC',
+    drug: 'Analgin',
+    phone: '+998998764321',
     social: [
       {
         channel: 'Linkedin',
@@ -291,6 +339,12 @@ export const users = [
       badge: '/images/icons/flags/united-states-of-america.svg',
     },
     progress: 29,
+    status: 'pending',
+    date: '2022-06-13',
+    stir: 456987123,
+    company: 'Amazon',
+    drug: 'Analgin',
+    phone: '+998998764321',
     social: [
       {
         channel: 'Linkedin',
@@ -326,6 +380,12 @@ export const users = [
       badge: '/images/icons/flags/united-states-of-america.svg',
     },
     progress: 91,
+    status: 'completed',
+    date: '2022-06-13',
+    stir: 456987123,
+    company: 'Amazon',
+    drug: 'Analgin',
+    phone: '+998998764321',
     social: [
       {
         channel: 'Linkedin',
@@ -361,6 +421,12 @@ export const users = [
       badge: '/images/icons/stacks/reactjs.svg',
     },
     progress: 44,
+    status: 'pending',
+    date: '2022-06-13',
+    stir: 456987123,
+    company: 'Amazon',
+    drug: 'Analgin',
+    phone: '+998998764321',
     social: [
       {
         channel: 'Linkedin',
@@ -396,6 +462,12 @@ export const users = [
       badge: '/images/icons/stacks/vuejs.svg',
     },
     progress: 61,
+    status: 'pending',
+    date: '2022-06-13',
+    stir: 456987123,
+    company: 'Amazon',
+    drug: 'Analgin',
+    phone: '+998998764321',
     social: [
       {
         channel: 'Linkedin',
@@ -431,6 +503,12 @@ export const users = [
       badge: '/images/icons/stacks/html5.svg',
     },
     progress: 53,
+    status: 'pending',
+    date: '2022-06-13',
+    stir: 456987123,
+    company: 'Amazon',
+    drug: 'Analgin',
+    phone: '+998998764321',
     social: [
       {
         channel: 'Linkedin',
@@ -466,6 +544,12 @@ export const users = [
       badge: '/images/icons/flags/united-states-of-america.svg',
     },
     progress: 78,
+    status: 'pending',
+    date: '2022-06-13',
+    stir: 456987123,
+    company: 'Amazon',
+    drug: 'Analgin',
+    phone: '+998998764321',
     social: [
       {
         channel: 'Linkedin',
@@ -501,6 +585,12 @@ export const users = [
       badge: '/images/icons/flags/united-states-of-america.svg',
     },
     progress: 36,
+    status: 'pending',
+    date: '2022-06-13',
+    stir: 456987123,
+    company: 'Amazon',
+    drug: 'Analgin',
+    phone: '+998998764321',
     social: [
       {
         channel: 'Linkedin',
@@ -536,6 +626,12 @@ export const users = [
       badge: '/images/icons/stacks/angular.svg',
     },
     progress: 49,
+    status: 'pending',
+    date: '2022-06-13',
+    stir: 456987123,
+    company: 'Amazon',
+    drug: 'Analgin',
+    phone: '+998998764321',
     social: [
       {
         channel: 'Linkedin',
@@ -571,6 +667,12 @@ export const users = [
       badge: '/images/icons/stacks/csharp.svg',
     },
     progress: 78,
+    status: 'pending',
+    date: '2022-06-13',
+    stir: 456987123,
+    company: 'Amazon',
+    drug: 'Analgin',
+    phone: '+998998764321',
     social: [
       {
         channel: 'Linkedin',
@@ -606,6 +708,12 @@ export const users = [
       badge: '/images/icons/flags/united-states-of-america.svg',
     },
     progress: 17,
+    status: 'pending',
+    date: '2022-06-13',
+    stir: 456987123,
+    company: 'Amazon',
+    drug: 'Analgin',
+    phone: '+998998764321',
     social: [
       {
         channel: 'Linkedin',

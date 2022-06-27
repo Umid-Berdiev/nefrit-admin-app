@@ -4,7 +4,12 @@ import { useRoute } from 'vue-router'
 
 import type { SidebarTheme } from '/@src/components/navigation/desktop/Sidebar.vue'
 import { useViewWrapper } from '/@src/stores/viewWrapper'
-// import ApplicantsSubsidebar from './sidebar-subsidebar/ApplicantsSubsidebar.vue'
+import StatementsSubsidebar from './sidebar-subsidebar/StatementsSubsidebar.vue';
+import ApplicantsSubsidebar from './sidebar-subsidebar/ApplicantsSubsidebar.vue';
+import DashboardsSubsidebar from './sidebar-subsidebar/DashboardsSubsidebar.vue';
+import DashboardsMobileSubsidebar from './mobile-subsidebars/DashboardsMobileSubsidebar.vue';
+import ApplicantsMobileSubsidebar from './mobile-subsidebars/ApplicantsMobileSubsidebar.vue';
+import StatementsMobileSubsidebar from './mobile-subsidebars/StatementsMobileSubsidebar.vue';
 
 const props = withDefaults(
   defineProps<{
@@ -17,6 +22,7 @@ const props = withDefaults(
   {
     defaultSidebar: 'dashboard',
     theme: 'default',
+    openOnMounted: true,
   }
 )
 
@@ -51,6 +57,8 @@ watch(
     }
   }
 )
+console.log('activeMobileSubsidebar: ', activeMobileSubsidebar.value);
+
 </script>
 
 <template>
@@ -93,34 +101,20 @@ watch(
     <!-- Mobile subsidebar links -->
     <Transition name="slide-x">
       <DashboardsMobileSubsidebar v-if="isMobileSidebarOpen && activeMobileSubsidebar === 'dashboard'" />
-      <DashboardsMobileSubsidebar v-else-if="isMobileSidebarOpen && activeMobileSubsidebar === 'applicant'" />
+      <ApplicantsMobileSubsidebar v-else-if="isMobileSidebarOpen && activeMobileSubsidebar === 'applicant'" />
+      <StatementsMobileSubsidebar v-else-if="isMobileSidebarOpen && activeMobileSubsidebar === 'statement'" />
     </Transition>
 
-    <Sidebar :theme="props.theme" :is-open="isDesktopSidebarOpen">
-      <template #links>
-        <!-- Dashboards -->
-        <li>
-          <a :class="{ 'is-active': activeMobileSubsidebar === 'dashboard' }" data-content="Dashboards"
-            @keydown.space.prevent="switchSidebar('dashboard')" @click="switchSidebar('dashboard')">
-            <i aria-hidden="true" class="iconify sidebar-svg" data-icon="feather:home"></i>
-          </a>
-        </li>
 
-        <!-- Applicants -->
-        <li>
-          <a :class="{ 'is-active': activeMobileSubsidebar === 'applicant' }" data-content="Applicants"
-            @keydown.space.prevent="switchSidebar('applicant')" @click="switchSidebar('applicant')">
-            <i aria-hidden="true" class="iconify sidebar-svg" data-icon="feather:users"></i>
-          </a>
-        </li>
-      </template>
-    </Sidebar>
 
     <Transition name="slide-x">
-      <DashboardsSubsidebar v-if="isDesktopSidebarOpen && activeMobileSubsidebar === 'dashboard'"
+      <ApplicantsSubsidebar v-if="isDesktopSidebarOpen" @close="isDesktopSidebarOpen = false" />
+      <!-- <DashboardsSubsidebar v-if="isDesktopSidebarOpen && activeMobileSubsidebar === 'dashboard'"
         @close="isDesktopSidebarOpen = false" />
       <ApplicantsSubsidebar v-else-if="isDesktopSidebarOpen && activeMobileSubsidebar.startsWith('applicant')"
         @close="isDesktopSidebarOpen = false" />
+      <StatementsSubsidebar v-else-if="isDesktopSidebarOpen && activeMobileSubsidebar.startsWith('statement')"
+        @close="isDesktopSidebarOpen = false" /> -->
     </Transition>
 
     <LanguagesPanel />

@@ -92,11 +92,11 @@ useHead({
 <template>
   <div class="applicant-detail-wrapper">
     <VTabs selected="details" :tabs="[
-      { label: t('Applicant_details'), value: 'details', icon: 'feather:info' },
+      { label: t('Applicant_details'), value: 'details', icon: 'lnil lnil-tap' },
       {
         label: t('Applicant_statements'),
         value: 'statements',
-        icon: 'feather:file-text',
+        icon: 'lnil lnil-euro-down',
       },
       { label: t('Chat'), value: 'chat', icon: 'fas fa-comments' },
     ]">

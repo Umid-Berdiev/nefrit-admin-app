@@ -11,13 +11,12 @@ const emit = defineEmits(['update:modelValue'])
 <template>
   <!-- <VButton bold @click="bigFormOpen = true"> Open Modal </VButton> -->
 
-  <VModal :open="modelValue" size="large" title="Add Applicant" actions="right"
-    @close="emit('update:modelValue', false)">
+  <VModal :open="modelValue" size="large" :title="$t('edit')" actions="right" @close="emit('update:modelValue', false)">
     <template #content>
       <div class="modal-form">
         <div class="columns is-multiline">
           <div class="column is-12">
-            <VField label="Boss Name *">
+            <VField :label="$t('Boss_name') + '*'">
               <VControl>
                 <VInput type="text" placeholder="Ex: A cool project" />
               </VControl>
