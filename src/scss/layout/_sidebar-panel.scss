@@ -17,9 +17,9 @@
 .sidebar-panel {
   position: fixed;
   top: 0;
-  left: 80px;
+  // left: 80px;
   height: 100%;
-  width: 240px;
+  // width: 240px;
   background: var(--white);
   z-index: 31;
 
@@ -382,7 +382,7 @@
           font-family: var(--font-alt);
           font-size: 0.9rem;
           font-weight: 500;
-          color: var(--light-text);
+          color: var(--dark-text);
         }
       }
 

@@ -80,6 +80,7 @@ const columns = {
     searchable: true,
     sortable: true,
     filter: userFilter,
+    // bold: true
   },
   drug: {
     label: t('drug_name'),
@@ -246,9 +247,7 @@ function onActionTriggered(rowId) {
               @change="clickOnRow" />
 
             <template v-else-if="column.key === 'orderNumber'">
-              <span class="w-5">
-                {{ '00000' + (row.id + 1) }}
-              </span>
+              {{ '00000' + (row.id + 1) }}
             </template>
             <!-- <template v-else-if="column.key === 'name'">
               <VAvatar size="medium" :picture="row.medias.avatar" :badge="row.medias.badge" :initials="row.initials" />
@@ -275,9 +274,7 @@ function onActionTriggered(rowId) {
               </VTag>
             </template>
             <template v-else-if="column.key === 'actions'">
-              <div class="is-flex is-justify-content-flex-end">
-                <ActionButtons @edit="isFormModalOpen = true" />
-              </div>
+              <ActionButtons @edit="isFormModalOpen = true" />
             </template>
           </template>
         </VFlexTable>

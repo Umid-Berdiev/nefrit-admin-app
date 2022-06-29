@@ -192,7 +192,8 @@ function formatDate(value: Date) {
                 <VField>
                   <VLabel>{{ t('verified_at') }}</VLabel>
                   <VControl>
-                    <VInput disabled type="date" :value="formatDate(date)" class="input form-datepicker" />
+                    <VInput disabled value="2022-06-23" type="date" :value="formatDate(date)"
+                      class="input form-datepicker" />
                   </VControl>
                 </VField>
               </div>
@@ -200,7 +201,8 @@ function formatDate(value: Date) {
                 <VField>
                   <VLabel>{{ t('blocked_at') }}</VLabel>
                   <VControl>
-                    <VInput disabled type="date" :value="formatDate(blockedAt)" class="input form-datepicker" />
+                    <VInput disabled value="2022-06-27" type="date" :value="formatDate(blockedAt)"
+                      class="input form-datepicker" />
                   </VControl>
                 </VField>
               </div>

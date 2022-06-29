@@ -69,12 +69,12 @@
     a {
       font-family: var(--font);
       border-bottom-width: 2px;
-      color: var(--placeholder);
+      color: var(--dark-text);
       border-bottom-color: transparent;
 
       &:hover,
       &:focus {
-        color: var(--light-text);
+        color: var(--dark-text);
         border-bottom-color: transparent;
       }
 

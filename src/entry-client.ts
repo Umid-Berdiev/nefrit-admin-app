@@ -19,10 +19,18 @@ import { createApp } from './app'
  *
  * @see /@src/app.ts for more detailed informations
  */
-createApp().then(async (vuero) => {
-  // wait for the app to be ready
-  await vuero.router.isReady()
+// createApp().then(async (vuero) => {
+//   // wait for the app to be ready
+//   await vuero.router.isReady()
 
-  // finaly mount the app to the DOM
-  vuero.app.mount('#app')
-})
+//   // finaly mount the app to the DOM
+//   vuero.app.mount('#app')
+// })
+
+const vuero = await createApp()
+
+// wait for the app to be ready
+await vuero.router.isReady()
+
+// finaly mount the app to the DOM
+vuero.app.mount('#app')

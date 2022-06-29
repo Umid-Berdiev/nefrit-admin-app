@@ -1,6 +1,5 @@
 <script lang="ts">
 import type { PropType } from 'vue'
-
 import {
   InjectionKey,
   defineComponent,
@@ -164,7 +163,7 @@ export default defineComponent({
       },
     })
 
-    const defaultLimit = ref(10)
+    const defaultLimit = ref(5)
     const limit = computed({
       get: () => Math.max(1, props.limit ?? defaultLimit.value),
       set(value) {
@@ -248,9 +247,9 @@ export default defineComponent({
       if (searchTerm.value) {
         const searchableColumns = columns.value
           ? (Object.values(columns.value).filter((column) => {
-              if (!column || typeof column === 'string') return false
-              return column.searchable === true
-            }) as Partial<VFlexTableWrapperColumn>[])
+            if (!column || typeof column === 'string') return false
+            return column.searchable === true
+          }) as Partial<VFlexTableWrapperColumn>[])
           : []
 
         if (searchableColumns.length) {
@@ -293,9 +292,9 @@ export default defineComponent({
 
         const sortingColumn = columns.value
           ? (Object.values(columns.value).find((column) => {
-              if (!column || typeof column === 'string') return false
-              return column.sortable === true && column.key === sortField
-            }) as Partial<VFlexTableWrapperColumn>)
+            if (!column || typeof column === 'string') return false
+            return column.sortable === true && column.key === sortField
+          }) as Partial<VFlexTableWrapperColumn>)
           : null
 
         if (sortingColumn) {

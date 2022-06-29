@@ -47,8 +47,8 @@ const props = defineProps<{
         {
           src: props.message.content.image_url,
           thumbnail: props.message.content.image_url,
-          w: 600,
-          h: 400,
+          w: 300,
+          h: 200,
           alt: 'optional alt attribute for thumbnail image',
         },
       ]" thumbnail-radius="full" />

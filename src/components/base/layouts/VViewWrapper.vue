@@ -100,12 +100,12 @@ const props = defineProps<VViewWrapperProps>()
   transition: all 0.3s; // transition-all test
 
   &.is-pushed-full {
-    margin-left: 320px;
-    width: calc(100% - 320px);
+    margin-left: 240px;
+    width: calc(100% - 240px);
 
     .is-stuck {
-      margin-left: 320px;
-      width: calc(100% - 320px);
+      margin-left: 240px;
+      width: calc(100% - 240px);
     }
   }
 

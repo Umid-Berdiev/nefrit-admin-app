@@ -12,7 +12,7 @@
 .chat-body {
   position: relative;
   width: 100%;
-  height: 100%;
+  height: 80vh;
   overflow-y: auto;
   list-style: none;
   margin: 0;

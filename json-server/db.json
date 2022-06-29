@@ -172,7 +172,7 @@
       "avatar": "/images/avatars/svg/vuero-1.svg",
       "content": {
         "time": null,
-        "image_url": "/images/avatars/svg/vuero-3.svgg"
+        "image_url": "/images/avatars/svg/vuero-3.svg"
       }
     },
     {
@@ -259,7 +259,7 @@
         "subtext": "figma-factory.com",
         "time": null,
         "link_image": "/images/avatars/svg/vuero-3.svg",
-        "link_badge": "/images/avatars/svg/vuero-3.svgg"
+        "link_badge": "/images/avatars/svg/vuero-3.svg"
       }
     },
     {
@@ -632,56 +632,56 @@
       "name": "Airbnb",
       "initials": "A",
       "location": "Los Angeles, CA",
-      "pic": "/images/avatars/svg/vuero-3.svgg"
+      "pic": "/images/avatars/svg/vuero-3.svg"
     },
     {
       "id": 1,
       "name": "Facebook",
       "initials": "F",
       "location": "Los Angeles, CA",
-      "pic": "/images/avatars/svg/vuero-3.svgg"
+      "pic": "/images/avatars/svg/vuero-3.svg"
     },
     {
       "id": 2,
       "name": "GitHub",
       "initials": "A",
       "location": "Los Angeles, CA",
-      "pic": "/images/avatars/svg/vuero-3.svgg"
+      "pic": "/images/avatars/svg/vuero-3.svg"
     },
     {
       "id": 3,
       "name": "Gitlab",
       "initials": "A",
       "location": "Los Angeles, CA",
-      "pic": "/images/avatars/svg/vuero-3.svgg"
+      "pic": "/images/avatars/svg/vuero-3.svg"
     },
     {
       "id": 4,
       "name": "Atlassian",
       "initials": "A",
       "location": "Los Angeles, CA",
-      "pic": "/images/avatars/svg/vuero-3.svgg"
+      "pic": "/images/avatars/svg/vuero-3.svg"
     },
     {
       "id": 5,
       "name": "Google",
       "initials": "A",
       "location": "Los Angeles, CA",
-      "pic": "/images/avatars/svg/vuero-3.svgg"
+      "pic": "/images/avatars/svg/vuero-3.svg"
     },
     {
       "id": 6,
       "name": "Dribbble",
       "initials": "A",
       "location": "Los Angeles, CA",
-      "pic": "/images/avatars/svg/vuero-3.svgg"
+      "pic": "/images/avatars/svg/vuero-3.svg"
     },
     {
       "id": 7,
       "name": "Hubspot",
       "initials": "A",
       "location": "Los Angeles, CA",
-      "pic": "/images/avatars/svg/vuero-3.svgg"
+      "pic": "/images/avatars/svg/vuero-3.svg"
     }
   ],
   "users": [

@@ -105,8 +105,6 @@ console.log('activeMobileSubsidebar: ', activeMobileSubsidebar.value);
       <StatementsMobileSubsidebar v-else-if="isMobileSidebarOpen && activeMobileSubsidebar === 'statement'" />
     </Transition>
 
-
-
     <Transition name="slide-x">
       <ApplicantsSubsidebar v-if="isDesktopSidebarOpen" @close="isDesktopSidebarOpen = false" />
       <!-- <DashboardsSubsidebar v-if="isDesktopSidebarOpen && activeMobileSubsidebar === 'dashboard'"
@@ -143,6 +141,7 @@ console.log('activeMobileSubsidebar: ', activeMobileSubsidebar.value);
 
           <Toolbar class="desktop-toolbar" />
         </div>
+        <div class="is-divider"></div>
 
         <slot></slot>
       </VPageContent>

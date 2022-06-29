@@ -92,8 +92,8 @@
   // dark-text HSL (#283252) // hsl(226, 34%, 24%)
   @include colorHsl('dark-text', 226, 34%, 24%);
 
-  // light-text HSL (#a2a5b9) // hsl(232, 14%, 68%)
-  @include colorHsl('light-text', 232, 14%, 68%);
+  // light-text HSL (#a2a5b9) // hsl(255, 0%, 25%)
+  // @include colorHsl('light-text', 255, 0%, 25%);
 
   // dark-sidebar HSL (#232326) // hsl(240, 4%, 14%)
   @include colorHsl('dark-sidebar', 240, 4%, 14%);
