@@ -13,10 +13,7 @@ import { useViewWrapper } from '/@src/stores/viewWrapper'
 import ApplicantFormModal from '../../../components/base/modal/ApplicantFormModal.vue'
 import CountrySelect from '/@src/components/forms/selects/CountrySelect.vue'
 import FlexTableDropdown from '/@src/components/partials/dropdowns/FlexTableDropdown.vue'
-import ApplicantConclusionModal from '../../../components/base/modal/ApplicantConclusionModal.vue'
-import { useMainStore } from "/@src/stores";
 
-const mainStore = useMainStore()
 const { t } = useI18n()
 const viewWrapper = useViewWrapper()
 viewWrapper.setPageTitle(t('Statements_List'))
@@ -128,16 +125,7 @@ function clickOnRow(row: any) {
 }
 
 function onActionTriggered(rowId) {
-  router.push('/app/statement/' + rowId)
-}
-
-function gotoConclusionList(statementId: number) {
-  router.push(`/app/statement/${statementId}/conclusions`)
-}
-
-// this is the "Contact me" click handler
-function confirmAction() {
-  mainStore.$patch({ confirmModalState: true })
+  router.push('/app/applicant/' + rowId)
 }
 </script>
 
@@ -288,15 +276,9 @@ function confirmAction() {
                 {{ t(value) }}
               </VTag>
             </template>
-            <template v-else-if="column.key === 'stage'">
-              <VTag class="is-size-6" rounded color="info">
-                {{ t(value) }}
-              </VTag>
-            </template>
             <template v-else-if="column.key === 'actions'">
               <!-- <ActionButtons @edit="isFormModalOpen = true" /> -->
-              <FlexTableDropdown @view="onActionTriggered(row.id)" @conclusion="gotoConclusionList(row.id)"
-                @remove="confirmAction" />
+              <FlexTableDropdown @edit="isFormModalOpen = true" @conclusion="isConclusionModalOpen = true" />
             </template>
           </template>
         </VFlexTable>

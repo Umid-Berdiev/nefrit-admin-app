@@ -1,8 +1,8 @@
 <script setup lang="ts">
 const emits = defineEmits<{
   (e: 'view'): void
-  (e: 'projects'): void
-  (e: 'schedule'): void
+  (e: 'conclusion'): void
+  // (e: 'schedule'): void
   (e: 'remove'): void
 }>()
 </script>
@@ -27,7 +27,7 @@ const emits = defineEmits<{
 
       <a role="menuitem" href="#" class="dropdown-item is-media" @click.prevent="
         () => {
-          emits('projects')
+          emits('conclusion')
           close()
         }
       ">
@@ -35,12 +35,12 @@ const emits = defineEmits<{
           <i aria-hidden="true" class="lnil lnil-briefcase"></i>
         </div>
         <div class="meta">
-          <span>Projects</span>
-          <span>View user projects</span>
+          <span>Conclusions</span>
+          <span>View conclusions</span>
         </div>
       </a>
 
-      <a role="menuitem" href="#" class="dropdown-item is-media" @click.prevent="
+      <!-- <a role="menuitem" href="#" class="dropdown-item is-media" @click.prevent="
         () => {
           emits('schedule')
           close()
@@ -53,7 +53,7 @@ const emits = defineEmits<{
           <span>Schedule</span>
           <span>Schedule a meeting</span>
         </div>
-      </a>
+      </a> -->
 
       <hr class="dropdown-divider" />
 

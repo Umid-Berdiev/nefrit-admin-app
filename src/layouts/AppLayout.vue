@@ -10,6 +10,7 @@ import DashboardsSubsidebar from './sidebar-subsidebar/DashboardsSubsidebar.vue'
 import DashboardsMobileSubsidebar from './mobile-subsidebars/DashboardsMobileSubsidebar.vue';
 import ApplicantsMobileSubsidebar from './mobile-subsidebars/ApplicantsMobileSubsidebar.vue';
 import StatementsMobileSubsidebar from './mobile-subsidebars/StatementsMobileSubsidebar.vue';
+import ConfirmActionModal from '../components/base/modal/ConfirmActionModal.vue';
 
 const props = withDefaults(
   defineProps<{
@@ -147,4 +148,5 @@ console.log('activeMobileSubsidebar: ', activeMobileSubsidebar.value);
       </VPageContent>
     </VViewWrapper>
   </div>
+  <ConfirmActionModal />
 </template>
