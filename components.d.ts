@@ -24,6 +24,7 @@ declare module '@vue/runtime-core' {
     ChatSide: typeof import('./src/components/partials/chat/ChatSide.vue')['default']
     ChatSideFab: typeof import('./src/components/partials/chat/ChatSideFab.vue')['default']
     CollapsedMessaging: typeof import('./src/components/partials/messaging/CollapsedMessaging.vue')['default']
+    ConclusionFlexTableDropdown: typeof import('./src/components/partials/dropdowns/ConclusionFlexTableDropdown.vue')['default']
     ConfirmActionModal: typeof import('./src/components/base/modal/ConfirmActionModal.vue')['default']
     CountrySelect: typeof import('./src/components/forms/selects/CountrySelect.vue')['default']
     DashboardsMobileSubsidebar: typeof import('./src/layouts/mobile-subsidebars/DashboardsMobileSubsidebar.vue')['default']

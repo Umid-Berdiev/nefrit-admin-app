@@ -16,8 +16,8 @@ import FlexTableDropdown from '/@src/components/partials/dropdowns/FlexTableDrop
 import ApplicantConclusionModal from '../../../components/base/modal/ApplicantConclusionModal.vue'
 import { useMainStore } from "/@src/stores";
 
-const mainStore = useMainStore()
 const { t } = useI18n()
+const mainStore = useMainStore()
 const viewWrapper = useViewWrapper()
 viewWrapper.setPageTitle(t('Statements_List'))
 
@@ -135,7 +135,6 @@ function gotoConclusionList(statementId: number) {
   router.push(`/app/statement/${statementId}/conclusions`)
 }
 
-// this is the "Contact me" click handler
 function confirmAction() {
   mainStore.$patch({ confirmModalState: true })
 }
@@ -306,7 +305,5 @@ function confirmAction() {
           :total-items="wrapperState.total" :max-links-displayed="5" no-router />
       </template>
     </VFlexTableWrapper>
-    <!-- <ApplicantFormModal v-model="isFormModalOpen" /> -->
-    <ApplicantConclusionModal v-model="isConclusionModalOpen" />
   </div>
 </template>

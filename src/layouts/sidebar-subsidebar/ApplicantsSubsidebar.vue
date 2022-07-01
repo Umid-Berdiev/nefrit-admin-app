@@ -1,5 +1,11 @@
 <script setup lang="ts">
+import { useRoute } from 'vue-router';
+
 const emit = defineEmits(['close'])
+
+const route = useRoute()
+// console.log({ route: route.path });
+
 </script>
 
 <template>
@@ -28,13 +34,15 @@ const emit = defineEmits(['close'])
           </RouterLink>
         </li>
         <li>
-          <RouterLink class="is-size-6" :to="{ name: 'app-applicant' }">
+          <RouterLink class="is-size-6" :class="{ 'router-link-exact-active': route.path.startsWith('/app/applicant') }"
+            :to="{ name: 'app-applicant' }">
             <i aria-hidden="true" class="lnil lnil-users mr-2"></i>
             {{ $t('Applicants') }}
           </RouterLink>
         </li>
         <li>
-          <RouterLink class="is-size-6" :to="{ name: 'app-statement' }">
+          <RouterLink class="is-size-6" :class="{ 'router-link-exact-active': route.path.startsWith('/app/statement') }"
+            :to="{ name: 'app-statement' }">
             <i aria-hidden="true" class="lnil lnil-users mr-2"></i>
             {{ $t('Statements') }}
           </RouterLink>
