@@ -1,24 +1,20 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { useHead } from '@vueuse/head'
 
 // we import our useApi helper
 import { useApi } from '/@src/composable/useApi'
 import { useViewWrapper } from '/@src/stores/viewWrapper'
 import { useI18n } from 'vue-i18n'
-import VButton from '/@src/components/base/button/VButton.vue'
 import VFlexPagination from '/@src/components/base/pagination/VFlexPagination.vue'
+import { timeline } from '/@src/stores/timeline'
 
 const { t } = useI18n()
 const viewWrapper = useViewWrapper()
-viewWrapper.setPageTitle(t('Applicant_Info'))
+viewWrapper.setPageTitle(t('Statement_Info'))
 
-// We want to retrieve the post from the API where the id matches the current id
-const route = useRoute()
-const currentId = (route.params?.id as string) ?? ''
-
-const applicant = ref<ApplicantInterface>()
+const statement = ref<StatementInterface>()
 const isFormModalOpen = ref(false)
 const data = [
   {
@@ -50,83 +46,50 @@ const columns = {
   },
 }
 
-async function fetchApplicantById(id: number) {
-  const api = useApi()
-  const router = useRouter()
-
-  try {
-    const { data } = await api.get<ApplicantInterface[]>(`/applicants?id=${id}`)
-
-    if (!data.length) {
-      // the applicant does not exist, we replace the route to the 404 page
-      // we also pass the original url to the 404 page as a query parameter
-      // http://localhost:3000/applicant-not-found?original=/blog/a-fake-id
-      router.replace({
-        name: 'all', // this will match the ./src/pages/[...all].vue route
-        params: {
-          all: 'applicant-not-found',
-        },
-        query: {
-          original: router.currentRoute.value.fullPath,
-        },
-      })
-    }
-
-    applicant.value = data[0]
-  } catch (error) {
-    console.error(error)
-  }
-}
-
-// We trigger the fetchArticles function when the component is mounted
-// onMounted(() => {
-//   fetchApplicantById(currentId)
-// })
-
-// here we setup our page meta with our applicant data
+// here we setup our page meta with our statement data
 useHead({
-  title: computed(() => applicant.value?.title ?? 'Loading applicant...'),
+  title: computed(() => statement.value?.title ?? 'Loading statement...'),
 })
 </script>
- <!-- <i class="lnil lnil-tap" aria-hidden="true"></i> -->
+
 <template>
-  <div class="applicant-detail-wrapper">
+  <div class="statement-detail-wrapper">
     <VTabs selected="details" :tabs="[
-      { label: t('Applicant_details'), value: 'details', icon: 'lnil lnil-tap' },
+      { label: t('Statement_details'), value: 'details', icon: 'lnil lnil-tap' },
       {
-        label: t('Applicant_statements'),
+        label: t('Statement_conclusions'),
         value: 'statements',
         icon: 'lnil lnil-euro-down',
       },
+      { label: t('ITK'), value: 'itk', icon: 'feather:activity' },
+      { label: t('Payment'), value: 'payment', icon: 'fas fa-tree' },
       { label: t('Chat'), value: 'chat', icon: 'fas fa-comments' },
     ]">
       <template #tab="{ activeValue }">
-        <div v-if="activeValue === 'details'">
-          <ApplicantForm />
+        <div v-if="activeValue === 'details'" class="columns">
+          <div class="column is-6">
+            <StatementForm />
+          </div>
+          <div class="column is-6">
+            <ListWidgetSingle title="Timeline" straight class="list-widget-v3">
+              <ListWidgetIconTimeline :items="timeline" />
+            </ListWidgetSingle>
+          </div>
         </div>
         <div v-else-if="activeValue === 'statements'">
-          <VFlexTable :data="data" :columns="columns" rounded compact>
-            <template #body-cell="{ row, column, value }">
-              <VAction v-if="column.key === 'actions'">
-                Details
-              </VAction>
-            </template>
-          </VFlexTable>
-          <!-- Table Pagination with wrapperState.page binded-->
-          <VFlexPagination v-model:current-page="data.page" class="mt-6" :item-per-page="data.limit"
-            :total-items="data.total" :max-links-displayed="5" no-router />
+          <StatementConclusionTable />
         </div>
         <div v-else-if="activeValue === 'chat'">
           <MessagingV1 />
         </div>
       </template>
     </VTabs>
-    <ApplicantFormModal v-model="isFormModalOpen" />
+    <!-- <StatementFormModal v-model="isFormModalOpen" /> -->
   </div>
 </template>
 
 <style lang="scss" scoped>
-.applicant-detail-wrapper {
+.statement-detail-wrapper {
   // Here we can add custom styles for the blog page
   // They will be only applied to this component
 }

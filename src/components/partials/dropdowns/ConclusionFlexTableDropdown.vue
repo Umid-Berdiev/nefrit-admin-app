@@ -3,6 +3,7 @@ const emits = defineEmits<{
   (e: 'view'): void
   (e: 'edit'): void
   (e: 'remove'): void
+  (e: 'feedback'): void
 }>()
 </script>
 
@@ -36,6 +37,21 @@ const emits = defineEmits<{
         <div class="meta">
           <span>{{ $t('Edit') }}</span>
           <span>{{ $t('Edit_conclusion') }}</span>
+        </div>
+      </a>
+
+      <a role="menuitem" href="#" class="dropdown-item is-media" @click.prevent="
+        () => {
+          emits('feedback')
+          close()
+        }
+      ">
+        <div class="icon">
+          <i aria-hidden="true" class="lnil lnil-briefcase"></i>
+        </div>
+        <div class="meta">
+          <span>{{ $t('Feedback') }}</span>
+          <span>{{ $t('Leave_feedback') }}</span>
         </div>
       </a>
 

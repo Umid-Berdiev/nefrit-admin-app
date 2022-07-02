@@ -15,6 +15,7 @@ import CountrySelect from '/@src/components/forms/selects/CountrySelect.vue'
 import FlexTableDropdown from '/@src/components/partials/dropdowns/FlexTableDropdown.vue'
 import ApplicantConclusionModal from '../../../components/base/modal/ApplicantConclusionModal.vue'
 import { useMainStore } from "/@src/stores";
+import FeedbackModal from '/@src/components/base/modal/FeedbackModal.vue'
 
 const { t } = useI18n()
 const mainStore = useMainStore()
@@ -30,8 +31,7 @@ const data: User[] = users
 // }
 const filterForm = ref({})
 
-const isFormModalOpen = ref(false)
-const isConclusionModalOpen = ref(false)
+const isFeedbackModalOpen = ref(false)
 const displayFilterForm = ref(false)
 const selectedRowsId = ref<number[]>([])
 const isAllSelected = computed(() => data.length === selectedRowsId.value.length)
@@ -295,7 +295,7 @@ function confirmAction() {
             <template v-else-if="column.key === 'actions'">
               <!-- <ActionButtons @edit="isFormModalOpen = true" /> -->
               <FlexTableDropdown @view="onActionTriggered(row.id)" @conclusion="gotoConclusionList(row.id)"
-                @remove="confirmAction" />
+                @remove="confirmAction" @feedback="isFeedbackModalOpen = true" />
             </template>
           </template>
         </VFlexTable>
@@ -305,5 +305,6 @@ function confirmAction() {
           :total-items="wrapperState.total" :max-links-displayed="5" no-router />
       </template>
     </VFlexTableWrapper>
+    <FeedbackModal v-model="isFeedbackModalOpen" />
   </div>
 </template>

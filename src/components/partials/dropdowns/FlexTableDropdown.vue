@@ -2,8 +2,8 @@
 const emits = defineEmits<{
   (e: 'view'): void
   (e: 'conclusion'): void
-  // (e: 'schedule'): void
   (e: 'remove'): void
+  (e: 'feedback'): void
 }>()
 </script>
 
@@ -40,20 +40,20 @@ const emits = defineEmits<{
         </div>
       </a>
 
-      <!-- <a role="menuitem" href="#" class="dropdown-item is-media" @click.prevent="
+      <a role="menuitem" href="#" class="dropdown-item is-media" @click.prevent="
         () => {
-          emits('schedule')
+          emits('feedback')
           close()
         }
       ">
         <div class="icon">
-          <i aria-hidden="true" class="lnil lnil-calendar"></i>
+          <i aria-hidden="true" class="lnil lnil-briefcase"></i>
         </div>
         <div class="meta">
-          <span>Schedule</span>
-          <span>Schedule a meeting</span>
+          <span>{{ $t('Feedback') }}</span>
+          <span>{{ $t('Leave_feedback') }}</span>
         </div>
-      </a> -->
+      </a>
 
       <hr class="dropdown-divider" />
 

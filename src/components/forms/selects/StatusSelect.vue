@@ -1,18 +1,17 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n';
-import countries from '/@src/assets/json/countries.json'
 
 const props = defineProps({
   modelValue: {
     type: String,
-    default: 'UZ'
+    default: ''
   }
 });
 const emit = defineEmits(['update:modelValue']);
 const { t } = useI18n()
 
-const selectedCountry = computed({
+const selectedStatus = computed({
   get: () => {
     return props.modelValue;
   },
@@ -20,16 +19,16 @@ const selectedCountry = computed({
     emit('update:modelValue', val);
   }
 });
-
+const statuses = ref([])
 </script>
 
 <template>
   <VField>
-    <VLabel>{{ t('Country') }}</VLabel>
+    <VLabel>{{ t('Status') }}</VLabel>
     <VControl>
-      <VSelect v-model="selectedCountry">
+      <VSelect v-model="selectedStatus">
         <VOption value="">{{ t('Select') }} ...</VOption>
-        <VOption v-for="country in countries" :key="country.iso2" :value="country.iso2" v-text="country.name" />
+        <VOption v-for="status in statuses" :key="status.id" :value="status.id" v-text="status.name" />
       </VSelect>
     </VControl>
   </VField>
