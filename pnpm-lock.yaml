@@ -34,6 +34,7 @@ specifiers:
   bulma: 0.9.3
   bulma-checkradio: ^2.1.3
   bulma-css-vars: 0.7.0
+  bulma-timeline: ^3.0.5
   commitlint: 16.2.3
   cross-env: 7.0.3
   cypress: 9.5.4
@@ -137,6 +138,7 @@ dependencies:
   bulma: 0.9.3
   bulma-checkradio: 2.1.3
   bulma-css-vars: 0.7.0_bulma@0.9.3
+  bulma-timeline: 3.0.5
   dayjs: 1.11.1
   defu: 6.0.0
   dragula: 3.7.3
@@ -3528,6 +3530,10 @@ packages:
       color: 4.2.3
       css: 3.0.0
       mkdirp: 1.0.4
+    dev: false
+
+  /bulma-timeline/3.0.5:
+    resolution: {integrity: sha512-gBwdx7PmAEZ/+5zSn/ZBJBqkenT8wi+9nlD0uP8lXa3rGcbhG+fp8Oz98+3O10LQPlUEdKPYEUxtQ55okRfhTQ==}
     dev: false
 
   /bulma/0.9.3:

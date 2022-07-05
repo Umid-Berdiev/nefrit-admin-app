@@ -11,6 +11,7 @@ import CountrySelect from '/@src/components/forms/selects/CountrySelect.vue'
 import { useMainStore } from '/@src/stores'
 import ConclusionFlexTableDropdown from '/@src/components/partials/dropdowns/ConclusionFlexTableDropdown.vue'
 import FeedbackModal from '/@src/components/base/modal/FeedbackModal.vue'
+import VButton from '../button/VButton.vue'
 
 const mainStore = useMainStore()
 const { t } = useI18n()
@@ -53,29 +54,37 @@ const columns = {
     format: (value, row, index) => `${index + 1}`,
     cellClass: 'is-flex-grow-0',
   },
-  bio: { // description column
-    label: t('Conclusion_desc'),
+  invoice: { // created_by column
+    label: t('Invoice'),
+    searchable: true,
+    sortable: true,
+    sort: locationSorter,
+    bold: true
+    // filter: userFilter,
+  },
+  status: { // created_by_dept column
+    label: t('Status'),
+    searchable: true,
+    sortable: true,
+    sort: locationSorter,
+    bold: true
+  },
+  amount: { // description column
+    label: t('Amount'),
+    bold: true
     // inverted: true,
     // grow: true,
   },
-  company: { // created_by_dept column
-    label: t('Department'),
-    searchable: true,
-    sortable: true,
-    sort: locationSorter,
+  paidDate: {
+    label: t('Paid_date'),
+    bold: true
   },
-  name: { // created_by column
-    label: t('Employee_name'),
-    searchable: true,
-    sortable: true,
-    sort: locationSorter,
-    // filter: userFilter,
+  verifiedDate: {
+    label: t('Verified_date'),
+    bold: true
   },
-  date: {
-    label: t('Date')
-  }, // created_at column
-  files: {
-    label: t('Files'),
+  actions: {
+    label: t('Actions'),
     align: 'center',
   },
 } as const
@@ -126,10 +135,10 @@ function confirmAction() {
           </VButton>
         </VButtons>
       </template>
-    </VBlock>
-    <div v-show="displayFilterForm" class="mb-5">
+    </VBlock> -->
+    <!-- <div v-show="displayFilterForm" class="mb-5">
       <VCard radius="small">
-        <h3 class="title is-5 mb-2">{{ t('Filter_form') }}</h3>
+        <h3 class="title is-5 mb-2">{{ t('Payment_status') }}</h3>
         <div class="columns is-desktop">
           <VField class="column">
             <VLabel>{{ t('applied_legal_entity') }}</VLabel>
@@ -172,65 +181,38 @@ function confirmAction() {
     </div> -->
 
     <!-- table -->
-    <h1 class="is-size-3 mb-3">{{ $t('Statement_conclusions') }}</h1>
+    <h1 class="is-size-3 mb-3">{{ $t('Payment_status') }}</h1>
     <VFlexTableWrapper :columns="columns" :data="data">
       <!--
         Here we retrieve the internal wrapperState.
         Note that we can not destructure it
       -->
       <template #default="wrapperState">
-        <!-- We can place any content inside the default slot-->
-        <!-- <VFlexTableToolbar>
-          <template #left>
-            <VField>
-              <VControl icon="feather:search">
-                <input v-model="wrapperState.searchInput" type="text" class="input is-rounded"
-                  :placeholder="t('Search') + '...'" />
-              </VControl>
-            </VField>
-          </template>
-        </VFlexTableToolbar> -->
-
         <VFlexTable rounded>
           <!-- header-column slot -->
           <template #header-column="{ column }">
-            <VCheckbox v-if="column.key === 'select'" class="ml-2 mr-3" :checked="isAllSelected" name="all_selected"
-              color="primary" @click="toggleSelection" />
             <span v-if="column.key === 'orderNumber'" class="is-flex-grow-0" v-text="'#'" />
-            <!-- <span v-if="column.key === 'bio'" :style="{ width: '250px' }" v-text="$t('conclusion_desc')" /> -->
           </template>
 
           <!-- Custom "name" cell content -->
           <template #body-cell="{ row, column }">
-            <VCheckbox v-if="column.key === 'select'" v-model="selectedRowsId" :value="row.id" name="selection"
-              @change="clickOnRow" />
+            <!-- <VCheckbox v-if="column.key === 'select'" v-model="selectedRowsId" :value="row.id" name="selection"
+              @change="clickOnRow" /> -->
 
-            <template v-else-if="column.key === 'bio'">
-              <div style="white-space: break-spaces;">
-                {{ row.bio }}
-              </div>
+            <template v-if="column.key === 'invoice'">
+              <a href="javascript:;" class="has-text-primary">{{ row.invoice }}</a>
             </template>
-            <template v-else-if="column.key === 'files'">
-              <ul>
-                <li>
-                  <a href="javascript:;" class="has-text-primary">file1</a>
-                </li>
-                <li>
-                  <a href="javascript:;" class="has-text-primary">file2</a>
-                </li>
-                <li>
-                  <a href="javascript:;" class="has-text-primary">file3</a>
-                </li>
-              </ul>
+            <template v-if="column.key === 'actions'">
+              <div class="buttons">
+                <VButton class="is-primary is-outlined">{{ $t('Verify') }}</VButton>
+                <VButton class="is-danger is-outlined">{{ $t('Cancel') }}</VButton>
+              </div>
             </template>
           </template>
         </VFlexTable>
-
         <VFlexPagination v-model:current-page="wrapperState.page" class="mt-6" :item-per-page="wrapperState.limit"
           :total-items="wrapperState.total" :max-links-displayed="5" no-router />
       </template>
     </VFlexTableWrapper>
-    <ApplicantConclusionModal v-model="isConclusionModalOpen" />
-    <FeedbackModal v-model="isFeedbackModalOpen" />
   </div>
 </template>

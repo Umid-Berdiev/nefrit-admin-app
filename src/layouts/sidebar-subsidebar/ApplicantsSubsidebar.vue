@@ -11,14 +11,14 @@ const route = useRoute()
 <template>
   <div class="sidebar-panel is-generic px-3">
     <div class="subpanel-header mb-2">
-      <div class="sidebar-brand">
-        <RouterLink :to="{ name: 'index' }">
+      <RouterLink :to="{ name: 'index' }">
+        <div class="sidebar-brand is-flex is-align-items-start">
           <AnimatedLogo width="36px" class="mr-3" />
-          <span class="is-size-3 my-auto">
+          <span class="is-size-3 has-text-primary">
             {{ $t('Nefrit') }}
           </span>
-        </RouterLink>
-      </div>
+        </div>
+      </RouterLink>
       <div class="panel-close" tabindex="0" @keydown.space.prevent="emit('close')" @click="emit('close')">
         <i aria-hidden="true" class="iconify" data-icon="feather:x"></i>
       </div>
@@ -43,8 +43,29 @@ const route = useRoute()
         <li>
           <RouterLink class="is-size-6" :class="{ 'router-link-exact-active': route.path.startsWith('/app/statement') }"
             :to="{ name: 'app-statement' }">
-            <i aria-hidden="true" class="lnil lnil-users mr-2"></i>
+            <i aria-hidden="true" class="lnil lnil-notepad mr-2"></i>
             {{ $t('Statements') }}
+          </RouterLink>
+        </li>
+        <li>
+          <RouterLink class="is-size-6" :class="{ 'router-link-exact-active': route.path.startsWith('/app/users') }"
+            :to="{ name: 'app-users' }">
+            <i aria-hidden="true" class="lnil lnil-users mr-2"></i>
+            {{ $t('Users') }}
+          </RouterLink>
+        </li>
+        <li>
+          <RouterLink class="is-size-6" :class="{ 'router-link-exact-active': route.path.startsWith('/app/reports') }"
+            :to="{ name: 'app-reports' }">
+            <i aria-hidden="true" class="lnil lnil-sales-report mr-2"></i>
+            {{ $t('Reports') }}
+          </RouterLink>
+        </li>
+        <li>
+          <RouterLink class="is-size-6" :class="{ 'router-link-exact-active': route.path.startsWith('/app/handbooks') }"
+            :to="{ name: 'app-handbooks' }">
+            <i aria-hidden="true" class="lnil lnil-database mr-2"></i>
+            {{ $t('Handbooks') }}
           </RouterLink>
         </li>
       </ul>

@@ -4,13 +4,16 @@ import { useRoute } from 'vue-router'
 
 import type { SidebarTheme } from '/@src/components/navigation/desktop/Sidebar.vue'
 import { useViewWrapper } from '/@src/stores/viewWrapper'
-import StatementsSubsidebar from './sidebar-subsidebar/StatementsSubsidebar.vue';
 import ApplicantsSubsidebar from './sidebar-subsidebar/ApplicantsSubsidebar.vue';
-import DashboardsSubsidebar from './sidebar-subsidebar/DashboardsSubsidebar.vue';
 import DashboardsMobileSubsidebar from './mobile-subsidebars/DashboardsMobileSubsidebar.vue';
 import ApplicantsMobileSubsidebar from './mobile-subsidebars/ApplicantsMobileSubsidebar.vue';
 import StatementsMobileSubsidebar from './mobile-subsidebars/StatementsMobileSubsidebar.vue';
 import ConfirmActionModal from '../components/base/modal/ConfirmActionModal.vue';
+import ActivityPanel from '../components/partials/panels/ActivityPanel.vue';
+import LanguagesPanel from '../components/partials/panels/LanguagesPanel.vue';
+import VViewWrapper from '../components/base/layouts/VViewWrapper.vue';
+import ToolbarNotification from '../components/partials/toolbars/ToolbarNotification.vue';
+import Toolbar from '../components/partials/toolbars/Toolbar.vue';
 
 const props = withDefaults(
   defineProps<{
@@ -117,6 +120,7 @@ console.log('activeMobileSubsidebar: ', activeMobileSubsidebar.value);
     </Transition>
 
     <LanguagesPanel />
+    <ActivityPanel />
 
     <VViewWrapper>
       <VPageContent class="is-relative">
@@ -140,7 +144,10 @@ console.log('activeMobileSubsidebar: ', activeMobileSubsidebar.value);
             <h1 class="title is-4">{{ viewWrapper.pageTitle }}</h1>
           </div>
 
-          <Toolbar class="desktop-toolbar" />
+          <Toolbar class="desktop-toolbar">
+            <ToolbarNotification />
+
+          </Toolbar>
         </div>
         <div class="is-divider"></div>
 

@@ -13,8 +13,10 @@ const props = withDefaults(
 <template>
   <div class="list-widget" :class="[props.straight && 'is-straight']">
     <div class="widget-head">
-      <h3 class="dark-inverted">{{ props.title }}</h3>
-      <ListWidgetMainDropdown />
+      <h3 class="dark-inverted is-size-4">{{ props.title }}</h3>
+      <slot name="actions">
+        <ListWidgetMainDropdown />
+      </slot>
     </div>
 
     <div class="inner-list">
@@ -57,7 +59,7 @@ const props = withDefaults(
     padding: 10px 0;
 
     .inner-list-item {
-      + .inner-list-item {
+      +.inner-list-item {
         margin-top: 24px;
       }
     }

@@ -23,27 +23,14 @@ watch(locale, () => {
 </script>
 
 <template>
-  <div
-    id="languages-panel"
-    :class="[panels.active === 'languages' && 'is-active']"
-    class="right-panel-wrapper is-languages"
-  >
-    <div
-      class="panel-overlay"
-      tabindex="0"
-      @keydown.space.prevent="panels.close()"
-      @click="panels.close()"
-    ></div>
+  <div id="languages-panel" :class="[panels.active === 'languages' && 'is-active']"
+    class="right-panel-wrapper is-languages">
+    <div class="panel-overlay" tabindex="0" @keydown.space.prevent="panels.close()" @click="panels.close()"></div>
 
     <div class="right-panel">
       <div class="right-panel-head">
         <h3>{{ t('select-language') }}</h3>
-        <a
-          class="close-panel"
-          tabindex="0"
-          @keydown.space.prevent="panels.close()"
-          @click="panels.close()"
-        >
+        <a class="close-panel" tabindex="0" @keydown.space.prevent="panels.close()" @click="panels.close()">
           <i aria-hidden="true" class="iconify" data-icon="feather:chevron-right"></i>
         </a>
       </div>
@@ -51,13 +38,8 @@ watch(locale, () => {
         <div class="languages-boxes">
           <div v-for="lang in availableLocales" :key="lang" class="language-box">
             <div class="language-option">
-              <input
-                v-model="locale"
-                type="radio"
-                name="language_selection"
-                :value="lang"
-                :checked="locale === defaultLocale"
-              />
+              <input v-model="locale" type="radio" name="language_selection" :value="lang"
+                :checked="locale === defaultLocale" />
               <div class="language-option-inner">
                 <VAvatar :initials="lang" size="medium" />
                 <div class="indicator">
@@ -68,18 +50,10 @@ watch(locale, () => {
           </div>
         </div>
 
-        <div class="img-wrap has-text-centered">
-          <img
-            class="light-image"
-            src="/@src/assets/illustrations/right-panel/languages.svg"
-            alt=""
-          />
-          <img
-            class="dark-image"
-            src="/@src/assets/illustrations/right-panel/languages-dark.svg"
-            alt=""
-          />
-        </div>
+        <!-- <div class="img-wrap has-text-centered">
+          <img class="light-image" src="/@src/assets/illustrations/right-panel/languages.svg" alt="" />
+          <img class="dark-image" src="/@src/assets/illustrations/right-panel/languages-dark.svg" alt="" />
+        </div> -->
       </div>
     </div>
   </div>
@@ -119,7 +93,7 @@ watch(locale, () => {
               z-index: 3;
 
               &:checked {
-                + .language-option-inner {
+                +.language-option-inner {
                   border-color: var(--primary);
 
                   .indicator {
@@ -176,7 +150,7 @@ watch(locale, () => {
         }
       }
 
-      .img-wrap > img {
+      .img-wrap>img {
         display: block;
         max-width: 280px;
         margin: 0 auto;
@@ -194,7 +168,7 @@ watch(locale, () => {
             .language-option {
               input {
                 &:checked {
-                  + .language-option-inner {
+                  +.language-option-inner {
                     border-color: var(--primary);
                   }
                 }

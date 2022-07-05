@@ -9,8 +9,6 @@ const emit = defineEmits(['update:modelValue'])
 </script>
 
 <template>
-  <!-- <VButton bold @click="bigFormOpen = true"> Open Modal </VButton> -->
-
   <VModal :open="modelValue" size="large" :title="$t('edit')" actions="right" @close="emit('update:modelValue', false)">
     <template #content>
       <div class="modal-form">
