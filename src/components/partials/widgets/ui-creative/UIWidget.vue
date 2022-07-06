@@ -223,7 +223,7 @@ const props = defineProps<{
 
       a {
         font-family: var(--font);
-        color: var(--light-text);
+        // color: var(--light-text);
         font-size: 0.95rem;
 
         &:hover,
@@ -282,7 +282,7 @@ const props = defineProps<{
 
         &:hover:not(.is-active) {
           background: var(--fade-grey-light-3);
-          color: var(--light-text);
+          // color: var(--light-text);
         }
 
         &.is-active {
@@ -370,7 +370,7 @@ const props = defineProps<{
           &:nth-child(2) {
             font-size: 0.75rem;
             text-transform: uppercase;
-            color: var(--light-text);
+            // color: var(--light-text);
           }
         }
       }
@@ -390,7 +390,7 @@ const props = defineProps<{
   padding: 10px;
   height: 310px;
 
-  > img {
+  >img {
     display: block;
     height: 100%;
     object-fit: cover;
@@ -445,7 +445,7 @@ const props = defineProps<{
         font-size: 0.75rem;
         font-family: var(--font-alt);
         text-transform: uppercase;
-        color: var(--light-text);
+        // color: var(--light-text);
       }
     }
   }
@@ -513,7 +513,7 @@ const props = defineProps<{
         &.is-placeholder {
           background: var(--fade-grey-light-2);
           border: 1px solid var(--fade-grey-dark-3);
-          color: var(--light-text);
+          // color: var(--light-text);
 
           i {
             font-size: 1.4rem;
@@ -526,7 +526,7 @@ const props = defineProps<{
 
         span {
           font-family: var(--font);
-          color: var(--light-text);
+          // color: var(--light-text);
         }
       }
     }
@@ -546,7 +546,7 @@ const props = defineProps<{
   .widget-content {
     display: flex;
 
-    > img {
+    >img {
       height: 100px;
       width: 100px;
       border-radius: 10px;
@@ -559,7 +559,7 @@ const props = defineProps<{
       flex-direction: column;
       font-family: var(--font);
 
-      > svg {
+      >svg {
         height: 20px;
         width: 20px;
         stroke-width: 1.6px;
@@ -579,7 +579,7 @@ const props = defineProps<{
         display: flex;
         align-items: center;
         margin-top: auto;
-        color: var(--light-text);
+        // color: var(--light-text);
 
         svg {
           height: 14px;
@@ -657,7 +657,7 @@ const props = defineProps<{
       }
 
       small {
-        color: var(--light-text);
+        // color: var(--light-text);
       }
     }
   }
@@ -842,7 +842,7 @@ const props = defineProps<{
 
         &:hover:not(.is-active) {
           background: var(--fade-grey-light-3);
-          color: var(--light-text);
+          // color: var(--light-text);
         }
 
         &.is-rounded {
@@ -1093,7 +1093,7 @@ const props = defineProps<{
 
         i {
           font-size: 14px;
-          color: var(--light-text);
+          // color: var(--light-text);
         }
       }
 
@@ -1104,7 +1104,7 @@ const props = defineProps<{
 
           &:first-child {
             font-weight: 500;
-            color: var(--light-text);
+            // color: var(--light-text);
           }
         }
       }
@@ -1137,7 +1137,7 @@ const props = defineProps<{
 
           &:first-child {
             font-size: 0.9rem;
-            color: var(--light-text);
+            // color: var(--light-text);
           }
 
           &:nth-child(2) {
@@ -1167,6 +1167,7 @@ const props = defineProps<{
   }
 
   .illustration-widget {
+
     &.illustration-widget-v1,
     &.illustration-widget-v2,
     &.illustration-widget-v3 {
@@ -1224,7 +1225,7 @@ const props = defineProps<{
 
   .video-widget {
     .widget-meta {
-      > svg {
+      >svg {
         color: var(--primary);
       }
 
@@ -1316,11 +1317,9 @@ const props = defineProps<{
   .image-widget {
     .progress-wrap {
       .progress {
-        background-image: linear-gradient(
-          to right,
-          var(--primary) 30%,
-          #000 30%
-        ) !important;
+        background-image: linear-gradient(to right,
+            var(--primary) 30%,
+            #000 30%) !important;
       }
     }
   }
@@ -1394,7 +1393,7 @@ const props = defineProps<{
         .inner-button {
           &:hover:not(.is-active) {
             background: var(--dark-sidebar-light-2);
-            color: var(--light-text);
+            // color: var(--light-text);
           }
         }
       }

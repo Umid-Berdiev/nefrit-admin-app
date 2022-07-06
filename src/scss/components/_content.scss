@@ -16,12 +16,12 @@
     font-family: var(--font);
 
     &.is-light {
-      color: var(--light-text);
+      // color: var(--light-text);
     }
   }
 
   blockquote {
-    color: var(--light-text);
+    // color: var(--light-text);
 
     &.is-primary {
       border-color: var(--primary);
@@ -51,7 +51,7 @@
     }
 
     td {
-      color: var(--light-text);
+      // color: var(--light-text);
     }
   }
 }

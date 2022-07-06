@@ -133,10 +133,10 @@ const columns = computed(() => {
               props.clickable && emits('rowClick', row, index)
             }
           " @click="
-  () => {
-    props.clickable && emits('rowClick', row, index)
-  }
-">
+            () => {
+              props.clickable && emits('rowClick', row, index)
+            }
+          ">
           <slot name="body-row" :row="row" :columns="columns" :index="index">
             <template v-for="column in columns" :key="'row' + column.key">
               <VFlexTableCell :column="column">
@@ -147,10 +147,10 @@ const columns = computed(() => {
                   <span v-else-if="
                     typeof column.format(row[column.key], row, index) === 'object'
                   " :class="[
-  column.cellClass,
-  column.inverted && 'dark-inverted',
-  !column.inverted && (column.bold ? 'dark-text' : ''),
-]">
+                    column.cellClass,
+                    column.inverted && 'dark-inverted',
+                    !column.inverted && (column.bold ? 'dark-text' : ''),
+                  ]">
                     <details v-if="printObjects">
                       <div class="language-json py-4">
                         <pre><code>{{ column.format(row[column.key], row, index) }}</code></pre>
@@ -273,7 +273,7 @@ const columns = computed(() => {
         font-family: var(--font);
         text-transform: uppercase;
         font-size: 0.8rem;
-        color: var(--light-text);
+        // color: var(--light-text);
       }
 
       .table-total {

@@ -76,7 +76,7 @@
   .multiselect-placeholder,
   .multiselect-multiple-label {
     font-size: 0.9rem;
-    color: var(--light-text);
+    // color: var(--light-text);
     padding-left: 1rem;
   }
 
@@ -93,7 +93,7 @@
         padding-right: 4px;
 
         &::before {
-          color: var(--light-text);
+          // color: var(--light-text);
         }
 
         &:hover {
@@ -147,7 +147,7 @@
           font-family: 'Font Awesome 5 Free';
           font-weight: 900;
           font-size: 0.9rem;
-          color: var(--light-text);
+          // color: var(--light-text);
         }
       }
 
@@ -165,7 +165,7 @@
       width: 100%;
       font-family: var(--font);
       font-size: 0.95rem;
-      color: var(--light-text);
+      // color: var(--light-text);
     }
   }
 }
@@ -211,7 +211,7 @@
     .multiselect-tags-search,
     .multiselect-search {
       background: transparent;
-      color: var(--light-text);
+      // color: var(--light-text);
     }
 
     .multiselect-single-label {
@@ -238,7 +238,7 @@
       border-color: var(--dark-sidebar-light-4);
 
       .multiselect-option {
-        color: var(--light-text);
+        // color: var(--light-text);
 
         &.is-pointed {
           background: var(--dark-sidebar-light-6);
@@ -371,13 +371,13 @@
       min-width: 22px;
       border-radius: 0.15rem;
       font-size: 1rem;
-      color: var(--light-text);
+      // color: var(--light-text);
     }
 
     .select-option-text {
       font-family: var(--font);
       font-size: 0.9rem;
-      color: var(--light-text);
+      // color: var(--light-text);
     }
 
     .select-label-text {
@@ -402,7 +402,7 @@
       justify-content: center;
       border-radius: 0.15rem;
       font-size: 1.1rem;
-      color: var(--light-text);
+      // color: var(--light-text);
     }
 
     .select-option-label {
@@ -555,7 +555,7 @@
         }
 
         i::before {
-          color: var(--light-text);
+          // color: var(--light-text);
           border-radius: var(--radius-rounded);
           margin-left: 0.5rem;
           padding: 0;

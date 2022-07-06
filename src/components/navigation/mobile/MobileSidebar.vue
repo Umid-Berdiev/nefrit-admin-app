@@ -26,13 +26,8 @@ const props = defineProps<{
     </div>
   </div>
 
-  <div
-    v-if="props.isOpen"
-    class="mobile-overlay"
-    tabindex="0"
-    @keydown.space.prevent="emit('toggle')"
-    @click="emit('toggle')"
-  ></div>
+  <div v-if="props.isOpen" class="mobile-overlay" tabindex="0" @keydown.space.prevent="emit('toggle')"
+    @click="emit('toggle')"></div>
 </template>
 
 <style lang="scss">
@@ -87,12 +82,12 @@ const props = defineProps<{
 
           &:hover,
           &.is-active {
-            > svg {
+            >svg {
               color: var(--primary);
             }
           }
 
-          > svg {
+          >svg {
             color: var(--title-grey);
             height: 20px;
             width: 20px;
@@ -272,13 +267,13 @@ const props = defineProps<{
             min-height: 36px;
             align-items: stretch;
 
-            > a {
+            >a {
               font-family: var(--font-alt);
               display: flex;
               align-items: center;
               font-size: 0.9rem;
               font-weight: 500;
-              color: var(--light-text);
+              // color: var(--light-text);
 
               svg {
                 position: relative;
@@ -344,7 +339,7 @@ const props = defineProps<{
           padding: 6px 0;
           width: 100%;
           display: block;
-          color: var(--light-text);
+          // color: var(--light-text);
         }
       }
     }
@@ -669,7 +664,7 @@ const props = defineProps<{
         &.has-children {
           &.active {
             .collapse-wrap {
-              > a {
+              >a {
                 color: var(--smoke-white);
               }
             }
@@ -687,6 +682,7 @@ const props = defineProps<{
 
         .recipient-meta {
           span {
+
             &:first-child,
             &.is-unread {
               color: var(--primary-grey) !important;
@@ -695,6 +691,7 @@ const props = defineProps<{
         }
 
         .user-group {
+
           img,
           span {
             border-color: var(--dark-sidebar-light-2) !important;

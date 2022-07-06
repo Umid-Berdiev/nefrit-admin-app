@@ -1,7 +1,7 @@
 /*! _editors.scss | Vuero | Css Ninja 2020-2021 */
 
 /*
-    1. Summernote Editor    
+    1. Summernote Editor
     2. Summernote Dark mode
     3. Sun Editor Dark mode
 */
@@ -29,7 +29,7 @@
           font-family: var(--font);
           font-size: 1rem;
           font-weight: 400;
-          color: var(--light-text);
+          // color: var(--light-text);
         }
       }
     }
@@ -80,7 +80,7 @@
           border-color: var(--dark-sidebar-light-8);
 
           .note-dropdown-item {
-            color: var(--light-text);
+            // color: var(--light-text);
 
             &:hover,
             &:focus {
@@ -158,7 +158,7 @@
         input {
           background: var(--dark-sidebar-dark-2);
           border-color: var(--dark-sidebar-light-8);
-          color: var(--light-text);
+          // color: var(--light-text);
           height: 38px;
           border-radius: var(--radius);
         }

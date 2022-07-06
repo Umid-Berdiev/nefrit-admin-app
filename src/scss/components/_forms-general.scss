@@ -612,7 +612,7 @@ select {
         }
 
         p {
-          color: var(--light-text);
+          // color: var(--light-text);
           font-size: 0.95rem;
           max-width: 420px;
           margin: 0 auto;
@@ -656,7 +656,7 @@ select {
 
           &:nth-child(2) {
             font-size: 0.85rem;
-            color: var(--light-text);
+            // color: var(--light-text);
           }
         }
       }
@@ -874,7 +874,7 @@ select {
   .lnil {
     pointer-events: none;
     font-size: 2.4rem;
-    color: var(--light-text);
+    // color: var(--light-text);
     transition: color 0.3s;
   }
 

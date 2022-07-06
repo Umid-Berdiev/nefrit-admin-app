@@ -14,6 +14,13 @@ const props = withDefaults(defineProps<VBlockProps>(), {
   subtitle: undefined,
   infratitle: undefined,
 })
+
+const emits = defineEmits<{
+  (e: 'add'): void
+  (e: 'print'): void
+  (e: 'filter'): void
+  (e: 'remove'): void
+}>()
 </script>
 
 <template>
@@ -34,7 +41,32 @@ const props = withDefaults(defineProps<VBlockProps>(), {
       <slot></slot>
     </div>
     <div class="flex-end">
-      <slot name="action"></slot>
+      <VButtons>
+        <VButton outlined rounded color="info" icon="feather:plus" @click.prevent="
+        () => {
+          emits('add')
+        }"> {{ $t('Add') }}
+        </VButton>
+        <VButton outlined rounded color="primary" icon="feather:printer" @click.prevent="
+        () => {
+          emits('print')
+        }">
+          {{ $t('Print') }}
+        </VButton>
+        <VButton outlined rounded color="warning" icon="feather:filter" @click.prevent="
+        () => {
+          emits('filter')
+        }">
+          {{ $t('Filter') }}
+        </VButton>
+        <!-- <VButton outlined rounded color="info" icon="feather:eye"> View </VButton> -->
+        <VButton outlined rounded color="danger" icon="feather:trash" @click.prevent="
+        () => {
+          emits('remove')
+        }">
+          {{ $t('Delete_selected') }}
+        </VButton>
+      </VButtons>
     </div>
   </div>
 </template>

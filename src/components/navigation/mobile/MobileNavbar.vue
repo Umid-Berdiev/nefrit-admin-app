@@ -8,22 +8,14 @@ const props = defineProps<{
 </script>
 
 <template>
-  <nav
-    class="navbar mobile-navbar is-hidden-desktop is-hidden-tablet"
-    aria-label="main navigation"
-  >
+  <nav class="navbar mobile-navbar is-hidden-desktop is-hidden-tablet" aria-label="main navigation">
     <div class="container">
       <!-- Brand -->
       <div class="navbar-brand">
         <!-- Mobile menu toggler icon -->
         <div class="brand-start">
-          <div
-            class="navbar-burger"
-            :class="[props.isOpen && 'is-active']"
-            tabindex="0"
-            @keydown.space.prevent="emit('toggle')"
-            @click="emit('toggle')"
-          >
+          <div class="navbar-burger" :class="[props.isOpen && 'is-active']" tabindex="0"
+            @keydown.space.prevent="emit('toggle')" @click="emit('toggle')">
             <span></span>
             <span></span>
             <span></span>
@@ -157,7 +149,7 @@ const props = defineProps<{
 
                 &:nth-child(2) {
                   text-transform: uppercase;
-                  color: var(--light-text);
+                  // color: var(--light-text);
                   font-size: 0.7rem;
                 }
               }
@@ -331,7 +323,7 @@ const props = defineProps<{
             h6 {
               font-size: 0.9rem;
               font-weight: 500;
-              color: var(--light-text);
+              // color: var(--light-text);
               line-height: 1.1;
             }
           }
@@ -388,7 +380,7 @@ const props = defineProps<{
 
                 .time {
                   margin: 0;
-                  color: var(--light-text);
+                  // color: var(--light-text);
                 }
               }
             }
@@ -540,7 +532,7 @@ const props = defineProps<{
           color: var(--primary-grey);
 
           &:focus {
-            ~ span svg {
+            ~span svg {
               color: var(--primary);
             }
           }

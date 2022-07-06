@@ -105,7 +105,7 @@
     a {
       font-family: var(--font-alt);
       font-size: 0.9rem;
-      color: var(--light-text);
+      // color: var(--light-text);
       transition: color 0.3s;
 
       &:hover,
@@ -122,7 +122,7 @@
 
     .setting-meta {
       font-family: var(--font);
-      color: var(--light-text);
+      // color: var(--light-text);
       margin-left: 8px;
     }
   }

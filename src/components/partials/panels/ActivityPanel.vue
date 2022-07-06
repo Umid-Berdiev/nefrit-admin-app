@@ -10,27 +10,14 @@ const activeTab = ref<TabId>('team')
 </script>
 
 <template>
-  <div
-    id="activity-panel"
-    :class="[panels.active === 'activity' && 'is-active']"
-    class="right-panel-wrapper is-activity"
-  >
-    <div
-      class="panel-overlay"
-      tabindex="0"
-      @keydown.space.prevent="panels.close()"
-      @click="panels.close()"
-    ></div>
+  <div id="activity-panel" :class="[panels.active === 'activity' && 'is-active']"
+    class="right-panel-wrapper is-activity">
+    <div class="panel-overlay" tabindex="0" @keydown.space.prevent="panels.close()" @click="panels.close()"></div>
 
     <div class="right-panel">
       <div class="right-panel-head">
         <h3>Activity</h3>
-        <a
-          class="close-panel"
-          tabindex="0"
-          @keydown.space.prevent="panels.close()"
-          @click="panels.close()"
-        >
+        <a class="close-panel" tabindex="0" @keydown.space.prevent="panels.close()" @click="panels.close()">
           <i aria-hidden="true" class="iconify" data-icon="feather:chevron-right"></i>
         </a>
       </div>
@@ -39,28 +26,16 @@ const activeTab = ref<TabId>('team')
           <div class="tabs">
             <ul>
               <li :class="[activeTab === 'team' && 'is-active']">
-                <a
-                  tabindex="0"
-                  @keydown.space.prevent="activeTab = 'team'"
-                  @click="activeTab = 'team'"
-                  ><span>Team</span></a
-                >
+                <a tabindex="0" @keydown.space.prevent="activeTab = 'team'"
+                  @click="activeTab = 'team'"><span>Team</span></a>
               </li>
               <li :class="[activeTab === 'projects' && 'is-active']">
-                <a
-                  tabindex="0"
-                  @keydown.space.prevent="activeTab = 'projects'"
-                  @click="activeTab = 'projects'"
-                  ><span>Projects</span></a
-                >
+                <a tabindex="0" @keydown.space.prevent="activeTab = 'projects'"
+                  @click="activeTab = 'projects'"><span>Projects</span></a>
               </li>
               <li :class="[activeTab === 'schedule' && 'is-active']">
-                <a
-                  tabindex="0"
-                  @keydown.space.prevent="activeTab = 'schedule'"
-                  @click="activeTab = 'schedule'"
-                  ><span>Schedule</span></a
-                >
+                <a tabindex="0" @keydown.space.prevent="activeTab = 'schedule'"
+                  @click="activeTab = 'schedule'"><span>Schedule</span></a>
               </li>
               <li class="tab-naver"></li>
             </ul>
@@ -68,17 +43,10 @@ const activeTab = ref<TabId>('team')
         </div>
 
         <div class="right-panel-body">
-          <div
-            id="team-side-tab"
-            class="tab-content"
-            :class="[activeTab === 'team' && 'is-active']"
-          >
+          <div id="team-side-tab" class="tab-content" :class="[activeTab === 'team' && 'is-active']">
             <!--Team Member-->
             <div class="team-card">
-              <VAvatar
-                picture="/demo/avatars/12.jpg"
-                badge="/images/icons/flags/united-states-of-america.svg"
-              />
+              <VAvatar picture="/demo/avatars/12.jpg" badge="/images/icons/flags/united-states-of-america.svg" />
 
               <div class="meta">
                 <span>Joshua S.</span>
@@ -94,10 +62,7 @@ const activeTab = ref<TabId>('team')
 
             <!--Team Member-->
             <div class="team-card">
-              <VAvatar
-                picture="/demo/avatars/25.jpg"
-                badge="/images/icons/flags/united-states-of-america.svg"
-              />
+              <VAvatar picture="/demo/avatars/25.jpg" badge="/images/icons/flags/united-states-of-america.svg" />
 
               <div class="meta">
                 <span>Melany W.</span>
@@ -113,10 +78,7 @@ const activeTab = ref<TabId>('team')
 
             <!--Team Member-->
             <div class="team-card">
-              <VAvatar
-                picture="/demo/avatars/18.jpg"
-                badge="/images/icons/flags/united-states-of-america.svg"
-              />
+              <VAvatar picture="/demo/avatars/18.jpg" badge="/images/icons/flags/united-states-of-america.svg" />
 
               <div class="meta">
                 <span>Esteban C.</span>
@@ -132,10 +94,7 @@ const activeTab = ref<TabId>('team')
 
             <!--Team Member-->
             <div class="team-card">
-              <VAvatar
-                picture="/demo/avatars/13.jpg"
-                badge="/images/icons/flags/united-states-of-america.svg"
-              />
+              <VAvatar picture="/demo/avatars/13.jpg" badge="/images/icons/flags/united-states-of-america.svg" />
 
               <div class="meta">
                 <span>Tara S.</span>
@@ -150,30 +109,18 @@ const activeTab = ref<TabId>('team')
             </div>
           </div>
 
-          <div
-            id="projects-side-tab"
-            class="tab-content"
-            :class="[activeTab === 'projects' && 'is-active']"
-          >
+          <div id="projects-side-tab" class="tab-content" :class="[activeTab === 'projects' && 'is-active']">
             <!--Project-->
             <div class="project-card">
               <div class="project-inner">
-                <img
-                  class="project-avatar"
-                  src="/images/icons/logos/slicer.svg"
-                  alt=""
-                  @error.once="(event) => onceImageErrored(event, '150x150')"
-                />
+                <img class="project-avatar" src="/images/icons/logos/slicer.svg" alt=""
+                  @error.once="(event) => onceImageErrored(event, '150x150')" />
                 <div class="meta">
                   <span>The slicer project</span>
                   <span>getslicer.io</span>
                 </div>
                 <a class="link">
-                  <i
-                    aria-hidden="true"
-                    class="iconify"
-                    data-icon="feather:arrow-right"
-                  ></i>
+                  <i aria-hidden="true" class="iconify" data-icon="feather:arrow-right"></i>
                 </a>
               </div>
               <div class="project-foot">
@@ -193,22 +140,14 @@ const activeTab = ref<TabId>('team')
             <!--Project-->
             <div class="project-card">
               <div class="project-inner">
-                <img
-                  class="project-avatar"
-                  src="/images/icons/logos/metamovies.svg"
-                  alt=""
-                  @error.once="(event) => onceImageErrored(event, '150x150')"
-                />
+                <img class="project-avatar" src="/images/icons/logos/metamovies.svg" alt=""
+                  @error.once="(event) => onceImageErrored(event, '150x150')" />
                 <div class="meta">
                   <span>Metamovies reworked</span>
                   <span>metamovies.co</span>
                 </div>
                 <a class="link">
-                  <i
-                    aria-hidden="true"
-                    class="iconify"
-                    data-icon="feather:arrow-right"
-                  ></i>
+                  <i aria-hidden="true" class="iconify" data-icon="feather:arrow-right"></i>
                 </a>
               </div>
               <div class="project-foot">
@@ -227,22 +166,14 @@ const activeTab = ref<TabId>('team')
             <!--Project-->
             <div class="project-card">
               <div class="project-inner">
-                <img
-                  class="project-avatar"
-                  src="/images/icons/logos/fastpizza.svg"
-                  alt=""
-                  @error.once="(event) => onceImageErrored(event, '150x150')"
-                />
+                <img class="project-avatar" src="/images/icons/logos/fastpizza.svg" alt=""
+                  @error.once="(event) => onceImageErrored(event, '150x150')" />
                 <div class="meta">
                   <span>Fast Pizza redesign</span>
                   <span>fastpizza.com</span>
                 </div>
                 <a class="link">
-                  <i
-                    aria-hidden="true"
-                    class="iconify"
-                    data-icon="feather:arrow-right"
-                  ></i>
+                  <i aria-hidden="true" class="iconify" data-icon="feather:arrow-right"></i>
                 </a>
               </div>
               <div class="project-foot">
@@ -259,21 +190,13 @@ const activeTab = ref<TabId>('team')
             </div>
           </div>
 
-          <div
-            id="schedule-side-tab"
-            class="tab-content"
-            :class="[activeTab === 'schedule' && 'is-active']"
-          >
+          <div id="schedule-side-tab" class="tab-content" :class="[activeTab === 'schedule' && 'is-active']">
             <!--Timeline-->
             <div class="icon-timeline">
               <!--Timeline item-->
               <div class="timeline-item">
                 <div class="timeline-icon">
-                  <i
-                    aria-hidden="true"
-                    class="iconify"
-                    data-icon="feather:phone-call"
-                  ></i>
+                  <i aria-hidden="true" class="iconify" data-icon="feather:phone-call"></i>
                 </div>
                 <div class="timeline-content">
                   <p>Call Danny at Colby's</p>
@@ -283,12 +206,8 @@ const activeTab = ref<TabId>('team')
               <!--Timeline item-->
               <div class="timeline-item">
                 <div class="timeline-icon">
-                  <img
-                    class="avatar"
-                    src="/demo/avatars/7.jpg"
-                    alt=""
-                    @error.once="(event) => onceImageErrored(event, '150x150')"
-                  />
+                  <img class="avatar" src="/demo/avatars/7.jpg" alt=""
+                    @error.once="(event) => onceImageErrored(event, '150x150')" />
                 </div>
                 <div class="timeline-content">
                   <p>Meeting with Alice</p>
@@ -298,11 +217,7 @@ const activeTab = ref<TabId>('team')
               <!--Timeline item-->
               <div class="timeline-item">
                 <div class="timeline-icon">
-                  <i
-                    aria-hidden="true"
-                    class="iconify"
-                    data-icon="feather:message-circle"
-                  ></i>
+                  <i aria-hidden="true" class="iconify" data-icon="feather:message-circle"></i>
                 </div>
                 <div class="timeline-content">
                   <p>Answer Annie's message</p>
@@ -332,11 +247,7 @@ const activeTab = ref<TabId>('team')
               <!--Timeline item-->
               <div class="timeline-item">
                 <div class="timeline-icon">
-                  <i
-                    aria-hidden="true"
-                    class="iconify"
-                    data-icon="feather:phone-call"
-                  ></i>
+                  <i aria-hidden="true" class="iconify" data-icon="feather:phone-call"></i>
                 </div>
                 <div class="timeline-content">
                   <p>Call Trisha Jackson</p>
@@ -395,7 +306,7 @@ const activeTab = ref<TabId>('team')
               }
 
               &:nth-child(2) {
-                color: var(--light-text);
+                // color: var(--light-text);
                 font-size: 0.9rem;
 
                 svg {
@@ -431,7 +342,7 @@ const activeTab = ref<TabId>('team')
             svg {
               height: 16px;
               width: 16px;
-              color: var(--light-text);
+              // color: var(--light-text);
             }
           }
         }
@@ -468,7 +379,7 @@ const activeTab = ref<TabId>('team')
 
                 &:nth-child(2) {
                   font-family: var(--font);
-                  color: var(--light-text);
+                  // color: var(--light-text);
                   font-size: 0.9rem;
                 }
               }
@@ -500,7 +411,7 @@ const activeTab = ref<TabId>('team')
               svg {
                 height: 16px;
                 width: 16px;
-                color: var(--light-text);
+                // color: var(--light-text);
               }
             }
           }
@@ -520,7 +431,7 @@ const activeTab = ref<TabId>('team')
 
               span {
                 font-family: var(--font);
-                color: var(--light-text);
+                // color: var(--light-text);
               }
             }
           }
@@ -554,7 +465,7 @@ const activeTab = ref<TabId>('team')
               background: var(--white);
               border: 1px solid var(--fade-grey-dark-3);
               border-radius: var(--radius-rounded);
-              color: var(--light-text);
+              // color: var(--light-text);
               box-shadow: var(--light-box-shadow);
 
               &::after {
@@ -592,7 +503,7 @@ const activeTab = ref<TabId>('team')
 
               span {
                 font-size: 0.85rem;
-                color: var(--light-text);
+                // color: var(--light-text);
               }
             }
           }
@@ -617,6 +528,7 @@ const activeTab = ref<TabId>('team')
   .right-panel-wrapper {
     &.is-activity {
       .right-panel-body {
+
         .team-card,
         .project-card {
           @include vuero-card--dark;

@@ -2,9 +2,8 @@
 
 const emits = defineEmits<{
   (e: 'view'): void
-  (e: 'conclusion'): void
+  (e: 'edit'): void
   (e: 'remove'): void
-  (e: 'feedback'): void
 }>()
 </script>
 
@@ -28,7 +27,7 @@ const emits = defineEmits<{
 
       <a role="menuitem" href="#" class="dropdown-item is-media" @click.prevent="
         () => {
-          emits('conclusion')
+          emits('edit')
           close()
         }
       ">
@@ -36,23 +35,8 @@ const emits = defineEmits<{
           <i aria-hidden="true" class="lnil lnil-briefcase"></i>
         </div>
         <div class="meta">
-          <span>Conclusions</span>
-          <span>View conclusions</span>
-        </div>
-      </a>
-
-      <a role="menuitem" href="#" class="dropdown-item is-media" @click.prevent="
-        () => {
-          emits('feedback')
-          close()
-        }
-      ">
-        <div class="icon">
-          <i aria-hidden="true" class="lnil lnil-briefcase"></i>
-        </div>
-        <div class="meta">
-          <span>{{ $t('Feedback') }}</span>
-          <span>{{ $t('Leave_feedback') }}</span>
+          <span>Edit</span>
+          <span>Edit user</span>
         </div>
       </a>
 
@@ -69,7 +53,7 @@ const emits = defineEmits<{
         </div>
         <div class="meta">
           <span>Remove</span>
-          <span>Remove from list</span>
+          <span>Remove user</span>
         </div>
       </a>
     </template>

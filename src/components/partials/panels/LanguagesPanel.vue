@@ -12,7 +12,8 @@ const { locale, t, availableLocales } = useI18n()
  * We use the same storage key as we use in the /src/i18n.ts file
  * so if user reload the page, the selected language will be the same
  */
-const defaultLocale = useStorage('locale', navigator?.language || 'uz')
+// const defaultLocale = useStorage('locale', navigator?.language || 'uz')
+const defaultLocale = useStorage('locale', 'uz')
 
 /**
  * Each time we change the locale, we persit it in the storage

@@ -42,49 +42,26 @@ const props = withDefaults(defineProps<VAvatarProps>(), {
 </script>
 
 <template>
-  <div
-    class="v-avatar"
-    :class="[
-      size && `is-${props.size}`,
-      dot && 'has-dot',
-      dotColor && `dot-${props.dotColor}`,
-      squared && dot && 'has-dot-squared',
-    ]"
-  >
+  <div class="v-avatar" :class="[
+    size && `is-${props.size}`,
+    dot && 'has-dot',
+    dotColor && `dot-${props.dotColor}`,
+    squared && dot && 'has-dot-squared',
+  ]">
     <slot name="avatar">
-      <img
-        v-if="props.picture"
-        class="avatar"
-        :class="[props.squared && 'is-squared', props.pictureDark && 'light-image']"
-        :src="props.picture"
-        alt=""
-        @error.once="(event) => onceImageErrored(event, '150x150')"
-      />
-      <span
-        v-else
-        class="avatar is-fake"
-        :class="[props.squared && 'is-squared', props.color && `is-${props.color}`]"
-      >
+      <img v-if="props.picture" class="avatar"
+        :class="[props.squared && 'is-squared', props.pictureDark && 'light-image']" :src="props.picture" alt=""
+        @error.once="(event) => onceImageErrored(event, '150x150')" />
+      <span v-else class="avatar is-fake" :class="[props.squared && 'is-squared', props.color && `is-${props.color}`]">
         <span>{{ props.initials }}</span>
       </span>
-      <img
-        v-if="props.picture && props.pictureDark"
-        class="avatar dark-image"
-        :class="[props.squared && 'is-squared']"
-        :src="props.pictureDark"
-        alt=""
-        @error.once="(event) => onceImageErrored(event, '150x150')"
-      />
+      <img v-if="props.picture && props.pictureDark" class="avatar dark-image" :class="[props.squared && 'is-squared']"
+        :src="props.pictureDark" alt="" @error.once="(event) => onceImageErrored(event, '150x150')" />
     </slot>
 
     <slot name="badge">
-      <img
-        v-if="props.badge"
-        class="badge"
-        :src="props.badge"
-        alt=""
-        @error.once="(event) => onceImageErrored(event, '150x150')"
-      />
+      <img v-if="props.badge" class="badge" :src="props.badge" alt=""
+        @error.once="(event) => onceImageErrored(event, '150x150')" />
     </slot>
   </div>
 </template>
@@ -295,7 +272,7 @@ const props = withDefaults(defineProps<VAvatarProps>(), {
           display: block;
           font-size: 0.9rem;
           font-weight: 500;
-          color: var(--light-text);
+          // color: var(--light-text);
         }
       }
     }

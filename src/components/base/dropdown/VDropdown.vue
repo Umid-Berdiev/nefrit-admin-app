@@ -28,37 +28,21 @@ defineExpose({
 </script>
 
 <template>
-  <div
-    ref="dropdownElement"
-    :class="[
-      props.right && 'is-right',
-      props.up && 'is-up',
-      props.icon && 'is-dots',
-      props.modern && 'is-modern',
-      props.spaced && 'is-spaced',
-    ]"
-    class="dropdown"
-  >
+  <div ref="dropdownElement" :class="[
+    props.right && 'is-right',
+    props.up && 'is-up',
+    props.icon && 'is-dots',
+    props.modern && 'is-modern',
+    props.spaced && 'is-spaced',
+  ]" class="dropdown">
     <slot name="button" v-bind="dropdown">
-      <a
-        v-if="props.icon"
-        tabindex="0"
-        class="is-trigger dropdown-trigger"
-        aria-label="View more actions"
-        @keydown.space.prevent="dropdown.toggle"
-        @click="dropdown.toggle"
-      >
-        <VIcon :icon="props.icon" />
+      <a v-if="props.icon" tabindex="0" class="is-trigger dropdown-trigger" aria-label="View more actions"
+        @keydown.space.prevent="dropdown.toggle" @click="dropdown.toggle">
+        <VIcon :icon="props.icon" class="has-text-primary" />
       </a>
 
-      <a
-        v-else
-        tabindex="0"
-        class="is-trigger button dropdown-trigger"
-        :class="[props.color && `is-${props.color}`]"
-        @keydown.space.prevent="dropdown.toggle"
-        @click="dropdown.toggle"
-      >
+      <a v-else tabindex="0" class="is-trigger button dropdown-trigger" :class="[props.color && `is-${props.color}`]"
+        @keydown.space.prevent="dropdown.toggle" @click="dropdown.toggle">
         <span v-if="props.title">{{ props.title }}</span>
         <span :class="[!props.modern && 'base-caret', props.modern && 'base-caret']">
           <VIcon v-if="!dropdown.isOpen" icon="fa:angle-down" />
@@ -78,6 +62,7 @@ defineExpose({
 <style lang="scss">
 .dropdown {
   &.is-dots {
+
     &:hover,
     &.is-active {
       .is-trigger {
@@ -106,7 +91,7 @@ defineExpose({
       svg {
         height: 20px;
         width: 20px;
-        color: var(--light-text);
+        // color: var(--light-text);
         stroke-width: 1.6px;
         transition: stroke 0.3s;
       }
@@ -145,7 +130,7 @@ defineExpose({
         svg {
           height: 16px;
           width: 16px;
-          color: var(--light-text);
+          // color: var(--light-text);
         }
       }
     }
@@ -176,7 +161,7 @@ defineExpose({
     .dropdown-item {
       padding: 0.5rem 1rem;
       font-size: 0.95rem;
-      color: var(--light-text);
+      // color: var(--light-text);
       transition: all 0.3s; // transition-all test
 
       &:not(.is-button):hover,
@@ -257,7 +242,7 @@ defineExpose({
 
             &:nth-child(2) {
               font-family: var(--font);
-              color: var(--light-text);
+              // color: var(--light-text);
               font-size: 0.9rem;
             }
           }
@@ -295,7 +280,7 @@ defineExpose({
   // Dropdown menu
   .dropdown-menu {
     .dropdown-item {
-      color: var(--light-text);
+      // color: var(--light-text);
       font-family: var(--font);
 
       &:hover,
@@ -403,8 +388,10 @@ defineExpose({
   }
 
   .dropdown {
+
     &.is-spaced,
     &.is-dots {
+
       &:hover,
       &.is-active {
         .is-trigger {
@@ -440,6 +427,7 @@ defineExpose({
           .notification-list {
             li {
               .notification-item {
+
                 &:hover,
                 *:hover {
                   background: var(--dark-sidebar) !important;
@@ -487,12 +475,12 @@ defineExpose({
 
             .icon {
               svg {
-                color: var(--light-text);
+                // color: var(--light-text);
               }
 
               .lnir,
               .lnil {
-                color: var(--light-text);
+                // color: var(--light-text);
               }
             }
 
@@ -514,7 +502,7 @@ defineExpose({
         border-color: var(--dark-sidebar-light-8) !important;
 
         .dropdown-item {
-          color: var(--light-text);
+          // color: var(--light-text);
 
           &.is-active {
             background: var(--dark-sidebar-light-2) !important;

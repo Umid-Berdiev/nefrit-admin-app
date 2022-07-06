@@ -15,46 +15,14 @@ useHead({
         <LandingEmptyNavigation />
 
         <!--Hexagon shapes-->
-        <img
-          class="hexagon hexagon-1 light-image-l"
-          src="/images/icons/hexagons/accent.svg"
-          alt=""
-        />
-        <img
-          class="hexagon hexagon-1 dark-image-l"
-          src="/images/icons/hexagons/accent-heavy.svg"
-          alt=""
-        />
-        <img
-          class="hexagon hexagon-2 light-image-l"
-          src="/images/icons/hexagons/accent.svg"
-          alt=""
-        />
-        <img
-          class="hexagon hexagon-2 dark-image-l"
-          src="/images/icons/hexagons/accent-heavy.svg"
-          alt=""
-        />
-        <img
-          class="hexagon hexagon-3 light-image-l"
-          src="/images/icons/hexagons/green.svg"
-          alt=""
-        />
-        <img
-          class="hexagon hexagon-3 dark-image-l"
-          src="/images/icons/hexagons/green-heavy.svg"
-          alt=""
-        />
-        <img
-          class="hexagon hexagon-4 light-image-l"
-          src="/images/icons/hexagons/purple.svg"
-          alt=""
-        />
-        <img
-          class="hexagon hexagon-4 dark-image-l"
-          src="/images/icons/hexagons/purple-heavy.svg"
-          alt=""
-        />
+        <img class="hexagon hexagon-1 light-image-l" src="/images/icons/hexagons/accent.svg" alt="" />
+        <img class="hexagon hexagon-1 dark-image-l" src="/images/icons/hexagons/accent-heavy.svg" alt="" />
+        <img class="hexagon hexagon-2 light-image-l" src="/images/icons/hexagons/accent.svg" alt="" />
+        <img class="hexagon hexagon-2 dark-image-l" src="/images/icons/hexagons/accent-heavy.svg" alt="" />
+        <img class="hexagon hexagon-3 light-image-l" src="/images/icons/hexagons/green.svg" alt="" />
+        <img class="hexagon hexagon-3 dark-image-l" src="/images/icons/hexagons/green-heavy.svg" alt="" />
+        <img class="hexagon hexagon-4 light-image-l" src="/images/icons/hexagons/purple.svg" alt="" />
+        <img class="hexagon hexagon-4 dark-image-l" src="/images/icons/hexagons/purple-heavy.svg" alt="" />
 
         <div class="hero-body">
           <div class="container">
@@ -73,16 +41,8 @@ useHead({
                 </div>
               </div>
               <div class="column is-7">
-                <img
-                  class="light-image-l hero-mockup"
-                  src="/@src/assets/illustrations/landing/app-2.png"
-                  alt=""
-                />
-                <img
-                  class="dark-image-l hero-mockup"
-                  src="/@src/assets/illustrations/landing/app-2-dark.png"
-                  alt=""
-                />
+                <img class="light-image-l hero-mockup" src="/@src/assets/illustrations/landing/app-2.png" alt="" />
+                <img class="dark-image-l hero-mockup" src="/@src/assets/illustrations/landing/app-2-dark.png" alt="" />
               </div>
             </div>
           </div>
@@ -277,6 +237,7 @@ useHead({
 
 .is-dark {
   .marketing-hero {
+
     &.is-left,
     &.is-right,
     &.is-centered {
@@ -495,7 +456,7 @@ useHead({
         content: ' /per month';
         font-size: 1rem;
         font-weight: normal;
-        color: var(--light-text);
+        // color: var(--light-text);
       }
     }
 
@@ -571,7 +532,7 @@ useHead({
       }
 
       li {
-        color: var(--light-text);
+        // color: var(--light-text);
 
         strong {
           color: var(--white);
@@ -622,11 +583,9 @@ useHead({
 
 .is-dark {
   .has-bg-dots {
-    background-image: radial-gradient(
-        circle,
+    background-image: radial-gradient(circle,
         var(--landing-xxx-light-4) 10%,
-        transparent 15%
-      ),
+        transparent 15%),
       radial-gradient(circle, var(--landing-xxx-light-4) 10%, transparent 15%);
     background-size: 50px 50px;
     background-position: 0 0, 0 0;
@@ -780,6 +739,7 @@ useHead({
 
 @media (max-width: 767px) {
   .marketing-hero {
+
     &.is-left,
     &.is-right,
     &.is-centered {
@@ -815,6 +775,7 @@ useHead({
     }
 
     .hero-body {
+
       .title,
       .subtitle {
         margin-left: auto;
@@ -866,6 +827,7 @@ useHead({
 
   .boxed-cta {
     .v-avatar {
+
       &.v-avatar-12,
       &.v-avatar-9,
       &.v-avatar-8,
@@ -958,6 +920,7 @@ useHead({
     }
 
     .hero-body {
+
       .title,
       .subtitle {
         margin-left: auto;
@@ -1013,6 +976,7 @@ useHead({
 
   .boxed-cta {
     .v-avatar {
+
       &.v-avatar-12,
       &.v-avatar-9,
       &.v-avatar-8,

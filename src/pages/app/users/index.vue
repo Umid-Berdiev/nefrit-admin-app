@@ -8,12 +8,13 @@ import type {
   VFlexTableWrapperFilterFunction,
 } from '/@src/components/base/table/VFlexTableWrapper.vue'
 import { users } from '/@src/stores/usersMockData'
-import ActionButtons from '/@src/components/partials/buttons/ActionButtons.vue'
 import { useViewWrapper } from '/@src/stores/viewWrapper'
-import ApplicantFormModal from '../../../components/base/modal/ApplicantFormModal.vue'
-import CountrySelect from '/@src/components/forms/selects/CountrySelect.vue'
+import TableActionsBlock from '/@src/components/base/block/TableActionsBlock.vue'
+import { useMainStore } from '/@src/stores'
+import UserFormModal from '/@src/components/base/modal/UserFormModal.vue'
 
 const { t } = useI18n()
+const mainStore = useMainStore()
 const viewWrapper = useViewWrapper()
 viewWrapper.setPageTitle(t('Applicants_List'))
 
@@ -28,9 +29,10 @@ const filterForm = ref({})
 
 const isFormModalOpen = ref(false)
 const displayFilterForm = ref(false)
-const selectedRowsId = ref<number[]>([])
-const isAllSelected = computed(() => data.length === selectedRowsId.value.length)
+const selectedRowIds = ref<number[]>([])
+const isAllSelected = computed(() => data.length === selectedRowIds.value.length)
 const router = useRouter()
+const selectedUser = ref()
 
 // this is a sample for custom sort function
 const locationSorter: VFlexTableWrapperSortFunction<User> = ({ order, a, b }) => {
@@ -66,42 +68,40 @@ const columns = {
     // cellClass: 'is-flex-grow-0',
   },
   name: {
-    label: t('Applicant_user_name'),
-    // media: true,
-    grow: true,
+    label: t('Fullname'),
     searchable: true,
     sortable: true,
+    sort: locationSorter,
     filter: userFilter,
   },
   shortname: {
-    label: t('Boss_name'),
-    // media: true,
-    grow: true,
+    label: t('Username'),
     searchable: true,
     sortable: true,
+    sort: locationSorter,
     filter: userFilter,
   },
-  company: {
-    label: t('Company_name'),
-    // media: true,
-    // grow: true,
+  email: {
+    label: t('Email'),
     searchable: true,
     sortable: true,
+    sort: locationSorter,
     filter: userFilter,
   },
-  phone: {
-    label: t('Phone_number'),
-    sortable: true,
+  location: {
+    label: t('Department'),
     searchable: true,
-    sort: locationSorter,
-  },
-  status: {
-    label: t('Status'),
     sortable: true,
-    searchable: true,
     sort: locationSorter,
+    filter: userFilter,
   },
-  location: t('Location'),
+  role: {
+    label: t('Role'),
+    searchable: true,
+    sortable: true,
+    sort: locationSorter,
+    filter: userFilter,
+  },
   actions: {
     label: t('Actions'),
     align: 'center',
@@ -113,84 +113,77 @@ function toggleSelection() {
   // console.log('data:', data)
 
   if (isAllSelected.value) {
-    selectedRowsId.value = []
+    selectedRowIds.value = []
   } else {
-    selectedRowsId.value = data.map((row: any) => row.id)
+    selectedRowIds.value = data.map((row: any) => row.id)
   }
 }
 
 // this it the row click handler (enabled with clickable props)
 function clickOnRow(row: any) {
-  if (selectedRowsId.value.includes(row.id)) {
-    selectedRowsId.value = selectedRowsId.value.filter((i) => i !== row.id)
+  if (selectedRowIds.value.includes(row.id)) {
+    selectedRowIds.value = selectedRowIds.value.filter((i) => i !== row.id)
   } else {
-    selectedRowsId.value = [...selectedRowsId.value, row.id]
+    selectedRowIds.value = [...selectedRowIds.value, row.id]
   }
 }
 
 function onActionTriggered(rowId) {
   router.push('/app/applicant/' + rowId)
 }
+
+function onEditUser(rowId) {
+  isFormModalOpen.value = true
+  selectedUser.value = rowId
+}
+
+function confirmAction() {
+  if (selectedRowIds.value.length > 0)
+    mainStore.$patch({ confirmModalState: true })
+  else alert(t('No_row_selected'))
+}
+
+async function onRemoveUser() {
+  await mainStore.$patch({ confirmModalState: true })
+  if (mainStore.confirmState) {
+    console.log('User deleted!');
+    mainStore.$patch({ confirmState: false })
+  }
+}
 </script>
 
 <template>
   <div class="applicant-list-wrapper">
-    <!-- filter block -->
-    <VBlock title="" center>
-      <template #action>
-        <VButtons>
-          <VButton outlined rounded color="info" icon="feather:plus"> {{ t('Add') }} </VButton>
-          <VButton outlined rounded color="primary" icon="feather:printer">
-            {{ t('Print') }}
-          </VButton>
-          <VButton outlined rounded color="warning" icon="feather:filter"
-            @click="displayFilterForm = !displayFilterForm">
-            {{ t('Filter') }}
-          </VButton>
-          <!-- <VButton outlined rounded color="info" icon="feather:eye"> View </VButton> -->
-          <VButton outlined rounded color="danger" icon="feather:trash">
-            {{ t('Delete_selected') }}
-          </VButton>
-        </VButtons>
-      </template>
-    </VBlock>
+    <TableActionsBlock center title="" @add="onEditUser" @filter="displayFilterForm = !displayFilterForm"
+      @remove="confirmAction" />
     <div v-show="displayFilterForm" class="mb-5">
       <VCard radius="small">
         <h3 class="title is-5 mb-2">{{ t('Filter_form') }}</h3>
         <div class="columns is-desktop">
           <VField class="column">
-            <VLabel>{{ t('User') }}</VLabel>
+            <VLabel>{{ t('First_name') }}</VLabel>
             <VControl>
-              <VInput v-model="filterForm.applicantUser" type="text" placeholder="" />
+              <VInput v-model="filterForm.first_name" type="text" :placeholder="$t('Type') + '...'" />
             </VControl>
           </VField>
           <VField class="column">
-            <VLabel>{{ t('Status') }}</VLabel>
+            <VLabel>{{ t('Last_name') }}</VLabel>
             <VControl>
-              <VInput v-model="filterForm.applicantStatus" type="text" placeholder="" />
+              <VInput v-model="filterForm.last_name" type="text" :placeholder="$t('Type') + '...'" />
             </VControl>
           </VField>
           <VField class="column">
-            <VLabel>{{ t('Boss_name') }}</VLabel>
+            <VLabel>{{ t('Username') }}</VLabel>
             <VControl>
-              <VInput v-model="filterForm.applicantBossName" type="text" placeholder="" />
-            </VControl>
-          </VField>
-          <!-- </div>
-              <div class="columns is-desktop"> -->
-          <VField class="column">
-            <VLabel>{{ t('Applicant_name') }}</VLabel>
-            <VControl>
-              <VInput v-model="filterForm.applicantName" type="text" placeholder="" />
+              <VInput v-model="filterForm.username" type="text" :placeholder="$t('Type') + '...'" />
             </VControl>
           </VField>
           <VField class="column">
-            <VLabel>{{ t('Phone') }}</VLabel>
+            <VLabel>{{ t('Email') }}</VLabel>
             <VControl>
-              <VInput v-model="filterForm.applicantPhone" type="text" placeholder="" />
+              <VInput v-model="filterForm.email" type="text" :placeholder="$t('Type') + '...'" />
             </VControl>
           </VField>
-          <CountrySelect v-model="filterForm.applicantsCountry" class="column" />
         </div>
         <div class="columns">
           <div class="column is-1 ml-auto">
@@ -218,39 +211,15 @@ function onActionTriggered(rowId) {
               </VControl>
             </VField>
           </template>
-
-          <!-- We can also bind wrapperState.limit -->
-          <!-- <template #right>
-            <VField>
-              <VControl>
-                <div class="select is-rounded">
-                  <select v-model="wrapperState.limit">
-                    <option :value="1">1 results per page</option>
-                    <option :value="10">10 results per page</option>
-                    <option :value="15">15 results per page</option>
-                    <option :value="25">25 results per page</option>
-                    <option :value="50">50 results per page</option>
-                  </select>
-                </div>
-              </VControl>
-            </VField>
-          </template> -->
         </VFlexTableToolbar>
 
-        <!--
-          The VFlexTable "data" and "columns" props
-          will be inherited from parent VFlexTableWrapper
-        -->
         <VFlexTable rounded>
-          <!-- header-column slot -->
           <template #header-column="{ column }">
             <VCheckbox v-if="column.key === 'select'" class="ml-2 mr-3" :checked="isAllSelected" name="all_selected"
               color="primary" @click="toggleSelection" />
           </template>
-
-          <!-- Custom "name" cell content -->
           <template #body-cell="{ row, column, value, index }">
-            <VCheckbox v-if="column.key === 'select'" v-model="selectedRowsId" :value="row.id" name="selection"
+            <VCheckbox v-if="column.key === 'select'" v-model="selectedRowIds" :value="row.id" name="selection"
               @change="clickOnRow" />
 
             <template v-if="column.key === 'orderNumber'">
@@ -258,34 +227,12 @@ function onActionTriggered(rowId) {
                 {{ index + 1 }}
               </span>
             </template>
-            <!-- <template v-if="column.key === 'name'">
-              <VAvatar size="medium" :picture="row.medias.avatar" :badge="row.medias.badge" :initials="row.initials" />
-              <div>
-                <span class="dark-text" :title="row.name">
-                  {{ row.shortname }}
-                </span>
-                <VTextEllipsis width="280px" class="light-text" :title="row.bio">
-                  <small>{{ row.bio }}</small>
-                </VTextEllipsis>
-              </div>
-            </template> -->
-            <template v-else-if="column.key === 'status'">
-              <VTag class="is-size-6" rounded :color="
-                value === 'pending'
-                  ? 'warning'
-                  : value === 'rejected'
-                    ? 'danger'
-                    : value === 'completed'
-                      ? 'primary'
-                      : undefined
-              ">
-                {{ t(value) }}
-              </VTag>
-            </template>
             <template v-if="column.key === 'actions'">
-              <div class="is-flex is-justify-content-flex-end">
+              <!-- <div class="is-flex is-justify-content-flex-end">
                 <ActionButtons @view="onActionTriggered(row.id)" @edit="isFormModalOpen = true" />
-              </div>
+              </div> -->
+              <UsersFlexTableDropdown @view="onActionTriggered(row.id)" @edit="onEditUser(row)"
+                @remove="onRemoveUser" />
             </template>
           </template>
         </VFlexTable>
@@ -295,6 +242,6 @@ function onActionTriggered(rowId) {
           :total-items="wrapperState.total" :max-links-displayed="5" no-router />
       </template>
     </VFlexTableWrapper>
-    <ApplicantFormModal v-model="isFormModalOpen" />
+    <UserFormModal v-model="isFormModalOpen" :item="selectedUser" />
   </div>
 </template>

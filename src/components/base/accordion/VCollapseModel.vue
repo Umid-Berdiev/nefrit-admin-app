@@ -31,20 +31,11 @@ const toggle = (key: number) => {
 </script>
 
 <template>
-  <details
-    v-for="(item, key) in items"
-    :key="key"
-    :class="[withChevron && 'has-chevron', !withChevron && 'has-plus']"
-    :open="modelValue === key || undefined"
-    class="collapse"
-  >
+  <details v-for="(item, key) in items" :key="key" :class="[withChevron && 'has-chevron', !withChevron && 'has-plus']"
+    :open="modelValue === key || undefined" class="collapse">
     <slot name="collapse-item" :item="item" :index="key" :toggle="toggle">
-      <summary
-        class="collapse-header"
-        tabindex="0"
-        @keydown.space.prevent="() => toggle(key)"
-        @click.prevent="() => toggle(key)"
-      >
+      <summary class="collapse-header" tabindex="0" @keydown.space.prevent="() => toggle(key)"
+        @click.prevent="() => toggle(key)">
         <h3>
           <slot name="collapse-item-summary" :item="item" :index="key" :toggle="toggle">
             {{ item.title }}
@@ -134,7 +125,7 @@ const toggle = (key: number) => {
       border: 1px solid transparent;
       transition: all 0.3s; // transition-all test
 
-      > span {
+      >span {
         display: block;
         height: 16px;
         width: 16px;
@@ -143,7 +134,7 @@ const toggle = (key: number) => {
       svg {
         height: 16px;
         width: 16px;
-        color: var(--light-text);
+        // color: var(--light-text);
       }
     }
   }
@@ -151,7 +142,7 @@ const toggle = (key: number) => {
   .collapse-content {
     display: none;
     padding: 0 20px 20px;
-    color: var(--light-text);
+    // color: var(--light-text);
     font-family: var(--font);
 
     p:not(:last-child) {

@@ -5,16 +5,25 @@ import { useMainStore } from "/@src/stores";
 const mainStore = useMainStore()
 
 const state = computed(() => mainStore.confirmModalState)
+
+function onClose() {
+  mainStore.$patch({ confirmModalState: false })
+}
+
+function onConfirm() {
+  mainStore.$patch({ confirmState: true })
+  onClose()
+}
 </script>
 
 <template>
-  <VModal :open="state" actions="center" :title="$t('Confirm_action')" :noclose="true"
-    @close="mainStore.$patch({ confirmModalState: false })">
+  <VModal :open="state" actions="center" :title="$t('Confirm_action')" :noclose="true" @close="onClose"
+    :cancel-label="$t('Cancel')">
     <template #content>
       <VPlaceholderSection :title="$t('Are_you_sure')" />
     </template>
     <template #action>
-      <VButton color="danger" raised>Confirm</VButton>
+      <VButton color="danger" @click="onConfirm">Confirm</VButton>
     </template>
   </VModal>
 </template>

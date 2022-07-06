@@ -7,7 +7,7 @@
   .profile-stat {
     display: flex;
     align-items: center;
-    color: var(--light-text);
+    // color: var(--light-text);
     font-family: var(--font);
 
     span {
@@ -54,7 +54,7 @@
 
       i {
         font-size: 0.9rem;
-        color: var(--light-text);
+        // color: var(--light-text);
         transition: color 0.3s;
       }
     }

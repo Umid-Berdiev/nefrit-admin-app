@@ -36,7 +36,7 @@
     .position {
       font-family: var(--font);
       font-size: 12px;
-      color: var(--light-text);
+      // color: var(--light-text);
     }
   }
 
@@ -78,7 +78,7 @@
       transition: all 0.3s; // transition-all test
 
       &:hover {
-        color: var(--light-text);
+        // color: var(--light-text);
         background: var(--fade-grey-light-3);
       }
     }

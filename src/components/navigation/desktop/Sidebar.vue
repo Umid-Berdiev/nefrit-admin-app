@@ -109,6 +109,7 @@ const themeClasses = computed(() => {
       .bottom-menu {
         li {
           a {
+
             &:hover,
             &.is-active,
             &.router-link-active {
@@ -118,7 +119,7 @@ const themeClasses = computed(() => {
             }
 
             .sidebar-svg {
-              color: var(--light-text);
+              // color: var(--light-text);
             }
           }
         }
@@ -135,6 +136,7 @@ const themeClasses = computed(() => {
   &.has-labels {
     &.has-hover-labels {
       .sidebar-inner {
+
         .icon-menu,
         .bottom-menu {
           li {
@@ -147,6 +149,7 @@ const themeClasses = computed(() => {
             }
 
             a {
+
               &.is-active,
               &.router-link-active {
                 &::after {
@@ -164,6 +167,7 @@ const themeClasses = computed(() => {
     }
 
     .sidebar-inner {
+
       .icon-menu,
       .bottom-menu {
         overflow-x: hidden;
@@ -186,7 +190,7 @@ const themeClasses = computed(() => {
               font-family: var(--font);
               font-size: 0.5rem;
               font-weight: 500;
-              color: var(--light-text);
+              // color: var(--light-text);
               text-transform: uppercase;
               text-align: center;
               width: 80px;
@@ -228,6 +232,7 @@ const themeClasses = computed(() => {
       }
 
       .sidebar-inner {
+
         .icon-menu,
         .bottom-menu {
           li {
@@ -242,6 +247,7 @@ const themeClasses = computed(() => {
     }
 
     .sidebar-inner {
+
       .icon-menu,
       .bottom-menu {
         li {
@@ -403,7 +409,7 @@ const themeClasses = computed(() => {
           height: 48px;
           width: 48px !important;
 
-          > img {
+          >img {
             height: 48px;
             width: 48px;
             border-radius: var(--radius-rounded);
@@ -458,7 +464,7 @@ const themeClasses = computed(() => {
 
                   &:nth-child(2) {
                     text-transform: uppercase;
-                    color: var(--light-text);
+                    // color: var(--light-text);
                     font-size: 0.7rem;
                   }
                 }
@@ -532,6 +538,7 @@ const themeClasses = computed(() => {
     .bottom-menu {
       li {
         a {
+
           &.is-selected,
           &.router-link-active {
             svg {
@@ -602,6 +609,7 @@ const themeClasses = computed(() => {
           }
 
           &.is-button {
+
             &:hover,
             &:focus {
               background: var(--dark-sidebar-light-2) !important;
@@ -616,6 +624,7 @@ const themeClasses = computed(() => {
     }
 
     .sidebar-inner {
+
       .icon-menu,
       .bottom-menu {
         li {
@@ -645,6 +654,7 @@ const themeClasses = computed(() => {
         .bottom-menu {
           li {
             a {
+
               &:hover,
               &.is-active {
                 .sidebar-svg {

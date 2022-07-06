@@ -33,21 +33,10 @@ const isIconify = computed(() => {
 </script>
 
 <template>
-  <div
-    class="snack"
-    :class="[props.white && 'is-white', props.size && `is-${props.size}`]"
-  >
-    <div
-      v-if="props.icon"
-      class="snack-media is-icon"
-      :class="[props.color && `is-${props.color}`, props.solid && `is-solid`]"
-    >
-      <i
-        v-if="isIconify"
-        aria-hidden="true"
-        class="iconify snack-icon"
-        :data-icon="icon"
-      ></i>
+  <div class="snack" :class="[props.white && 'is-white', props.size && `is-${props.size}`]">
+    <div v-if="props.icon" class="snack-media is-icon"
+      :class="[props.color && `is-${props.color}`, props.solid && `is-solid`]">
+      <i v-if="isIconify" aria-hidden="true" class="iconify snack-icon" :data-icon="icon"></i>
       <i v-else aria-hidden="true" class="snack-icon" :class="props.icon"></i>
     </div>
     <div v-else-if="props.image" class="snack-media">
@@ -155,6 +144,7 @@ const isIconify = computed(() => {
       border-radius: var(--radius-rounded);
 
       &.is-solid {
+
         .fas,
         .far,
         .fad,
@@ -307,7 +297,7 @@ const isIconify = computed(() => {
         height: 18px;
         width: 18px;
         stroke-width: 1.6px;
-        color: var(--light-text);
+        // color: var(--light-text);
         vertical-align: 0 !important;
         transform: rotate(0) translate(-50%, -50%) !important;
       }
@@ -318,13 +308,13 @@ const isIconify = computed(() => {
       .fal,
       .fab {
         font-size: 15px;
-        color: var(--light-text);
+        // color: var(--light-text);
       }
 
       .lnil,
       .lnir {
         font-size: 18px;
-        color: var(--light-text);
+        // color: var(--light-text);
       }
     }
 
@@ -353,7 +343,7 @@ const isIconify = computed(() => {
     svg {
       height: 14px;
       width: 14px;
-      color: var(--light-text);
+      // color: var(--light-text);
     }
   }
 }

@@ -24,11 +24,8 @@ watchEffect(() => {
 </script>
 
 <template>
-  <nav
-    class="navbar is-fixed-top is-transparent"
-    :class="[!isScrolling && 'is-docked', isMobileNavOpen && 'is-solid']"
-    aria-label="main navigation"
-  >
+  <nav class="navbar is-fixed-top is-transparent" :class="[!isScrolling && 'is-docked', isMobileNavOpen && 'is-solid']"
+    aria-label="main navigation">
     <div class="navbar-brand">
       <a href="/" class="navbar-item" @click.prevent="scrollTo('#app', 800)">
         <div class="brand-icon">
@@ -36,16 +33,9 @@ watchEffect(() => {
         </div>
       </a>
 
-      <a
-        role="button"
-        :class="[isMobileNavOpen && 'is-active']"
-        class="navbar-burger burger"
-        aria-label="menu"
-        tabindex="0"
-        aria-expanded="false"
-        @keydown.space.prevent="isMobileNavOpen = !isMobileNavOpen"
-        @click="isMobileNavOpen = !isMobileNavOpen"
-      >
+      <a role="button" :class="[isMobileNavOpen && 'is-active']" class="navbar-burger burger" aria-label="menu"
+        tabindex="0" aria-expanded="false" @keydown.space.prevent="isMobileNavOpen = !isMobileNavOpen"
+        @click="isMobileNavOpen = !isMobileNavOpen">
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>
@@ -55,18 +45,14 @@ watchEffect(() => {
     <div class="navbar-menu" :class="[isMobileNavOpen && 'is-active']">
       <div class="navbar-start">
         <div class="navbar-item">
-          <RouterLink
-            :to="{
-              name: 'index',
-            }"
-            class="nav-link"
-            @click.passive="
+          <RouterLink :to="{
+            name: 'index',
+          }" class="nav-link" @click.passive="
               () => {
                 scrollTo('#features', 800, { offset: -50 })
                 isMobileNavOpen = false
               }
-            "
-          >
+            ">
             Awesome Features
           </RouterLink>
         </div>
@@ -75,11 +61,7 @@ watchEffect(() => {
       <div class="navbar-end">
         <div class="navbar-item is-theme-toggle">
           <label class="theme-toggle">
-            <input
-              id="navbar-night-toggle--daynight"
-              v-model="darkmode.isDark"
-              type="checkbox"
-            />
+            <input id="navbar-night-toggle--daynight" v-model="darkmode.isDark" type="checkbox" />
             <span class="toggler">
               <span class="dark">
                 <i aria-hidden="true" class="iconify" data-icon="feather:moon"></i>
@@ -203,7 +185,7 @@ watchEffect(() => {
             position: relative;
             font-family: var(--font-alt);
             font-size: 0.9rem;
-            color: var(--light-text);
+            // color: var(--light-text);
             text-transform: capitalize;
 
             &::before {
@@ -263,7 +245,7 @@ watchEffect(() => {
               opacity: 0;
               cursor: pointer;
 
-              &:checked ~ .toggler {
+              &:checked~.toggler {
                 border-color: var(--primary);
 
                 .dark,
@@ -388,6 +370,7 @@ watchEffect(() => {
 
       .navbar-item {
         .nav-link {
+
           &:hover,
           &.is-active {
             color: var(--white) !important;

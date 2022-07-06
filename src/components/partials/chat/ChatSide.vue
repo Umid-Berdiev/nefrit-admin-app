@@ -148,7 +148,7 @@ const chat = useChat()
       padding: 12px 0;
 
       .button {
-        color: var(--light-text);
+        // color: var(--light-text);
 
         &:hover,
         &:focus {
@@ -168,7 +168,7 @@ const chat = useChat()
         font-weight: 400;
         font-size: 1rem;
         margin-bottom: 20px;
-        color: var(--light-text);
+        // color: var(--light-text);
 
         svg {
           width: 16px;

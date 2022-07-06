@@ -12,6 +12,7 @@ specifiers:
   '@mapbox/mapbox-gl-geocoder': 5.0.0
   '@popperjs/core': 2.11.5
   '@types/dragula': 3.7.1
+  '@types/lodash': ^4.14.182
   '@types/mapbox-gl': 2.7.0
   '@types/mapbox__mapbox-gl-geocoder': 4.7.2
   '@types/markdown-it': 12.2.3
@@ -62,6 +63,7 @@ specifiers:
   jiti: 1.13.0
   json-server: 0.17.0
   lint-staged: 12.4.0
+  lodash: ^4.17.21
   mapbox-gl: 2.8.2
   markdown-it: 13.0.0
   markdown-it-anchor: 8.6.2
@@ -153,6 +155,7 @@ dependencies:
   filepond-plugin-image-resize: 2.0.10_filepond@4.30.3
   filepond-plugin-image-transform: 3.8.7_filepond@4.30.3
   imask: 6.4.2
+  lodash: 4.17.21
   mapbox-gl: 2.8.2
   markdown-it-emoji: 2.0.2
   moment: 2.29.3
@@ -185,6 +188,7 @@ devDependencies:
   '@iconify/json': 2.1.31
   '@intlify/vite-plugin-vue-i18n': 3.4.0_hueodwiclbairdnfv2dqivndqm
   '@types/dragula': 3.7.1
+  '@types/lodash': 4.14.182
   '@types/mapbox-gl': 2.7.0
   '@types/mapbox__mapbox-gl-geocoder': 4.7.2
   '@types/markdown-it': 12.2.3
@@ -2473,7 +2477,6 @@ packages:
 
   /@types/lodash/4.14.182:
     resolution: {integrity: sha512-/THyiqyQAP9AfARo4pF+aCGcyiQ94tX/Is2I7HofNRqoYLgN1PBoOWu2/zTA5zMxzP5EFutMtWtGAFRKUe961Q==}
-    dev: false
 
   /@types/mapbox-gl/2.7.0:
     resolution: {integrity: sha512-kNT3iHMZILCb5Kg07TaUnZglCucO9KbVy1/0uPkFs3G9fWyFz22PGlHJtd25+A6KZ2Sjl+ByXq5850jyeZWQBA==}

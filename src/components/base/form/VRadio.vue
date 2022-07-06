@@ -48,24 +48,14 @@ watch(
 </script>
 
 <template>
-  <VLabel
-    raw
-    class="radio"
-    :class="[
-      props.solid ? 'is-solid' : 'is-outlined',
-      props.square && 'is-square',
-      props.color && `is-${props.color}`,
-      props.paddingless && 'is-paddingless',
-    ]"
-  >
-    <input
-      :id="vFieldContext.id"
-      v-model="value"
-      type="radio"
-      :value="props.value"
-      :name="props.name"
-      v-bind="$attrs"
-    />
+  <VLabel raw class="radio" :class="[
+    props.solid ? 'is-solid' : 'is-outlined',
+    props.square && 'is-square',
+    props.color && `is-${props.color}`,
+    props.paddingless && 'is-paddingless',
+  ]">
+    <input :id="vFieldContext.id" v-model="value" type="radio" :value="props.value" :name="props.name"
+      v-bind="$attrs" />
     <span></span>
     <slot v-bind="vFieldContext">{{ props.label }}</slot>
   </VLabel>
@@ -82,7 +72,7 @@ watch(
     background: transparent;
   }
 
-  input + span {
+  input+span {
     position: relative;
     top: -1px;
     background: var(--white);
@@ -106,16 +96,16 @@ watch(
   }
 
   @media screen and (min-width: 768px) {
-    &:hover input + span {
+    &:hover input+span {
       box-shadow: 0 2px 4px rgba(#000, 0.15);
     }
   }
 
-  input:active + span {
+  input:active+span {
     box-shadow: 0 4px 8px rgba(#000, 0.15);
   }
 
-  input:checked + span::after {
+  input:checked+span::after {
     transform: translate(-50%, -50%) scale(1) !important;
   }
 
@@ -130,14 +120,14 @@ watch(
 .radio {
   @extend %controller;
 
-  color: var(--light-text);
+  // color: var(--light-text);
 
-  + .radio {
+  +.radio {
     margin-left: 0 !important;
   }
 
   &:hover {
-    color: var(--light-text);
+    // color: var(--light-text);
   }
 
   &.is-paddingless {
@@ -145,18 +135,18 @@ watch(
   }
 
   &.is-square {
-    input + span {
+    input+span {
       border-radius: var(--radius);
     }
   }
 
   &.is-solid {
-    input + span {
+    input+span {
       background: var(--fade-grey-light-3);
     }
 
     &.is-primary {
-      input + span {
+      input+span {
         border-color: var(--primary);
         background: var(--primary);
 
@@ -167,7 +157,7 @@ watch(
     }
 
     &.is-success {
-      input + span {
+      input+span {
         border-color: var(--success);
         background: var(--success);
 
@@ -178,7 +168,7 @@ watch(
     }
 
     &.is-info {
-      input + span {
+      input+span {
         border-color: var(--info);
         background: var(--info);
 
@@ -189,7 +179,7 @@ watch(
     }
 
     &.is-warning {
-      input + span {
+      input+span {
         border-color: var(--warning);
         background: var(--warning);
 
@@ -200,7 +190,7 @@ watch(
     }
 
     &.is-danger {
-      input + span {
+      input+span {
         border-color: var(--danger);
         background: var(--danger);
 
@@ -213,11 +203,11 @@ watch(
 
   &.is-outlined {
     &.is-primary {
-      input:checked + span {
+      input:checked+span {
         border-color: var(--primary);
       }
 
-      input + span {
+      input+span {
         &::after {
           color: var(--primary);
         }
@@ -225,11 +215,11 @@ watch(
     }
 
     &.is-success {
-      input:checked + span {
+      input:checked+span {
         border-color: var(--success);
       }
 
-      input + span {
+      input+span {
         &::after {
           color: var(--success);
         }
@@ -237,11 +227,11 @@ watch(
     }
 
     &.is-info {
-      input:checked + span {
+      input:checked+span {
         border-color: var(--info);
       }
 
-      input + span {
+      input+span {
         &::after {
           color: var(--info);
         }
@@ -249,11 +239,11 @@ watch(
     }
 
     &.is-warning {
-      input:checked + span {
+      input:checked+span {
         border-color: var(--warning);
       }
 
-      input + span {
+      input+span {
         &::after {
           color: var(--warning);
         }
@@ -261,11 +251,11 @@ watch(
     }
 
     &.is-danger {
-      input:checked + span {
+      input:checked+span {
         border-color: var(--danger);
       }
 
-      input + span {
+      input+span {
         &::after {
           color: var(--danger);
         }
@@ -273,7 +263,7 @@ watch(
     }
   }
 
-  input + span {
+  input+span {
     border-radius: 100%;
 
     &::after {
@@ -289,8 +279,8 @@ watch(
     }
   }
 
-  input:focus + span,
-  input:active + span {
+  input:focus+span,
+  input:active+span {
     outline-offset: var(--accessibility-focus-outline-offset);
     outline-width: var(--accessibility-focus-outline-width);
     outline-color: var(--accessibility-focus-outline-color);
@@ -300,7 +290,7 @@ watch(
 
 .is-dark {
   %controller {
-    input + span {
+    input+span {
       background-color: var(--dark-sidebar-light-2);
       border-color: var(--dark-sidebar-light-4);
 
@@ -309,21 +299,21 @@ watch(
       }
     }
 
-    input + span {
+    input+span {
       border-color: var(--dark-sidebar-light-16);
     }
   }
 
   .radio {
     &.is-solid.is-primary {
-      input + span {
+      input+span {
         background-color: var(--primary) !important;
         border-color: var(--primary) !important;
       }
     }
 
     &.is-outlined.is-primary {
-      input:checked + span {
+      input:checked+span {
         border-color: var(--primary) !important;
 
         &::after {

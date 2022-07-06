@@ -386,7 +386,7 @@ const onSubmit = () => {
               min-width: 40px;
               border-radius: var(--radius-rounded);
               border: 1.6px dashed var(--light-text);
-              color: var(--light-text);
+              // color: var(--light-text);
               padding: 0;
               background: none;
               margin-left: 4px;

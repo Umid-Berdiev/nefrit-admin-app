@@ -31,7 +31,7 @@ const props = withDefaults(defineProps<VPlaceholderSectionProps>(), {
   .placeholder-content {
     text-align: center;
 
-    > img {
+    >img {
       display: block;
       max-width: 280px;
       margin: 0 auto 10px;
@@ -51,7 +51,7 @@ const props = withDefaults(defineProps<VPlaceholderSectionProps>(), {
     p {
       font-family: var(--font);
       font-size: 1rem;
-      color: var(--light-text);
+      // color: var(--light-text);
       max-width: 280px;
       margin: 0 auto 12px;
     }

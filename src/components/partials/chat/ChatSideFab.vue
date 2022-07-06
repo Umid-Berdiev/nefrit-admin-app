@@ -5,16 +5,10 @@ const chat = useChat()
 </script>
 
 <template>
-  <a
-    :class="[chat.mobileConversationDetailsOpen && 'is-mobile-active']"
-    class="chat-side-fab"
-    aria-label="Close convesation details"
-    tabindex="0"
-    @keydown.space.prevent="
+  <a :class="[chat.mobileConversationDetailsOpen && 'is-mobile-active']" class="chat-side-fab"
+    aria-label="Close convesation details" tabindex="0" @keydown.space.prevent="
       chat.setMobileConversationDetailsOpen(!chat.mobileConversationDetailsOpen)
-    "
-    @click="chat.setMobileConversationDetailsOpen(!chat.mobileConversationDetailsOpen)"
-  >
+    " @click="chat.setMobileConversationDetailsOpen(!chat.mobileConversationDetailsOpen)">
     <i aria-hidden="true" class="iconify" data-icon="feather:chevron-left"></i>
   </a>
 </template>
@@ -49,7 +43,7 @@ const chat = useChat()
     left: -1px;
     height: 20px;
     width: 20px;
-    color: var(--light-text);
+    // color: var(--light-text);
   }
 }
 

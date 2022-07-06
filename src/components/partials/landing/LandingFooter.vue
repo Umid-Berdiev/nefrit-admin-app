@@ -8,10 +8,8 @@
         </div>
         <div class="head-action">
           <div class="buttons">
-            <a
-              href="https://themeforest.net/item/vuero-vuejs-3-admin-and-webapp-ui-kit/31053035"
-              class="button v-button is-primary is-rounded raised action-button"
-            >
+            <a href="https://themeforest.net/item/vuero-vuejs-3-admin-and-webapp-ui-kit/31053035"
+              class="button v-button is-primary is-rounded raised action-button">
               Buy Vuero
             </a>
             <a href="https://cssninja.io" class="button chat-button"> Chat with us </a>
@@ -33,8 +31,7 @@
             <span class="moto">
               Designed and coded with
               <i aria-hidden="true" class="fas fa-heart text-danger"></i> by CSS
-              Ninja.</span
-            >
+              Ninja.</span>
             <div class="social-links p-t-10 p-b-10">
               <a href="#">
                 <span class="icon">
@@ -132,7 +129,7 @@
 
       p {
         font-size: 1.1rem;
-        color: var(--light-text);
+        // color: var(--light-text);
       }
     }
 
@@ -176,7 +173,7 @@
 
         a {
           font-family: var(--font);
-          color: var(--light-text);
+          // color: var(--light-text);
 
           &:hover,
           &:focus {
@@ -192,7 +189,7 @@
       align-items: center;
 
       a {
-        color: var(--light-text);
+        // color: var(--light-text);
         margin: 0 5px;
 
         &:hover,
@@ -203,11 +200,11 @@
     }
 
     .footer-description {
-      color: var(--light-text);
+      // color: var(--light-text);
     }
 
     .moto {
-      color: var(--light-text);
+      // color: var(--light-text);
     }
 
     .small-footer-logo {
@@ -217,11 +214,11 @@
 
   .footer-copyright {
     font-family: var(--font);
-    color: var(--light-text);
+    // color: var(--light-text);
     padding: 4rem 0 2rem;
 
     a {
-      color: var(--light-text);
+      // color: var(--light-text);
 
       &:hover,
       &:focus {
@@ -246,7 +243,7 @@
 
           p {
             font-size: 1.1rem;
-            color: var(--light-text);
+            // color: var(--light-text);
           }
         }
 
@@ -318,6 +315,7 @@
 
 @media only screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
   .vuero-footer {
+
     .footer-head,
     .footer-body {
       padding-left: 20px;
@@ -332,6 +330,7 @@
 
 @media only screen and (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
   .vuero-footer {
+
     .footer-head,
     .footer-body {
       padding-left: 20px;

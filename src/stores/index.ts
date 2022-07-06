@@ -2,29 +2,6 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
 export const useMainStore = defineStore('main', {
-  // const confirmModalState = ref(false)
-
-  // function getConfirmModalState() {
-  //   return confirmModalState.value
-  // }
-
-  // function setConfirmModalState(value: boolean) {
-  //   console.log('value: ', value)
-
-  //   confirmModalState.value = value
-  // }
-
-  // function toggleConfirmModalState() {
-  //   confirmModalState.value = !confirmModalState.value
-  // }
-
-  // return {
-  //   confirmModalState,
-  //   getConfirmModalState,
-  //   setConfirmModalState,
-  //   toggleConfirmModalState,
-  // }
-
   state: () => ({
     /** @type {{ text: string, id: number, isFinished: boolean }[]} */
     todos: [],
@@ -33,6 +10,7 @@ export const useMainStore = defineStore('main', {
     // type will be automatically inferred to number
     nextId: 0,
     confirmModalState: false,
+    confirmState: false,
   }),
   getters: {
     finishedTodos(state) {
@@ -56,6 +34,9 @@ export const useMainStore = defineStore('main', {
     },
     getConfirmModalState(state) {
       return state.confirmModalState
+    },
+    getConfirmState(state) {
+      return state.confirmState
     },
   },
   actions: {

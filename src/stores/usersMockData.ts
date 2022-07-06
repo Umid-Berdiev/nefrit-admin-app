@@ -4,6 +4,7 @@ export const users = [
     name: 'Tara Svenson',
     shortname: 'Tara S.',
     location: 'New York, NY',
+    email: 'tara@test.com',
     role: 'UI/UX Designer',
     bio: 'This is a nice user description that we can use as demo content.',
     medias: {
@@ -47,6 +48,7 @@ export const users = [
     name: 'Helmut Fritz',
     shortname: 'Helmut F.',
     location: 'Paris, France',
+    email: 'helmut@test.com',
     role: 'Product Manager',
     bio: 'This is a nice user description that we can use as demo content.',
     medias: {
@@ -90,6 +92,7 @@ export const users = [
     name: 'Melany Wallace',
     shortname: 'Melany W.',
     location: 'San Jose, CA',
+    email: 'melany@test.com',
     role: 'Web Developer',
     bio: 'This is a nice user description that we can use as demo content.',
     medias: {
@@ -133,6 +136,7 @@ export const users = [
     name: 'Hakeem Calami',
     shortname: 'Hakeem C.',
     location: 'Berlin, Germany',
+    email: 'hakeem@test.com',
     role: 'Software Engineer',
     bio: 'This is a nice user description that we can use as demo content.',
     medias: {
@@ -176,6 +180,7 @@ export const users = [
     name: 'Alejandro Badajoz',
     shortname: 'Alejandro B.',
     location: 'New York, NY',
+    email: 'alejandro@test.com',
     role: 'Business Analyst',
     bio: 'This is a nice user description that we can use as demo content.',
     medias: {
@@ -219,6 +224,7 @@ export const users = [
     name: 'Jeanne Marchand',
     shortname: 'Jeanne M.',
     location: 'Paris, France',
+    email: 'jeanne@test.com',
     role: 'Mobile Developer',
     bio: 'This is a nice user description that we can use as demo content.',
     medias: {
@@ -262,6 +268,7 @@ export const users = [
     name: 'Greta Kroppfer',
     shortname: 'Greta K.',
     location: 'Berlin, Germany',
+    email: 'greta@test.com',
     role: 'Sales Manager',
     bio: 'This is a nice user description that we can use as demo content.',
     medias: {
@@ -305,6 +312,7 @@ export const users = [
     name: 'Ana Baker',
     shortname: 'Ana B.',
     location: 'San Francisco, CA',
+    email: 'ana@test.com',
     role: 'UI/UX Designer',
     bio: 'This is a nice user description that we can use as demo content.',
     medias: {
@@ -348,6 +356,7 @@ export const users = [
     name: 'Mary Lebowski',
     shortname: 'Mary L.',
     location: 'San Diego, CA',
+    email: 'mary@test.com',
     role: 'Project Manager',
     bio: 'This is a nice user description that we can use as demo content.',
     medias: {
@@ -391,6 +400,7 @@ export const users = [
     name: 'Jonathan Krugger',
     shortname: 'Jonathan K.',
     location: 'Los Angeles, CA',
+    email: 'jonathan@test.com',
     role: 'Product Manager',
     bio: 'This is a nice user description that we can use as demo content.',
     medias: {
@@ -434,6 +444,7 @@ export const users = [
     name: 'Benoit Leblanc',
     shortname: 'Benoit L.',
     location: 'Paris, France',
+    email: 'benoit@test.com',
     role: 'Software Engineer',
     bio: 'This is a nice user description that we can use as demo content.',
     medias: {
@@ -477,6 +488,7 @@ export const users = [
     name: 'Christie Dallas',
     shortname: 'Christie D.',
     location: 'Los Angeles, CA',
+    email: 'christie@test.com',
     role: 'Web Developer',
     bio: 'This is a nice user description that we can use as demo content.',
     medias: {
@@ -520,6 +532,7 @@ export const users = [
     name: 'Courtney Wilson',
     shortname: 'Courtney W.',
     location: 'Melbourne, Australia',
+    email: 'courtney@test.com',
     role: 'Web Developer',
     bio: 'This is a nice user description that we can use as demo content.',
     medias: {
@@ -563,6 +576,7 @@ export const users = [
     name: 'Jason Guarank',
     shortname: 'Jason G.',
     location: 'Houston, TX',
+    email: 'jason@test.com',
     role: 'Business Analyst',
     bio: 'This is a nice user description that we can use as demo content.',
     medias: {
@@ -606,6 +620,7 @@ export const users = [
     name: 'Irina Vierbovsky',
     shortname: 'Irina V.',
     location: 'San Diego, CA',
+    email: 'irina@test.com',
     role: 'Project Manager',
     bio: 'This is a nice user description that we can use as demo content.',
     medias: {
@@ -649,6 +664,7 @@ export const users = [
     name: 'Edouard Falant',
     shortname: 'Edouard F.',
     location: 'Paris, France',
+    email: 'edouard@test.com',
     role: 'Web Developer',
     bio: 'This is a nice user description that we can use as demo content.',
     medias: {
@@ -692,6 +708,7 @@ export const users = [
     name: 'Alice Carasca',
     shortname: 'Alice C.',
     location: 'San Diego, CA',
+    email: 'alice@test.com',
     role: 'Software Engineer',
     bio: 'This is a nice user description that we can use as demo content.',
     medias: {
@@ -735,6 +752,7 @@ export const users = [
     name: 'Dwayne Hicks',
     shortname: 'Dwayne H.',
     location: 'Los Angeles, CA',
+    email: 'dwayne@test.com',
     role: 'Product Manager',
     bio: 'This is a nice user description that we can use as demo content.',
     medias: {

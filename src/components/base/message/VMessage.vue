@@ -22,15 +22,11 @@ const props = withDefaults(defineProps<VMessageProps>(), {
 
 <template>
   <div class="message" :class="[props.color && `is-${props.color}`]">
-    <a
-      v-if="props.closable"
-      aria-label="Dismiss"
-      class="delete"
-      tabindex="0"
-      @keydown.space.prevent="emit('close')"
-      @click.prevent="emit('close')"
-    ></a>
-    <div class="message-body"><slot></slot></div>
+    <a v-if="props.closable" aria-label="Dismiss" class="delete" tabindex="0" @keydown.space.prevent="emit('close')"
+      @click.prevent="emit('close')"></a>
+    <div class="message-body">
+      <slot></slot>
+    </div>
   </div>
 </template>
 
@@ -45,6 +41,7 @@ const props = withDefaults(defineProps<VMessageProps>(), {
     border-color: var(--primary-light-24);
 
     .delete {
+
       &::before,
       &::after {
         background-color: var(--primary);
@@ -56,6 +53,7 @@ const props = withDefaults(defineProps<VMessageProps>(), {
     border-color: var(--info-light-24);
 
     .delete {
+
       &::before,
       &::after {
         background-color: var(--info);
@@ -67,6 +65,7 @@ const props = withDefaults(defineProps<VMessageProps>(), {
     border-color: var(--success-light-24);
 
     .delete {
+
       &::before,
       &::after {
         background-color: var(--success);
@@ -78,6 +77,7 @@ const props = withDefaults(defineProps<VMessageProps>(), {
     border-color: var(--warning-light-24);
 
     .delete {
+
       &::before,
       &::after {
         background-color: var(--warning);
@@ -89,6 +89,7 @@ const props = withDefaults(defineProps<VMessageProps>(), {
     border-color: var(--danger-light-24);
 
     .delete {
+
       &::before,
       &::after {
         background-color: var(--danger);
@@ -104,12 +105,12 @@ const props = withDefaults(defineProps<VMessageProps>(), {
 
     &::before {
       height: 1px;
-      background-color: var(--light-text);
+      // background-color: var(--light-text);
     }
 
     &::after {
       width: 1px;
-      background-color: var(--light-text);
+      // background-color: var(--light-text);
     }
   }
 
@@ -126,7 +127,7 @@ const props = withDefaults(defineProps<VMessageProps>(), {
       border-color: var(--dark-sidebar-light-3);
 
       .message-body {
-        color: var(--light-text);
+        // color: var(--light-text);
       }
     }
 
@@ -143,6 +144,7 @@ const props = withDefaults(defineProps<VMessageProps>(), {
       }
 
       .delete {
+
         &::before,
         &::after {
           background-color: var(--white);
@@ -159,6 +161,7 @@ const props = withDefaults(defineProps<VMessageProps>(), {
       }
 
       .delete {
+
         &::before,
         &::after {
           background-color: var(--white);
@@ -175,6 +178,7 @@ const props = withDefaults(defineProps<VMessageProps>(), {
       }
 
       .delete {
+
         &::before,
         &::after {
           background-color: var(--white);
@@ -191,6 +195,7 @@ const props = withDefaults(defineProps<VMessageProps>(), {
       }
 
       .delete {
+
         &::before,
         &::after {
           background-color: var(--white);
@@ -207,6 +212,7 @@ const props = withDefaults(defineProps<VMessageProps>(), {
       }
 
       .delete {
+
         &::before,
         &::after {
           background-color: var(--white);

@@ -41,7 +41,7 @@
         &:nth-child(2) {
           font-family: var(--font);
           font-size: 0.9rem;
-          color: var(--light-text);
+          // color: var(--light-text);
         }
       }
     }
@@ -132,8 +132,8 @@
 
     .active {
       background: var(--white);
-      border-color: var(--light-text);
-      color: var(--light-text);
+      // border-color: var(--light-text);
+      // color: var(--light-text);
       opacity: 0;
       z-index: 0;
     }

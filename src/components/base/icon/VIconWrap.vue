@@ -42,34 +42,21 @@ const isIconify = computed(() => {
 </script>
 
 <template>
-  <div
-    class="icon-wrap"
-    :class="[
-      props.color && !props.hasBackground && `has-text-${props.color}`,
-      props.color && props.hasBackground && `has-background-${props.color}`,
-      props.color && props.color !== 'white' && props.hasBackground && `has-text-white`,
-      props.color && props.color === 'white' && props.hasBackground && `has-text-black`,
-      props.size && `is-${props.size}`,
-      props.dark && !props.hasBackground && `is-dark-bg-${props.dark}`,
-      props.darkPrimary && 'is-dark-primary',
-      props.darkCardBordered && 'is-dark-card-bordered',
-      props.hasLargeIcon && 'has-large-icon',
-      props.picture && 'has-img',
-      props.placeholder && 'is-placeholder',
-    ]"
-  >
-    <img
-      v-if="props.picture"
-      :src="props.picture"
-      alt=""
-      @error.once="(event) => onceImageErrored(event, '32x32')"
-    />
-    <i
-      v-else-if="isIconify"
-      aria-hidden="true"
-      class="iconify"
-      :data-icon="props.icon"
-    ></i>
+  <div class="icon-wrap" :class="[
+    props.color && !props.hasBackground && `has-text-${props.color}`,
+    props.color && props.hasBackground && `has-background-${props.color}`,
+    props.color && props.color !== 'white' && props.hasBackground && `has-text-white`,
+    props.color && props.color === 'white' && props.hasBackground && `has-text-black`,
+    props.size && `is-${props.size}`,
+    props.dark && !props.hasBackground && `is-dark-bg-${props.dark}`,
+    props.darkPrimary && 'is-dark-primary',
+    props.darkCardBordered && 'is-dark-card-bordered',
+    props.hasLargeIcon && 'has-large-icon',
+    props.picture && 'has-img',
+    props.placeholder && 'is-placeholder',
+  ]">
+    <img v-if="props.picture" :src="props.picture" alt="" @error.once="(event) => onceImageErrored(event, '32x32')" />
+    <i v-else-if="isIconify" aria-hidden="true" class="iconify" :data-icon="props.icon"></i>
     <i v-else-if="props.icon" aria-hidden="true" :class="props.icon"></i>
     <slot name="after"></slot>
   </div>
@@ -134,7 +121,7 @@ const isIconify = computed(() => {
   &.is-placeholder {
     background-color: var(--fade-grey-light-2) !important;
     border-color: var(--fade-grey-dark-3) !important;
-    color: var(--light-text);
+    // color: var(--light-text);
 
     i {
       font-size: 1.4rem;

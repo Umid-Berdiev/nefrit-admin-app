@@ -142,7 +142,7 @@
 
       p {
         font-size: 0.9rem;
-        color: var(--light-text);
+        // color: var(--light-text);
       }
 
       .msg-inner {
@@ -157,7 +157,7 @@
         display: block;
         text-align: right;
         font-size: 0.8rem;
-        color: var(--light-text);
+        // color: var(--light-text);
         margin-top: 3px;
         cursor: default;
         -webkit-touch-callout: none;
@@ -210,7 +210,7 @@
         display: block;
         text-align: left;
         font-size: 0.8rem;
-        color: var(--light-text);
+        // color: var(--light-text);
         margin-top: 3px;
         cursor: default;
         -webkit-touch-callout: none;

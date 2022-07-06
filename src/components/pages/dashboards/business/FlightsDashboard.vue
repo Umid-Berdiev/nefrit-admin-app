@@ -15,16 +15,10 @@ const options = ref(['All Flights'])
       <div class="column is-9">
         <!--Booking bar-->
         <div class="booking-bar-wrapper">
-          <img
-            class="travel-illustration light-image"
-            src="/@src/assets/illustrations/dashboards/flights/travel.svg"
-            alt=""
-          />
-          <img
-            class="travel-illustration dark-image"
-            src="/@src/assets/illustrations/dashboards/flights/travel-dark.svg"
-            alt=""
-          />
+          <img class="travel-illustration light-image" src="/@src/assets/illustrations/dashboards/flights/travel.svg"
+            alt="" />
+          <img class="travel-illustration dark-image"
+            src="/@src/assets/illustrations/dashboards/flights/travel-dark.svg" alt="" />
           <div class="booking-bar-info">
             <i aria-hidden="true" class="lnil lnil-plane-alt"></i>
             <div class="inner">
@@ -40,22 +34,12 @@ const options = ref(['All Flights'])
               <template #default="{ inputValue, inputEvents }">
                 <div class="booking-bar-inputs">
                   <VControl icon="feather:calendar">
-                    <input
-                      type="text"
-                      class="input flight-datepicker"
-                      placeholder="Departure"
-                      :value="inputValue.start"
-                      v-on="inputEvents.start"
-                    />
+                    <input type="text" class="input flight-datepicker" placeholder="Departure" :value="inputValue.start"
+                      v-on="inputEvents.start" />
                   </VControl>
                   <VControl icon="feather:calendar">
-                    <input
-                      type="text"
-                      class="input flight-datepicker"
-                      placeholder="Return"
-                      :value="inputValue.end"
-                      v-on="inputEvents.end"
-                    />
+                    <input type="text" class="input flight-datepicker" placeholder="Return" :value="inputValue.end"
+                      v-on="inputEvents.end" />
                   </VControl>
                 </div>
               </template>
@@ -104,10 +88,7 @@ const options = ref(['All Flights'])
         <div class="flights">
           <!--Flight-->
           <a class="flight-card">
-            <img
-              src="/@src/assets/illustrations/dashboards/flights/company1.svg"
-              alt=""
-            />
+            <img src="/@src/assets/illustrations/dashboards/flights/company1.svg" alt="" />
             <div class="start">
               <span>11:30 am</span>
               <span>Paris ORLY</span>
@@ -130,10 +111,7 @@ const options = ref(['All Flights'])
 
           <!--Flight-->
           <a class="flight-card">
-            <img
-              src="/@src/assets/illustrations/dashboards/flights/company2.svg"
-              alt=""
-            />
+            <img src="/@src/assets/illustrations/dashboards/flights/company2.svg" alt="" />
             <div class="start">
               <span>09:30 am</span>
               <span>Paris ORLY</span>
@@ -156,10 +134,7 @@ const options = ref(['All Flights'])
 
           <!--Flight-->
           <a class="flight-card">
-            <img
-              src="/@src/assets/illustrations/dashboards/flights/company1.svg"
-              alt=""
-            />
+            <img src="/@src/assets/illustrations/dashboards/flights/company1.svg" alt="" />
             <div class="start">
               <span>06:42 am</span>
               <span>Paris ORLY</span>
@@ -182,10 +157,7 @@ const options = ref(['All Flights'])
 
           <!--Flight-->
           <a class="flight-card">
-            <img
-              src="/@src/assets/illustrations/dashboards/flights/company3.svg"
-              alt=""
-            />
+            <img src="/@src/assets/illustrations/dashboards/flights/company3.svg" alt="" />
             <div class="start">
               <span>07:23 am</span>
               <span>Paris ORLY</span>
@@ -208,10 +180,7 @@ const options = ref(['All Flights'])
 
           <!--Flight-->
           <a class="flight-card">
-            <img
-              src="/@src/assets/illustrations/dashboards/flights/company1.svg"
-              alt=""
-            />
+            <img src="/@src/assets/illustrations/dashboards/flights/company1.svg" alt="" />
             <div class="start">
               <span>10:12 am</span>
               <span>Paris ORLY</span>
@@ -261,11 +230,7 @@ const options = ref(['All Flights'])
             <div class="widget-toolbar">
               <div class="left">
                 <a class="action-icon">
-                  <i
-                    aria-hidden="true"
-                    class="iconify"
-                    data-icon="feather:chevron-left"
-                  ></i>
+                  <i aria-hidden="true" class="iconify" data-icon="feather:chevron-left"></i>
                 </a>
               </div>
               <div class="center">
@@ -273,11 +238,7 @@ const options = ref(['All Flights'])
               </div>
               <div class="right">
                 <a class="action-icon">
-                  <i
-                    aria-hidden="true"
-                    class="iconify"
-                    data-icon="feather:chevron-right"
-                  ></i>
+                  <i aria-hidden="true" class="iconify" data-icon="feather:chevron-right"></i>
                 </a>
               </div>
             </div>
@@ -360,40 +321,16 @@ const options = ref(['All Flights'])
             <div class="field">
               <h5 class="dark-inverted">Stops</h5>
               <div class="control">
-                <VCheckbox
-                  v-model="options"
-                  value-true="All Flights"
-                  label="All Flights"
-                  color="primary"
-                  circle
-                />
+                <VCheckbox v-model="options" value-true="All Flights" label="All Flights" color="primary" circle />
               </div>
               <div class="control">
-                <VCheckbox
-                  v-model="options"
-                  value-true="No Stops"
-                  label="No Stops"
-                  color="primary"
-                  circle
-                />
+                <VCheckbox v-model="options" value-true="No Stops" label="No Stops" color="primary" circle />
               </div>
               <div class="control">
-                <VCheckbox
-                  v-model="options"
-                  value-true="1 Stop"
-                  label="1 Stop"
-                  color="primary"
-                  circle
-                />
+                <VCheckbox v-model="options" value-true="1 Stop" label="1 Stop" color="primary" circle />
               </div>
               <div class="control">
-                <VCheckbox
-                  v-model="options"
-                  value-true="2 Stops"
-                  label="2 Stops"
-                  color="primary"
-                  circle
-                />
+                <VCheckbox v-model="options" value-true="2 Stops" label="2 Stops" color="primary" circle />
               </div>
             </div>
           </div>
@@ -402,40 +339,18 @@ const options = ref(['All Flights'])
             <div class="field">
               <h5 class="dark-inverted">Luggage</h5>
               <div class="control">
-                <VCheckbox
-                  v-model="options"
-                  value-true="All Options"
-                  label="All Options"
-                  color="primary"
-                  circle
-                />
+                <VCheckbox v-model="options" value-true="All Options" label="All Options" color="primary" circle />
               </div>
               <div class="control">
-                <VCheckbox
-                  v-model="options"
-                  value-true="1 Cabine Luggage"
-                  label="1 Cabine Luggage"
-                  color="primary"
-                  circle
-                />
+                <VCheckbox v-model="options" value-true="1 Cabine Luggage" label="1 Cabine Luggage" color="primary"
+                  circle />
               </div>
               <div class="control">
-                <VCheckbox
-                  v-model="options"
-                  value-true="2 Cabin Luggage"
-                  label="2 Cabin Luggage"
-                  color="primary"
-                  circle
-                />
+                <VCheckbox v-model="options" value-true="2 Cabin Luggage" label="2 Cabin Luggage" color="primary"
+                  circle />
               </div>
               <div class="control">
-                <VCheckbox
-                  v-model="options"
-                  value-true="None"
-                  label="None"
-                  color="primary"
-                  circle
-                />
+                <VCheckbox v-model="options" value-true="None" label="None" color="primary" circle />
               </div>
             </div>
           </div>
@@ -512,7 +427,7 @@ const options = ref(['All Flights'])
 
         .input {
           font-family: var(--font);
-          color: var(--light-text);
+          // color: var(--light-text);
         }
       }
     }
@@ -592,7 +507,7 @@ const options = ref(['All Flights'])
 
           &:nth-child(2) {
             font-family: var(--font);
-            color: var(--light-text);
+            // color: var(--light-text);
             font-size: 0.9rem;
           }
         }
@@ -617,6 +532,7 @@ const options = ref(['All Flights'])
 
         .route {
           .line {
+
             &::before,
             &::after {
               opacity: 1;
@@ -625,7 +541,7 @@ const options = ref(['All Flights'])
         }
       }
 
-      > img {
+      >img {
         display: block;
         border-radius: var(--radius-rounded);
         max-width: 32px;
@@ -648,7 +564,7 @@ const options = ref(['All Flights'])
           &:nth-child(3) {
             font-family: var(--font);
             font-size: 0.9rem;
-            color: var(--light-text);
+            // color: var(--light-text);
           }
         }
       }
@@ -709,7 +625,7 @@ const options = ref(['All Flights'])
             width: 130px;
             font-size: 0.8rem;
             text-align: center;
-            color: var(--light-text);
+            // color: var(--light-text);
           }
         }
 
@@ -726,7 +642,7 @@ const options = ref(['All Flights'])
             position: relative;
             top: -4px;
             right: 5px;
-            color: var(--light-text);
+            // color: var(--light-text);
             margin-left: 0.75rem;
           }
         }
@@ -736,7 +652,7 @@ const options = ref(['All Flights'])
         font-family: var(--font);
         font-size: 1.8rem;
         font-weight: 600;
-        color: var(--light-text);
+        // color: var(--light-text);
 
         &::before {
           content: '$';
@@ -773,7 +689,7 @@ const options = ref(['All Flights'])
       padding: 20px 0 0;
 
       .field {
-        > h5 {
+        >h5 {
           font-family: var(--font-alt);
           font-weight: 600;
           font-size: 0.8rem;
@@ -864,7 +780,7 @@ const options = ref(['All Flights'])
       }
 
       .booking-bar {
-        > div {
+        >div {
           width: 100%;
         }
 
@@ -894,7 +810,7 @@ const options = ref(['All Flights'])
           margin-bottom: 0;
         }
 
-        > img {
+        >img {
           max-width: 48px;
           margin-bottom: 12px;
         }
@@ -914,6 +830,7 @@ const options = ref(['All Flights'])
           max-width: 100%;
 
           .line {
+
             &::before,
             &::after {
               display: none !important;

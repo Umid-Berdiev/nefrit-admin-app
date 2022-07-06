@@ -67,7 +67,7 @@ watch(
 
   &.is-primary {
     input {
-      &:checked + i {
+      &:checked+i {
         background-color: var(--primary);
       }
     }
@@ -75,7 +75,7 @@ watch(
 
   &.is-success {
     input {
-      &:checked + i {
+      &:checked+i {
         background-color: var(--success);
       }
     }
@@ -83,7 +83,7 @@ watch(
 
   &.is-info {
     input {
-      &:checked + i {
+      &:checked+i {
         background-color: var(--info);
       }
     }
@@ -91,7 +91,7 @@ watch(
 
   &.is-warning {
     input {
-      &:checked + i {
+      &:checked+i {
         background-color: var(--warning);
       }
     }
@@ -99,7 +99,7 @@ watch(
 
   &.is-danger {
     input {
-      &:checked + i {
+      &:checked+i {
         background-color: var(--danger);
       }
     }
@@ -148,7 +148,7 @@ watch(
     }
 
     input {
-      &:checked + i::after {
+      &:checked+i::after {
         transform: translate3d(16px, 2px, 0);
       }
     }
@@ -159,8 +159,8 @@ watch(
     opacity: 0;
     pointer-events: none;
 
-    &:checked + i {
-      background-color: var(--light-text);
+    &:checked+i {
+      // background-color: var(--light-text);
 
       &::before {
         transform: translate3d(18px, 2px, 0) scale3d(0, 0, 0);
@@ -191,7 +191,7 @@ watch(
       display: block;
       position: relative;
       top: -2px;
-      color: var(--light-text);
+      // color: var(--light-text);
     }
   }
 }
@@ -200,7 +200,7 @@ watch(
   .form-switch {
     &.is-primary {
       input {
-        &:checked + i {
+        &:checked+i {
           background-color: var(--primary) !important;
 
           &::after {
@@ -212,7 +212,7 @@ watch(
 
     &.is-success {
       input {
-        &:checked + i {
+        &:checked+i {
           background-color: var(--success) !important;
 
           &::after {
@@ -224,7 +224,7 @@ watch(
 
     &.is-info {
       input {
-        &:checked + i {
+        &:checked+i {
           background-color: var(--info) !important;
 
           &::after {
@@ -236,7 +236,7 @@ watch(
 
     &.is-warning {
       input {
-        &:checked + i {
+        &:checked+i {
           background-color: var(--warning) !important;
 
           &::after {
@@ -248,7 +248,7 @@ watch(
 
     &.is-danger {
       input {
-        &:checked + i {
+        &:checked+i {
           background-color: var(--danger) !important;
 
           &::after {
@@ -271,7 +271,7 @@ watch(
     }
 
     input {
-      &:checked + i {
+      &:checked+i {
         &::after {
           background: var(--dark-sidebar-light-55) !important;
         }
@@ -297,7 +297,7 @@ watch(
   }
 
   &.is-primary {
-    .input:checked ~ .slider {
+    .input:checked~.slider {
       background: var(--primary-light-20);
 
       &::after {
@@ -308,7 +308,7 @@ watch(
   }
 
   &.is-success {
-    .input:checked ~ .slider {
+    .input:checked~.slider {
       background: var(--success-light-20);
 
       &::after {
@@ -319,7 +319,7 @@ watch(
   }
 
   &.is-info {
-    .input:checked ~ .slider {
+    .input:checked~.slider {
       background: var(--info-light-20);
 
       &::after {
@@ -330,7 +330,7 @@ watch(
   }
 
   &.is-warning {
-    .input:checked ~ .slider {
+    .input:checked~.slider {
       background: var(--warning-light-20);
 
       &::after {
@@ -341,7 +341,7 @@ watch(
   }
 
   &.is-danger {
-    .input:checked ~ .slider {
+    .input:checked~.slider {
       background: var(--danger-light-20);
 
       &::after {
@@ -384,18 +384,18 @@ watch(
   .input {
     display: none;
 
-    ~ .label {
+    ~.label {
       margin-left: 8px;
     }
 
-    &:checked ~ .slider {
+    &:checked~.slider {
       &::after {
         left: 32px - 24px + 8px;
       }
     }
   }
 
-  .input:checked ~ .slider {
+  .input:checked~.slider {
     &::after {
       background: var(--white);
       border: 1px solid var(--fade-grey);
@@ -414,7 +414,7 @@ watch(
     span {
       display: block;
       position: relative;
-      color: var(--light-text);
+      // color: var(--light-text);
     }
   }
 }
@@ -422,7 +422,7 @@ watch(
 .is-dark {
   .thin-switch {
     &.is-primary {
-      .input:checked ~ .slider {
+      .input:checked~.slider {
         background: var(--primary-light-20);
 
         &::after {
@@ -433,7 +433,7 @@ watch(
     }
 
     &.is-success {
-      .input:checked ~ .slider {
+      .input:checked~.slider {
         &::after {
           background: var(--success);
           border-color: var(--success);
@@ -442,7 +442,7 @@ watch(
     }
 
     &.is-info {
-      .input:checked ~ .slider {
+      .input:checked~.slider {
         &::after {
           background: var(--info);
           border-color: var(--info);
@@ -451,7 +451,7 @@ watch(
     }
 
     &.is-warning {
-      .input:checked ~ .slider {
+      .input:checked~.slider {
         &::after {
           background: var(--warning);
           border-color: var(--warning);
@@ -460,7 +460,7 @@ watch(
     }
 
     &.is-danger {
-      .input:checked ~ .slider {
+      .input:checked~.slider {
         &::after {
           background: var(--danger);
           border-color: var(--danger);
@@ -476,7 +476,7 @@ watch(
       }
     }
 
-    .input:checked ~ .slider {
+    .input:checked~.slider {
       &::after {
         background: var(--dark-sidebar-light-55);
         border: var(--dark-sidebar-light-55);
@@ -499,7 +499,7 @@ watch(
     }
 
     &:nth-child(3) {
-      color: var(--light-text);
+      // color: var(--light-text);
     }
   }
 

@@ -31,6 +31,7 @@ const data: User[] = users
 // }
 const filterForm = ref({})
 
+const isFormModalOpen = ref(false)
 const isFeedbackModalOpen = ref(false)
 const displayFilterForm = ref(false)
 const selectedRowsId = ref<number[]>([])
@@ -142,25 +143,7 @@ function confirmAction() {
 
 <template>
   <div class="applicant-list-wrapper">
-    <!-- filter block -->
-    <VBlock title="" center>
-      <template #action>
-        <VButtons>
-          <VButton outlined rounded color="info" icon="feather:plus"> {{ t('Add') }} </VButton>
-          <VButton outlined rounded color="primary" icon="feather:printer">
-            {{ t('Print') }}
-          </VButton>
-          <VButton outlined rounded color="warning" icon="feather:filter"
-            @click="displayFilterForm = !displayFilterForm">
-            {{ t('Filter') }}
-          </VButton>
-          <!-- <VButton outlined rounded color="info" icon="feather:eye"> View </VButton> -->
-          <VButton outlined rounded color="danger" icon="feather:trash">
-            {{ t('Delete_selected') }}
-          </VButton>
-        </VButtons>
-      </template>
-    </VBlock>
+    <TableActionsBlock center title="" @add="isFormModalOpen = true" @filter="displayFilterForm = !displayFilterForm" />
     <div v-show="displayFilterForm" class="mb-5">
       <VCard radius="small">
         <h3 class="title is-5 mb-2">{{ t('Filter_form') }}</h3>

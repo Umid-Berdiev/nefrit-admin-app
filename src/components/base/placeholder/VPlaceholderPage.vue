@@ -34,7 +34,7 @@ const props = withDefaults(defineProps<VPlaceholderPageProps>(), {
 
   &.is-wider {
     .placeholder-content {
-      > p {
+      >p {
         font-size: 1rem;
         max-width: 420px;
       }
@@ -65,7 +65,7 @@ const props = withDefaults(defineProps<VPlaceholderPageProps>(), {
       font-size: 1.1rem;
       max-width: 440px;
       margin: 0 auto 12px;
-      color: var(--light-text);
+      // color: var(--light-text);
 
       &.is-larger {
         max-width: 620px;

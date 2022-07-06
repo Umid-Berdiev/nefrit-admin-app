@@ -50,65 +50,45 @@ const validateStep = async () => {
       <ul class="steps has-content-centered is-thin is-horizontal is-short">
         <li :class="[currentStep === 0 && 'is-active']" class="steps-segment">
           <span class="steps-marker"></span>
-          <a
-            href="#"
-            class="steps-content"
-            @click.prevent="
-              currentStep >= 0 && scrollTo('#form-step-0', 800, { offset: -150 })
-            "
-          >
+          <a href="#" class="steps-content" @click.prevent="
+            currentStep >= 0 && scrollTo('#form-step-0', 800, { offset: -150 })
+          ">
             <p class="step-number">Step 1</p>
           </a>
         </li>
 
         <li :class="[currentStep === 1 && 'is-active']" class="steps-segment">
           <span class="steps-marker"></span>
-          <a
-            href="#"
-            class="steps-content"
-            @click.prevent="
-              currentStep >= 1 && scrollTo('#form-step-1', 800, { offset: -150 })
-            "
-          >
+          <a href="#" class="steps-content" @click.prevent="
+            currentStep >= 1 && scrollTo('#form-step-1', 800, { offset: -150 })
+          ">
             <p class="step-number">Step 2</p>
           </a>
         </li>
 
         <li :class="[currentStep === 2 && 'is-active']" class="steps-segment">
           <span class="steps-marker"></span>
-          <a
-            href="#"
-            class="steps-content"
-            @click.prevent="
-              currentStep >= 2 && scrollTo('#form-step-2', 800, { offset: -150 })
-            "
-          >
+          <a href="#" class="steps-content" @click.prevent="
+            currentStep >= 2 && scrollTo('#form-step-2', 800, { offset: -150 })
+          ">
             <p class="step-number">Step 3</p>
           </a>
         </li>
 
         <li :class="[currentStep === 3 && 'is-active']" class="steps-segment">
           <span class="steps-marker"></span>
-          <a
-            href="#"
-            class="steps-content"
-            @click.prevent="
-              currentStep >= 3 && scrollTo('#form-step-3', 800, { offset: -150 })
-            "
-          >
+          <a href="#" class="steps-content" @click.prevent="
+            currentStep >= 3 && scrollTo('#form-step-3', 800, { offset: -150 })
+          ">
             <p class="step-number">Step 4</p>
           </a>
         </li>
 
         <li :class="[currentStep === 4 && 'is-active']" class="steps-segment">
           <span class="steps-marker"></span>
-          <a
-            href="#"
-            class="steps-content"
-            @click.prevent="
-              currentStep >= 4 && scrollTo('#form-step-4', 800, { offset: -150 })
-            "
-          >
+          <a href="#" class="steps-content" @click.prevent="
+            currentStep >= 4 && scrollTo('#form-step-4', 800, { offset: -150 })
+          ">
             <p class="step-number">Step 5</p>
           </a>
         </li>
@@ -119,15 +99,9 @@ const validateStep = async () => {
         <div v-if="currentStep >= 0" id="form-step-0" class="form-section is-active">
           <h3 class="form-section-title">
             <span>General Information</span>
-            <button
-              type="button"
-              class="help-button"
-              tabindex="0"
-              @keydown.space.prevent="
-                currentHelp === 0 ? (currentHelp = -1) : (currentHelp = 0)
-              "
-              @click="currentHelp === 0 ? (currentHelp = -1) : (currentHelp = 0)"
-            >
+            <button type="button" class="help-button" tabindex="0" @keydown.space.prevent="
+              currentHelp === 0 ? (currentHelp = -1) : (currentHelp = 0)
+            " @click="currentHelp === 0 ? (currentHelp = -1) : (currentHelp = 0)">
               <i aria-hidden="true" class="iconify" data-icon="feather:help-circle"></i>
             </button>
           </h3>
@@ -154,11 +128,7 @@ const validateStep = async () => {
                   <VInput type="text" placeholder="Group name" />
                 </VControl>
                 <VControl subcontrol>
-                  <VSwitchSegment
-                    color="primary"
-                    label-true="Other"
-                    label-false="Ground"
-                  />
+                  <VSwitchSegment color="primary" label-true="Other" label-false="Ground" />
                 </VControl>
               </VField>
 
@@ -187,11 +157,8 @@ const validateStep = async () => {
               <VField>
                 <VLabel>Type</VLabel>
                 <VControl>
-                  <Multiselect
-                    v-model="controlType"
-                    :options="['X-REF Quality', 'SERPA Check', 'AMF Check']"
-                    placeholder="Select a control type"
-                  />
+                  <Multiselect v-model="controlType" :options="['X-REF Quality', 'SERPA Check', 'AMF Check']"
+                    placeholder="Select a control type" />
                 </VControl>
               </VField>
 
@@ -205,16 +172,11 @@ const validateStep = async () => {
               <VField v-slot="{ id }">
                 <VLabel>Method</VLabel>
                 <VControl>
-                  <Multiselect
-                    v-model="storageType"
-                    :attrs="{ id }"
-                    :options="[
-                      'LVL 1 Security warehouse',
-                      'LVL 2 Security warehouse',
-                      'LVL 3 Security warehouse',
-                    ]"
-                    placeholder="Select a storage"
-                  />
+                  <Multiselect v-model="storageType" :attrs="{ id }" :options="[
+                    'LVL 1 Security warehouse',
+                    'LVL 2 Security warehouse',
+                    'LVL 3 Security warehouse',
+                  ]" placeholder="Select a storage" />
                 </VControl>
               </VField>
 
@@ -254,14 +216,9 @@ const validateStep = async () => {
           <div v-if="currentStep >= 1" id="form-step-1" class="form-section is-active">
             <h3 class="form-section-title">
               <span>Shipment Owner</span>
-              <button
-                type="button"
-                class="help-button"
-                @keydown.space.prevent="
-                  currentHelp === 1 ? (currentHelp = -1) : (currentHelp = 1)
-                "
-                @click="currentHelp === 1 ? (currentHelp = -1) : (currentHelp = 1)"
-              >
+              <button type="button" class="help-button" @keydown.space.prevent="
+                currentHelp === 1 ? (currentHelp = -1) : (currentHelp = 1)
+              " @click="currentHelp === 1 ? (currentHelp = -1) : (currentHelp = 1)">
                 <i aria-hidden="true" class="iconify" data-icon="feather:help-circle"></i>
               </button>
             </h3>
@@ -333,14 +290,9 @@ const validateStep = async () => {
           <div v-if="currentStep >= 2" id="form-step-2" class="form-section is-active">
             <h3 class="form-section-title">
               <span>Shipment Taxes</span>
-              <button
-                type="button"
-                class="help-button"
-                @keydown.space.prevent="
-                  currentHelp === 2 ? (currentHelp = -1) : (currentHelp = 2)
-                "
-                @click="currentHelp === 2 ? (currentHelp = -1) : (currentHelp = 2)"
-              >
+              <button type="button" class="help-button" @keydown.space.prevent="
+                currentHelp === 2 ? (currentHelp = -1) : (currentHelp = 2)
+              " @click="currentHelp === 2 ? (currentHelp = -1) : (currentHelp = 2)">
                 <i aria-hidden="true" class="iconify" data-icon="feather:help-circle"></i>
               </button>
             </h3>
@@ -356,22 +308,15 @@ const validateStep = async () => {
                 <div class="column is-6">
                   <VField>
                     <VControl>
-                      <Multiselect
-                        v-model="taxType"
-                        :options="['VAT', 'RFC', 'SFC']"
-                        placeholder="Tax Type"
-                      />
+                      <Multiselect v-model="taxType" :options="['VAT', 'RFC', 'SFC']" placeholder="Tax Type" />
                     </VControl>
                   </VField>
                 </div>
                 <div class="column is-6">
                   <VField>
                     <VControl>
-                      <Multiselect
-                        v-model="taxStatements"
-                        :options="['W-12 Form', 'W-12a Form', 'Z-Form']"
-                        placeholder="Tax Statements"
-                      />
+                      <Multiselect v-model="taxStatements" :options="['W-12 Form', 'W-12a Form', 'Z-Form']"
+                        placeholder="Tax Statements" />
                     </VControl>
                   </VField>
                 </div>
@@ -384,14 +329,9 @@ const validateStep = async () => {
           <div v-if="currentStep >= 3" id="form-step-3" class="form-section is-active">
             <h3 class="form-section-title">
               <span>Options</span>
-              <button
-                type="button"
-                class="help-button"
-                @keydown.space.prevent="
-                  currentHelp === 3 ? (currentHelp = -1) : (currentHelp = 3)
-                "
-                @click="currentHelp === 3 ? (currentHelp = -1) : (currentHelp = 3)"
-              >
+              <button type="button" class="help-button" @keydown.space.prevent="
+                currentHelp === 3 ? (currentHelp = -1) : (currentHelp = 3)
+              " @click="currentHelp === 3 ? (currentHelp = -1) : (currentHelp = 3)">
                 <i aria-hidden="true" class="iconify" data-icon="feather:help-circle"></i>
               </button>
             </h3>
@@ -478,14 +418,9 @@ const validateStep = async () => {
           <div v-if="currentStep >= 4" id="form-step-4" class="form-section is-active">
             <h3 class="form-section-title">
               <span>Validation</span>
-              <button
-                type="button"
-                class="help-button"
-                @keydown.space.prevent="
-                  currentHelp === 4 ? (currentHelp = -1) : (currentHelp = 4)
-                "
-                @click="currentHelp === 4 ? (currentHelp = -1) : (currentHelp = 4)"
-              >
+              <button type="button" class="help-button" @keydown.space.prevent="
+                currentHelp === 4 ? (currentHelp = -1) : (currentHelp = 4)
+              " @click="currentHelp === 4 ? (currentHelp = -1) : (currentHelp = 4)">
                 <i aria-hidden="true" class="iconify" data-icon="feather:help-circle"></i>
               </button>
             </h3>
@@ -518,90 +453,60 @@ const validateStep = async () => {
 
       <div class="form-stepper">
         <ul v-if="currentHelp === -1" class="steps is-vertical is-thin is-short">
-          <li
-            id="step-segment-0"
-            :class="[currentStep === 0 && 'is-active']"
-            class="steps-segment"
-            tabindex="0"
+          <li id="step-segment-0" :class="[currentStep === 0 && 'is-active']" class="steps-segment" tabindex="0"
             @keydown.space.prevent="
               currentStep >= 0 && scrollTo('#form-step-0', 800, { offset: -20 })
-            "
-            @click.prevent="
+            " @click.prevent="
               currentStep >= 0 && scrollTo('#form-step-0', 800, { offset: -20 })
-            "
-          >
+            ">
             <a href="#" class="steps-marker"></a>
             <div class="steps-content">
               <p class="step-number">STEP 1</p>
               <p class="step-info">General Information</p>
             </div>
           </li>
-          <li
-            id="step-segment-1"
-            :class="[currentStep === 1 && 'is-active']"
-            class="steps-segment"
-            tabindex="0"
+          <li id="step-segment-1" :class="[currentStep === 1 && 'is-active']" class="steps-segment" tabindex="0"
             @keydown.space.prevent="
               currentStep >= 1 && scrollTo('#form-step-1', 800, { offset: -20 })
-            "
-            @click.prevent="
+            " @click.prevent="
               currentStep >= 1 && scrollTo('#form-step-1', 800, { offset: -20 })
-            "
-          >
+            ">
             <a href="#" class="steps-marker"></a>
             <div class="steps-content">
               <p class="step-number">STEP 2</p>
               <p class="step-info">Shipment Owner</p>
             </div>
           </li>
-          <li
-            id="step-segment-2"
-            :class="[currentStep === 2 && 'is-active']"
-            class="steps-segment"
-            tabindex="0"
+          <li id="step-segment-2" :class="[currentStep === 2 && 'is-active']" class="steps-segment" tabindex="0"
             @keydown.space.prevent="
               currentStep >= 2 && scrollTo('#form-step-2', 800, { offset: -20 })
-            "
-            @click.prevent="
+            " @click.prevent="
               currentStep >= 2 && scrollTo('#form-step-2', 800, { offset: -20 })
-            "
-          >
+            ">
             <a href="#" class="steps-marker"></a>
             <div class="steps-content">
               <p class="step-number">STEP 3</p>
               <p class="step-info">Shipment Taxes</p>
             </div>
           </li>
-          <li
-            id="step-segment-3"
-            :class="[currentStep === 3 && 'is-active']"
-            class="steps-segment"
-            tabindex="0"
+          <li id="step-segment-3" :class="[currentStep === 3 && 'is-active']" class="steps-segment" tabindex="0"
             @keydown.space.prevent="
               currentStep >= 3 && scrollTo('#form-step-3', 800, { offset: -20 })
-            "
-            @click.prevent="
+            " @click.prevent="
               currentStep >= 3 && scrollTo('#form-step-3', 800, { offset: -20 })
-            "
-          >
+            ">
             <a href="#" class="steps-marker"></a>
             <div class="steps-content">
               <p class="step-number">STEP 4</p>
               <p class="step-info">Options</p>
             </div>
           </li>
-          <li
-            id="step-segment-4"
-            :class="[currentStep === 4 && 'is-active']"
-            class="steps-segment"
-            tabindex="0"
+          <li id="step-segment-4" :class="[currentStep === 4 && 'is-active']" class="steps-segment" tabindex="0"
             @keydown.space.prevent="
               currentStep >= 4 && scrollTo('#form-step-4', 800, { offset: -20 })
-            "
-            @click.prevent="
+            " @click.prevent="
               currentStep >= 4 && scrollTo('#form-step-4', 800, { offset: -20 })
-            "
-          >
+            ">
             <a href="#" class="steps-marker"></a>
             <div class="steps-content">
               <p class="step-number">STEP 5</p>
@@ -610,17 +515,9 @@ const validateStep = async () => {
           </li>
         </ul>
         <div v-else class="form-help">
-          <div
-            v-if="currentHelp === 0"
-            id="help-section-0"
-            class="form-help-inner is-active"
-          >
-            <button
-              class="close-help-button"
-              tabindex="0"
-              @keydown.space.prevent="currentHelp = -1"
-              @click="currentHelp = -1"
-            >
+          <div v-if="currentHelp === 0" id="help-section-0" class="form-help-inner is-active">
+            <button class="close-help-button" tabindex="0" @keydown.space.prevent="currentHelp = -1"
+              @click="currentHelp = -1">
               <i aria-hidden="true" class="iconify" data-icon="feather:x"></i>
             </button>
             <h3>General Information</h3>
@@ -646,17 +543,9 @@ const validateStep = async () => {
               </ul>
             </div>
           </div>
-          <div
-            v-if="currentHelp === 1"
-            id="help-section-1"
-            class="form-help-inner is-active"
-          >
-            <button
-              class="close-help-button"
-              tabindex="0"
-              @keydown.space.prevent="currentHelp = -1"
-              @click="currentHelp = -1"
-            >
+          <div v-if="currentHelp === 1" id="help-section-1" class="form-help-inner is-active">
+            <button class="close-help-button" tabindex="0" @keydown.space.prevent="currentHelp = -1"
+              @click="currentHelp = -1">
               <i aria-hidden="true" class="iconify" data-icon="feather:x"></i>
             </button>
             <h3>Shipment Owner</h3>
@@ -678,17 +567,9 @@ const validateStep = async () => {
               </ul>
             </div>
           </div>
-          <div
-            v-if="currentHelp === 2"
-            id="help-section-2"
-            class="form-help-inner is-active"
-          >
-            <button
-              class="close-help-button"
-              tabindex="0"
-              @keydown.space.prevent="currentHelp = -1"
-              @click="currentHelp = -1"
-            >
+          <div v-if="currentHelp === 2" id="help-section-2" class="form-help-inner is-active">
+            <button class="close-help-button" tabindex="0" @keydown.space.prevent="currentHelp = -1"
+              @click="currentHelp = -1">
               <i aria-hidden="true" class="iconify" data-icon="feather:x"></i>
             </button>
             <h3>Shipment Taxes</h3>
@@ -714,17 +595,9 @@ const validateStep = async () => {
               </ul>
             </div>
           </div>
-          <div
-            v-if="currentHelp === 3"
-            id="help-section-3"
-            class="form-help-inner is-active"
-          >
-            <button
-              class="close-help-button"
-              tabindex="0"
-              @keydown.space.prevent="currentHelp = -1"
-              @click="currentHelp = -1"
-            >
+          <div v-if="currentHelp === 3" id="help-section-3" class="form-help-inner is-active">
+            <button class="close-help-button" tabindex="0" @keydown.space.prevent="currentHelp = -1"
+              @click="currentHelp = -1">
               <i aria-hidden="true" class="iconify" data-icon="feather:x"></i>
             </button>
             <h3>Options</h3>
@@ -746,17 +619,9 @@ const validateStep = async () => {
               </ul>
             </div>
           </div>
-          <div
-            v-if="currentHelp === 4"
-            id="help-section-4"
-            class="form-help-inner is-active"
-          >
-            <button
-              class="close-help-button"
-              tabindex="0"
-              @keydown.space.prevent="currentHelp = -1"
-              @click="currentHelp = -1"
-            >
+          <div v-if="currentHelp === 4" id="help-section-4" class="form-help-inner is-active">
+            <button class="close-help-button" tabindex="0" @keydown.space.prevent="currentHelp = -1"
+              @click="currentHelp = -1">
               <i aria-hidden="true" class="iconify" data-icon="feather:x"></i>
             </button>
             <h3>Validation</h3>
@@ -811,7 +676,7 @@ const validateStep = async () => {
         display: block;
       }
 
-      + .form-section {
+      +.form-section {
         margin-top: 4rem;
       }
 
@@ -853,12 +718,12 @@ const validateStep = async () => {
       }
 
       .field {
-        > label {
+        >label {
           margin-bottom: 0.25rem;
           display: inline-block;
         }
 
-        > .buttons {
+        >.buttons {
           padding: 2rem 0;
         }
       }
@@ -958,11 +823,11 @@ const validateStep = async () => {
             cursor: pointer;
 
             &:checked {
-              ~ .indicator {
+              ~.indicator {
                 transform: scale(1);
               }
 
-              ~ .option-inner {
+              ~.option-inner {
                 border-color: var(--primary);
                 box-shadow: var(--light-box-shadow);
 
@@ -1014,7 +879,7 @@ const validateStep = async () => {
 
             i {
               font-size: 2.25rem;
-              color: var(--light-text);
+              // color: var(--light-text);
               margin-bottom: 0.25rem;
             }
           }
@@ -1079,14 +944,14 @@ const validateStep = async () => {
             margin-bottom: 1rem;
           }
 
-          > svg {
+          >svg {
             height: 18px;
             width: 18px;
             margin-right: 0.75rem;
-            color: var(--light-text);
+            // color: var(--light-text);
           }
 
-          > span {
+          >span {
             font-weight: 500;
             font-family: var(--font);
             color: var(--dark-text);
@@ -1192,7 +1057,7 @@ const validateStep = async () => {
 
           span {
             font-family: var(--font);
-            color: var(--light-text);
+            // color: var(--light-text);
             font-weight: 300;
           }
 
@@ -1213,7 +1078,7 @@ const validateStep = async () => {
       font-size: 0.75rem !important;
     }
 
-    .steps:not(.is-hollow) .steps-segment.is-active ~ .steps-segment {
+    .steps:not(.is-hollow) .steps-segment.is-active~.steps-segment {
       cursor: default !important;
     }
 
@@ -1317,11 +1182,11 @@ const validateStep = async () => {
 
             input {
               &:checked {
-                ~ .indicator {
+                ~.indicator {
                   transform: scale(1);
                 }
 
-                ~ .option-inner {
+                ~.option-inner {
                   border-color: var(--primary) !important;
 
                   i {
@@ -1357,7 +1222,7 @@ const validateStep = async () => {
             border-color: var(--dark-sidebar-light-12) !important;
             color: var(--dark-dark-text);
 
-            > span {
+            >span {
               color: var(--dark-dark-text);
             }
 
@@ -1368,7 +1233,7 @@ const validateStep = async () => {
                 }
 
                 svg {
-                  color: var(--light-text);
+                  // color: var(--light-text);
                 }
               }
             }
@@ -1387,11 +1252,11 @@ const validateStep = async () => {
 
         .steps-segment {
           &.is-active {
-            ~ .steps-segment::after {
+            ~.steps-segment::after {
               background: var(--dark-sidebar-dark-5);
             }
 
-            ~ .steps-segment {
+            ~.steps-segment {
               .steps-marker:not(.is-hollow) {
                 background: var(--dark-sidebar-dark-5);
               }

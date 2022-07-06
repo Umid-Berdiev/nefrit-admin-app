@@ -105,7 +105,7 @@
     p {
       font-family: var(--font);
       font-size: 0.9rem;
-      color: var(--light-text);
+      // color: var(--light-text);
 
       &:last-child {
         margin-bottom: 8px;
@@ -447,7 +447,7 @@
 
             .location {
               font-size: 0.75rem;
-              color: var(--light-text);
+              // color: var(--light-text);
             }
           }
 
@@ -461,7 +461,7 @@
           &.bio,
           &.skill-description {
             font-size: 0.8rem;
-            color: var(--light-text);
+            // color: var(--light-text);
           }
         }
       }
@@ -496,14 +496,14 @@
           background: var(--fade-grey-light-3);
 
           svg {
-            color: var(--light-text);
+            // color: var(--light-text);
           }
         }
 
         svg {
           width: 16px;
           height: 16px;
-          color: var(--light-text);
+          // color: var(--light-text);
         }
       }
     }

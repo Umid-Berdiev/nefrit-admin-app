@@ -135,7 +135,7 @@
 
                   &:nth-child(2) {
                     // text-transform: uppercase;
-                    color: var(--light-text);
+                    // color: var(--light-text);
                     font-size: 0.85rem;
                   }
                 }
@@ -147,7 +147,7 @@
 
       h3 {
         font-family: var(--font-alt);
-        color: var(--light-text);
+        // color: var(--light-text);
         font-size: 1.3rem;
       }
 
@@ -274,7 +274,7 @@
               align-items: center;
               font-size: 0.9rem;
               font-weight: 500;
-              color: var(--light-text);
+              // color: var(--light-text);
 
               svg {
                 position: relative;
@@ -283,7 +283,7 @@
                 width: 18px;
                 margin-left: auto;
                 transform: rotate(0);
-                color: var(--light-text);
+                // color: var(--light-text);
                 transition: color 0.3s, background-color 0.3s, border-color 0.3s,
                   height 0.3s, width 0.3s;
               }
@@ -363,7 +363,7 @@
           width: 100%;
           padding: 0 20px;
           font-size: 0.95rem;
-          color: var(--light-text);
+          // color: var(--light-text);
 
           &:hover,
           &:focus {

@@ -222,7 +222,7 @@ if (isReactive(props.options)) {
 
     .control {
       .button {
-        color: var(--light-text);
+        // color: var(--light-text);
 
         &:hover,
         &:focus {
@@ -250,7 +250,7 @@ if (isReactive(props.options)) {
       .control {
         .button {
           background: var(--dark-sidebar) !important;
-          color: var(--light-text);
+          // color: var(--light-text);
 
           &:hover,
           &:focus {
@@ -277,7 +277,7 @@ if (isReactive(props.options)) {
         font-family: var(--font);
         font-weight: 400;
         font-size: 0.9rem;
-        color: var(--light-text);
+        // color: var(--light-text);
 
         &::after {
           position: absolute;
@@ -287,7 +287,7 @@ if (isReactive(props.options)) {
           font-family: 'Font Awesome 5 Free';
           font-weight: 900;
           font-size: 0.9rem;
-          color: var(--light-text);
+          // color: var(--light-text);
           height: 36px;
           width: 36px;
           border-radius: 0.5rem;
@@ -324,7 +324,7 @@ if (isReactive(props.options)) {
         font-family: 'Font Awesome 5 Free';
         font-weight: 900;
         font-size: 0.9rem;
-        color: var(--light-text);
+        // color: var(--light-text);
         height: 36px;
         width: 36px;
         border-radius: 0.5rem;
@@ -404,7 +404,7 @@ if (isReactive(props.options)) {
       }
 
       .light-text {
-        color: var(--light-text);
+        // color: var(--light-text);
       }
 
       .flex-media {
@@ -418,7 +418,7 @@ if (isReactive(props.options)) {
           span {
             display: block;
             font-size: 0.8rem;
-            color: var(--light-text);
+            // color: var(--light-text);
             font-family: var(--font);
 
             &:first-child {
@@ -483,7 +483,7 @@ if (isReactive(props.options)) {
         }
 
         .iconify {
-          color: var(--light-text);
+          // color: var(--light-text);
 
           * {
             stroke-width: 4px;
@@ -500,7 +500,7 @@ if (isReactive(props.options)) {
         }
 
         &.price-free {
-          color: var(--light-text);
+          // color: var(--light-text);
         }
       }
 
@@ -522,7 +522,7 @@ if (isReactive(props.options)) {
 
         &.is-offline {
           i {
-            color: var(--light-text);
+            // color: var(--light-text);
           }
         }
 
@@ -534,7 +534,7 @@ if (isReactive(props.options)) {
         span {
           font-family: var(--font);
           font-size: 0.9rem;
-          color: var(--light-text);
+          // color: var(--light-text);
         }
       }
     }
@@ -544,7 +544,7 @@ if (isReactive(props.options)) {
     .dataTable-info {
       font-family: var(--font);
       font-size: 0.9rem;
-      color: var(--light-text);
+      // color: var(--light-text);
     }
 
     .dataTable-pagination {
@@ -568,7 +568,7 @@ if (isReactive(props.options)) {
           justify-content: center;
           align-items: center;
           font-family: var(--font);
-          color: var(--light-text);
+          // color: var(--light-text);
           border-radius: var(--radius-rounded);
           min-width: 34px;
           min-height: 34px;

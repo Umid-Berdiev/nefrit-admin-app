@@ -4,6 +4,7 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
     Tippy: typeof import('vue-tippy')['Tippy']
     VDatePicker: typeof import('v-calendar')['DatePicker']
+    _: typeof import('lodash')
   }
 }
 
