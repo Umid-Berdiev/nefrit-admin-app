@@ -24,15 +24,6 @@ const SITEMAP_HOST = process.env.SITEMAP_HOST || 'http://localhost:3000/'
  * @see https://vitejs.dev/config
  */
 export default defineConfig({
-  // Project root directory (where index.html is located).
-  root: process.cwd(),
-  // Base public path when served in development or production.
-  // You also need to add this base like `history: createWebHistory('my-subdirectory')`
-  // in ./src/router.ts
-  // base: '/my-subdirectory/',
-  base: '/',
-  // Directory to serve as plain static assets.
-  publicDir: 'public',
   // Adjust console output verbosity.
   logLevel: SILENT ? 'error' : 'info',
   /**
@@ -98,15 +89,15 @@ export default defineConfig({
     minify: false,
     sourcemap: SOURCE_MAP,
     // Turning off brotliSize display can slightly reduce packaging time
-    brotliSize: !SILENT,
-    chunkSizeWarningLimit: Infinity,
+    // brotliSize: !SILENT,
+    // chunkSizeWarningLimit: Infinity,
     // minify: true,
 
     /**
      * Uncomment this section to build the demo with missing images
      * Don't forget to remove this section when you replaced assets with yours
-     */
-    // rollupOptions: {
+     // rollupOptions: {
+      */
     //   external: [/\/demo\/.*/],
     // },
     target: 'esnext',
