@@ -45,5 +45,5 @@ SCSS Imports
 @import './components/credit-card';
 @import './components/widgets';
 @import './components/layout-selector';
-@import '~bulma-checkradio/dist/css/bulma-checkradio';
-@import '~bulma-timeline/dist/css/bulma-timeline';
+@import './node_modules/bulma-checkradio/dist/css/bulma-checkradio';
+@import './node_modules/bulma-timeline/dist/css/bulma-timeline';
