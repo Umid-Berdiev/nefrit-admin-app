@@ -1,15 +1,13 @@
 import { createApp as createClientApp } from 'vue'
-
 import { createHead } from '@vueuse/head'
 import { createPinia } from 'pinia'
-import { createRouter } from './router'
-import VueroApp from './VueroApp.vue'
-import './assets/vendors/font-awesome-v5.css'
-import './assets/vendors/line-icons-pro.css'
-import './assets/vendors/prism-coldark-cold.css'
-import './styles'
 
+import { createRouter } from './router'
 import { createApi } from '/@src/composable/useApi'
+
+import VueroApp from './VueroApp.vue'
+
+import './styles'
 
 const plugins = import.meta.glob('./plugins/*.ts')
 

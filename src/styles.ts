@@ -2,6 +2,7 @@
  * Importing external libraries allow to compile them in our bundle
  * How files are interpreted is defined by ther extension.
  */
+
 import 'simplebar'
 import '@purge-icons/generated'
 import 'nprogress/nprogress.css'

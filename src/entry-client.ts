@@ -12,6 +12,7 @@
  * @see /app.ts
  * @see /plugins/*.ts
  */
+
 import { createApp } from './app'
 
 /**
