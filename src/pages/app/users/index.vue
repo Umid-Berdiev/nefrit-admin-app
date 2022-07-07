@@ -128,11 +128,11 @@ function clickOnRow(row: any) {
   }
 }
 
-function onActionTriggered(rowId) {
+function onActionTriggered(rowId: number) {
   router.push('/app/applicant/' + rowId)
 }
 
-function onEditUser(rowId) {
+function onEditUser(rowId: Object) {
   isFormModalOpen.value = true
   selectedUser.value = rowId
 }
@@ -144,7 +144,7 @@ function confirmAction() {
 }
 
 async function onRemoveUser() {
-  await mainStore.$patch({ confirmModalState: true })
+  mainStore.$patch({ confirmModalState: true })
   if (mainStore.confirmState) {
     console.log('User deleted!');
     mainStore.$patch({ confirmState: false })
@@ -154,7 +154,7 @@ async function onRemoveUser() {
 
 <template>
   <div class="applicant-list-wrapper">
-    <TableActionsBlock center title="" @add="onEditUser" @filter="displayFilterForm = !displayFilterForm"
+    <TableActionsBlock center title="" @add="onEditUser({})" @filter="displayFilterForm = !displayFilterForm"
       @remove="confirmAction" />
     <div v-show="displayFilterForm" class="mb-5">
       <VCard radius="small">

@@ -6,13 +6,13 @@ const mainStore = useMainStore()
 
 const state = computed(() => mainStore.confirmModalState)
 
-function onClose() {
+async function onClose() {
   mainStore.$patch({ confirmModalState: false })
 }
 
-function onConfirm() {
+async function onConfirm() {
   mainStore.$patch({ confirmState: true })
-  onClose()
+  await onClose()
 }
 </script>
 
