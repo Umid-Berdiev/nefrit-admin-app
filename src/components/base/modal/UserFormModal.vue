@@ -80,7 +80,7 @@ watch(
           <div class="column is-6">
             <VField :label="$t('Department') + '*'">
               <VControl>
-                <VSelect type="text" :placeholder="t('Select_department')" v-model="item.department">
+                <VSelect :placeholder="t('Select_department')" v-model="item.department">
                   <VOption v-for="department, index in departmentList" :value="department.id"
                     v-text="department.name" />
                 </VSelect>
@@ -90,7 +90,7 @@ watch(
           <div class="column is-6">
             <VField :label="$t('Role') + '*'">
               <VControl>
-                <VSelect type="text" :placeholder="t('Select_role')" v-model="item.role">
+                <VSelect :placeholder="t('Select_role')" v-model="item.role">
                   <VOption v-for="role, index in roleList" :value="role.id" v-text="role.name" />
                 </VSelect>
               </VControl>

@@ -24,58 +24,6 @@ const SOURCE_MAP = Boolean(process.env.SOURCE_MAP) ?? false
  * @see https://vitejs.dev/config
  */
 export default defineConfig({
-  // Adjust console output verbosity.
-  logLevel: SILENT ? 'error' : 'info',
-  /**
-   * By default, Vite will crawl your index.html to detect dependencies that
-   * need to be pre-bundled. If build.rollupOptions.input is specified,
-   * Vite will crawl those entry points instead.
-   *
-   * @see https://vitejs.dev/config/#optimizedeps-entries
-   */
-  optimizeDeps: {
-    include: [
-      '@ckeditor/ckeditor5-vue',
-      '@ckeditor/ckeditor5-build-classic',
-      '@iconify/iconify',
-      '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.min.js',
-      '@vueuse/core',
-      '@vueuse/head',
-      '@vueform/multiselect',
-      '@vueform/slider',
-      'axios',
-      'billboard.js',
-      'dayjs',
-      'dropzone',
-      'dragula',
-      'filepond',
-      'filepond-plugin-file-validate-size',
-      'filepond-plugin-file-validate-type',
-      'filepond-plugin-image-exif-orientation',
-      'filepond-plugin-image-crop',
-      'filepond-plugin-image-edit',
-      'filepond-plugin-image-preview',
-      'filepond-plugin-image-resize',
-      'filepond-plugin-image-transform',
-      'imask',
-      'nprogress',
-      'notyf',
-      'mapbox-gl',
-      'photoswipe/dist/photoswipe',
-      'photoswipe/dist/photoswipe-ui-default',
-      'plyr',
-      'v-calendar',
-      'vee-validate',
-      'vue',
-      'vue-scrollto',
-      'vue3-apexcharts',
-      'vue-tippy',
-      'simplebar',
-      'simple-datatables',
-      'tiny-slider/src/tiny-slider',
-      'vue-accessible-color-picker',
-    ],
-  },
   // Will be passed to @rollup/plugin-alias as its entries option.
   resolve: {
     alias: [
@@ -86,20 +34,6 @@ export default defineConfig({
     ],
   },
   build: {
-    minify: false,
-    sourcemap: SOURCE_MAP,
-    // Turning off brotliSize display can slightly reduce packaging time
-    // brotliSize: !SILENT,
-    // chunkSizeWarningLimit: Infinity,
-    // minify: true,
-
-    /**
-     * Uncomment this section to build the demo with missing images
-     * Don't forget to remove this section when you replaced assets with yours
-     // rollupOptions: {
-      */
-    //   external: [/\/demo\/.*/],
-    // },
     target: 'esnext',
   },
   plugins: [
@@ -172,78 +106,6 @@ export default defineConfig({
     PurgeIcons(),
 
     /**
-     * vite-plugin-fonts plugin inject webfonts from differents providers
-     *
-     * @see https://github.com/stafyniaksacha/vite-plugin-fonts
-     */
-    ViteFonts({
-      google: {
-        families: [
-          {
-            name: 'Fira Code',
-            styles: 'wght@400;600',
-          },
-          {
-            name: 'Montserrat',
-            styles: 'wght@500;600;700;800;900',
-          },
-          {
-            name: 'Roboto',
-            styles: 'wght@300;400;500;600;700',
-          },
-        ],
-      },
-    }),
-
-    /**
-     * vite-plugin-radar plugin inject snippets from analytics providers
-     *
-     * @see https://github.com/stafyniaksacha/vite-plugin-radar
-     */
-    ViteRadar({
-      enableDev: true,
-      gtm: {
-        id: 'GTM-N9P6H6B',
-      },
-    }),
-
-    /**
-     * vite-plugin-pwa generate manifest.json and register services worker to enable PWA
-     *
-     * @see https://github.com/antfu/vite-plugin-pwa
-     */
-    // VitePWA({
-    //   base: '/',
-    //   includeAssets: ['favicon.svg', 'favicon.ico', 'robots.txt', 'apple-touch-icon.png'],
-    //   manifest: {
-    //     name: 'Vuero - A complete Vue 3 design system',
-    //     short_name: 'Vuero',
-    //     start_url: '/?utm_source=pwa',
-    //     display: 'standalone',
-    //     theme_color: '#ffffff',
-    //     background_color: '#ffffff',
-    //     icons: [
-    //       {
-    //         src: 'pwa-192x192.png',
-    //         sizes: '192x192',
-    //         type: 'image/png',
-    //       },
-    //       {
-    //         src: 'pwa-512x512.png',
-    //         sizes: '512x512',
-    //         type: 'image/png',
-    //       },
-    //       {
-    //         src: 'pwa-512x512.png',
-    //         sizes: '512x512',
-    //         type: 'image/png',
-    //         purpose: 'any maskable',
-    //       },
-    //     ],
-    //   },
-    // }),
-
-    /**
      * rollup-plugin-purgecss plugin is responsible of purging css rules
      * that are not used in the bundle
      *
@@ -265,16 +127,6 @@ export default defineConfig({
         const contentWithoutStyleBlocks = content.replace(/<style[^]+?<\/style>/gi, '')
         return contentWithoutStyleBlocks.match(/[A-Za-z0-9-_/:]*[A-Za-z0-9-_/]+/g) || []
       },
-    }),
-
-    /**
-     * vite-imagetools plugin allow to perform transformation (blur, resize, crop, etc)
-     * on images at build time
-     *
-     * @see https://github.com/JonasKruckenberg/vite-imagetools
-     */
-    imagetools({
-      silent: SILENT,
     }),
 
     /**
@@ -312,5 +164,4 @@ export default defineConfig({
       },
     }),
   ],
-  base: './',
 })
