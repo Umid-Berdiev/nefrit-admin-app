@@ -80,10 +80,10 @@ function getAvatarData(user: any): VAvatarProps {
         title="We couldn't find any matching results." subtitle="Too bad. Looks like we couldn't find any matching results for the
           search terms you've entered. Please try different search terms or
           criteria." larger>
-        <template #image>
+        <!-- <template #image>
           <img class="light-image" src="/@src/assets/illustrations/placeholders/search-4.svg" alt="" />
           <img class="dark-image" src="/@src/assets/illustrations/placeholders/search-4-dark.svg" alt="" />
-        </template>
+        </template> -->
       </VPlaceholderPage>
 
       <TransitionGroup name="list" tag="div" class="columns is-multiline">
