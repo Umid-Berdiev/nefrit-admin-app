@@ -109,6 +109,7 @@ export default defineConfig({
     rollupOptions: {
       external: [/\/demo\/.*/],
     },
+    target: 'esnext',
   },
   plugins: [
     /**

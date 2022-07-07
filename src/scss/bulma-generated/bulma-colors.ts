@@ -25,9 +25,23 @@ export const bulmaCssVariablesDefs: ColorCallSet = {
   "danger": {
     "calls": [
       {
+        "fn": "darken",
+        "fnArg": "500",
+        "composeArg": null
+      },
+      {
         "fn": "color-invert",
         "fnArg": null,
         "composeArg": null
+      },
+      {
+        "fn": "color-invert",
+        "fnArg": null,
+        "composeArg": {
+          "fn": "darken",
+          "fnArg": "500",
+          "composeArg": null
+        }
       },
       {
         "fn": "dark-color",
@@ -44,6 +58,11 @@ export const bulmaCssVariablesDefs: ColorCallSet = {
   "dark": {
     "calls": [
       {
+        "fn": "darken",
+        "fnArg": "500",
+        "composeArg": null
+      },
+      {
         "fn": "lighten",
         "fnArg": "800",
         "composeArg": null
@@ -52,15 +71,38 @@ export const bulmaCssVariablesDefs: ColorCallSet = {
         "fn": "color-invert",
         "fnArg": null,
         "composeArg": null
+      },
+      {
+        "fn": "color-invert",
+        "fnArg": null,
+        "composeArg": {
+          "fn": "darken",
+          "fnArg": "500",
+          "composeArg": null
+        }
       }
     ]
   },
   "info": {
     "calls": [
       {
+        "fn": "darken",
+        "fnArg": "500",
+        "composeArg": null
+      },
+      {
         "fn": "color-invert",
         "fnArg": null,
         "composeArg": null
+      },
+      {
+        "fn": "color-invert",
+        "fnArg": null,
+        "composeArg": {
+          "fn": "darken",
+          "fnArg": "500",
+          "composeArg": null
+        }
       },
       {
         "fn": "dark-color",
@@ -77,9 +119,23 @@ export const bulmaCssVariablesDefs: ColorCallSet = {
   "link": {
     "calls": [
       {
+        "fn": "darken",
+        "fnArg": "500",
+        "composeArg": null
+      },
+      {
         "fn": "color-invert",
         "fnArg": null,
         "composeArg": null
+      },
+      {
+        "fn": "color-invert",
+        "fnArg": null,
+        "composeArg": {
+          "fn": "darken",
+          "fnArg": "500",
+          "composeArg": null
+        }
       },
       {
         "fn": "dark-color",
@@ -96,9 +152,23 @@ export const bulmaCssVariablesDefs: ColorCallSet = {
   "primary": {
     "calls": [
       {
+        "fn": "darken",
+        "fnArg": "500",
+        "composeArg": null
+      },
+      {
         "fn": "color-invert",
         "fnArg": null,
         "composeArg": null
+      },
+      {
+        "fn": "color-invert",
+        "fnArg": null,
+        "composeArg": {
+          "fn": "darken",
+          "fnArg": "500",
+          "composeArg": null
+        }
       },
       {
         "fn": "dark-color",
@@ -115,9 +185,23 @@ export const bulmaCssVariablesDefs: ColorCallSet = {
   "success": {
     "calls": [
       {
+        "fn": "darken",
+        "fnArg": "500",
+        "composeArg": null
+      },
+      {
         "fn": "color-invert",
         "fnArg": null,
         "composeArg": null
+      },
+      {
+        "fn": "color-invert",
+        "fnArg": null,
+        "composeArg": {
+          "fn": "darken",
+          "fnArg": "500",
+          "composeArg": null
+        }
       },
       {
         "fn": "dark-color",
@@ -134,9 +218,23 @@ export const bulmaCssVariablesDefs: ColorCallSet = {
   "warning": {
     "calls": [
       {
+        "fn": "darken",
+        "fnArg": "500",
+        "composeArg": null
+      },
+      {
         "fn": "color-invert",
         "fnArg": null,
         "composeArg": null
+      },
+      {
+        "fn": "color-invert",
+        "fnArg": null,
+        "composeArg": {
+          "fn": "darken",
+          "fnArg": "500",
+          "composeArg": null
+        }
       },
       {
         "fn": "dark-color",
@@ -152,6 +250,11 @@ export const bulmaCssVariablesDefs: ColorCallSet = {
   },
   "white": {
     "calls": [
+      {
+        "fn": "darken",
+        "fnArg": "500",
+        "composeArg": null
+      },
       {
         "fn": "lighten",
         "fnArg": "800",

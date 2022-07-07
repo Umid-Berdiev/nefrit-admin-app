@@ -3893,3 +3893,207 @@ code {
 .layout-selector .layout-item .indicator .iconify {
   color: rgb(255, 255, 255);
 }
+
+.delete::before,
+.modal-close::before,
+.delete::after,
+.modal-close::after {
+  background-color: rgb(255, 255, 255);
+}
+
+.is-checkradio[type=checkbox] + label::after,
+.is-checkradio[type=checkbox] + label:after {
+  border-color: rgb(65, 185, 131);
+}
+
+.is-checkradio[type=checkbox].is-white.is-block:checked + label {
+  background: rgb(255, 255, 255);
+}
+
+.is-checkradio[type=checkbox].is-white.is-block:checked:hover:not([disabled]) + label {
+  background: rgb(242, 242, 242);
+}
+
+.is-checkradio[type=checkbox].is-black.is-block:checked + label {
+  color: rgb(255, 255, 255);
+}
+
+.is-checkradio[type=checkbox].is-dark.is-block:checked + label {
+  color: rgb(255, 255, 255);
+  background: rgb(40, 50, 82);
+}
+
+.is-checkradio[type=checkbox].is-dark.is-block:checked:hover:not([disabled]) + label {
+  background: rgb(32, 40, 65);
+}
+
+.is-checkradio[type=checkbox].is-primary.is-block:checked + label {
+  color: rgb(255, 255, 255);
+  background: rgb(65, 185, 131);
+}
+
+.is-checkradio[type=checkbox].is-primary.is-block:checked:hover:not([disabled]) + label {
+  background: rgb(58, 166, 118);
+}
+
+.is-checkradio[type=checkbox].is-link.is-block:checked + label {
+  color: rgb(255, 255, 255);
+  background: rgb(72, 95, 199);
+}
+
+.is-checkradio[type=checkbox].is-link.is-block:checked:hover:not([disabled]) + label {
+  background: rgb(58, 81, 188);
+}
+
+.is-checkradio[type=checkbox].is-info.is-block:checked + label {
+  color: rgb(255, 255, 255);
+  background: rgb(3, 152, 226);
+}
+
+.is-checkradio[type=checkbox].is-info.is-block:checked:hover:not([disabled]) + label {
+  background: rgb(3, 135, 201);
+}
+
+.is-checkradio[type=checkbox].is-success.is-block:checked + label {
+  color: rgb(255, 255, 255);
+  background: rgb(6, 214, 158);
+}
+
+.is-checkradio[type=checkbox].is-success.is-block:checked:hover:not([disabled]) + label {
+  background: rgb(5, 189, 140);
+}
+
+.is-checkradio[type=checkbox].is-warning.is-block:checked + label {
+  color: rgba(0, 0, 0, 0.7);
+  background: rgb(250, 173, 66);
+}
+
+.is-checkradio[type=checkbox].is-warning.is-block:checked:hover:not([disabled]) + label {
+  background: rgb(249, 162, 41);
+}
+
+.is-checkradio[type=checkbox].is-danger.is-block:checked + label {
+  color: rgb(255, 255, 255);
+  background: rgb(230, 41, 100);
+}
+
+.is-checkradio[type=checkbox].is-danger.is-block:checked:hover:not([disabled]) + label {
+  background: rgb(220, 26, 86);
+}
+
+.is-checkradio[type=checkbox]:indeterminate.is-white + label::after,
+.is-checkradio[type=checkbox]:indeterminate.is-white + label:after {
+  border-color: rgb(255, 255, 255);
+}
+
+.is-checkradio[type=checkbox]:indeterminate.is-dark + label::after,
+.is-checkradio[type=checkbox]:indeterminate.is-dark + label:after {
+  border-color: rgb(40, 50, 82);
+}
+
+.is-checkradio[type=checkbox]:indeterminate.is-primary + label::after,
+.is-checkradio[type=checkbox]:indeterminate.is-primary + label:after {
+  border-color: rgb(65, 185, 131);
+}
+
+.is-checkradio[type=checkbox]:indeterminate.is-link + label::after,
+.is-checkradio[type=checkbox]:indeterminate.is-link + label:after {
+  border-color: rgb(72, 95, 199);
+}
+
+.is-checkradio[type=checkbox]:indeterminate.is-info + label::after,
+.is-checkradio[type=checkbox]:indeterminate.is-info + label:after {
+  border-color: rgb(3, 152, 226);
+}
+
+.is-checkradio[type=checkbox]:indeterminate.is-success + label::after,
+.is-checkradio[type=checkbox]:indeterminate.is-success + label:after {
+  border-color: rgb(6, 214, 158);
+}
+
+.is-checkradio[type=checkbox]:indeterminate.is-warning + label::after,
+.is-checkradio[type=checkbox]:indeterminate.is-warning + label:after {
+  border-color: rgb(250, 173, 66);
+}
+
+.is-checkradio[type=checkbox]:indeterminate.is-danger + label::after,
+.is-checkradio[type=checkbox]:indeterminate.is-danger + label:after {
+  border-color: rgb(230, 41, 100);
+}
+
+.is-checkradio[type=radio] + label::after,
+.is-checkradio[type=radio] + label:after {
+  background: rgb(65, 185, 131);
+}
+
+.timeline .timeline-item .timeline-marker.is-outlined .image {
+  background: rgb(255, 255, 255);
+}
+
+.timeline .timeline-item .timeline-marker.is-outlined.is-icon {
+  background: rgb(255, 255, 255);
+}
+
+.timeline .timeline-item.is-white::before {
+  background-color: rgb(255, 255, 255);
+}
+
+.timeline .timeline-item.is-dark::before {
+  background-color: rgb(40, 50, 82);
+}
+
+.timeline .timeline-item.is-primary::before {
+  background-color: rgb(65, 185, 131);
+}
+
+.timeline .timeline-item.is-link::before {
+  background-color: rgb(72, 95, 199);
+}
+
+.timeline .timeline-item.is-info::before {
+  background-color: rgb(3, 152, 226);
+}
+
+.timeline .timeline-item.is-success::before {
+  background-color: rgb(6, 214, 158);
+}
+
+.timeline .timeline-item.is-warning::before {
+  background-color: rgb(250, 173, 66);
+}
+
+.timeline .timeline-item.is-danger::before {
+  background-color: rgb(230, 41, 100);
+}
+
+.timeline.is-centered .timeline-item.is-white::before {
+  background-color: rgb(255, 255, 255);
+}
+
+.timeline.is-centered .timeline-item.is-dark::before {
+  background-color: rgb(40, 50, 82);
+}
+
+.timeline.is-centered .timeline-item.is-primary::before {
+  background-color: rgb(65, 185, 131);
+}
+
+.timeline.is-centered .timeline-item.is-link::before {
+  background-color: rgb(72, 95, 199);
+}
+
+.timeline.is-centered .timeline-item.is-info::before {
+  background-color: rgb(3, 152, 226);
+}
+
+.timeline.is-centered .timeline-item.is-success::before {
+  background-color: rgb(6, 214, 158);
+}
+
+.timeline.is-centered .timeline-item.is-warning::before {
+  background-color: rgb(250, 173, 66);
+}
+
+.timeline.is-centered .timeline-item.is-danger::before {
+  background-color: rgb(230, 41, 100);
+}

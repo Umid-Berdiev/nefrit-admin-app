@@ -2,7 +2,6 @@
 import { onMounted } from 'vue'
 
 import { useChat } from '/@src/stores/chat'
-import { useLayoutSwitcher } from '/@src/stores/layoutSwitcher'
 import { useViewWrapper } from '/@src/stores/viewWrapper'
 import { useNotyf } from '/@src/composable/useNotyf'
 
@@ -13,7 +12,6 @@ import { useNotyf } from '/@src/composable/useNotyf'
 const chat = useChat()
 
 // Those utilities are used to manage the layout
-const layoutSwitcher = useLayoutSwitcher()
 const viewWrapper = useViewWrapper()
 const notyf = useNotyf()
 
