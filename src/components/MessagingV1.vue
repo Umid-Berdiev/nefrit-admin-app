@@ -64,8 +64,8 @@ function selectConversation(id: number) {
   <ChatCard>
     <template #body>
       <li v-if="chat.messages.length === 0" class="no-messages">
-        <img class="light-image" src="/@src/assets/illustrations/placeholders/search-4.svg" alt="" />
-        <img class="dark-image" src="/@src/assets/illustrations/placeholders/search-4-dark.svg" alt="" />
+        <!-- <img class="light-image" src="/@src/assets/illustrations/placeholders/search-4.svg" alt="" /> -->
+        <!-- <img class="dark-image" src="/@src/assets/illustrations/placeholders/search-4-dark.svg" alt="" /> -->
         <div class="text">
           <h3>No messages yet</h3>
           <p>Start the conversation by typing a message</p>
