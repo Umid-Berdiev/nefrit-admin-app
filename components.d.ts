@@ -68,7 +68,6 @@ declare module '@vue/runtime-core' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Sidebar: typeof import('./src/components/navigation/desktop/Sidebar.vue')['default']
-    Sideblock: typeof import('./src/components/navigation/desktop/Sideblock.vue')['default']
     StackPopoverContent: typeof import('./src/components/partials/popover/StackPopoverContent.vue')['default']
     StatementConclusionTable: typeof import('./src/components/base/table/StatementConclusionTable.vue')['default']
     StatementForm: typeof import('./src/components/forms/StatementForm.vue')['default']
