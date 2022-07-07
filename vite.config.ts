@@ -312,4 +312,5 @@ export default defineConfig({
       },
     }),
   ],
+  base: './',
 })
