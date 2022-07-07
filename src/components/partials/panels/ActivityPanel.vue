@@ -46,7 +46,7 @@ const activeTab = ref<TabId>('team')
           <div id="team-side-tab" class="tab-content" :class="[activeTab === 'team' && 'is-active']">
             <!--Team Member-->
             <div class="team-card">
-              <VAvatar picture="/demo/avatars/12.jpg" badge="/images/icons/flags/united-states-of-america.svg" />
+              <VAvatar picture="" badge="/images/icons/flags/united-states-of-america.svg" />
 
               <div class="meta">
                 <span>Joshua S.</span>
@@ -62,7 +62,7 @@ const activeTab = ref<TabId>('team')
 
             <!--Team Member-->
             <div class="team-card">
-              <VAvatar picture="/demo/avatars/25.jpg" badge="/images/icons/flags/united-states-of-america.svg" />
+              <VAvatar picture="" badge="/images/icons/flags/united-states-of-america.svg" />
 
               <div class="meta">
                 <span>Melany W.</span>
@@ -78,7 +78,7 @@ const activeTab = ref<TabId>('team')
 
             <!--Team Member-->
             <div class="team-card">
-              <VAvatar picture="/demo/avatars/18.jpg" badge="/images/icons/flags/united-states-of-america.svg" />
+              <VAvatar picture="" badge="/images/icons/flags/united-states-of-america.svg" />
 
               <div class="meta">
                 <span>Esteban C.</span>
@@ -94,7 +94,7 @@ const activeTab = ref<TabId>('team')
 
             <!--Team Member-->
             <div class="team-card">
-              <VAvatar picture="/demo/avatars/13.jpg" badge="/images/icons/flags/united-states-of-america.svg" />
+              <VAvatar picture="" badge="/images/icons/flags/united-states-of-america.svg" />
 
               <div class="meta">
                 <span>Tara S.</span>
@@ -129,8 +129,8 @@ const activeTab = ref<TabId>('team')
                   <span>5 / 24</span>
 
                   <div class="avatar-stack">
-                    <VAvatar size="small" picture="/demo/avatars/5.jpg" />
-                    <VAvatar size="small" picture="/demo/avatars/7.jpg" />
+                    <VAvatar size="small" picture="" />
+                    <VAvatar size="small" picture="" />
                     <VAvatar size="small" picture="/images/avatars/svg/vuero-1.svg" />
                   </div>
                 </div>
@@ -156,8 +156,8 @@ const activeTab = ref<TabId>('team')
                   <span>28 / 31</span>
 
                   <div class="avatar-stack">
-                    <VAvatar size="small" picture="/demo/avatars/13.jpg" />
-                    <VAvatar size="small" picture="/demo/avatars/18.jpg" />
+                    <VAvatar size="small" picture="" />
+                    <VAvatar size="small" picture="" />
                   </div>
                 </div>
               </div>
@@ -182,8 +182,8 @@ const activeTab = ref<TabId>('team')
                   <span>25 / 39</span>
 
                   <div class="avatar-stack">
-                    <VAvatar size="small" picture="/demo/avatars/7.jpg" />
-                    <VAvatar size="small" picture="/demo/avatars/25.jpg" />
+                    <VAvatar size="small" picture="" />
+                    <VAvatar size="small" picture="" />
                   </div>
                 </div>
               </div>
@@ -206,8 +206,7 @@ const activeTab = ref<TabId>('team')
               <!--Timeline item-->
               <div class="timeline-item">
                 <div class="timeline-icon">
-                  <img class="avatar" src="/demo/avatars/7.jpg" alt=""
-                    @error.once="(event) => onceImageErrored(event, '150x150')" />
+                  <img class="avatar" src="" alt="" @error.once="(event) => onceImageErrored(event, '150x150')" />
                 </div>
                 <div class="timeline-content">
                   <p>Meeting with Alice</p>

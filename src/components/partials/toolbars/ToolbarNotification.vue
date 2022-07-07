@@ -32,8 +32,7 @@ const dropdown = useDropdown(dropdownElement)
             <li>
               <a class="notification-item">
                 <div class="img-left">
-                  <img class="user-photo" alt="" src="/demo/avatars/7.jpg"
-                    @error.once="(event) => onceImageErrored(event, '150x150')" />
+                  <img class="user-photo" alt="" src="" @error.once="(event) => onceImageErrored(event, '150x150')" />
                 </div>
                 <div class="user-content">
                   <p class="user-info">
@@ -46,8 +45,7 @@ const dropdown = useDropdown(dropdownElement)
             <li>
               <a class="notification-item">
                 <div class="img-left">
-                  <img class="user-photo" alt="" src="/demo/avatars/12.jpg"
-                    @error.once="(event) => onceImageErrored(event, '150x150')" />
+                  <img class="user-photo" alt="" src="" @error.once="(event) => onceImageErrored(event, '150x150')" />
                 </div>
                 <div class="user-content">
                   <p class="user-info">
@@ -60,8 +58,7 @@ const dropdown = useDropdown(dropdownElement)
             <li>
               <a class="notification-item">
                 <div class="img-left">
-                  <img class="user-photo" alt="" src="/demo/avatars/13.jpg"
-                    @error.once="(event) => onceImageErrored(event, '150x150')" />
+                  <img class="user-photo" alt="" src="" @error.once="(event) => onceImageErrored(event, '150x150')" />
                 </div>
                 <div class="user-content">
                   <p class="user-info">
@@ -74,8 +71,7 @@ const dropdown = useDropdown(dropdownElement)
             <li>
               <a class="notification-item">
                 <div class="img-left">
-                  <img class="user-photo" alt="" src="/demo/avatars/25.jpg"
-                    @error.once="(event) => onceImageErrored(event, '150x150')" />
+                  <img class="user-photo" alt="" src="" @error.once="(event) => onceImageErrored(event, '150x150')" />
                 </div>
                 <div class="user-content">
                   <p class="user-info">

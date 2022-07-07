@@ -10,7 +10,7 @@ export const timeline = [
   {
     id: 1,
     icon: 'feather:phone-call',
-    picture: '/demo/avatars/7.jpg',
+    picture: '',
     title: 'Meeting with Alice',
     time: 'Today - 01:00pm',
     color: '',
