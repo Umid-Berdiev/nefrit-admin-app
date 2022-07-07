@@ -106,9 +106,9 @@ export default defineConfig({
      * Uncomment this section to build the demo with missing images
      * Don't forget to remove this section when you replaced assets with yours
      */
-    rollupOptions: {
-      external: [/\/demo\/.*/],
-    },
+    // rollupOptions: {
+    //   external: [/\/demo\/.*/],
+    // },
     target: 'esnext',
   },
   plugins: [
