@@ -2,6 +2,7 @@
 import { ref, computed, onMounted, h } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import { useHead } from '@vueuse/head'
 
 import type {
   VFlexTableWrapperSortFunction,
@@ -10,10 +11,15 @@ import type {
 import { users } from '/@src/stores/usersMockData'
 import ActionButtons from '/@src/components/partials/buttons/ActionButtons.vue'
 import { useViewWrapper } from '/@src/stores/viewWrapper'
-import ApplicantFormModal from '../../../components/base/modal/ApplicantFormModal.vue'
+import ApplicantFormModal from '/@src/components/base/modal/ApplicantFormModal.vue'
 import CountrySelect from '/@src/components/forms/selects/CountrySelect.vue'
 
 const { t } = useI18n()
+
+useHead({
+  title: t('Applicants') + ' - Nefrit',
+})
+
 const viewWrapper = useViewWrapper()
 viewWrapper.setPageTitle(t('Applicants_List'))
 

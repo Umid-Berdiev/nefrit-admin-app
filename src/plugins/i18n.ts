@@ -12,7 +12,7 @@ import uz from '/@src/locales/uz.json'
 // import messages from '@intlify/vite-plugin-vue-i18n/messages'
 
 export default definePlugin(({ app }) => {
-  const defaultLocale = useStorage('locale', navigator?.language || 'uz')
+  const defaultLocale = useStorage('locale', 'uz')
   const i18n = createI18n({
     locale: defaultLocale.value,
     messages: {

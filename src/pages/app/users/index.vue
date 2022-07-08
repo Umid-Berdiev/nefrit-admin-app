@@ -12,8 +12,14 @@ import { useViewWrapper } from '/@src/stores/viewWrapper'
 import TableActionsBlock from '/@src/components/base/block/TableActionsBlock.vue'
 import { useMainStore } from '/@src/stores'
 import UserFormModal from '/@src/components/base/modal/UserFormModal.vue'
+import { useHead } from '@vueuse/head'
 
 const { t } = useI18n()
+
+useHead({
+  title: t('Users') + ' - Nefrit',
+})
+
 const mainStore = useMainStore()
 const viewWrapper = useViewWrapper()
 viewWrapper.setPageTitle(t('Applicants_List'))

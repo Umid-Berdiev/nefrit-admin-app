@@ -83,5 +83,12 @@
   "drug_name": "Dori nomi",
   "Dashboard": "Bosh sahifa",
   "Delete_selected": "Belgilanganlarni o'chirish",
-  "isNational": "Mahalliy tashkilot"
+  "isNational": "Mahalliy tashkilot",
+  "Users": "Foydalanuvchilar",
+  "Handbook": "Yo'riqnoma",
+  "Reports": "Hisobotlar",
+  "Confirm_action": "Amalni tasdiqlash",
+  "Confirm": "Tasdiqlash",
+  "Cancel": "Bekor qilish",
+  "Are_you_sure": "Ishonchingiz komilmi?"
 }

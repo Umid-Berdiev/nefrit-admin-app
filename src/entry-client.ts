@@ -28,11 +28,3 @@ createApp().then(async (vuero) => {
   // finaly mount the app to the DOM
   vuero.app.mount('#app')
 })
-
-// const vuero = await createApp()
-
-// // wait for the app to be ready
-// await vuero.router.isReady()
-
-// // finaly mount the app to the DOM
-// vuero.app.mount('#app')

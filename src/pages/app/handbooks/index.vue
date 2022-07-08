@@ -12,8 +12,14 @@ import ActionButtons from '/@src/components/partials/buttons/ActionButtons.vue'
 import { useViewWrapper } from '/@src/stores/viewWrapper'
 import ApplicantFormModal from '../../../components/base/modal/ApplicantFormModal.vue'
 import CountrySelect from '/@src/components/forms/selects/CountrySelect.vue'
+import { useHead } from '@vueuse/head'
 
 const { t } = useI18n()
+
+useHead({
+  title: t('Handbook') + ' - Nefrit',
+})
+
 const viewWrapper = useViewWrapper()
 viewWrapper.setPageTitle(t('Applicants_List'))
 

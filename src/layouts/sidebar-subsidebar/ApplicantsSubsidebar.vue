@@ -15,7 +15,7 @@ const route = useRoute()
         <div class="sidebar-brand is-flex is-align-items-start">
           <AnimatedLogo width="36px" class="mr-3" />
           <span class="is-size-3 has-text-primary">
-            {{ $t('Nefrit') }}
+            Nefrit
           </span>
         </div>
       </RouterLink>
@@ -65,7 +65,7 @@ const route = useRoute()
           <RouterLink class="is-size-6" :class="{ 'router-link-exact-active': route.path.startsWith('/app/handbooks') }"
             :to="{ name: 'app-handbooks' }">
             <i aria-hidden="true" class="lnil lnil-database mr-2"></i>
-            {{ $t('Handbooks') }}
+            {{ $t('Handbook') }}
           </RouterLink>
         </li>
       </ul>

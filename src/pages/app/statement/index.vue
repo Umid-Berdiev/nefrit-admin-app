@@ -16,8 +16,14 @@ import FlexTableDropdown from '/@src/components/partials/dropdowns/FlexTableDrop
 import ApplicantConclusionModal from '../../../components/base/modal/ApplicantConclusionModal.vue'
 import { useMainStore } from "/@src/stores";
 import FeedbackModal from '/@src/components/base/modal/FeedbackModal.vue'
+import { useHead } from '@vueuse/head'
 
 const { t } = useI18n()
+
+useHead({
+  title: t('Statements') + ' - Nefrit',
+})
+
 const mainStore = useMainStore()
 const viewWrapper = useViewWrapper()
 viewWrapper.setPageTitle(t('Statements_List'))
