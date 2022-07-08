@@ -21,7 +21,7 @@ useHead({
 })
 
 const viewWrapper = useViewWrapper()
-viewWrapper.setPageTitle(t('Applicants_List'))
+viewWrapper.setPageTitle(t('Reports'))
 
 type User = typeof users[0]
 

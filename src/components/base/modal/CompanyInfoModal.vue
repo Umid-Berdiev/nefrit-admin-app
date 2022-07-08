@@ -23,7 +23,7 @@ const columns = {
   stir: t('stir'),
   status: t('Status'),
   country: t('Country'),
-  sertificate: t('Sertificate')
+  certificate: t('Certificate')
 } as const
 
 </script>

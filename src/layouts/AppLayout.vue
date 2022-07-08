@@ -154,6 +154,7 @@ console.log('activeMobileSubsidebar: ', activeMobileSubsidebar.value);
         <slot></slot>
       </VPageContent>
     </VViewWrapper>
+
+    <ConfirmActionModal />
   </div>
-  <ConfirmActionModal />
 </template>

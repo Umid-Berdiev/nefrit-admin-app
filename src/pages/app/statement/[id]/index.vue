@@ -15,7 +15,7 @@ import PaymentStatusTable from '../../../../components/base/table/PaymentStatusT
 
 const { t } = useI18n()
 const viewWrapper = useViewWrapper()
-viewWrapper.setPageTitle(t('Statement_Info'))
+viewWrapper.setPageTitle(t('Statement_details'))
 
 const statement = ref<StatementInterface>()
 const isFormModalOpen = ref(false)

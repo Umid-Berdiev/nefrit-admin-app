@@ -22,7 +22,7 @@ useHead({
 
 const mainStore = useMainStore()
 const viewWrapper = useViewWrapper()
-viewWrapper.setPageTitle(t('Applicants_List'))
+viewWrapper.setPageTitle(t('Users_List'))
 
 type User = typeof users[0]
 

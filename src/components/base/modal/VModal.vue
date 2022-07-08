@@ -47,7 +47,7 @@ onUnmounted(() => {
 })
 </script>
 
-<i18n lang="yaml">
+<!-- <i18n lang="yaml">
 de:
   cancel-label: 'Abbrechen'
 en:
@@ -60,28 +60,20 @@ fr:
   cancel-label: 'Annuler'
 zh-CN:
   cancel-label: '取消'
-</i18n>
+</i18n> -->
 
 <template>
   <Teleport to="body">
     <div :class="[open && 'is-active', size && `is-${size}`]" class="modal v-modal">
-      <div
-        class="modal-background v-modal-close"
-        tabindex="0"
+      <div class="modal-background v-modal-close" tabindex="0"
         @keydown.space.prevent="() => noclose === false && emit('close')"
-        @click="() => noclose === false && emit('close')"
-      ></div>
+        @click="() => noclose === false && emit('close')"></div>
       <div class="modal-content">
         <div class="modal-card">
           <header class="modal-card-head">
             <h3>{{ title }}</h3>
-            <button
-              class="v-modal-close ml-auto"
-              aria-label="close"
-              tabindex="0"
-              @keydown.space.prevent="emit('close')"
-              @click="emit('close')"
-            >
+            <button class="v-modal-close ml-auto" aria-label="close" tabindex="0" @keydown.space.prevent="emit('close')"
+              @click="emit('close')">
               <i aria-hidden="true" class="iconify" data-icon="feather:x"></i>
             </button>
           </header>
@@ -90,21 +82,13 @@ zh-CN:
               <slot name="content"></slot>
             </div>
           </div>
-          <div
-            class="modal-card-foot"
-            :class="[
-              actions === 'center' && 'is-centered',
-              actions === 'right' && 'is-end',
-            ]"
-          >
+          <div class="modal-card-foot" :class="[
+            actions === 'center' && 'is-centered',
+            actions === 'right' && 'is-end',
+          ]">
             <slot name="cancel" :close="() => emit('close')">
-              <a
-                tabindex="0"
-                class="button v-button v-modal-close"
-                :class="[rounded && 'is-rounded']"
-                @keydown.space.prevent="emit('close')"
-                @click="emit('close')"
-              >
+              <a tabindex="0" class="button v-button v-modal-close" :class="[rounded && 'is-rounded']"
+                @keydown.space.prevent="emit('close')" @click="emit('close')">
                 {{ cancelLabel }}
               </a>
             </slot>
@@ -187,9 +171,7 @@ zh-CN:
   }
 
   .modal-background {
-    background-color: hsl(
-      var(--dark-sidebar-h) var(--dark-sidebar-s) var(--dark-sidebar-l) / 80%
-    );
+    background-color: hsl(var(--dark-sidebar-h) var(--dark-sidebar-s) var(--dark-sidebar-l) / 80%);
   }
 
   .modal-content {
@@ -357,6 +339,7 @@ zh-CN:
 
 @media screen and (min-width: 769px) {
   .modal.modal-lg {
+
     .modal-card,
     .modal-content {
       width: 800px !important;
@@ -364,6 +347,7 @@ zh-CN:
   }
 
   .modal.modal-sm {
+
     .modal-card,
     .modal-content {
       width: 400px !important;

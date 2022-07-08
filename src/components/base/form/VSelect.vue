@@ -41,16 +41,15 @@ const classes = computed(() => {
 
 <template>
   <div :class="classes">
-    <select
-      :id="vFieldContext.id"
-      v-bind="attrs"
-      v-model="value"
-      :name="vFieldContext.id"
-      :multiple="props.multiple"
-      @change="vFieldContext.field?.handleChange"
-      @blur="vFieldContext.field?.handleBlur"
-    >
+    <select :id="vFieldContext.id" v-bind="attrs" v-model="value" :name="vFieldContext.id" :multiple="props.multiple"
+      @change="vFieldContext.field?.handleChange" @blur="vFieldContext.field?.handleBlur">
       <slot v-bind="{ selected: value, id: vFieldContext.id }"></slot>
     </select>
   </div>
 </template>
+
+<style scoped lang="scss">
+.select select {
+  border-color: var(--border);
+}
+</style>

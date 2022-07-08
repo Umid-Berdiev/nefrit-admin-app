@@ -52,28 +52,28 @@ watch(
           <div class="column is-6">
             <VField :label="$t('First_name') + '*'">
               <VControl>
-                <VInput type="text" :placeholder="t('Type first name')" v-model="item.name" />
+                <VInput type="text" :placeholder="t('Type_first_name')" v-model="item.name" />
               </VControl>
             </VField>
           </div>
           <div class="column is-6">
             <VField :label="$t('Last_name')">
               <VControl>
-                <VInput type="text" :placeholder="t('Type last name')" v-model="item.shortname" />
+                <VInput type="text" :placeholder="t('Type_last_name')" v-model="item.shortname" />
               </VControl>
             </VField>
           </div>
           <div class="column is-6">
             <VField :label="$t('Username') + '*'">
               <VControl>
-                <VInput type="text" :placeholder="t('Type username')" v-model="item.shortname" />
+                <VInput type="text" :placeholder="t('Type_username')" v-model="item.shortname" />
               </VControl>
             </VField>
           </div>
           <div class="column is-6">
             <VField :label="$t('Email') + '*'">
               <VControl>
-                <VInput type="text" :placeholder="t('Type email')" v-model="item.email" />
+                <VInput type="text" :placeholder="t('Type_email')" v-model="item.email" />
               </VControl>
             </VField>
           </div>

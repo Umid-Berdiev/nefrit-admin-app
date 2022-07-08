@@ -26,7 +26,7 @@ useHead({
 
 const mainStore = useMainStore()
 const viewWrapper = useViewWrapper()
-viewWrapper.setPageTitle(t('Statements_List'))
+viewWrapper.setPageTitle(t('Statements'))
 
 type User = typeof users[0]
 

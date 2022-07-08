@@ -14,7 +14,7 @@ import purgecss from 'rollup-plugin-purgecss'
 // import VueroDocumentation from './vite-plugin-vuero-doc/index'
 
 const SILENT = Boolean(process.env.SILENT) ?? false
-const SOURCE_MAP = Boolean(process.env.SOURCE_MAP) ?? false
+// const SOURCE_MAP = Boolean(process.env.SOURCE_MAP) ?? false
 // const SITEMAP_HOST = process.env.SITEMAP_HOST || 'http://localhost:3000/'
 
 /**

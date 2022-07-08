@@ -50,7 +50,7 @@ function openDrugInfoModal(id: number) {
 </script>
 
 <template>
-  <ListWidgetSingle :title="$t('Statements_details')" straight class="list-widget-v3">
+  <ListWidgetSingle :title="$t('Statement_details')" straight class="list-widget-v3">
     <template #actions>
       <VIconButton color="success" icon="feather:edit" circle outlined @click="isStatementEditModalOpen = true" />
     </template>

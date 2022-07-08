@@ -38,12 +38,12 @@ const classes = computed(() => {
 </script>
 
 <template>
-  <textarea
-    :id="vFieldContext.id"
-    v-model="value"
-    :class="classes"
-    :name="vFieldContext.id"
-    @change="vFieldContext.field?.handleChange"
-    @blur="vFieldContext.field?.handleBlur"
-  ></textarea>
+  <textarea :id="vFieldContext.id" v-model="value" :class="classes" :name="vFieldContext.id"
+    @change="vFieldContext.field?.handleChange" @blur="vFieldContext.field?.handleBlur"></textarea>
 </template>
+
+<style scoped lang="scss">
+.textarea {
+  border-color: var(--border);
+}
+</style>

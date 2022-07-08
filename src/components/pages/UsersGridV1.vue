@@ -97,13 +97,13 @@ function getAvatarData(user: any): VAvatarProps {
               <VAvatar v-for="user in item.team" :key="user.id" size="small" v-bind="getAvatarData(user)" />
             </div> -->
             <div class="is-grouped mt-5">
-              <VButton :color="itemIndex % 2 === 0 && 'success'" style="width: 40%;" class="mr-5">
+              <VButton :color="itemIndex % 2 === 0 ? 'success' : undefined" style="width: 40%;" class="mr-5">
                 <span class="icon">
                   <i aria-hidden="true" class="iconify" data-icon="feather:check"></i>
                 </span>
                 <span>{{ $t('Yes') }}</span>
               </VButton>
-              <VButton :color="itemIndex % 2 !== 0 && 'danger'" style="width: 40%;">
+              <VButton :color="itemIndex % 2 !== 0 ? 'danger' : undefined" style="width: 40%;">
                 <span class="icon">
                   <i aria-hidden="true" class="iconify" data-icon="feather:x"></i>
                 </span>

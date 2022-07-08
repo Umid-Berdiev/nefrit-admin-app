@@ -12,7 +12,7 @@ import VFlexPagination from '/@src/components/base/pagination/VFlexPagination.vu
 
 const { t } = useI18n()
 const viewWrapper = useViewWrapper()
-viewWrapper.setPageTitle(t('Applicant_Info'))
+viewWrapper.setPageTitle(t('User_details'))
 
 // We want to retrieve the post from the API where the id matches the current id
 const route = useRoute()
