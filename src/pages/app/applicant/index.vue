@@ -68,13 +68,14 @@ const columns = {
     cellClass: 'is-flex-grow-0',
   },
   orderNumber: {
-    label: '#',
-    // cellClass: 'is-flex-grow-0',
+    // label: '#',
+    format: (value, row, index) => `${index + 1}`,
+    cellClass: 'is-flex-grow-0',
   },
   name: {
     label: t('Applicant_user_name'),
     // media: true,
-    grow: true,
+    // grow: true,
     searchable: true,
     sortable: true,
     filter: userFilter,
@@ -82,7 +83,7 @@ const columns = {
   shortname: {
     label: t('Boss_name'),
     // media: true,
-    grow: true,
+    // grow: true,
     searchable: true,
     sortable: true,
     filter: userFilter,
@@ -206,34 +207,14 @@ function onActionTriggered(rowId) {
               </VControl>
             </VField>
           </template>
-
-          <!-- We can also bind wrapperState.limit -->
-          <!-- <template #right>
-            <VField>
-              <VControl>
-                <div class="select is-rounded">
-                  <select v-model="wrapperState.limit">
-                    <option :value="1">1 results per page</option>
-                    <option :value="10">10 results per page</option>
-                    <option :value="15">15 results per page</option>
-                    <option :value="25">25 results per page</option>
-                    <option :value="50">50 results per page</option>
-                  </select>
-                </div>
-              </VControl>
-            </VField>
-          </template> -->
         </VFlexTableToolbar>
 
-        <!--
-          The VFlexTable "data" and "columns" props
-          will be inherited from parent VFlexTableWrapper
-        -->
         <VFlexTable rounded>
           <!-- header-column slot -->
           <template #header-column="{ column }">
             <VCheckbox v-if="column.key === 'select'" class="ml-2 mr-3" :checked="isAllSelected" name="all_selected"
               color="primary" @click="toggleSelection" />
+            <span v-if="column.key === 'orderNumber'" class="is-flex-grow-0" v-text="'#'" />
           </template>
 
           <!-- Custom "name" cell content -->
@@ -241,22 +222,6 @@ function onActionTriggered(rowId) {
             <VCheckbox v-if="column.key === 'select'" v-model="selectedRowsId" :value="row.id" name="selection"
               @change="clickOnRow" />
 
-            <template v-if="column.key === 'orderNumber'">
-              <span class="w-5">
-                {{ index + 1 }}
-              </span>
-            </template>
-            <!-- <template v-if="column.key === 'name'">
-              <VAvatar size="medium" :picture="row.medias.avatar" :badge="row.medias.badge" :initials="row.initials" />
-              <div>
-                <span class="dark-text" :title="row.name">
-                  {{ row.shortname }}
-                </span>
-                <VTextEllipsis width="280px" class="light-text" :title="row.bio">
-                  <small>{{ row.bio }}</small>
-                </VTextEllipsis>
-              </div>
-            </template> -->
             <template v-else-if="column.key === 'status'">
               <VTag class="is-size-6" rounded :color="
                 value === 'pending'
@@ -271,9 +236,7 @@ function onActionTriggered(rowId) {
               </VTag>
             </template>
             <template v-if="column.key === 'actions'">
-              <div class="is-flex is-justify-content-flex-end">
-                <ActionButtons @view="onActionTriggered(row.id)" @edit="isFormModalOpen = true" />
-              </div>
+              <ActionButtons @view="onActionTriggered(row.id)" @edit="isFormModalOpen = true" />
             </template>
           </template>
         </VFlexTable>

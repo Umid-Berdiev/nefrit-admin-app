@@ -70,8 +70,9 @@ const columns = {
     cellClass: 'is-flex-grow-0',
   },
   orderNumber: {
-    label: '#',
-    // cellClass: 'is-flex-grow-0',
+    // label: '#',
+    format: (value, row, index) => `${index + 1}`,
+    cellClass: 'is-flex-grow-0',
   },
   name: {
     label: t('Fullname'),
@@ -223,20 +224,13 @@ async function onRemoveUser() {
           <template #header-column="{ column }">
             <VCheckbox v-if="column.key === 'select'" class="ml-2 mr-3" :checked="isAllSelected" name="all_selected"
               color="primary" @click="toggleSelection" />
+            <span v-if="column.key === 'orderNumber'" class="is-flex-grow-0" v-text="'#'" />
           </template>
           <template #body-cell="{ row, column, value, index }">
             <VCheckbox v-if="column.key === 'select'" v-model="selectedRowIds" :value="row.id" name="selection"
               @change="clickOnRow" />
 
-            <template v-if="column.key === 'orderNumber'">
-              <span class="w-5">
-                {{ index + 1 }}
-              </span>
-            </template>
             <template v-if="column.key === 'actions'">
-              <!-- <div class="is-flex is-justify-content-flex-end">
-                <ActionButtons @view="onActionTriggered(row.id)" @edit="isFormModalOpen = true" />
-              </div> -->
               <UsersFlexTableDropdown @view="onActionTriggered(row.id)" @edit="onEditUser(row)"
                 @remove="onRemoveUser" />
             </template>

@@ -10,13 +10,13 @@ const emits = defineEmits<{
 
 <template>
   <div class="is-flex is-justify-content-flex-end">
-    <VIconButton class="mr-2" outlined circle color="info" icon="feather:eye" @click.prevent="emits('view')">
+    <VIconButton class="mr-2 p-4" outlined circle color="info" icon="feather:eye" @click.prevent="emits('view')">
       {{ $t('View') }}
     </VIconButton>
-    <VIconButton class="mr-2" outlined circle color="primary" icon="feather:edit-2" @click.prevent="emits('edit')">
+    <VIconButton class="mr-2 p-4" outlined circle color="primary" icon="feather:edit-2" @click.prevent="emits('edit')">
       {{ $t('Edit') }}
     </VIconButton>
-    <VIconButton class="mr-2" outlined circle color="danger" icon="feather:trash" @click.prevent="emits('remove')">
+    <VIconButton class="mr-2 p-4" outlined circle color="danger" icon="feather:trash" @click.prevent="emits('remove')">
       {{ $t('Remove') }}
     </VIconButton>
   </div>

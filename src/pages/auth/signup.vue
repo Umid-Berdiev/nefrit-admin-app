@@ -87,16 +87,9 @@ useHead({
     <div class="column is-5">
       <div class="hero is-fullheight is-white">
         <div class="hero-heading">
-          <label
-            class="dark-mode ml-auto"
-            tabindex="0"
-            @keydown.space.prevent="(e) => (e.target as HTMLLabelElement).click()"
-          >
-            <input
-              type="checkbox"
-              :checked="!darkmode.isDark"
-              @change="darkmode.onChange"
-            />
+          <label class="dark-mode ml-auto" tabindex="0"
+            @keydown.space.prevent="(e) => (e.target as HTMLLabelElement).click()">
+            <input type="checkbox" :checked="!darkmode.isDark" @change="darkmode.onChange" />
             <span></span>
           </label>
           <div class="auth-logo">
@@ -112,7 +105,7 @@ useHead({
                 <div class="auth-content">
                   <h2>{{ t('auth.title') }}</h2>
                   <p>{{ t('auth.subtitle') }}</p>
-                  <RouterLink :to="{ name: 'auth-login-2' }">
+                  <RouterLink :to="{ name: 'auth-login' }">
                     {{ t('auth.action.login') }}
                   </RouterLink>
                 </div>
@@ -123,11 +116,7 @@ useHead({
                       <!-- Input -->
                       <VField id="name" v-slot="{ field }">
                         <VControl icon="feather:user">
-                          <VInput
-                            type="text"
-                            :placeholder="t('auth.placeholder.name')"
-                            autocomplete="name"
-                          />
+                          <VInput type="text" :placeholder="t('auth.placeholder.name')" autocomplete="name" />
                           <p v-if="field?.errorMessage" class="help is-danger">
                             {{ field.errorMessage }}
                           </p>
@@ -137,11 +126,7 @@ useHead({
                       <!-- Input -->
                       <VField id="email" v-slot="{ field }">
                         <VControl icon="feather:mail">
-                          <VInput
-                            type="text"
-                            :placeholder="t('auth.placeholder.email')"
-                            autocomplete="email"
-                          />
+                          <VInput type="text" :placeholder="t('auth.placeholder.email')" autocomplete="email" />
                           <p v-if="field?.errorMessage" class="help is-danger">
                             {{ field.errorMessage }}
                           </p>
@@ -151,11 +136,8 @@ useHead({
                       <!-- Input -->
                       <VField id="password" v-slot="{ field }">
                         <VControl icon="feather:lock">
-                          <VInput
-                            type="password"
-                            :placeholder="t('auth.placeholder.password')"
-                            autocomplete="new-password"
-                          />
+                          <VInput type="password" :placeholder="t('auth.placeholder.password')"
+                            autocomplete="new-password" />
                           <p v-if="field?.errorMessage" class="help is-danger">
                             {{ field.errorMessage }}
                           </p>
@@ -165,10 +147,7 @@ useHead({
                       <!-- Input -->
                       <VField id="passwordCheck" v-slot="{ field }">
                         <VControl icon="feather:lock">
-                          <VInput
-                            type="password"
-                            :placeholder="t('auth.placeholder.passwordCheck')"
-                          />
+                          <VInput type="password" :placeholder="t('auth.placeholder.passwordCheck')" />
                           <p v-if="field?.errorMessage" class="help is-danger">
                             {{ field.errorMessage }}
                           </p>
@@ -177,11 +156,7 @@ useHead({
 
                       <VField id="promitional">
                         <VControl class="setting-item">
-                          <VCheckbox
-                            color="primary"
-                            :label="t('auth.label.promotional')"
-                            paddingless
-                          />
+                          <VCheckbox color="primary" :label="t('auth.label.promotional')" paddingless />
                         </VControl>
                       </VField>
 
@@ -208,16 +183,10 @@ useHead({
         <div class="hero-body">
           <div class="columns">
             <div class="column is-10 is-offset-1">
-              <img
-                class="light-image has-light-shadow has-light-border"
-                src="/@src/assets/illustrations/apps/vuero-banking-light.png?format=webp"
-                alt=""
-              />
-              <img
-                class="dark-image has-light-shadow"
-                src="/@src/assets/illustrations/apps/vuero-banking-dark.png?format=webp"
-                alt=""
-              />
+              <img class="light-image has-light-shadow has-light-border"
+                src="/@src/assets/illustrations/apps/vuero-banking-light.png?format=webp" alt="" />
+              <img class="dark-image has-light-shadow"
+                src="/@src/assets/illustrations/apps/vuero-banking-dark.png?format=webp" alt="" />
             </div>
           </div>
         </div>

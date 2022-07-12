@@ -48,11 +48,11 @@ watchEffect(() => {
           <RouterLink :to="{
             name: 'index',
           }" class="nav-link" @click.passive="
-              () => {
-                scrollTo('#features', 800, { offset: -50 })
-                isMobileNavOpen = false
-              }
-            ">
+  () => {
+    scrollTo('#features', 800, { offset: -50 })
+    isMobileNavOpen = false
+  }
+">
             Awesome Features
           </RouterLink>
         </div>
@@ -76,8 +76,8 @@ watchEffect(() => {
           <RouterLink :to="{ name: 'auth-login' }" class="nav-link"> Login </RouterLink>
         </div>
         <div class="navbar-item">
-          <VButton :to="{ name: 'auth-signup' }" color="primary" rounded raised>
-            <strong>Sign up</strong>
+          <VButton class="is-size-6" :to="{ name: 'auth-signup' }" color="primary" rounded raised>
+            Sign up
           </VButton>
         </div>
       </div>
@@ -183,10 +183,10 @@ watchEffect(() => {
 
           .nav-link {
             position: relative;
-            font-family: var(--font-alt);
-            font-size: 0.9rem;
-            // color: var(--light-text);
-            text-transform: capitalize;
+            // font-family: var(--font-alt);
+            // font-size: 1rem;
+            color: var(--dark-text);
+            // text-transform: capitalize;
 
             &::before {
               content: '';
