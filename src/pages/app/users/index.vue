@@ -169,25 +169,25 @@ async function onRemoveUser() {
           <VField class="column">
             <VLabel>{{ t('First_name') }}</VLabel>
             <VControl>
-              <VInput v-model="filterForm.first_name" type="text" :placeholder="$t('Type') + '...'" />
+              <VInput v-model="filterForm.first_name" type="text" placeholder="" />
             </VControl>
           </VField>
           <VField class="column">
             <VLabel>{{ t('Last_name') }}</VLabel>
             <VControl>
-              <VInput v-model="filterForm.last_name" type="text" :placeholder="$t('Type') + '...'" />
+              <VInput v-model="filterForm.last_name" type="text" placeholder="" />
             </VControl>
           </VField>
           <VField class="column">
             <VLabel>{{ t('Username') }}</VLabel>
             <VControl>
-              <VInput v-model="filterForm.username" type="text" :placeholder="$t('Type') + '...'" />
+              <VInput v-model="filterForm.username" type="text" placeholder="" />
             </VControl>
           </VField>
           <VField class="column">
             <VLabel>{{ t('Email') }}</VLabel>
             <VControl>
-              <VInput v-model="filterForm.email" type="text" :placeholder="$t('Type') + '...'" />
+              <VInput v-model="filterForm.email" type="text" placeholder="" />
             </VControl>
           </VField>
         </div>

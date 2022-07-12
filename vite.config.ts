@@ -7,15 +7,8 @@ import PurgeIcons from 'vite-plugin-purge-icons'
 import ImageMin from 'vite-plugin-imagemin'
 import { vueI18n } from '@intlify/vite-plugin-vue-i18n'
 import purgecss from 'rollup-plugin-purgecss'
-// import generateSitemap from 'vite-plugin-pages-sitemap'
-// import ViteFonts from 'vite-plugin-fonts'
-// import ViteRadar from 'vite-plugin-radar'
-// import { imagetools } from 'vite-imagetools'
-// import VueroDocumentation from './vite-plugin-vuero-doc/index'
 
 const SILENT = Boolean(process.env.SILENT) ?? false
-// const SOURCE_MAP = Boolean(process.env.SOURCE_MAP) ?? false
-// const SITEMAP_HOST = process.env.SITEMAP_HOST || 'http://localhost:3000/'
 
 /**
  * This is the main configuration file for vitejs
@@ -66,22 +59,7 @@ export default defineConfig({
           baseRoute: '',
         },
       ],
-      // onRoutesGenerated: (routes) =>
-      //   generateSitemap({
-      //     routes,
-      //     hostname: SITEMAP_HOST,
-      //   }),
     }),
-
-    /**
-     * This is an internal vite plugin that load markdown files as vue components.
-     *
-     * @see /documentation
-     * @see /vite-plugin-vuero-doc
-     * @see /src/components/partials/documentation/DocumentationItem.vue
-     * @see /src/composable/useMarkdownToc.ts
-     */
-    // VueroDocumentation(),
 
     /**
      * unplugin-vue-components plugin is responsible of autoloading components

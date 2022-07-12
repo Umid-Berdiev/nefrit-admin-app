@@ -87,8 +87,8 @@ zh-CN:
             actions === 'right' && 'is-end',
           ]">
             <slot name="cancel" :close="() => emit('close')">
-              <a tabindex="0" class="button v-button v-modal-close" :class="[rounded && 'is-rounded']"
-                @keydown.space.prevent="emit('close')" @click="emit('close')">
+              <a tabindex="0" class="button" :class="[rounded && 'is-rounded']" @keydown.space.prevent="emit('close')"
+                @click="emit('close')">
                 {{ cancelLabel }}
               </a>
             </slot>

@@ -50,21 +50,24 @@ const route = useRoute()
         <li>
           <RouterLink class="is-size-6" :class="{ 'router-link-exact-active': route.path.startsWith('/app/users') }"
             :to="{ name: 'app-users' }">
-            <i aria-hidden="true" class="lnil lnil-users mr-2"></i>
+            <!-- <i aria-hidden="true" class="lnil lnil-users mr-2"></i> -->
+            <i class="fas fa-users mr-1" aria-hidden="true"></i>
             {{ $t('Users') }}
           </RouterLink>
         </li>
         <li>
           <RouterLink class="is-size-6" :class="{ 'router-link-exact-active': route.path.startsWith('/app/reports') }"
             :to="{ name: 'app-reports' }">
-            <i aria-hidden="true" class="lnil lnil-sales-report mr-2"></i>
+            <!-- <i aria-hidden="true" class="lnil lnil-sales-report mr-2"></i> -->
+            <i class="lnir lnir-analytics-alt-1 mr-2" aria-hidden="true"></i>
             {{ $t('Reports') }}
           </RouterLink>
         </li>
         <li>
           <RouterLink class="is-size-6" :class="{ 'router-link-exact-active': route.path.startsWith('/app/handbooks') }"
             :to="{ name: 'app-handbooks' }">
-            <i aria-hidden="true" class="lnil lnil-database mr-2"></i>
+            <!-- <i aria-hidden="true" class="lnil lnil-database mr-2"></i> -->
+            <i class="fas fa-database mr-2" aria-hidden="true"></i>
             {{ $t('Handbook') }}
           </RouterLink>
         </li>
