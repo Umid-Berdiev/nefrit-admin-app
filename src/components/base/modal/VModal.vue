@@ -47,21 +47,6 @@ onUnmounted(() => {
 })
 </script>
 
-<!-- <i18n lang="yaml">
-de:
-  cancel-label: 'Abbrechen'
-en:
-  cancel-label: 'Cancel'
-es-MX:
-  cancel-label: 'Cancelar'
-es:
-  cancel-label: 'Cancelar'
-fr:
-  cancel-label: 'Annuler'
-zh-CN:
-  cancel-label: '取消'
-</i18n> -->
-
 <template>
   <Teleport to="body">
     <div :class="[open && 'is-active', size && `is-${size}`]" class="modal v-modal">
@@ -87,10 +72,14 @@ zh-CN:
             actions === 'right' && 'is-end',
           ]">
             <slot name="cancel" :close="() => emit('close')">
-              <a tabindex="0" class="button" :class="[rounded && 'is-rounded']" @keydown.space.prevent="emit('close')"
-                @click="emit('close')">
+              <VButton tabindex="0" outlined color="warning" :class="[rounded && 'is-rounded']"
+                @keydown.space.prevent="emit('close')" @click="emit('close')">
                 {{ cancelLabel }}
-              </a>
+              </VButton>
+              <!-- <button tabindex="0" class="button" :class="[rounded && 'is-rounded']"
+                @keydown.space.prevent="emit('close')" @click="emit('close')">
+                {{ cancelLabel }}
+              </button> -->
             </slot>
             <slot name="action" :close="() => emit('close')"></slot>
           </div>

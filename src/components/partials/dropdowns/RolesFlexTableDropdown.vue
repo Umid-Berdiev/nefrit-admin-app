@@ -1,9 +1,10 @@
 <script setup lang="ts">
+
 const emits = defineEmits<{
   (e: 'view'): void
   (e: 'edit'): void
   (e: 'remove'): void
-  (e: 'feedback'): void
+  (e: 'permissions'): void
 }>()
 </script>
 
@@ -40,7 +41,7 @@ const emits = defineEmits<{
 
       <a role="menuitem" href="#" class="dropdown-item is-media" @click.prevent="
         () => {
-          emits('feedback')
+          emits('permissions')
           close()
         }
       ">
@@ -48,7 +49,7 @@ const emits = defineEmits<{
           <i aria-hidden="true" class="lnil lnil-briefcase"></i>
         </div>
         <div class="meta">
-          <span>{{ $t('Leave_feedback') }}</span>
+          <span>{{ $t('Role_permissions') }}</span>
         </div>
       </a>
 

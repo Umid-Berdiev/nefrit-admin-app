@@ -100,7 +100,7 @@ watch(
       </div>
     </template>
     <template #action="{ close }">
-      <VButton color="primary" raised @click="close()">Save Changes</VButton>
+      <VButton color="primary" outlined @click="close()">{{ $t('Save_changes') }}</VButton>
     </template>
   </VModal>
 </template>

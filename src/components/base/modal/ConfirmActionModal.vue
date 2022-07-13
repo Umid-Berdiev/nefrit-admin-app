@@ -23,7 +23,7 @@ async function onConfirm() {
       <VPlaceholderSection :title="$t('Are_you_sure')" />
     </template>
     <template #action>
-      <VButton color="danger" @click="onConfirm">Confirm</VButton>
+      <VButton color="danger" outlined @click="onConfirm">{{ $t('Confirm') }}</VButton>
     </template>
   </VModal>
 </template>

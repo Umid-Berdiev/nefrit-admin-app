@@ -45,7 +45,7 @@ function formatDate(value: Date) {
     <VBlock title="" center>
       <template #action>
         <VButton class="mr-3" outlined color="success" icon="fas fa-user-edit" type="submit">
-          {{ t('Save changes') }}
+          {{ $t('Save_changes') }}
         </VButton>
       </template>
     </VBlock>

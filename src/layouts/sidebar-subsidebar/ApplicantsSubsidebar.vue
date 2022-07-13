@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router';
+import MainMenu from '/@src/components/navigation/MainMenu.vue';
 
 const emit = defineEmits(['close'])
 
@@ -26,52 +27,7 @@ const route = useRoute()
     <p class="ml-5">Menu</p>
     <div class="is-divider my-0"></div>
     <div class="inner" data-simplebar>
-      <ul>
-        <li>
-          <RouterLink class="is-size-6" :to="{ name: 'app' }">
-            <i aria-hidden="true" class="lnil lnil-home mr-2"></i>
-            {{ $t('Dashboard') }}
-          </RouterLink>
-        </li>
-        <li>
-          <RouterLink class="is-size-6" :class="{ 'router-link-exact-active': route.path.startsWith('/app/applicant') }"
-            :to="{ name: 'app-applicant' }">
-            <i aria-hidden="true" class="lnil lnil-users mr-2"></i>
-            {{ $t('Applicants') }}
-          </RouterLink>
-        </li>
-        <li>
-          <RouterLink class="is-size-6" :class="{ 'router-link-exact-active': route.path.startsWith('/app/statement') }"
-            :to="{ name: 'app-statement' }">
-            <i aria-hidden="true" class="lnil lnil-notepad mr-2"></i>
-            {{ $t('Statements') }}
-          </RouterLink>
-        </li>
-        <li>
-          <RouterLink class="is-size-6" :class="{ 'router-link-exact-active': route.path.startsWith('/app/users') }"
-            :to="{ name: 'app-users' }">
-            <!-- <i aria-hidden="true" class="lnil lnil-users mr-2"></i> -->
-            <i class="fas fa-users mr-1" aria-hidden="true"></i>
-            {{ $t('Users') }}
-          </RouterLink>
-        </li>
-        <li>
-          <RouterLink class="is-size-6" :class="{ 'router-link-exact-active': route.path.startsWith('/app/reports') }"
-            :to="{ name: 'app-reports' }">
-            <!-- <i aria-hidden="true" class="lnil lnil-sales-report mr-2"></i> -->
-            <i class="lnir lnir-analytics-alt-1 mr-2" aria-hidden="true"></i>
-            {{ $t('Reports') }}
-          </RouterLink>
-        </li>
-        <li>
-          <RouterLink class="is-size-6" :class="{ 'router-link-exact-active': route.path.startsWith('/app/handbooks') }"
-            :to="{ name: 'app-handbooks' }">
-            <!-- <i aria-hidden="true" class="lnil lnil-database mr-2"></i> -->
-            <i class="fas fa-database mr-2" aria-hidden="true"></i>
-            {{ $t('Handbook') }}
-          </RouterLink>
-        </li>
-      </ul>
+      <MainMenu />
     </div>
   </div>
 </template>

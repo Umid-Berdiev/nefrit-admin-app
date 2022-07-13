@@ -137,7 +137,7 @@ function getAvatarData(user: any): VAvatarProps {
           </label>
         </div>
         <div class="ml-auto">
-          <VButton color="primary" raised @click="close()">Save Changes</VButton>
+          <VButton color="primary" raised @click="close()">{{ $t('Save_changes') }}</VButton>
         </div>
       </div>
       <div class="column is-12">

@@ -1,9 +1,10 @@
 <script setup lang="ts">
+
 const emits = defineEmits<{
   (e: 'view'): void
-  (e: 'edit'): void
   (e: 'remove'): void
   (e: 'feedback'): void
+  (e: 'conclusion'): void
 }>()
 </script>
 
@@ -26,20 +27,6 @@ const emits = defineEmits<{
 
       <a role="menuitem" href="#" class="dropdown-item is-media" @click.prevent="
         () => {
-          emits('edit')
-          close()
-        }
-      ">
-        <div class="icon">
-          <i aria-hidden="true" class="lnil lnil-briefcase"></i>
-        </div>
-        <div class="meta">
-          <span>{{ $t('Edit') }}</span>
-        </div>
-      </a>
-
-      <a role="menuitem" href="#" class="dropdown-item is-media" @click.prevent="
-        () => {
           emits('feedback')
           close()
         }
@@ -49,6 +36,20 @@ const emits = defineEmits<{
         </div>
         <div class="meta">
           <span>{{ $t('Leave_feedback') }}</span>
+        </div>
+      </a>
+
+      <a role="menuitem" href="#" class="dropdown-item is-media" @click.prevent="
+        () => {
+          emits('conclusion')
+          close()
+        }
+      ">
+        <div class="icon">
+          <i aria-hidden="true" class="lnil lnil-briefcase"></i>
+        </div>
+        <div class="meta">
+          <span>{{ $t('Go_to_conclusions') }}</span>
         </div>
       </a>
 

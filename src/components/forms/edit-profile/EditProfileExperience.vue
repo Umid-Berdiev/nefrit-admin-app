@@ -60,7 +60,7 @@ const onSave = async () => {
             </VButton>
             <VButton color="primary" raised :loading="isLoading" tabindex="0" @keydown.space.prevent="onSave"
               @click="onSave">
-              Save Changes
+              {{ $t('Save_changes') }}
             </VButton>
           </div>
         </div>

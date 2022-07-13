@@ -6,6 +6,7 @@ import { useVFieldContext } from '/@src/composable/useVFieldContext'
 export type VFieldProps = {
   id?: string
   label?: string
+  required?: boolean
   addons?: boolean
   textaddon?: boolean
   grouped?: boolean
@@ -18,6 +19,7 @@ export type VFieldProps = {
 const props = withDefaults(defineProps<VFieldProps>(), {
   id: undefined,
   label: undefined,
+  required: false,
 })
 const vFieldContext = reactive(
   useVFieldContext({ id: props.id, inherit: !props.subcontrol })
@@ -25,6 +27,7 @@ const vFieldContext = reactive(
 
 const slots = useSlots()
 const hasLabel = computed(() => Boolean(slots?.label?.() || props.label))
+const isRequired = computed(() => Boolean(slots?.required?.() || props.required))
 const classes = computed(() => {
   if (props.raw) return []
 
@@ -47,6 +50,7 @@ defineExpose(vFieldContext)
       <div class="field-label is-normal">
         <slot v-bind="vFieldContext" name="label">
           <VLabel>{{ props.label }}</VLabel>
+          <span class="has-text-danger" v-if="isRequired">*</span>
         </slot>
       </div>
       <div class="field-body">
@@ -55,7 +59,10 @@ defineExpose(vFieldContext)
     </template>
     <template v-else-if="hasLabel">
       <slot v-bind="vFieldContext" name="label">
-        <VLabel>{{ props.label }}</VLabel>
+        <VLabel>
+          {{ props.label }}
+          <span class="has-text-danger" v-if="isRequired">*</span>
+        </VLabel>
       </slot>
 
       <slot v-bind="vFieldContext"></slot>

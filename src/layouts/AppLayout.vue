@@ -93,20 +93,20 @@ console.log('activeMobileSubsidebar: ', activeMobileSubsidebar.value);
         </li>
       </template>
 
-      <template #bottom-links>
+      <!-- <template #bottom-links>
         <li>
           <a href="#">
             <i aria-hidden="true" class="iconify" data-icon="feather:settings"></i>
           </a>
         </li>
-      </template>
+      </template> -->
     </MobileSidebar>
 
     <!-- Mobile subsidebar links -->
     <Transition name="slide-x">
-      <DashboardsMobileSubsidebar v-if="isMobileSidebarOpen && activeMobileSubsidebar === 'dashboard'" />
-      <ApplicantsMobileSubsidebar v-else-if="isMobileSidebarOpen && activeMobileSubsidebar === 'applicant'" />
-      <StatementsMobileSubsidebar v-else-if="isMobileSidebarOpen && activeMobileSubsidebar === 'statement'" />
+      <!-- <DashboardsMobileSubsidebar v-if="isMobileSidebarOpen && activeMobileSubsidebar === 'dashboard'" /> -->
+      <ApplicantsMobileSubsidebar v-if="isMobileSidebarOpen" />
+      <!-- <StatementsMobileSubsidebar v-else-if="isMobileSidebarOpen && activeMobileSubsidebar === 'statement'" /> -->
     </Transition>
 
     <Transition name="slide-x">

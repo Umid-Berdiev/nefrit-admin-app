@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, h } from 'vue'
+import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 
@@ -8,12 +8,8 @@ import type {
   VFlexTableWrapperFilterFunction,
 } from '/@src/components/base/table/VFlexTableWrapper.vue'
 import { users } from '/@src/stores/usersMockData'
-import ActionButtons from '/@src/components/partials/buttons/ActionButtons.vue'
 import { useViewWrapper } from '/@src/stores/viewWrapper'
-import ApplicantFormModal from '../../../components/base/modal/ApplicantFormModal.vue'
 import CountrySelect from '/@src/components/forms/selects/CountrySelect.vue'
-import FlexTableDropdown from '/@src/components/partials/dropdowns/FlexTableDropdown.vue'
-import ApplicantConclusionModal from '../../../components/base/modal/ApplicantConclusionModal.vue'
 import { useMainStore } from "/@src/stores";
 import FeedbackModal from '/@src/components/base/modal/FeedbackModal.vue'
 import { useHead } from '@vueuse/head'
@@ -251,7 +247,7 @@ function confirmAction() {
             </template>
             <template v-else-if="column.key === 'actions'">
               <!-- <ActionButtons @edit="isFormModalOpen = true" /> -->
-              <FlexTableDropdown @view="onActionTriggered(row.id)" @conclusion="gotoConclusionList(row.id)"
+              <StatementsFlexTableDropdown @view="onActionTriggered(row.id)" @conclusion="gotoConclusionList(row.id)"
                 @remove="confirmAction" @feedback="isFeedbackModalOpen = true" />
             </template>
           </template>

@@ -68,8 +68,5 @@ const columns = {
         </tbody>
       </table>
     </template>
-    <template #cancel="{ close }">
-      <VButton @click="close()">{{ $t('Close') }}</VButton>
-    </template>
   </VModal>
 </template>

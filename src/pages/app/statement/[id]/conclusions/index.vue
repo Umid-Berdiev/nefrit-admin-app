@@ -67,7 +67,7 @@ const columns = {
     sort: locationSorter,
   },
   bio: { // description column
-    label: t('conclusion_desc'),
+    label: t('Conclusion_desc'),
     // inverted: true,
     // grow: true,
   },
@@ -197,7 +197,6 @@ function confirmAction() {
             <VCheckbox v-if="column.key === 'select'" class="ml-2 mr-3" :checked="isAllSelected" name="all_selected"
               color="primary" @click="toggleSelection" />
             <span v-if="column.key === 'orderNumber'" class="is-flex-grow-0" v-text="'#'" />
-            <!-- <span v-if="column.key === 'bio'" :style="{ width: '250px' }" v-text="$t('conclusion_desc')" /> -->
           </template>
 
           <!-- Custom "name" cell content -->
