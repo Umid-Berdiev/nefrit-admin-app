@@ -130,8 +130,8 @@
                 </div>
               </div>
               <div class="box-end">
-                <VAvatar size="small" squared picture="/demo/photos/apps/5.png" />
-                <VAvatar size="small" squared picture="/demo/photos/apps/8.png" />
+                <VAvatar size="small" squared picture="" />
+                <VAvatar size="small" squared picture="" />
               </div>
             </div>
           </div>
@@ -367,7 +367,7 @@
                   }
                 }
 
-                > span {
+                >span {
                   color: var(--light-text);
                   font-size: 0.9rem;
                 }

@@ -5,11 +5,8 @@ import { onceImageErrored } from '/@src/utils/via-placeholder'
 <template>
   <div class="profile-wrapper">
     <div class="profile-header has-text-centered">
-      <VAvatar
-        size="xl"
-        picture="/images/avatars/svg/vuero-1.svg"
-        badge="/images/icons/flags/united-states-of-america.svg"
-      />
+      <VAvatar size="xl" picture="/images/avatars/svg/vuero-1.svg"
+        badge="/images/icons/flags/united-states-of-america.svg" />
 
       <h3 class="title is-4 is-narrow is-thin">Erik Kovalsky</h3>
       <p class="light-text">
@@ -66,11 +63,7 @@ import { onceImageErrored } from '/@src/utils/via-placeholder'
               <div class="section-content">
                 <div class="experience-wrapper">
                   <div class="experience-item">
-                    <img
-                      src="/demo/photos/brands/airbnb.svg"
-                      alt=""
-                      @error.once="(event) => onceImageErrored(event, '150x150')"
-                    />
+                    <img src="" alt="" @error.once="(event) => onceImageErrored(event, '150x150')" />
                     <div class="meta">
                       <span class="dark-inverted">Airbnb HQ</span>
                       <span>
@@ -82,11 +75,7 @@ import { onceImageErrored } from '/@src/utils/via-placeholder'
                     </div>
                   </div>
                   <div class="experience-item">
-                    <img
-                      src="/demo/photos/brands/facebook.svg"
-                      alt=""
-                      @error.once="(event) => onceImageErrored(event, '150x150')"
-                    />
+                    <img src="" alt="" @error.once="(event) => onceImageErrored(event, '150x150')" />
                     <div class="meta">
                       <span class="dark-inverted">Facebook</span>
                       <span>
@@ -98,11 +87,7 @@ import { onceImageErrored } from '/@src/utils/via-placeholder'
                     </div>
                   </div>
                   <div class="experience-item">
-                    <img
-                      src="/demo/photos/brands/atlassian.svg"
-                      alt=""
-                      @error.once="(event) => onceImageErrored(event, '150x150')"
-                    />
+                    <img src="" alt="" @error.once="(event) => onceImageErrored(event, '150x150')" />
                     <div class="meta">
                       <span class="dark-inverted">Atlassian</span>
                       <span>
@@ -114,11 +99,7 @@ import { onceImageErrored } from '/@src/utils/via-placeholder'
                     </div>
                   </div>
                   <div class="experience-item">
-                    <img
-                      src="/demo/photos/brands/github.svg"
-                      alt=""
-                      @error.once="(event) => onceImageErrored(event, '150x150')"
-                    />
+                    <img src="" alt="" @error.once="(event) => onceImageErrored(event, '150x150')" />
                     <div class="meta">
                       <span class="dark-inverted">Github</span>
                       <span>
@@ -147,15 +128,8 @@ import { onceImageErrored } from '/@src/utils/via-placeholder'
                   <div class="languages-item">
                     <VIconWrap picture="/images/icons/flags/united-states-of-america.svg">
                       <template #after>
-                        <VPeity
-                          type="donut"
-                          :values="[100, 100]"
-                          :fill="['var(--primary)', 'transparent']"
-                          :height="50"
-                          :inner-radius="22"
-                          :radius="8"
-                          :width="50"
-                        />
+                        <VPeity type="donut" :values="[100, 100]" :fill="['var(--primary)', 'transparent']" :height="50"
+                          :inner-radius="22" :radius="8" :width="50" />
                       </template>
                     </VIconWrap>
 
@@ -167,14 +141,8 @@ import { onceImageErrored } from '/@src/utils/via-placeholder'
                   <div class="languages-item">
                     <VIconWrap picture="/images/icons/flags/france.svg">
                       <template #after>
-                        <VPeity
-                          type="donut"
-                          :values="[80, 100]"
-                          :fill="['var(--primary)', 'transparent']"
-                          :height="50"
-                          :inner-radius="22"
-                          :width="50"
-                        />
+                        <VPeity type="donut" :values="[80, 100]" :fill="['var(--primary)', 'transparent']" :height="50"
+                          :inner-radius="22" :width="50" />
                       </template>
                     </VIconWrap>
 
@@ -186,14 +154,8 @@ import { onceImageErrored } from '/@src/utils/via-placeholder'
                   <div class="languages-item">
                     <VIconWrap picture="/images/icons/flags/germany.svg">
                       <template #after>
-                        <VPeity
-                          type="donut"
-                          :values="[30, 100]"
-                          :fill="['var(--primary)', 'transparent']"
-                          :height="50"
-                          :inner-radius="22"
-                          :width="50"
-                        />
+                        <VPeity type="donut" :values="[30, 100]" :fill="['var(--primary)', 'transparent']" :height="50"
+                          :inner-radius="22" :width="50" />
                       </template>
                     </VIconWrap>
 
@@ -205,14 +167,8 @@ import { onceImageErrored } from '/@src/utils/via-placeholder'
                   <div class="languages-item">
                     <VIconWrap picture="/images/icons/flags/spain.svg">
                       <template #after>
-                        <VPeity
-                          type="donut"
-                          :values="[40, 100]"
-                          :fill="['var(--primary)', 'transparent']"
-                          :height="50"
-                          :inner-radius="22"
-                          :width="50"
-                        />
+                        <VPeity type="donut" :values="[40, 100]" :fill="['var(--primary)', 'transparent']" :height="50"
+                          :inner-radius="22" :width="50" />
                       </template>
                     </VIconWrap>
 
@@ -323,11 +279,8 @@ import { onceImageErrored } from '/@src/utils/via-placeholder'
                 <div class="recommendations-wrapper">
                   <!--Recommendation-->
                   <div class="recommendations-item">
-                    <VAvatar
-                      size="large"
-                      picture="/demo/avatars/5.jpg"
-                      badge="/images/icons/flags/united-states-of-america.svg"
-                    />
+                    <VAvatar size="large" picture="/demo/avatars/5.jpg"
+                      badge="/images/icons/flags/united-states-of-america.svg" />
                     <h3 class="dark-inverted">Project Manager</h3>
                     <p>
                       Lorem ipsum dolor sit amet, consectetur adipiscing elit. At multis
@@ -341,11 +294,8 @@ import { onceImageErrored } from '/@src/utils/via-placeholder'
 
                   <!--Recommendation-->
                   <div class="recommendations-item">
-                    <VAvatar
-                      size="large"
-                      picture="/demo/avatars/18.jpg"
-                      badge="/images/icons/flags/united-states-of-america.svg"
-                    />
+                    <VAvatar size="large" picture="/demo/avatars/18.jpg"
+                      badge="/images/icons/flags/united-states-of-america.svg" />
 
                     <h3 class="dark-inverted">UI/UX Designer</h3>
                     <p>
@@ -400,14 +350,8 @@ import { onceImageErrored } from '/@src/utils/via-placeholder'
                   <div class="tools-item">
                     <VIconWrap picture="/images/icons/stacks/illustrator.svg">
                       <template #after>
-                        <VPeity
-                          type="pie"
-                          :values="[80, 100]"
-                          :fill="['var(--primary)', 'transparent']"
-                          :height="50"
-                          :inner-radius="22"
-                          :width="50"
-                        />
+                        <VPeity type="pie" :values="[80, 100]" :fill="['var(--primary)', 'transparent']" :height="50"
+                          :inner-radius="22" :width="50" />
                       </template>
                     </VIconWrap>
 
@@ -419,16 +363,10 @@ import { onceImageErrored } from '/@src/utils/via-placeholder'
 
                   <!--Tool-->
                   <div class="tools-item">
-                    <VIconWrap picture="/demo/photos/brands/jira.svg">
+                    <VIconWrap picture="">
                       <template #after>
-                        <VPeity
-                          type="pie"
-                          :values="[60, 100]"
-                          :fill="['var(--primary)', 'transparent']"
-                          :height="50"
-                          :inner-radius="22"
-                          :width="50"
-                        />
+                        <VPeity type="pie" :values="[60, 100]" :fill="['var(--primary)', 'transparent']" :height="50"
+                          :inner-radius="22" :width="50" />
                       </template>
                     </VIconWrap>
 
@@ -440,16 +378,10 @@ import { onceImageErrored } from '/@src/utils/via-placeholder'
 
                   <!--Tool-->
                   <div class="tools-item">
-                    <VIconWrap picture="/demo/photos/brands/office.svg">
+                    <VIconWrap picture="">
                       <template #after>
-                        <VPeity
-                          type="pie"
-                          :values="[95, 100]"
-                          :fill="['var(--primary)', 'transparent']"
-                          :height="50"
-                          :inner-radius="22"
-                          :width="50"
-                        />
+                        <VPeity type="pie" :values="[95, 100]" :fill="['var(--primary)', 'transparent']" :height="50"
+                          :inner-radius="22" :width="50" />
                       </template>
                     </VIconWrap>
 
@@ -474,10 +406,7 @@ import { onceImageErrored } from '/@src/utils/via-placeholder'
                 <div class="people-wrapper">
                   <!--People-->
                   <a href="#" class="people-item">
-                    <VAvatar
-                      picture="/demo/avatars/25.jpg"
-                      badge="/images/icons/stacks/js.svg"
-                    />
+                    <VAvatar picture="/demo/avatars/25.jpg" badge="/images/icons/stacks/js.svg" />
 
                     <div class="meta">
                       <span class="dark-inverted">Melany W.</span>
@@ -487,10 +416,7 @@ import { onceImageErrored } from '/@src/utils/via-placeholder'
 
                   <!--People-->
                   <a href="#" class="people-item">
-                    <VAvatar
-                      picture="/demo/avatars/29.jpg"
-                      badge="/images/icons/stacks/python.svg"
-                    />
+                    <VAvatar picture="/demo/avatars/29.jpg" badge="/images/icons/stacks/python.svg" />
 
                     <div class="meta">
                       <span class="dark-inverted">Hakeem C.</span>
@@ -500,10 +426,7 @@ import { onceImageErrored } from '/@src/utils/via-placeholder'
 
                   <!--People-->
                   <a href="#" class="people-item">
-                    <VAvatar
-                      picture="/demo/avatars/38.jpg"
-                      badge="/images/icons/stacks/vuejs.svg"
-                    />
+                    <VAvatar picture="/demo/avatars/38.jpg" badge="/images/icons/stacks/vuejs.svg" />
 
                     <div class="meta">
                       <span class="dark-inverted">Christie D.</span>
@@ -513,10 +436,7 @@ import { onceImageErrored } from '/@src/utils/via-placeholder'
 
                   <!--People-->
                   <a href="#" class="people-item">
-                    <VAvatar
-                      picture="/demo/avatars/28.jpg"
-                      badge="/images/icons/stacks/angular.svg"
-                    />
+                    <VAvatar picture="/demo/avatars/28.jpg" badge="/images/icons/stacks/angular.svg" />
 
                     <div class="meta">
                       <span class="dark-inverted">Edouard F.</span>
@@ -526,10 +446,7 @@ import { onceImageErrored } from '/@src/utils/via-placeholder'
 
                   <!--People-->
                   <a href="#" class="people-item">
-                    <VAvatar
-                      picture="/demo/avatars/19.jpg"
-                      badge="/images/icons/stacks/cplus.svg"
-                    />
+                    <VAvatar picture="/demo/avatars/19.jpg" badge="/images/icons/stacks/cplus.svg" />
 
                     <div class="meta">
                       <span class="dark-inverted">Greta K.</span>
@@ -563,7 +480,7 @@ import { onceImageErrored } from '/@src/utils/via-placeholder'
   .profile-header {
     text-align: center;
 
-    > img {
+    >img {
       display: block;
       margin: 0 auto;
       max-width: 300px;
@@ -677,7 +594,7 @@ import { onceImageErrored } from '/@src/utils/via-placeholder'
               .meta {
                 margin-left: 10px;
 
-                > span {
+                >span {
                   font-family: var(--font);
                   display: block;
 
@@ -751,7 +668,7 @@ import { onceImageErrored } from '/@src/utils/via-placeholder'
               .meta {
                 margin-left: 10px;
 
-                > span {
+                >span {
                   display: block;
                   font-family: var(--font);
 
@@ -883,7 +800,7 @@ import { onceImageErrored } from '/@src/utils/via-placeholder'
               padding: 30px 20px;
               border-radius: var(--radius);
 
-              > .v-avatar {
+              >.v-avatar {
                 display: block;
                 margin: 0 auto 8px;
               }
@@ -972,7 +889,7 @@ import { onceImageErrored } from '/@src/utils/via-placeholder'
               .meta {
                 margin-left: 10px;
 
-                > span {
+                >span {
                   display: block;
                   font-family: var(--font);
 
@@ -1011,7 +928,7 @@ import { onceImageErrored } from '/@src/utils/via-placeholder'
               .meta {
                 margin-left: 10px;
 
-                > span {
+                >span {
                   display: block;
                   font-family: var(--font);
 
@@ -1083,19 +1000,19 @@ import { onceImageErrored } from '/@src/utils/via-placeholder'
 
           .section-content {
             .icon-wrap {
-              > img {
+              >img {
                 border-color: var(--dark-sidebar-light-12) !important;
               }
             }
 
             .experience-wrapper {
               .experience-item {
-                > img {
+                >img {
                   border-color: var(--dark-sidebar-light-12);
                 }
 
                 .meta {
-                  > span {
+                  >span {
                     &:nth-child(3) {
                       color: var(--primary);
                     }
@@ -1171,9 +1088,11 @@ import { onceImageErrored } from '/@src/utils/via-placeholder'
 
         .profile-card-section {
           .section-content {
+
             .experience-wrapper,
             .languages-wrapper,
             .recommendations-wrapper {
+
               .experience-item,
               .languages-item,
               .recommendations-item {
