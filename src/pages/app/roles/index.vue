@@ -170,7 +170,7 @@ async function onRemove() {
               @change="clickOnRow" />
 
             <template v-if="column.key === 'actions'">
-              <RolesFlexTableDropdown @view="onActionTriggered(row.id)" @edit="onEdit(row)" @remove="onRemove" />
+              <RolesFlexTableDropdown @edit="onEdit(row)" @remove="onRemove" />
             </template>
           </template>
         </VFlexTable>

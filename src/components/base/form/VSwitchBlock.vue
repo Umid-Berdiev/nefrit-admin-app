@@ -376,7 +376,7 @@ watch(
       background: var(--light-grey);
       position: absolute;
       left: -8px;
-      top: (7px - 24px) / 2;
+      top: calc((7px - 24px) / 2);
       display: block;
       width: 24px;
       height: 24px;

@@ -19,7 +19,7 @@ function onLogout() {
 
     <template #content>
       <a href="#" class="dropdown-item">
-        {{ user.fullname || 'John Doe' }}
+        {{ 'John Doe' }}
       </a>
       <RouterLink to="/app/profile/profile-edit" class="dropdown-item is-media">
         <div class="icon">
