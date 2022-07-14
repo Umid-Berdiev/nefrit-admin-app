@@ -23,7 +23,7 @@ const dropdown = useDropdown(dropdownElement)
               <h6 class="heading-title">Notifications</h6>
             </div>
             <div class="heading-right">
-              <RouterLink class="notification-link" :to="'/'">
+              <RouterLink class="notification-link" :to="'/app/profile/profile-notifications'">
                 See all
               </RouterLink>
             </div>

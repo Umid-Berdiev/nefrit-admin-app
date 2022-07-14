@@ -7,8 +7,7 @@ import { useHead } from '@vueuse/head'
 import { useApi } from '/@src/composable/useApi'
 import { useViewWrapper } from '/@src/stores/viewWrapper'
 import { useI18n } from 'vue-i18n'
-import VButton from '/@src/components/base/button/VButton.vue'
-import VFlexPagination from '/@src/components/base/pagination/VFlexPagination.vue'
+import { users } from '/@src/stores/usersMockData'
 
 const { t } = useI18n()
 const viewWrapper = useViewWrapper()
@@ -20,33 +19,30 @@ const currentId = (route.params?.id as string) ?? ''
 
 const applicant = ref<ApplicantInterface>()
 const isFormModalOpen = ref(false)
-const data = [
-  {
-    id: 1,
-    statement_date: '2022-06-23',
-    statement_status: 'In process',
-    in_stage: '2-stage',
-    company: 'Grubspot',
-  },
-  {
-    id: 2,
-    statement_date: '2022-06-23',
-    statement_status: 'In process',
-    in_stage: '2-stage',
-    company: 'Ferrario',
-  },
-  // and more data ...
-]
+const data = users
 
 const columns = {
-  id: 'Id',
-  statement_date: 'Statement_date',
-  statement_status: 'Statement_status',
-  in_stage: 'In_stage',
-  company: 'Company',
+  select: {
+    label: '',
+    cellClass: 'is-flex-grow-0',
+  },
+  orderNumber: {
+    label: 'Ariza qabul raqami',
+  },
+  company: {
+    label: t('applied_legal_entity'),
+  },
+  drug: {
+    label: t('drug_name'),
+  },
+  date: {
+    label: t('applied_at'),
+  },
+  status: t('Status'),
+  stage: t('Stage'),
   actions: {
-    label: 'Actions',
-    align: 'center'
+    label: t('Actions'),
+    align: 'center',
   },
 }
 
@@ -94,7 +90,7 @@ useHead({
     <VTabs selected="details" :tabs="[
       { label: t('Applicant_details'), value: 'details', icon: 'feather:info' },
       {
-        label: t('Applicant_statements'),
+        label: t('Statements'),
         value: 'statements',
         icon: 'feather:file-text',
       },
@@ -106,13 +102,47 @@ useHead({
         </div>
         <div v-else-if="activeValue === 'statements'">
           <VFlexTable :data="data" :columns="columns" rounded compact>
-            <template #body-cell="{ row, column, value }">
-              <VAction v-if="column.key === 'actions'">
-                Details
-              </VAction>
+            <!-- header-column slot -->
+            <template #header-column="{ column }">
+              <VCheckbox v-if="column.key === 'select'" class="ml-2 mr-3" :checked="isAllSelected" name="all_selected"
+                color="primary" @click="toggleSelection" />
+            </template>
+
+            <!-- Custom "name" cell content -->
+            <template #body-cell="{ row, column, value, index }">
+              <VCheckbox v-if="column.key === 'select'" v-model="selectedRowsId" :value="row.id" name="selection"
+                @change="clickOnRow" />
+
+              <template v-else-if="column.key === 'orderNumber'">
+                {{ '00000' + (row.id + 1) }}
+              </template>
+              <template v-else-if="column.key === 'status'">
+                <VTag class="is-size-6" rounded :color="
+                  value === 'pending'
+                    ? 'warning'
+                    : value === 'rejected'
+                      ? 'danger'
+                      : value === 'completed'
+                        ? 'primary'
+                        : undefined
+                ">
+                  {{ t(value) }}
+                </VTag>
+              </template>
+              <template v-else-if="column.key === 'stage'">
+                <VTag class="is-size-6" rounded color="info">
+                  {{ t(value) }}
+                </VTag>
+              </template>
+              <template v-else-if="column.key === 'actions'">
+                <!-- <ActionButtons @edit="isFormModalOpen = true" /> -->
+                <StatementsFlexTableDropdown @view="onActionTriggered(row.id)" @conclusion="gotoConclusionList(row.id)"
+                  @remove="confirmAction" @feedback="isFeedbackModalOpen = true" />
+              </template>
             </template>
           </VFlexTable>
-          <!-- Table Pagination with wrapperState.page binded-->
+
+          <!-- Table Pagination with data.page binded-->
           <VFlexPagination v-model:current-page="data.page" class="mt-6" :item-per-page="data.limit"
             :total-items="data.total" :max-links-displayed="5" no-router />
         </div>

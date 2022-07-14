@@ -1,35 +1,18 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useI18n } from 'vue-i18n'
-
 import { useDarkmode } from '/@src/stores/darkmode'
-import { usePanels } from '/@src/stores/panels'
+import LocalesDropdown from '../dropdowns/LocalesDropdown.vue';
+import ProfileDropdown from '../dropdowns/ProfileDropdown.vue';
 
 const darkmode = useDarkmode()
-const { locale } = useI18n()
-const panels = usePanels()
-
-const localFlagSrc = computed(() => {
-  switch (locale.value) {
-    case 'fr':
-      return '/images/icons/flags/france.svg'
-    case 'es':
-      return '/images/icons/flags/spain.svg'
-    case 'es-MX':
-      return '/images/icons/flags/mexico.svg'
-    case 'de':
-      return '/images/icons/flags/germany.svg'
-    case 'zh-CN':
-      return '/images/icons/flags/china.svg'
-    case 'en':
-    default:
-      return '/images/icons/flags/united-states-of-america.svg'
-  }
-})
 </script>
 
 <template>
   <div class="toolbar ml-auto">
+    <!-- <div class="toolbar-link">
+      <RouterLink to="/app/profile/profile-edit">
+        <i class="fas fa-user fa-lg has-text-primary" aria-hidden="true"></i>
+      </RouterLink>
+    </div> -->
     <div class="toolbar-link">
       <label tabindex="0" class="dark-mode ml-auto"
         @keydown.space.prevent="(e) => (e.target as HTMLLabelElement).click()">
@@ -38,11 +21,13 @@ const localFlagSrc = computed(() => {
       </label>
     </div>
 
-    <a tabindex="0" class="toolbar-link right-panel-trigger" @keydown.space.prevent="panels.setActive('languages')"
+    <!-- <a tabindex="0" class="toolbar-link right-panel-trigger" @keydown.space.prevent="panels.setActive('languages')"
       @click="panels.setActive('languages')">
-      <!-- <img :src="localFlagSrc" alt="" /> -->
       <p class="has-text-warning">{{ locale.toUpperCase() }}</p>
-    </a>
+    </a> -->
+
+    <LocalesDropdown class="mr-3" />
+    <ProfileDropdown />
 
     <slot></slot>
   </div>

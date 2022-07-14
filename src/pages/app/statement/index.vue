@@ -205,8 +205,7 @@ function confirmAction() {
             <!-- We can bind wrapperState.searchInput to any input -->
             <VField>
               <VControl icon="feather:search">
-                <input v-model="wrapperState.searchInput" type="text" class="input is-rounded"
-                  :placeholder="t('Search') + '...'" />
+                <VInput v-model="wrapperState.searchInput" class="is-rounded" :placeholder="t('Search') + '...'" />
               </VControl>
             </VField>
           </template>

@@ -53,7 +53,7 @@ function formatDate(value: Date) {
       <div class="form-body">
         <div class="form-section">
           <div class="form-section-inner has-padding-bottom">
-            <h3 class="has-text-centered">{{ t('User_information') }}</h3>
+            <h3 class="has-text-centered">{{ t('Applicant_details') }}</h3>
             <div class="columns is-multiline">
               <div class="column is-12 mb-3">
                 <VField>

@@ -53,37 +53,12 @@ function getAvatarData(user: any): VAvatarProps {
 
 <template>
   <div class="container">
-    <!-- <div class="user-grid-toolbar">
-      <VControl icon="feather:search">
-        <input v-model="filters" class="input custom-text-filter" placeholder="Search..." />
-      </VControl>
-
-      <VButtons>
-        <VField class="h-hidden-mobile">
-          <VControl>
-            <Multiselect v-model="valueSingle" :options="optionsSingle" :max-height="145"
-              placeholder="Select an option" />
-          </VControl>
-        </VField>
-        <VButton color="primary" raised>
-          <span class="icon">
-            <i aria-hidden="true" class="fas fa-plus"></i>
-          </span>
-          <span>Add User</span>
-        </VButton>
-      </VButtons>
-    </div> -->
-
     <div class="user-grid user-grid-v1">
       <!--List Empty Search Placeholder -->
       <VPlaceholderPage :class="[filteredData.length !== 0 && 'is-hidden']"
         title="We couldn't find any matching results." subtitle="Too bad. Looks like we couldn't find any matching results for the
           search terms you've entered. Please try different search terms or
           criteria." larger>
-        <!-- <template #image>
-          <img class="light-image" src="/@src/assets/illustrations/placeholders/search-4.svg" alt="" />
-          <img class="dark-image" src="/@src/assets/illustrations/placeholders/search-4-dark.svg" alt="" />
-        </template> -->
       </VPlaceholderPage>
 
       <TransitionGroup name="list" tag="div" class="columns is-multiline">
@@ -97,13 +72,13 @@ function getAvatarData(user: any): VAvatarProps {
               <VAvatar v-for="user in item.team" :key="user.id" size="small" v-bind="getAvatarData(user)" />
             </div> -->
             <div class="is-grouped mt-5">
-              <VButton :color="itemIndex % 2 === 0 ? 'success' : undefined" style="width: 40%;" class="mr-5">
+              <VButton :color="itemIndex % 2 === 0 ? 'success' : 'light'" style="width: 40%;" class="mr-5">
                 <span class="icon">
                   <i aria-hidden="true" class="iconify" data-icon="feather:check"></i>
                 </span>
                 <span>{{ $t('Yes') }}</span>
               </VButton>
-              <VButton :color="itemIndex % 2 !== 0 ? 'danger' : undefined" style="width: 40%;">
+              <VButton :color="itemIndex % 2 !== 0 ? 'danger' : 'light'" style="width: 40%;">
                 <span class="icon">
                   <i aria-hidden="true" class="iconify" data-icon="feather:x"></i>
                 </span>

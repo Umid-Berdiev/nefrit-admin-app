@@ -165,3 +165,17 @@ zh-CN:
     <slot name="after-navigation"></slot>
   </VFlex>
 </template>
+
+<style scoped lang="scss">
+.pagination-link {
+  justify-content: center;
+  // padding: 0;
+  vertical-align: sub;
+  border-color: var(--border);
+}
+
+.pagination-previous,
+.pagination-next {
+  border-color: var(--border);
+}
+</style>

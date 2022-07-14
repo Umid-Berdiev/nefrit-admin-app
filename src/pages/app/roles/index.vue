@@ -16,12 +16,12 @@ import { useHead } from '@vueuse/head'
 const { t } = useI18n()
 
 useHead({
-  title: t('Users') + ' - Nefrit',
+  title: t('Roles') + ' - Nefrit',
 })
 
 const mainStore = useMainStore()
 const viewWrapper = useViewWrapper()
-viewWrapper.setPageTitle(t('Users_List'))
+viewWrapper.setPageTitle(t('Roles_List'))
 
 type User = typeof users[0]
 
@@ -33,7 +33,6 @@ const data: User[] = users
 const filterForm = ref({})
 
 const isFormModalOpen = ref(false)
-const displayFilterForm = ref(false)
 const selectedRowIds = ref<number[]>([])
 const isAllSelected = computed(() => data.length === selectedRowIds.value.length)
 const router = useRouter()
@@ -139,26 +138,7 @@ async function onRemove() {
 
 <template>
   <div class="applicant-list-wrapper">
-    <TableActionsBlock center title="" @add="onEdit({})" @filter="displayFilterForm = !displayFilterForm"
-      @remove="confirmAction" />
-    <div v-show="displayFilterForm" class="mb-5">
-      <VCard radius="small">
-        <h3 class="title is-5 mb-2">{{ t('Filter_form') }}</h3>
-        <div class="columns is-desktop">
-          <VField class="column  is-3">
-            <VLabel>{{ t('Name') }}</VLabel>
-            <VControl>
-              <VInput v-model="filterForm.name" type="text" placeholder="" />
-            </VControl>
-          </VField>
-        </div>
-        <div class="columns">
-          <div class="column is-1 ml-auto">
-            <VButton outlined color="warning" fullwidth icon="feather:filter">{{ t('Filter') }}</VButton>
-          </div>
-        </div>
-      </VCard>
-    </div>
+    <TableActionsBlock center title="" @add="onEdit({})" :filter-disabled="true" @remove="confirmAction" />
 
     <!-- table -->
     <VFlexTableWrapper :columns="columns" :data="data">
@@ -173,8 +153,7 @@ async function onRemove() {
             <!-- We can bind wrapperState.searchInput to any input -->
             <VField>
               <VControl icon="feather:search">
-                <VInput v-model="wrapperState.searchInput" type="text" class="is-rounded"
-                  :placeholder="t('Search') + '...'" />
+                <VInput v-model="wrapperState.searchInput" class="is-rounded" :placeholder="t('Search') + '...'" />
               </VControl>
             </VField>
           </template>

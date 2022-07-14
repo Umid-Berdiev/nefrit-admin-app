@@ -8,11 +8,13 @@ export interface VBlockProps {
   narrow?: boolean
   mResponsive?: boolean
   tResponsive?: boolean
+  filterDisabled?: boolean
 }
 
 const props = withDefaults(defineProps<VBlockProps>(), {
   subtitle: undefined,
   infratitle: undefined,
+  filterDisabled: false
 })
 
 const emits = defineEmits<{
@@ -21,6 +23,8 @@ const emits = defineEmits<{
   (e: 'filter'): void
   (e: 'remove'): void
 }>()
+
+
 </script>
 
 <template>
@@ -53,10 +57,9 @@ const emits = defineEmits<{
         }">
           {{ $t('Print') }}
         </VButton>
-        <VButton outlined rounded color="warning" icon="feather:filter" @click.prevent="
-        () => {
+        <VButton outlined rounded color="warning" icon="feather:filter" @click.prevent="() => {
           emits('filter')
-        }">
+        }" v-if="!filterDisabled">
           {{ $t('Filter') }}
         </VButton>
         <!-- <VButton outlined rounded color="info" icon="feather:eye"> View </VButton> -->

@@ -148,7 +148,7 @@ function onActionTriggered(rowId) {
         <h3 class="title is-5 mb-2">{{ t('Filter_form') }}</h3>
         <div class="columns is-desktop">
           <VField class="column">
-            <VLabel>{{ t('User') }}</VLabel>
+            <VLabel>{{ t('Applicant_user_name') }}</VLabel>
             <VControl>
               <VInput v-model="filterForm.applicantUser" type="text" placeholder="" />
             </VControl>
@@ -202,8 +202,7 @@ function onActionTriggered(rowId) {
             <!-- We can bind wrapperState.searchInput to any input -->
             <VField>
               <VControl icon="feather:search">
-                <input v-model="wrapperState.searchInput" type="text" class="input is-rounded"
-                  :placeholder="t('Search') + '...'" />
+                <VInput v-model="wrapperState.searchInput" class="is-rounded" :placeholder="t('Search') + '...'" />
               </VControl>
             </VField>
           </template>
