@@ -134,6 +134,10 @@ async function onRemove() {
     mainStore.$patch({ confirmState: false })
   }
 }
+
+function gotoPermissions(id: number) {
+  router.push(`/app/roles/${id}/permissions`)
+}
 </script>
 
 <template>
@@ -170,7 +174,7 @@ async function onRemove() {
               @change="clickOnRow" />
 
             <template v-if="column.key === 'actions'">
-              <RolesFlexTableDropdown @edit="onEdit(row)" @remove="onRemove" />
+              <RolesFlexTableDropdown @edit="onEdit(row)" @remove="onRemove" @permissions="gotoPermissions(row.id)" />
             </template>
           </template>
         </VFlexTable>
