@@ -18,17 +18,17 @@ const permissionTabs = ref([
   {
     label: t('Users'),
     value: 'users',
-    icon: 'feather:users'
+    // icon: 'feather:users'
   },
   {
     label: t('Roles'),
     value: 'roles',
-    icon: 'feather:user-check'
+    // icon: 'feather:user-check'
   },
   {
     label: t('Reports'),
     value: 'reports',
-    icon: 'feather:file-text'
+    // icon: 'feather:file-text'
   }
 ]);
 // here we setup our page meta with our permissions data
