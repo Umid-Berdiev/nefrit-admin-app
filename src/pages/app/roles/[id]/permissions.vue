@@ -41,7 +41,7 @@ useHead({
   <div class="permissions-detail-wrapper">
     <VTabs selected="users" :tabs="permissionTabs" type="boxed">
       <template #tab="{ activeValue }">
-        <div v-if="activeValue === 'users'" class="has-background-white p-5">
+        <div v-if="activeValue === 'users'" class="active_tab_content p-5">
           <table class="table is-striped is-fullwidth">
             <tbody>
               <tr>
@@ -97,7 +97,7 @@ useHead({
             </tbody>
           </table>
         </div>
-        <div v-else-if="activeValue === 'roles'" class="has-background-white p-5">
+        <div v-else-if="activeValue === 'roles'" class="active_tab_content p-5">
           <table class="table is-striped is-fullwidth">
             <tbody>
               <tr>
@@ -143,7 +143,7 @@ useHead({
             </tbody>
           </table>
         </div>
-        <div v-else-if="activeValue === 'reports'" class="has-background-white p-5">
+        <div v-else-if="activeValue === 'reports'" class="active_tab_content p-5">
           <table class="table is-striped is-fullwidth">
             <tbody>
               <tr>
@@ -183,5 +183,13 @@ useHead({
 .table,
 .table td {
   border: 1px solid #ccc;
+}
+
+.active_tab_content {
+  background-color: var(--white);
+}
+
+.is-dark .active_tab_content {
+  background: var(--dark-sidebar-light-1);
 }
 </style>
