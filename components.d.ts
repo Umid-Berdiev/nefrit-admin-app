@@ -134,6 +134,7 @@ declare module '@vue/runtime-core' {
     VIconBox: typeof import('./src/components/base/icon/VIconBox.vue')['default']
     VIconButton: typeof import('./src/components/base/button/VIconButton.vue')['default']
     VIconWrap: typeof import('./src/components/base/icon/VIconWrap.vue')['default']
+    ViewListV1: typeof import('./src/components/base/table/ViewListV1.vue')['default']
     ViewProfile: typeof import('./src/components/pages/profile/ViewProfile.vue')['default']
     VIMaskInput: typeof import('./src/components/base/plugins/VIMaskInput.vue')['default']
     VInput: typeof import('./src/components/base/form/VInput.vue')['default']

@@ -53,6 +53,27 @@ function getAvatarData(user: any): VAvatarProps {
 
 <template>
   <div class="container">
+    <div class="company-header is-dark-card-bordered is-dark-bg-6">
+      <div class="header-item is-dark-bordered-12">
+        <div class="item-inner">
+          <span class="dark-inverted">5</span>
+          <p>{{ $t('Total_voted') }}</p>
+        </div>
+      </div>
+      <div class="header-item is-dark-bordered-12">
+        <div class="item-inner">
+          <span class="dark-inverted">3</span>
+          <p>{{ $t('Accepted') }}</p>
+        </div>
+      </div>
+      <div class="header-item is-dark-bordered-12">
+        <div class="item-inner">
+          <span class="dark-inverted">2</span>
+          <p>{{ $t('rejected') }}</p>
+        </div>
+      </div>
+    </div>
+
     <div class="user-grid user-grid-v1">
       <!--List Empty Search Placeholder -->
       <VPlaceholderPage :class="[filteredData.length !== 0 && 'is-hidden']"
@@ -221,6 +242,48 @@ function getAvatarData(user: any): VAvatarProps {
     .columns {
       .column {
         min-width: 33.3% !important;
+      }
+    }
+  }
+}
+
+.company-header {
+  display: flex;
+  padding: 20px;
+  background: var(--white);
+  border: 1px solid var(--fade-grey-dark-3);
+  border-radius: var(--radius-large);
+  margin: 1.5rem 0;
+
+  .header-item {
+    width: 33.33%;
+    border-right: 1px solid var(--fade-grey-dark-3);
+
+    &:last-child {
+      border-right: none;
+    }
+
+    .item-inner {
+      text-align: center;
+
+      .lnil,
+      .lnir {
+        font-size: 1.8rem;
+        margin-bottom: 6px;
+        color: var(--primary);
+      }
+
+      span {
+        display: block;
+        font-family: var(--font);
+        font-weight: 600;
+        font-size: 1.6rem;
+        color: var(--dark-text);
+      }
+
+      p {
+        font-family: var(--font-alt);
+        font-size: 0.95rem;
       }
     }
   }

@@ -197,7 +197,7 @@ onMounted(async () => {
   })
 
   const col6Width = document.querySelector('.is-6')?.offsetWidth;
-  chartWidth.value = col6Width;
+  // chartWidth.value = col6Width;
   console.log({ col6Width });
 
 })
