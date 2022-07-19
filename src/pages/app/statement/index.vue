@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import { useHead } from '@vueuse/head'
 
 import type {
   VFlexTableWrapperSortFunction,
@@ -12,7 +13,6 @@ import { useViewWrapper } from '/@src/stores/viewWrapper'
 import CountrySelect from '/@src/components/forms/selects/CountrySelect.vue'
 import { useMainStore } from "/@src/stores";
 import FeedbackModal from '/@src/components/base/modal/FeedbackModal.vue'
-import { useHead } from '@vueuse/head'
 
 const { t } = useI18n()
 
@@ -28,9 +28,6 @@ type User = typeof users[0]
 
 // duplicate user data to grow the array
 const data: User[] = users
-// for (let i = 0; i < 100; i++) {
-//   data.push(...users)
-// }
 const filterForm = ref({})
 
 const isFormModalOpen = ref(false)
@@ -130,7 +127,7 @@ function clickOnRow(row: any) {
   }
 }
 
-function onActionTriggered(rowId) {
+function onActionTriggered(rowId: number) {
   router.push('/app/statement/' + rowId)
 }
 

@@ -4,10 +4,10 @@ import { useI18n } from 'vue-i18n';
 
 import { useViewWrapper } from '/@src/stores/viewWrapper'
 
-const viewWrapper = useViewWrapper()
-viewWrapper.setPageTitle('Main Dashboard')
-
 const { t } = useI18n()
+const viewWrapper = useViewWrapper()
+viewWrapper.setPageTitle(t('Dashboard'))
+
 
 useHead({
   title: t('Dashboard') + ' - Nefrit',
@@ -16,6 +16,6 @@ useHead({
 
 <template>
   <div class="page-content-inner">
-    <CompanyDashboard />
+    <MainDashboard />
   </div>
 </template>
