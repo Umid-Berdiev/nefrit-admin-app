@@ -92,18 +92,27 @@ function getAvatarData(user: any): VAvatarProps {
             <!-- <div class="people">
               <VAvatar v-for="user in item.team" :key="user.id" size="small" v-bind="getAvatarData(user)" />
             </div> -->
-            <div class="is-grouped mt-5">
-              <VButton :color="itemIndex % 2 === 0 ? 'success' : 'light'" style="width: 40%;" class="mr-5">
+            <div v-if="itemIndex === 4" class="is-grouped mt-5">
+              <VButton color="success" style="width: 40%;" class="mr-3">
                 <span class="icon">
-                  <i aria-hidden="true" class="iconify" data-icon="feather:check"></i>
+                  <i aria-hidden="true" class="iconify" data-icon="feather:check" />
                 </span>
                 <span>{{ $t('Yes') }}</span>
               </VButton>
-              <VButton :color="itemIndex % 2 !== 0 ? 'danger' : 'light'" style="width: 40%;">
+              <VButton color="danger" style="width: 40%;">
                 <span class="icon">
                   <i aria-hidden="true" class="iconify" data-icon="feather:x"></i>
                 </span>
                 <span>{{ $t('No') }}</span>
+              </VButton>
+            </div>
+            <div v-else class="is-grouped mt-5">
+              <VButton :color="itemIndex % 2 === 0 ? 'success' : 'danger'">
+                <span class="icon">
+                  <i aria-hidden="true" class="iconify"
+                    :data-icon="itemIndex % 2 === 0 ? 'feather:check' : 'feather:x'" />
+                </span>
+                <span>{{ itemIndex % 2 === 0 ? $t('Yes') : $t('No') }}</span>
               </VButton>
             </div>
           </div>

@@ -52,7 +52,7 @@ function onRemoveFile(id: any) {
             <div class="is-divider"></div>
             <div class="is-flex is-flex-direction-column	">
               <div v-for="(file, fileIndex) in files" :key="fileIndex"
-                class="is-flex is-align-items-center	mb-3 is-justify-content-space-between	">
+                class="is-flex is-align-items-center	mb-3 is-justify-content-space-between">
                 <span class="has-text-white mr-3">{{ file.name }}</span>
                 <button class="button is-warning is-outlined is-rounded p-3" @click="onRemoveFile(file.lastModified)">
                   <span class="iconify" data-icon="feather:x" />

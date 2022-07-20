@@ -10,6 +10,8 @@ export const useMainStore = defineStore('main', {
     // type will be automatically inferred to number
     nextId: 0,
     confirmModalState: false,
+    contractDownloadModalState: false,
+    confirmModalOkButtonColor: 'danger',
     confirmState: false,
   }),
   getters: {

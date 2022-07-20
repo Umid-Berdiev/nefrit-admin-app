@@ -76,7 +76,7 @@ const columns = {
 } as const
 
 async function onVerify() {
-  mainStore.$patch({ confirmModalState: true })
+  mainStore.$patch({ confirmModalState: true, confirmModalOkButtonColor: 'primary' })
   if (mainStore.confirmState) {
     console.log('User deleted!');
     mainStore.$patch({ confirmState: false })

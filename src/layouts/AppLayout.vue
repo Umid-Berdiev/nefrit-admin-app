@@ -11,6 +11,7 @@ import ActivityPanel from '../components/partials/panels/ActivityPanel.vue';
 import LanguagesPanel from '../components/partials/panels/LanguagesPanel.vue';
 import VViewWrapper from '../components/base/layouts/VViewWrapper.vue';
 import Toolbar from '../components/partials/toolbars/Toolbar.vue';
+import ContractDownloadModal from '../components/base/modal/ContractDownloadModal.vue';
 
 const props = withDefaults(
   defineProps<{
@@ -150,5 +151,6 @@ console.log('activeMobileSubsidebar: ', activeMobileSubsidebar.value);
     </VViewWrapper>
 
     <ConfirmActionModal />
+    <ContractDownloadModal />
   </div>
 </template>
