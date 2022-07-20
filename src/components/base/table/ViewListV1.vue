@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-
 import type { VTagColor } from '/@src/components/base/tags/VTag.vue'
 import type { VAvatarProps } from '/@src/components/base/avatar/VAvatar.vue'
-import VButton from '../button/VButton.vue'
+import { reactive, ref } from 'vue'
 
 export interface UserData extends VAvatarProps {
   name: string
@@ -27,7 +25,11 @@ const contract = {
   created_at: '15-08-2022',
   price: 1500000,
 }
+const isContractEditModalOpen = ref(false);
 
+function openContractEditModal() {
+  isContractEditModalOpen.value = true
+}
 </script>
 
 <template>
@@ -57,8 +59,10 @@ const contract = {
                       <span>{{ contract.price }}</span>
                       <span>{{ $t('Price') }}</span>
                     </div>
-                    <VButton class="mr-5" color="info">{{ $t('Upload') }}</VButton>
-                    <VButton color="primary">{{ $t('Verify') }}</VButton>
+                    <VButton color="info" class="mr-5" icon="fas fa-upload" @click.prevent="openContractEditModal">{{
+                        $t('Upload_contract')
+                    }}</VButton>
+                    <VButton color="primary" icon="fas fa-check">{{ $t('Verify') }}</VButton>
                   </div>
                 </div>
               </div>
@@ -67,6 +71,7 @@ const contract = {
         </div>
       </div>
     </div>
+    <ContractEditModal v-model="isContractEditModalOpen" :item="selectedRole" />
   </div>
 </template>
 

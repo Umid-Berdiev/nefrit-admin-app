@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 import type {
@@ -12,16 +11,13 @@ import VButtons from '../button/VButtons.vue'
 import VButton from '../button/VButton.vue'
 import ViewListV1 from './ViewListV1.vue'
 
+type User = typeof users[0]
+
+const data: User[] = users
 const mainStore = useMainStore()
 const { t } = useI18n()
 const viewWrapper = useViewWrapper()
 viewWrapper.setPageTitle(t('Conclusions_List'))
-
-type User = typeof users[0]
-
-const data: User[] = users
-const selectedRowsId = ref<number[]>([])
-const isAllSelected = computed(() => data.length === selectedRowsId.value.length)
 
 // this is a sample for custom sort function
 const locationSorter: VFlexTableWrapperSortFunction<User> = ({ order, a, b }) => {
@@ -79,30 +75,21 @@ const columns = {
   },
 } as const
 
-// the select all checkbox click handler
-function toggleSelection() {
-  // console.log('data:', data)
-
-  if (isAllSelected.value) {
-    selectedRowsId.value = []
-  } else {
-    selectedRowsId.value = data.map((row: any) => row.id)
-  }
-}
-
-// this it the row click handler (enabled with clickable props)
-function clickOnRow(row: any) {
-  if (selectedRowsId.value.includes(row.id)) {
-    selectedRowsId.value = selectedRowsId.value.filter((i) => i !== row.id)
-  } else {
-    selectedRowsId.value = [...selectedRowsId.value, row.id]
-  }
-}
-
-function confirmAction() {
+async function onVerify() {
   mainStore.$patch({ confirmModalState: true })
+  if (mainStore.confirmState) {
+    console.log('User deleted!');
+    mainStore.$patch({ confirmState: false })
+  }
 }
 
+async function onReject() {
+  mainStore.$patch({ confirmModalState: true })
+  if (mainStore.confirmState) {
+    console.log('User deleted!');
+    mainStore.$patch({ confirmState: false })
+  }
+}
 </script>
 
 <template>
@@ -143,8 +130,8 @@ function confirmAction() {
             </template>
             <template v-if="column.key === 'actions'">
               <VButtons>
-                <VButton class="is-primary is-outlined">{{ $t('Verify') }}</VButton>
-                <VButton class="is-danger is-outlined">{{ $t('Cancel') }}</VButton>
+                <VButton class="is-primary is-outlined px-3" @click="onVerify">{{ $t('Verify') }}</VButton>
+                <VButton class="is-danger is-outlined px-3" @click="onReject">{{ $t('Cancel') }}</VButton>
               </VButtons>
             </template>
           </template>

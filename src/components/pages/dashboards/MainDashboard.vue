@@ -1,13 +1,8 @@
 <script setup lang="ts">
-import { nextTick, onMounted, reactive, ref } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import ApexChart from 'vue3-apexcharts'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
-import {
-  barData,
-  barData2,
-  usersBarOptions,
-} from '/@src/data/dashboards/company/usersBarChart'
 import { users } from '/@src/stores/usersMockData'
 
 const { t } = useI18n()
@@ -16,6 +11,11 @@ const router = useRouter()
 const range = reactive({
   start: new Date(),
   end: new Date(),
+})
+
+const datePickerModelConfig = reactive({
+  type: 'string',
+  mask: 'MM-YYYY', // Uses 'iso' if missing
 })
 
 const columns = {
@@ -38,8 +38,8 @@ const columns = {
   },
 } as const
 
-const donutChartOptions = {
-  series: [44, 55, 41, 17, 15],
+const donutChartSeries = reactive([])
+const donutChartOptions = reactive({
   title: {
     text: '',
   },
@@ -47,7 +47,7 @@ const donutChartOptions = {
     height: 290,
     type: 'donut',
   },
-  labels: ['Team A', 'Team B', 'Team C', 'Team D', 'Team E'],
+  labels: [],
   responsive: [
     {
       breakpoint: 480,
@@ -88,15 +88,10 @@ const donutChartOptions = {
       },
     },
   },
-}
+})
 
-const barChartOptions = {
-  series: [
-    {
-      name: 'Inflation',
-      data: [2.3, 3.1, 4.0, 10.1, 4.0, 3.6, 3.2, 2.3, 1.4, 0.8, 0.5, 0.2],
-    },
-  ],
+const barChartOptions = reactive({
+  series: [],
   chart: {
     height: 280,
     type: 'bar',
@@ -135,7 +130,7 @@ const barChartOptions = {
       t('Nov'),
       t('Dec'),
     ],
-    position: 'top',
+    // position: 'top',
     axisBorder: {
       show: false,
     },
@@ -166,7 +161,7 @@ const barChartOptions = {
       show: false,
     },
     labels: {
-      show: false,
+      show: true,
       // formatter: formatters.asPercent,
     },
   },
@@ -175,30 +170,17 @@ const barChartOptions = {
     text: '',
     align: 'left',
   },
-}
-const chartWidth = ref(`${100}%`);
+})
 
 onMounted(async () => {
-  await nextTick(() => {
-    usersBarOptions.series = [
-      {
-        name: 'Orders',
-        data: barData,
-      },
-    ]
-
-    usersBarOptions.series = [
-      ...usersBarOptions.series,
-      {
-        name: 'Abandonned',
-        data: barData2,
-      },
-    ]
-  })
-
-  const col6Width = document.querySelector('.is-6')?.offsetWidth;
-  // chartWidth.value = col6Width;
-  console.log({ col6Width });
+  setTimeout(() => {
+    Object.assign(donutChartSeries, Array(5).fill(null).map((_, i) => Math.round(Math.random() * (50 - 10) + 10)))
+    Object.assign(donutChartOptions.labels, donutChartSeries.map((item, index) => `Status${index}: ${item}`))
+    barChartOptions.series = [{
+      name: 'Inflation2',
+      data: Array(12).fill(0).map((_, i) => Math.random().toFixed(2) * 1)
+    }]
+  }, 1000)
 
 })
 
@@ -215,14 +197,17 @@ function gotoView(rowId: number) {
         <div class="dashboard-card is-base-chart">
           <div class="content-box is-flex">
             <h1 class="is-size-4">{{ $t('Statement_statuses') }}</h1>
-            <VDatePicker class="ml-auto" v-model="range" is-range color="green" trim-weeks>
+            <VDatePicker class="ml-auto" v-model="range" is-range color="green" trim-weeks
+              :model-config="datePickerModelConfig">
               <template v-slot="{ inputValue, inputEvents }">
                 <VField addons>
                   <VControl expanded icon="feather:corner-down-right">
                     <VInput :value="inputValue.start" v-on="inputEvents.start" />
                   </VControl>
                   <VControl>
-                    <VButton static>to</VButton>
+                    <VButton static>
+                      <i class="fas fa-angle-double-right" aria-hidden="true"></i>
+                    </VButton>
                   </VControl>
                   <VControl expanded icon="feather:corner-right-up" subcontrol>
                     <VInput :value="inputValue.end" v-on="inputEvents.end" />
@@ -232,8 +217,8 @@ function gotoView(rowId: number) {
             </VDatePicker>
           </div>
           <div class="my-auto">
-            <ApexChart id="apex-chart-18" type="donut" :width="chartWidth" :height="400"
-              :series="donutChartOptions.series" :options="donutChartOptions">
+            <ApexChart id="apex-chart-18" type="donut" :height="400" :series="donutChartSeries"
+              :options="donutChartOptions">
             </ApexChart>
           </div>
         </div>
@@ -249,7 +234,9 @@ function gotoView(rowId: number) {
                     <VInput :value="inputValue.start" v-on="inputEvents.start" />
                   </VControl>
                   <VControl>
-                    <VButton static>to</VButton>
+                    <VButton static>
+                      <i class="fas fa-angle-double-right" aria-hidden="true"></i>
+                    </VButton>
                   </VControl>
                   <VControl expanded icon="feather:corner-right-up" subcontrol>
                     <VInput :value="inputValue.end" v-on="inputEvents.end" />
@@ -259,7 +246,7 @@ function gotoView(rowId: number) {
             </VDatePicker>
           </div>
           <div class="my-auto">
-            <ApexChart id="apex-chart-8" :width="chartWidth" :height="400" :type="barChartOptions.chart.type"
+            <ApexChart id="apex-chart-8" :height="400" :type="barChartOptions.chart.type"
               :series="barChartOptions.series" :options="barChartOptions">
             </ApexChart>
           </div>
@@ -277,7 +264,9 @@ function gotoView(rowId: number) {
                     <VInput :value="inputValue.start" v-on="inputEvents.start" />
                   </VControl>
                   <VControl>
-                    <VButton static>to</VButton>
+                    <VButton static>
+                      <i class="fas fa-angle-double-right" aria-hidden="true"></i>
+                    </VButton>
                   </VControl>
                   <VControl expanded icon="feather:corner-right-up" subcontrol>
                     <VInput :value="inputValue.end" v-on="inputEvents.end" />
@@ -287,8 +276,8 @@ function gotoView(rowId: number) {
             </VDatePicker>
           </div>
           <div class="my-auto">
-            <ApexChart id="apex-chart-18" type="donut" :width="chartWidth" :height="400"
-              :series="donutChartOptions.series" :options="donutChartOptions">
+            <ApexChart id="apex-chart-18" type="donut" :height="400" :series="donutChartSeries"
+              :options="donutChartOptions">
             </ApexChart>
           </div>
         </div>
