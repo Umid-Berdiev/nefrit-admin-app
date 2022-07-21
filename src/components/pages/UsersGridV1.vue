@@ -30,6 +30,8 @@ const optionsSingle = [
   'Business',
 ]
 const files = ref([]);
+const isConclusionModalOpen = ref(false);
+const selectedAnswer = ref<String>();
 
 function onFileUpload(event: any) {
   const target = event.target
@@ -48,6 +50,11 @@ function getAvatarData(user: any): VAvatarProps {
     initials: user?.initials,
     color: user?.color as VAvatarColor,
   }
+}
+
+function onGivingConclusion(val: String) {
+  isConclusionModalOpen.value = true;
+  selectedAnswer.value = val
 }
 </script>
 
@@ -93,13 +100,15 @@ function getAvatarData(user: any): VAvatarProps {
               <VAvatar v-for="user in item.team" :key="user.id" size="small" v-bind="getAvatarData(user)" />
             </div> -->
             <div v-if="itemIndex === 4" class="is-grouped mt-5">
-              <VButton color="success" style="width: 40%;" class="mr-3">
+              <VButton color="success" style="width: 40%;" class="is-justify-content-center mr-3"
+                @click="onGivingConclusion('Yes')">
                 <span class="icon">
                   <i aria-hidden="true" class="iconify" data-icon="feather:check" />
                 </span>
                 <span>{{ $t('Yes') }}</span>
               </VButton>
-              <VButton color="danger" style="width: 40%;">
+              <VButton color="danger" style="width: 40%;" class="is-justify-content-center"
+                @click="onGivingConclusion('No')">
                 <span class="icon">
                   <i aria-hidden="true" class="iconify" data-icon="feather:x"></i>
                 </span>
@@ -107,7 +116,8 @@ function getAvatarData(user: any): VAvatarProps {
               </VButton>
             </div>
             <div v-else class="is-grouped mt-5">
-              <VButton :color="itemIndex % 2 === 0 ? 'success' : 'danger'">
+              <VButton class="is-fullwidth is-justify-content-center"
+                :color="itemIndex % 2 === 0 ? 'success' : 'danger'">
                 <span class="icon">
                   <i aria-hidden="true" class="iconify"
                     :data-icon="itemIndex % 2 === 0 ? 'feather:check' : 'feather:x'" />
@@ -119,45 +129,7 @@ function getAvatarData(user: any): VAvatarProps {
         </div>
       </TransitionGroup>
     </div>
-    <div class="columns is-multiline mt-5">
-      <div class="column is-12">
-        <VField :label="$t('conclusion_in_details') + '*'">
-          <VControl>
-            <VTextarea :placeholder="$t('Add_text')" :rows="2" />
-          </VControl>
-        </VField>
-      </div>
-      <div class="column is-12 is-flex">
-        <div id="file-js-example" class="file has-name w-auto is-warning">
-          <label class="file-label">
-            <input class="file-input" type="file" @change="onFileUpload">
-            <span class="file-cta">
-              <span class="file-icon">
-                <i class="fas fa-upload"></i>
-              </span>
-              <span class="file-label">
-                {{ $t('Choose_a_file') }}…
-              </span>
-            </span>
-          </label>
-        </div>
-        <div class="ml-auto">
-          <VButton color="primary" raised @click="close()">{{ $t('Save_changes') }}</VButton>
-        </div>
-      </div>
-      <div class="column is-12">
-        <div class="is-divider my-1"></div>
-        <div class="is-flex is-flex-direction-column">
-          <div v-for="(file, fileIndex) in files" :key="fileIndex"
-            class="is-flex is-align-items-center	mb-3 is-justify-content-space-between	">
-            <span class="has-text-white mr-3">{{ file.name }}</span>
-            <button class="button is-warning is-outlined is-rounded p-3" @click="onRemoveFile(file.lastModified)">
-              <span class="iconify" data-icon="feather:x" />
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+    <ConclusionFormModal v-model="isConclusionModalOpen" :selected-answer="selectedAnswer" />
 
   </div>
 </template>

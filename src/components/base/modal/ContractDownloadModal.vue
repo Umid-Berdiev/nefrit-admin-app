@@ -11,7 +11,8 @@ const CKEditor = CKE.component
 
 const state = computed(() => mainStore.contractDownloadModalState)
 const templateList = ref([])
-const fileName = ref('')
+const selectedTemplate = ref('')
+const fileName = ref('contract_template_' + Date.now())
 
 async function onClose() {
   mainStore.$patch({ contractDownloadModalState: false })
@@ -26,7 +27,7 @@ function downloadCKEditorData() {
   let url = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(html);
 
   // Specify file name
-  let filename = fileName.value + '.doc' || 'contract_template.doc';
+  let filename = fileName.value + '.doc';
 
   // Create download link element
   let downloadLink = document.createElement("a");
@@ -53,9 +54,9 @@ function downloadCKEditorData() {
     <template #content>
       <div class="columns is-multiline">
         <div class="column is-12">
-          <VField :label="$t('Template') + '*'">
+          <VField :label="$t('Select_template') + '*'">
             <VControl>
-              <VSelect :placeholder="$t('Select_template')">
+              <VSelect v-model="selectedTemplate">
                 <VOption v-for="template, index in templateList" :value="template.id" v-text="template.name" />
               </VSelect>
             </VControl>

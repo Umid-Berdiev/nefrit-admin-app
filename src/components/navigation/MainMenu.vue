@@ -76,12 +76,15 @@ function openContractDownloadModal() {
         {{ $t('Contract_templates') }}
       </RouterLink>
     </li>
+    <div class="is-divider" />
     <li>
-      <a class="is-size-6" @click="openContractDownloadModal">
-        <!-- <i aria-hidden="true" class="lnil lnil-database"></i> -->
-        <span class="fa-li"><i class="fas fa-download" aria-hidden="true"></i></span>
-        {{ $t('Download_contract_template') }}
-      </a>
+      <!-- <i aria-hidden="true" class="lnil lnil-database"></i> -->
+      <span class="fa-li">
+        <VButton color="primary" outlined class="is-size-6" @click="openContractDownloadModal">
+          <i class="fas fa-download" aria-hidden="true"></i>
+          {{ $t('Download_contract_template') }}
+        </VButton>
+      </span>
     </li>
   </ul>
 </template>

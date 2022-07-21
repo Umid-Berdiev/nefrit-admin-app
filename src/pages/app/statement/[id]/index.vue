@@ -69,7 +69,7 @@ useHead({
       { label: t('Chat'), value: 'chat', icon: 'fas fa-comments' },
     ]">
       <template #tab="{ activeValue }">
-        <div v-if="activeValue === 'details'" class="columns">
+        <div v-if="activeValue === 'details'" class="columns mt-5">
           <div class="column is-6">
             <StatementForm />
           </div>
@@ -79,16 +79,16 @@ useHead({
             </ListWidgetSingle>
           </div>
         </div>
-        <div v-else-if="activeValue === 'payment'">
+        <div v-else-if="activeValue === 'payment'" class="mt-5">
           <PaymentStatusTable />
         </div>
-        <div v-else-if="activeValue === 'conclusions'">
+        <div v-else-if="activeValue === 'conclusions'" class="mt-5">
           <StatementConclusionTable />
         </div>
-        <div v-else-if="activeValue === 'itk'">
+        <div v-else-if="activeValue === 'itk'" class="mt-5">
           <UsersGridV1 />
         </div>
-        <div v-else-if="activeValue === 'chat'">
+        <div v-else-if="activeValue === 'chat'" class="mt-5">
           <MessagingV1 />
         </div>
       </template>

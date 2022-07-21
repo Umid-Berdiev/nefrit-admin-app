@@ -72,9 +72,9 @@ function selectConversation(id: number) {
 
       <ChatMsg v-for="message in chat.messages" :key="message.id" :message="message" />
 
-      <li class="chat-loader" :class="[chat.loading && 'is-active']">
+      <!-- <li class="chat-loader" :class="[chat.loading && 'is-active']">
         <div class="loader is-loading"></div>
-      </li>
+      </li> -->
     </template>
   </ChatCard>
 </template>

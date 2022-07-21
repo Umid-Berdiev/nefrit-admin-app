@@ -35,7 +35,7 @@ function onFileUpload(event: Event) {
 </script>
 
 <template>
-  <VModal :open="modelValue" actions="right" @close="emits('update:modelValue', false)">
+  <VModal :title="$t('Upload')" :open="modelValue" actions="right" @close="emits('update:modelValue', false)">
     <template #content>
       <form class="modal-form" id="submit-form" @submit.prevent="onSubmit">
         <div class="columns is-multiline">

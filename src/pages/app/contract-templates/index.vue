@@ -24,7 +24,7 @@ useHead({
 
 const mainStore = useMainStore()
 const viewWrapper = useViewWrapper()
-viewWrapper.setPageTitle(t('Contract_templates_list'))
+viewWrapper.setPageTitle(t('Contract_templates'))
 
 type User = typeof templates[0]
 

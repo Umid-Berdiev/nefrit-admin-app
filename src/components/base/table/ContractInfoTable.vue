@@ -40,7 +40,7 @@ function openContractEditModal() {
         <div class="list-view-inner">
           <!--Item-->
           <TransitionGroup name="list-complete" tag="div">
-            <div class="list-view-item">
+            <div class="list-view-item" key="contract_info">
               <div class="list-view-item-inner">
                 <div class="meta-left">
                   <VButton class="is-flex" outlined>
@@ -71,7 +71,7 @@ function openContractEditModal() {
         </div>
       </div>
     </div>
-    <ContractEditModal v-model="isContractEditModalOpen" :item="selectedRole" />
+    <ContractEditModal v-model="isContractEditModalOpen" />
   </div>
 </template>
 
