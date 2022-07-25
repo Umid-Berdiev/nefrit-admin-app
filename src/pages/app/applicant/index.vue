@@ -9,10 +9,7 @@ import type {
   VFlexTableWrapperFilterFunction,
 } from '/@src/components/base/table/VFlexTableWrapper.vue'
 import { users } from '/@src/stores/usersMockData'
-import ActionButtons from '/@src/components/partials/buttons/ActionButtons.vue'
 import { useViewWrapper } from '/@src/stores/viewWrapper'
-import ApplicantFormModal from '/@src/components/base/modal/ApplicantFormModal.vue'
-import CountrySelect from '/@src/components/forms/selects/CountrySelect.vue'
 
 const { t } = useI18n()
 
@@ -25,12 +22,10 @@ viewWrapper.setPageTitle(t('Applicants_List'))
 
 type User = typeof users[0]
 
-// duplicate user data to grow the array
 const data: User[] = users
-// for (let i = 0; i < 100; i++) {
-//   data.push(...users)
-// }
-const filterForm = ref({})
+const filterForm = ref<UserFilterForm>({
+  applicantUser: 'Abdullaev Baxrom',
+})
 
 const isFormModalOpen = ref(false)
 const displayFilterForm = ref(false)
@@ -69,7 +64,7 @@ const columns = {
   },
   orderNumber: {
     // label: '#',
-    format: (value, row, index) => `${index + 1}`,
+    format: (value: any, row: any, index: number) => `${index + 1}`,
     cellClass: 'is-flex-grow-0',
   },
   name: {
@@ -135,7 +130,7 @@ function clickOnRow(row: any) {
   }
 }
 
-function onActionTriggered(rowId) {
+function onActionTriggered(rowId: string | number) {
   router.push('/app/applicant/' + rowId)
 }
 </script>
@@ -181,11 +176,11 @@ function onActionTriggered(rowId) {
           </VField>
           <CountrySelect v-model="filterForm.applicantsCountry" class="column" />
         </div>
-        <div class="columns">
-          <div class="column is-1 ml-auto">
-            <VButton outlined color="warning" fullwidth icon="feather:filter">{{ t('Filter') }}</VButton>
-          </div>
-        </div>
+        <VFlex>
+          <VFlexItem class="ml-auto">
+            <VButton outlined color="warning" icon="feather:filter">{{ t('Filter') }}</VButton>
+          </VFlexItem>
+        </VFlex>
       </VCard>
     </div>
 
@@ -235,7 +230,7 @@ function onActionTriggered(rowId) {
               </VTag>
             </template>
             <template v-if="column.key === 'actions'">
-              <ActionButtons @view="onActionTriggered(row.id)" @edit="isFormModalOpen = true" />
+              <ApplicantFlexTableDropdown @view="onActionTriggered(row.id)" @edit="isFormModalOpen = true" />
             </template>
           </template>
         </VFlexTable>

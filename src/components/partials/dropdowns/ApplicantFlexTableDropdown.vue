@@ -2,9 +2,8 @@
 
 const emits = defineEmits<{
   (e: 'view'): void
-  // (e: 'remove'): void
-  (e: 'feedback'): void
-  (e: 'conclusion'): void
+  (e: 'edit'): void
+  (e: 'remove'): void
 }>()
 </script>
 
@@ -21,13 +20,14 @@ const emits = defineEmits<{
           <i aria-hidden="true" class="lnil lnil-eye"></i>
         </div>
         <div class="meta">
-          <span>{{ $t('View') }}</span>
+          <span>View</span>
+          <span>View user details</span>
         </div>
       </a>
 
       <a role="menuitem" href="#" class="dropdown-item is-media" @click.prevent="
         () => {
-          emits('feedback')
+          emits('edit')
           close()
         }
       ">
@@ -35,25 +35,12 @@ const emits = defineEmits<{
           <i aria-hidden="true" class="lnil lnil-briefcase"></i>
         </div>
         <div class="meta">
-          <span>{{ $t('Leave_feedback') }}</span>
+          <span>Edit</span>
+          <span>Edit user</span>
         </div>
       </a>
 
-      <a role="menuitem" href="#" class="dropdown-item is-media" @click.prevent="
-        () => {
-          emits('conclusion')
-          close()
-        }
-      ">
-        <div class="icon">
-          <i aria-hidden="true" class="lnil lnil-briefcase"></i>
-        </div>
-        <div class="meta">
-          <span>{{ $t('Go_to_conclusions') }}</span>
-        </div>
-      </a>
-
-      <!-- <hr class="dropdown-divider" />
+      <hr class="dropdown-divider" />
 
       <a role="menuitem" href="#" class="dropdown-item is-media" @click.prevent="
         () => {
@@ -65,9 +52,10 @@ const emits = defineEmits<{
           <i aria-hidden="true" class="lnil lnil-trash-can-alt"></i>
         </div>
         <div class="meta">
-          <span>{{ $t('Remove') }}</span>
+          <span>Remove</span>
+          <span>Remove user</span>
         </div>
-      </a> -->
+      </a>
     </template>
   </VDropdown>
 </template>

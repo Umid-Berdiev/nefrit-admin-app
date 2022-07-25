@@ -8,17 +8,17 @@ defineProps({
 
 const emit = defineEmits(['update:modelValue'])
 
-const files = ref([]);
+const files = ref<File[]>([]);
 
 function onFileUpload(event: any) {
   const target = event.target
   console.log('files: ', target.files);
-  files.value.push(target.files[0]);
+  files.value?.push(target.files[0]);
 }
 
-function onRemoveFile(id: any) {
+function onFileRemove(id: string | number) {
   console.log('id on remove file: ', id);
-  files.value = files.value.filter(file => file.lastModified !== id)
+  files.value = files.value?.filter(file => file.lastModified !== id)
 }
 </script>
 
@@ -36,29 +36,7 @@ function onRemoveFile(id: any) {
             </VField>
           </div>
           <div class="column is-12">
-            <div id="file-js-example" class="file has-name">
-              <label class="file-label">
-                <input class="file-input" type="file" @change="onFileUpload">
-                <span class="file-cta">
-                  <span class="file-icon">
-                    <i class="fas fa-upload"></i>
-                  </span>
-                  <span class="file-label">
-                    {{ $t('Choose_a_file') }}…
-                  </span>
-                </span>
-              </label>
-            </div>
-            <div class="is-divider"></div>
-            <div class="is-flex is-flex-direction-column	">
-              <div v-for="(file, fileIndex) in files" :key="fileIndex"
-                class="is-flex is-align-items-center	mb-3 is-justify-content-space-between">
-                <span class="has-text-white mr-3">{{ file.name }}</span>
-                <button class="button is-warning is-outlined is-rounded p-3" @click="onRemoveFile(file.lastModified)">
-                  <span class="iconify" data-icon="feather:x" />
-                </button>
-              </div>
-            </div>
+            <VFileInput :files="files" @file-upload="onFileUpload" @file-remove="onFileRemove" />
           </div>
         </div>
       </div>

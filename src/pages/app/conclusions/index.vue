@@ -163,11 +163,11 @@ function confirmAction() {
           </VField>
           <CountrySelect v-model="filterForm.applicantsCountry" class="column" />
         </div>
-        <div class="columns">
-          <div class="column is-1 ml-auto">
-            <VButton outlined color="warning" fullwidth icon="feather:filter">{{ t('Filter') }}</VButton>
-          </div>
-        </div>
+        <VFlex>
+          <VFlexItem class="ml-auto">
+            <VButton outlined color="warning" icon="feather:filter">{{ t('Filter') }}</VButton>
+          </VFlexItem>
+        </VFlex>
       </VCard>
     </div>
 
@@ -220,6 +220,6 @@ function confirmAction() {
       </template>
     </VFlexTableWrapper>
     <ApplicantConclusionModal v-model="isConclusionModalOpen" />
-    <FeedbackModal v-model="isFeedbackModalOpen" />
+    <!-- <FeedbackModal v-model="isFeedbackModalOpen" /> -->
   </div>
 </template>

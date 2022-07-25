@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 
-import type { VAvatarProps, VAvatarColor } from '/@src/components/base/avatar/VAvatar.vue'
 import { users } from '/@src/data/user-grid-v1'
 
 const filters = ref('')
@@ -21,36 +20,9 @@ const filteredData = computed(() => {
   }
 })
 
-const valueSingle = ref(0)
-const optionsSingle = [
-  'All',
-  'UI/UX Design',
-  'Web Development',
-  'Software Eng.',
-  'Business',
-]
 const files = ref([]);
 const isConclusionModalOpen = ref(false);
 const selectedAnswer = ref<String>();
-
-function onFileUpload(event: any) {
-  const target = event.target
-  console.log('files: ', target.files);
-  files.value.push(target.files[0]);
-}
-
-function onRemoveFile(id: any) {
-  console.log('id on remove file: ', id);
-  files.value = files.value.filter(file => file.lastModified !== id)
-}
-
-function getAvatarData(user: any): VAvatarProps {
-  return {
-    picture: user?.avatar,
-    initials: user?.initials,
-    color: user?.color as VAvatarColor,
-  }
-}
 
 function onGivingConclusion(val: String) {
   isConclusionModalOpen.value = true;

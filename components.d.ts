@@ -5,12 +5,14 @@ import '@vue/runtime-core'
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    AccountantDashboard: typeof import('./src/components/pages/dashboards/AccountantDashboard.vue')['default']
     ActionButtons: typeof import('./src/components/partials/buttons/ActionButtons.vue')['default']
     ActivityPanel: typeof import('./src/components/partials/panels/ActivityPanel.vue')['default']
     AnimatedLogo: typeof import('./src/components/svg/AnimatedLogo.vue')['default']
     ApexDashboard: typeof import('./src/components/pages/charts/ApexDashboard.vue')['default']
     AppLayout: typeof import('./src/layouts/AppLayout.vue')['default']
     ApplicantConclusionModal: typeof import('./src/components/base/modal/ApplicantConclusionModal.vue')['default']
+    ApplicantFlexTableDropdown: typeof import('./src/components/partials/dropdowns/ApplicantFlexTableDropdown.vue')['default']
     ApplicantForm: typeof import('./src/components/forms/ApplicantForm.vue')['default']
     ApplicantFormModal: typeof import('./src/components/base/modal/ApplicantFormModal.vue')['default']
     ApplicantsMobileSubsidebar: typeof import('./src/layouts/mobile-subsidebars/ApplicantsMobileSubsidebar.vue')['default']
@@ -124,6 +126,7 @@ declare module '@vue/runtime-core' {
     VCreditCard: typeof import('./src/components/base/plugins/VCreditCard.vue')['default']
     VDropdown: typeof import('./src/components/base/dropdown/VDropdown.vue')['default']
     VField: typeof import('./src/components/base/form/VField.vue')['default']
+    VFileInput: typeof import('./src/components/base/form/VFileInput.vue')['default']
     VFilePond: typeof import('./src/components/base/plugins/VFilePond.vue')['default']
     VFlex: typeof import('./src/components/base/flex/VFlex.vue')['default']
     VFlexItem: typeof import('./src/components/base/flex/VFlexItem.vue')['default']

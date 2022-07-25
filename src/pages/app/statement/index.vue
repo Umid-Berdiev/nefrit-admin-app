@@ -62,10 +62,10 @@ const userFilter: VFlexTableWrapperFilterFunction<User> = ({ searchTerm, row }) 
 }
 
 const columns = {
-  select: {
-    label: '',
-    cellClass: 'is-flex-grow-0',
-  },
+  // select: {
+  //   label: '',
+  //   cellClass: 'is-flex-grow-0',
+  // },
   orderNumber: {
     label: 'Ariza qabul raqami',
     // cellClass: 'is-flex-grow-0',
@@ -132,7 +132,7 @@ function onActionTriggered(rowId: number) {
 }
 
 function gotoConclusionList(statementId: number) {
-  router.push(`/app/statement/${statementId}/conclusions`)
+  router.push(`/app/statement/${statementId}#conclusions`)
 }
 
 function confirmAction() {
@@ -142,7 +142,8 @@ function confirmAction() {
 
 <template>
   <div class="applicant-list-wrapper">
-    <TableActionsBlock center title="" @add="isFormModalOpen = true" @filter="displayFilterForm = !displayFilterForm" />
+    <TableActionsBlock center title="" @add="isFormModalOpen = true" @filter="displayFilterForm = !displayFilterForm"
+      :remove-disabled="true" />
     <div v-show="displayFilterForm" class="mb-5">
       <VCard radius="small">
         <h3 class="title is-5 mb-2">{{ t('Filter_form') }}</h3>
@@ -181,11 +182,11 @@ function confirmAction() {
           </VField>
           <CountrySelect v-model="filterForm.applicantsCountry" class="column" />
         </div>
-        <div class="columns">
-          <div class="column is-1 ml-auto">
-            <VButton outlined color="warning" fullwidth icon="feather:filter">{{ t('Filter') }}</VButton>
-          </div>
-        </div>
+        <VFlex>
+          <VFlexItem class="ml-auto">
+            <VButton outlined color="warning" icon="feather:filter">{{ t('Filter') }}</VButton>
+          </VFlexItem>
+        </VFlex>
       </VCard>
     </div>
 
@@ -211,16 +212,16 @@ function confirmAction() {
         <VFlexTable rounded>
           <!-- header-column slot -->
           <template #header-column="{ column }">
-            <VCheckbox v-if="column.key === 'select'" class="ml-2 mr-3" :checked="isAllSelected" name="all_selected"
-              color="primary" @click="toggleSelection" />
+            <!-- <VCheckbox v-if="column.key === 'select'" class="ml-2 mr-3" :checked="isAllSelected" name="all_selected"
+              color="primary" @click="toggleSelection" /> -->
           </template>
 
           <!-- Custom "name" cell content -->
           <template #body-cell="{ row, column, value, index }">
-            <VCheckbox v-if="column.key === 'select'" v-model="selectedRowsId" :value="row.id" name="selection"
-              @change="clickOnRow" />
+            <!-- <VCheckbox v-if="column.key === 'select'" v-model="selectedRowsId" :value="row.id" name="selection"
+              @change="clickOnRow" /> -->
 
-            <template v-else-if="column.key === 'orderNumber'">
+            <template v-if="column.key === 'orderNumber'">
               {{ '00000' + (row.id + 1) }}
             </template>
             <template v-else-if="column.key === 'status'">

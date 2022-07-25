@@ -9,12 +9,14 @@ export interface VBlockProps {
   mResponsive?: boolean
   tResponsive?: boolean
   filterDisabled?: boolean
+  removeDisabled?: boolean
 }
 
 const props = withDefaults(defineProps<VBlockProps>(), {
   subtitle: undefined,
   infratitle: undefined,
-  filterDisabled: false
+  filterDisabled: false,
+  removeDisabled: false,
 })
 
 const emits = defineEmits<{
@@ -66,7 +68,7 @@ const emits = defineEmits<{
         <VButton outlined rounded color="danger" icon="feather:trash" @click.prevent="
         () => {
           emits('remove')
-        }">
+        }" v-if="!removeDisabled">
           {{ $t('Delete_selected') }}
         </VButton>
       </VButtons>

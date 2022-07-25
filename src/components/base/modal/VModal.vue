@@ -93,7 +93,7 @@ onUnmounted(() => {
   &.is-big {
     .modal-content {
       width: 100%;
-      max-width: 840px;
+      max-width: 70vw;
 
       .modal-card {
         width: 100%;

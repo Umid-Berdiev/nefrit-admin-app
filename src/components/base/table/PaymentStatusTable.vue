@@ -7,12 +7,12 @@ import type {
 import { users } from '/@src/stores/usersMockData'
 import { useViewWrapper } from '/@src/stores/viewWrapper'
 import { useMainStore } from '/@src/stores'
-import VButtons from '../button/VButtons.vue'
-import VButton from '../button/VButton.vue'
-import ViewListV1 from './ContractInfoTable.vue'
 
 type User = typeof users[0]
 
+const props = defineProps({
+  isContractInfoTableVisible: Boolean
+});
 const data: User[] = users
 const mainStore = useMainStore()
 const { t } = useI18n()
@@ -96,7 +96,7 @@ async function onReject() {
   <div class="applicant-list-wrapper">
     <!-- table -->
     <h1 class="is-size-3 mb-3">{{ $t('Payment_status') }}</h1>
-    <ContractInfoTable />
+    <ContractInfoTable v-if="isContractInfoTableVisible" />
     <VFlexTableWrapper :columns="columns" :data="data">
       <!--
         Here we retrieve the internal wrapperState.
