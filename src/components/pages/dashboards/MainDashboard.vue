@@ -197,7 +197,7 @@ function gotoView(rowId: number) {
         <div class="dashboard-card is-base-chart">
           <div class="content-box is-flex">
             <h1 class="is-size-4">{{ $t('Statement_statuses') }}</h1>
-            <VDatePicker locale="uzb" class="ml-auto" v-model="range" is-range color="green" trim-weeks
+            <VDatePicker class="ml-auto" v-model="range" is-range color="green" trim-weeks
               :model-config="datePickerModelConfig">
               <template v-slot="{ inputValue, inputEvents }">
                 <VField addons>
