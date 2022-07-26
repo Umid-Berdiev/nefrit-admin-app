@@ -224,5 +224,14 @@
   "Upload": "Upload",
   "Template_title": "Template title",
   "Download_contract_template": "Download contract template",
-  "Created_by_dept": "Created by department"
+  "Created_by_dept": "Created by department",
+  "Welcome_to_NEFRIT": "Welcome to NEFRIT",
+  "Please_sign_in_to_your_account": "Please sign in to your account",
+  "Password": "Password",
+  "Remember_me": "Remember me",
+  "Sign_In": "Sign In",
+  "I_do_not_have_an_account_yet": "I do not have an account yet",
+  "Forgot_Password": "Forgot Password",
+  "Save": "Save",
+  "Departments_List": "Departments List"
 }

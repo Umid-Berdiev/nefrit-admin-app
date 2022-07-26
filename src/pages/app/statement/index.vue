@@ -13,6 +13,7 @@ import { useViewWrapper } from '/@src/stores/viewWrapper'
 import CountrySelect from '/@src/components/forms/selects/CountrySelect.vue'
 import { useMainStore } from "/@src/stores";
 import FeedbackModal from '/@src/components/base/modal/FeedbackModal.vue'
+import StatementStatusTag from '/@src/components/base/tags/StatementStatusTag.vue'
 
 const { t } = useI18n()
 
@@ -225,17 +226,7 @@ function confirmAction() {
               {{ '00000' + (row.id + 1) }}
             </template>
             <template v-else-if="column.key === 'status'">
-              <VTag class="is-size-6" rounded :color="
-                value === 'pending'
-                  ? 'warning'
-                  : value === 'rejected'
-                    ? 'danger'
-                    : value === 'completed'
-                      ? 'primary'
-                      : undefined
-              ">
-                {{ t(value) }}
-              </VTag>
+              <StatementStatusTag :status="value" />
             </template>
             <template v-else-if="column.key === 'stage'">
               <VTag class="is-size-6" rounded color="info">

@@ -282,15 +282,13 @@ export default defineComponent({
 
 <style lang="scss">
 .button {
+  justify-content: center !important;
+
   &.is-circle {
     border-radius: var(--radius-rounded);
   }
 
   &.v-button {
-    padding: 8px 22px;
-    height: 38px;
-    line-height: 1.1;
-    font-size: 0.95rem;
     font-family: var(--font);
     transition: all 0.3s; // transition-all test
 
@@ -370,24 +368,24 @@ export default defineComponent({
       }
     }
 
-    &.is-lower {
-      text-transform: none !important;
-      font-size: 0.9rem;
-    }
+    // &.is-lower {
+    //   text-transform: none !important;
+    //   font-size: 0.9rem;
+    // }
 
-    &.is-big {
-      height: 40px;
-    }
+    // &.is-big {
+    //   height: 40px;
+    // }
 
-    &.is-medium {
-      height: 2.5rem;
-      font-size: 1rem;
-    }
+    // &.is-medium {
+    //   height: 2.5rem;
+    //   font-size: 1rem;
+    // }
 
-    &.is-huge {
-      height: 50px;
-      width: 220px;
-    }
+    // &.is-huge {
+    //   height: 50px;
+    //   width: 220px;
+    // }
   }
 
   &.simple-action {

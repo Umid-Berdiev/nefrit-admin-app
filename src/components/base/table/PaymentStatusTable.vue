@@ -45,8 +45,8 @@ const columns = {
     searchable: true,
     sortable: true,
     sort: locationSorter,
-    bold: true
-    // filter: userFilter,
+    bold: true,
+    // align: 'right',
   },
   status: { // created_by_dept column
     label: t('Status'),
@@ -115,21 +115,13 @@ async function onReject() {
               @change="clickOnRow" /> -->
 
             <template v-if="column.key === 'invoice'">
-              <a href="javascript:;" class="has-text-primary">{{ row.invoice }}</a>
+              <a href="javascript:;" class="has-text-primary is-pushed-mobile">{{ row.invoice }}</a>
             </template>
             <template v-if="column.key === 'status'">
-              <VButton rounded :color="
-                value === 'pending'
-                  ? 'warning'
-                  : value === 'rejected'
-                    ? 'danger'
-                    : value === 'completed'
-                      ? 'primary'
-                      : undefined
-              ">{{ row.status }}</VButton>
+              <StatementStatusTag :status="value" />
             </template>
             <template v-if="column.key === 'actions'">
-              <VButtons>
+              <VButtons v-if="row.status !== 'completed'">
                 <VButton class="is-primary is-outlined px-3" @click="onVerify">{{ $t('Verify') }}</VButton>
                 <VButton class="is-danger is-outlined px-3" @click="onReject">{{ $t('Cancel') }}</VButton>
               </VButtons>

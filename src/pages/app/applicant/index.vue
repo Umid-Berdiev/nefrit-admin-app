@@ -217,17 +217,7 @@ function onActionTriggered(rowId: string | number) {
               @change="clickOnRow" />
 
             <template v-else-if="column.key === 'status'">
-              <VTag class="is-size-6" rounded :color="
-                value === 'pending'
-                  ? 'warning'
-                  : value === 'rejected'
-                    ? 'danger'
-                    : value === 'completed'
-                      ? 'primary'
-                      : undefined
-              ">
-                {{ t(value) }}
-              </VTag>
+              <StatementStatusTag :status="value" />
             </template>
             <template v-if="column.key === 'actions'">
               <ApplicantFlexTableDropdown @view="onActionTriggered(row.id)" @edit="isFormModalOpen = true" />

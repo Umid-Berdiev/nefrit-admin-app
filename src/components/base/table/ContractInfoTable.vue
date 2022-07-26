@@ -37,9 +37,9 @@ function openContractEditModal() {
     <div class="page-content-inner">
       <!--List-->
       <div class="list-view list-view-v1">
-        <div class="list-view-inner">
+        <div class="list-view-inner" style="width: 100%;">
           <!--Item-->
-          <TransitionGroup name="list-complete" tag="div">
+          <TransitionGroup name=" list-complete" tag="div">
             <div class="list-view-item" key="contract_info">
               <div class="list-view-item-inner">
                 <div class="meta-left">
@@ -79,7 +79,10 @@ function openContractEditModal() {
 @import '/@src/scss/abstracts/all';
 
 .list-view-v1 {
+  width: 100%;
+
   .list-view-item {
+    width: 100%;
     @include vuero-r-card;
 
     margin-bottom: 16px;
@@ -90,6 +93,7 @@ function openContractEditModal() {
       align-items: center;
 
       .meta-left {
+        width: 100%;
         margin-left: 16px;
 
         h3 {
@@ -128,6 +132,7 @@ function openContractEditModal() {
 
         .stats {
           display: flex;
+          flex-wrap: wrap;
           align-items: center;
           margin-right: 30px;
 
@@ -198,6 +203,7 @@ function openContractEditModal() {
 .is-dark {
   .list-view-v1 {
     .list-view-item {
+      width: 100%;
       @include vuero-card--dark;
 
       .list-view-item-inner {
@@ -230,6 +236,8 @@ function openContractEditModal() {
 @media only screen and (max-width: 767px) {
   .list-view-v1 {
     .list-view-item {
+      width: 100%;
+
       .list-view-item-inner {
         position: relative;
         flex-direction: column;
@@ -281,7 +289,8 @@ function openContractEditModal() {
     flex-wrap: wrap;
 
     .list-view-item {
-      margin: 10px;
+      width: 100%;
+      // margin: 10px;
       width: calc(50% - 20px);
 
       .list-view-item-inner {

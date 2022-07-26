@@ -224,5 +224,14 @@
   "Upload": "Yuklash",
   "Template_title": "Shablon nomi",
   "Download_contract_template": "Shartnoma shakllantirish",
-  "Created_by_dept": "Qaysi bo'lim tomonidan yaratilgan"
+  "Created_by_dept": "Qaysi bo'lim tomonidan yaratilgan",
+  "Welcome_to_NEFRIT": "NEFRITga xush kelibsiz",
+  "Please_sign_in_to_your_account": "Marhamat, o'z hisobingizga kiring",
+  "Password": "Kalit so'z",
+  "Remember_me": "Eslab qolish",
+  "Sign_In": "Hisobga kirish",
+  "I_do_not_have_an_account_yet": "Menda hali hisob yo'q",
+  "Forgot_Password": "Kalit so'zni unutdingizmi",
+  "Save": "Saqlash",
+  "Departments_List": "Bo'limlar ro'yxati"
 }

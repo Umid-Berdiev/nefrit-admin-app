@@ -45,7 +45,7 @@ const localFlagSrc = computed(() => {
 <template>
   <VDropdown right>
     <template #button="{ open, toggle }">
-      <VButton class="is-trigger has-text-primary" rounded outlined light @click="toggle">
+      <VButton class="is-trigger has-text-primary px-4" style="border:none;" rounded outlined light @click="toggle">
         {{ locale.toUpperCase() }}
       </VButton>
     </template>

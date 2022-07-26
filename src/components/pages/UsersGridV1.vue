@@ -72,14 +72,14 @@ function onGivingConclusion(val: String) {
               <VAvatar v-for="user in item.team" :key="user.id" size="small" v-bind="getAvatarData(user)" />
             </div> -->
             <div v-if="itemIndex === 4" class="is-grouped mt-5">
-              <VButton color="success" style="width: 40%;" class="is-justify-content-center mr-3"
+              <VButton color="success" style="width: 45%;" class="is-justify-content-center mr-3"
                 @click="onGivingConclusion('Yes')">
                 <span class="icon">
                   <i aria-hidden="true" class="iconify" data-icon="feather:check" />
                 </span>
                 <span>{{ $t('Yes') }}</span>
               </VButton>
-              <VButton color="danger" style="width: 40%;" class="is-justify-content-center"
+              <VButton color="danger" style="width: 45%;" class="is-justify-content-center"
                 @click="onGivingConclusion('No')">
                 <span class="icon">
                   <i aria-hidden="true" class="iconify" data-icon="feather:x"></i>

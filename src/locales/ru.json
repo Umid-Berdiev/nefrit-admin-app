@@ -224,5 +224,14 @@
   "Upload": "Загрузить",
   "Template_title": "Название шаблона",
   "Download_contract_template": "Скачать образец договора",
-  "Created_by_dept": "Каким отделом создано"
+  "Created_by_dept": "Каким отделом создано",
+  "Welcome_to_NEFRIT": "Добро пожаловать в NEFRIT",
+  "Please_sign_in_to_your_account": "Пожалуйста, войдите в ваш аккаунт",
+  "Password": "Пароль",
+  "Remember_me": "Запомнить меня",
+  "Sign_In": "Войти в систему",
+  "I_do_not_have_an_account_yet": "У меня еще нет учетной записи",
+  "Forgot_Password": "Забыли пароль",
+  "Save": "Сохранить",
+  "Departments_List": "Список отделов"
 }

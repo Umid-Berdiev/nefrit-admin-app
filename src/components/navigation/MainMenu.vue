@@ -68,6 +68,14 @@ function openContractDownloadModal() {
       </RouterLink>
     </li>
     <li>
+      <RouterLink class="is-size-6" :class="{ 'router-link-exact-active': route.path.startsWith('/app/departments') }"
+        :to="{ name: 'app-departments' }">
+        <!-- <i aria-hidden="true" class="lnil lnil-database"></i> -->
+        <span class="fa-li"><i class="fas fa-file" aria-hidden="true"></i></span>
+        {{ $t('Departments') }}
+      </RouterLink>
+    </li>
+    <li>
       <RouterLink class="is-size-6"
         :class="{ 'router-link-exact-active': route.path.startsWith('/app/contract_templates') }"
         :to="{ name: 'app-contract-templates' }">

@@ -8,7 +8,7 @@ const props = defineProps<{
 </script>
 
 <template>
-  <div :class="[props.isOpen && 'is-active']" class="mobile-main-sidebar">
+  <!-- <div :class="[props.isOpen && 'is-active']" class="mobile-main-sidebar">
     <div class="inner">
       <ul class="icon-side-menu">
         <slot name="links">
@@ -24,7 +24,7 @@ const props = defineProps<{
         <slot name="bottom-links"></slot>
       </ul>
     </div>
-  </div>
+  </div> -->
 
   <div v-if="props.isOpen" class="mobile-overlay" tabindex="0" @keydown.space.prevent="emit('toggle')"
     @click="emit('toggle')"></div>
@@ -196,8 +196,9 @@ const props = defineProps<{
   .inner {
     position: relative;
     height: 100%;
-    width: calc(100% - 60px);
-    margin-left: 60px;
+    width: 100%;
+    // width: calc(100% - 60px);
+    // margin-left: 60px;
 
     .sidebar-title {
       height: 60px;
@@ -273,7 +274,7 @@ const props = defineProps<{
               align-items: center;
               font-size: 0.9rem;
               font-weight: 500;
-              // color: var(--light-text);
+              color: var(--light-text);
 
               svg {
                 position: relative;
@@ -339,7 +340,7 @@ const props = defineProps<{
           padding: 6px 0;
           width: 100%;
           display: block;
-          // color: var(--light-text);
+          color: var(--light-text);
         }
       }
     }

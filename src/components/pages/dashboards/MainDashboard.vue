@@ -34,7 +34,7 @@ const columns = {
   },
   actions: {
     label: t('Actions'),
-    align: 'center',
+    // align: 'center',
   },
 } as const
 
@@ -197,7 +197,7 @@ function gotoView(rowId: number) {
         <div class="dashboard-card is-base-chart">
           <div class="content-box is-flex">
             <h1 class="is-size-4">{{ $t('Statement_statuses') }}</h1>
-            <VDatePicker class="ml-auto" v-model="range" is-range color="green" trim-weeks
+            <VDatePicker locale="uzb" class="ml-auto" v-model="range" is-range color="green" trim-weeks
               :model-config="datePickerModelConfig">
               <template v-slot="{ inputValue, inputEvents }">
                 <VField addons>
@@ -297,7 +297,7 @@ function gotoView(rowId: number) {
                       {{ '00000' + (row.id + 1) }}
                     </template>
                     <template v-else-if="column.key === 'actions'">
-                      <VIconButton class="mr-2 p-4" outlined circle color="info" icon="feather:eye"
+                      <VIconButton class="ml-auto p-4" outlined circle color="info" icon="feather:eye"
                         @click.prevent="gotoView(row.id)">
                         {{ $t('View') }}
                       </VIconButton>

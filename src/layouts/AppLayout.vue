@@ -69,7 +69,7 @@ console.log('activeMobileSubsidebar: ', activeMobileSubsidebar.value);
 
     <!-- Mobile navigation -->
     <MobileNavbar :is-open="isMobileSidebarOpen" @toggle="isMobileSidebarOpen = !isMobileSidebarOpen">
-      <template #brand>
+      <!-- <template #brand>
         <RouterLink :to="{ name: 'index' }" class="navbar-item is-brand">
           <AnimatedLogo width="38px" height="38px" />
         </RouterLink>
@@ -78,18 +78,18 @@ console.log('activeMobileSubsidebar: ', activeMobileSubsidebar.value);
           <NotificationsMobileDropdown />
           <UserProfileDropdown />
         </div>
-      </template>
+      </template> -->
     </MobileNavbar>
 
     <!-- Mobile sidebar links -->
     <MobileSidebar :is-open="isMobileSidebarOpen" @toggle="isMobileSidebarOpen = !isMobileSidebarOpen">
-      <template #links>
+      <!-- <template #links>
         <li>
           <RouterLink :to="{ name: 'app' }">
             <i aria-hidden="true" class="iconify" data-icon="feather:home"></i>
           </RouterLink>
         </li>
-      </template>
+      </template> -->
 
       <!-- <template #bottom-links>
         <li>

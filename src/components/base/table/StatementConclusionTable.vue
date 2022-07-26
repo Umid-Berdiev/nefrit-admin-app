@@ -18,6 +18,7 @@ type User = typeof users[0]
 
 const data: User[] = users
 
+const isConclusionModalOpen = ref(false)
 const isFeedbackModalOpen = ref(false)
 const selectedRowsId = ref<number[]>([])
 const isAllSelected = computed(() => data.length === selectedRowsId.value.length)
@@ -66,6 +67,10 @@ const columns = {
   }, // created_at column
   files: {
     label: t('Files'),
+    // align: 'center',
+  },
+  actions: {
+    label: t('Actions'),
     align: 'center',
   },
 } as const
@@ -90,6 +95,9 @@ function clickOnRow(row: any) {
   }
 }
 
+function confirmAction() {
+  mainStore.$patch({ confirmModalState: true })
+}
 </script>
 
 <template>
@@ -102,12 +110,12 @@ function clickOnRow(row: any) {
         <!--  -->
       </div>
     </div>
-    <VFlex class="mb-4">
+    <VFlex class="mb-4" flex-wrap="wrap">
       <VFlexItem>
         <h1 class="is-size-3 mb-3">{{ $t('Statement_conclusions') }}</h1>
       </VFlexItem>
       <VFlexItem class="ml-auto">
-        <VButton outlined rounded color="info" icon="feather:plus" @click.prevent="isFeedbackModalOpen = true">
+        <VButton outlined rounded color="info" icon="feather:plus" @click.prevent="isConclusionModalOpen = true">
           {{ $t('Add') }}
         </VButton>
       </VFlexItem>
@@ -133,7 +141,7 @@ function clickOnRow(row: any) {
               </div>
             </template>
             <template v-else-if="column.key === 'files'">
-              <ul>
+              <ul class="is-pushed-mobile">
                 <li>
                   <a href="javascript:;" class="has-text-primary">file1</a>
                 </li>
@@ -145,6 +153,9 @@ function clickOnRow(row: any) {
                 </li>
               </ul>
             </template>
+            <template v-else-if="column.key === 'actions'">
+              <ConclusionFlexTableDropdown @edit="isConclusionModalOpen = true" @remove="confirmAction" />
+            </template>
           </template>
         </VFlexTable>
 
@@ -152,6 +163,6 @@ function clickOnRow(row: any) {
           :total-items="wrapperState.total" :max-links-displayed="5" no-router />
       </template>
     </VFlexTableWrapper>
-    <FeedbackModal v-model="isFeedbackModalOpen" />
+    <FeedbackModal v-model="isConclusionModalOpen" />
   </div>
 </template>
