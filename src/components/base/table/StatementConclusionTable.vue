@@ -7,10 +7,7 @@ import type {
 } from '/@src/components/base/table/VFlexTableWrapper.vue'
 import { users } from '/@src/stores/usersMockData'
 import { useViewWrapper } from '/@src/stores/viewWrapper'
-import CountrySelect from '/@src/components/forms/selects/CountrySelect.vue'
 import { useMainStore } from '/@src/stores'
-import ConclusionFlexTableDropdown from '/@src/components/partials/dropdowns/ConclusionFlexTableDropdown.vue'
-import FeedbackModal from '/@src/components/base/modal/FeedbackModal.vue'
 
 const mainStore = useMainStore()
 const { t } = useI18n()
@@ -19,16 +16,10 @@ viewWrapper.setPageTitle(t('Conclusions_List'))
 
 type User = typeof users[0]
 
-// duplicate user data to grow the array
 const data: User[] = users
-// for (let i = 0; i < 100; i++) {
-//   data.push(...users)
-// }
-const filterForm = ref({})
 
 const isConclusionModalOpen = ref(false)
 const isFeedbackModalOpen = ref(false)
-const displayFilterForm = ref(false)
 const selectedRowsId = ref<number[]>([])
 const isAllSelected = computed(() => data.length === selectedRowsId.value.length)
 
@@ -76,6 +67,10 @@ const columns = {
   }, // created_at column
   files: {
     label: t('Files'),
+    // align: 'center',
+  },
+  actions: {
+    label: t('Actions'),
     align: 'center',
   },
 } as const
@@ -103,94 +98,30 @@ function clickOnRow(row: any) {
 function confirmAction() {
   mainStore.$patch({ confirmModalState: true })
 }
-
 </script>
 
 <template>
   <div class="applicant-list-wrapper">
-    <!-- filter block -->
-    <!-- <VBlock title="" center>
-      <template #action>
-        <VButtons>
-          <VButton outlined rounded color="info" icon="feather:plus" @click="isConclusionModalOpen = true"> {{ t('Add')
-          }} </VButton>
-          <VButton outlined rounded color="primary" icon="feather:printer">
-            {{ t('Print') }}
-          </VButton>
-          <VButton outlined rounded color="warning" icon="feather:filter"
-            @click="displayFilterForm = !displayFilterForm">
-            {{ t('Filter') }}
-          </VButton>
-          <VButton outlined rounded color="danger" icon="feather:trash">
-            {{ t('Delete_selected') }}
-          </VButton>
-        </VButtons>
-      </template>
-    </VBlock>
-    <div v-show="displayFilterForm" class="mb-5">
-      <VCard radius="small">
-        <h3 class="title is-5 mb-2">{{ t('Filter_form') }}</h3>
-        <div class="columns is-desktop">
-          <VField class="column">
-            <VLabel>{{ t('applied_legal_entity') }}</VLabel>
-            <VControl>
-              <VInput v-model="filterForm.applicantUser" type="text" placeholder="" />
-            </VControl>
-          </VField>
-          <VField class="column">
-            <VLabel>{{ t('Status') }}</VLabel>
-            <VControl>
-              <VInput v-model="filterForm.applicantStatus" type="text" placeholder="" />
-            </VControl>
-          </VField>
-          <VField class="column">
-            <VLabel>{{ t('applied_at') }}</VLabel>
-            <VControl>
-              <VInput v-model="filterForm.applicantBossName" type="text" placeholder="" />
-            </VControl>
-          </VField>
-          <VField class="column">
-            <VLabel>{{ t('stage') }}</VLabel>
-            <VControl>
-              <VInput v-model="filterForm.applicantName" type="text" placeholder="" />
-            </VControl>
-          </VField>
-          <VField class="column">
-            <VLabel>{{ t('Phone') }}</VLabel>
-            <VControl>
-              <VInput v-model="filterForm.applicantPhone" type="text" placeholder="" />
-            </VControl>
-          </VField>
-          <CountrySelect v-model="filterForm.applicantsCountry" class="column" />
-        </div>
-        <div class="columns">
-          <div class="column is-1 ml-auto">
-            <VButton outlined color="warning" fullwidth icon="feather:filter">{{ t('Filter') }}</VButton>
-          </div>
-        </div>
-      </VCard>
-    </div> -->
-
     <!-- table -->
-    <h1 class="is-size-3 mb-3">{{ $t('Statement_conclusions') }}</h1>
+    <div class="columns">
+      <div class="column">
+      </div>
+      <div class="column">
+        <!--  -->
+      </div>
+    </div>
+    <VFlex class="mb-4" flex-wrap="wrap">
+      <VFlexItem>
+        <h1 class="is-size-3 mb-3">{{ $t('Statement_conclusions') }}</h1>
+      </VFlexItem>
+      <VFlexItem class="ml-auto">
+        <VButton outlined rounded color="info" icon="feather:plus" @click.prevent="isConclusionModalOpen = true">
+          {{ $t('Add') }}
+        </VButton>
+      </VFlexItem>
+    </VFlex>
     <VFlexTableWrapper :columns="columns" :data="data">
-      <!--
-        Here we retrieve the internal wrapperState.
-        Note that we can not destructure it
-      -->
       <template #default="wrapperState">
-        <!-- We can place any content inside the default slot-->
-        <!-- <VFlexTableToolbar>
-          <template #left>
-            <VField>
-              <VControl icon="feather:search">
-                <input v-model="wrapperState.searchInput" type="text" class="input is-rounded"
-                  :placeholder="t('Search') + '...'" />
-              </VControl>
-            </VField>
-          </template>
-        </VFlexTableToolbar> -->
-
         <VFlexTable rounded>
           <!-- header-column slot -->
           <template #header-column="{ column }">
@@ -210,7 +141,7 @@ function confirmAction() {
               </div>
             </template>
             <template v-else-if="column.key === 'files'">
-              <ul>
+              <ul class="is-pushed-mobile">
                 <li>
                   <a href="javascript:;" class="has-text-primary">file1</a>
                 </li>
@@ -222,6 +153,9 @@ function confirmAction() {
                 </li>
               </ul>
             </template>
+            <template v-else-if="column.key === 'actions'">
+              <ConclusionFlexTableDropdown @edit="isConclusionModalOpen = true" @remove="confirmAction" />
+            </template>
           </template>
         </VFlexTable>
 
@@ -229,7 +163,6 @@ function confirmAction() {
           :total-items="wrapperState.total" :max-links-displayed="5" no-router />
       </template>
     </VFlexTableWrapper>
-    <ApplicantConclusionModal v-model="isConclusionModalOpen" />
-    <FeedbackModal v-model="isFeedbackModalOpen" />
+    <FeedbackModal v-model="isConclusionModalOpen" />
   </div>
 </template>

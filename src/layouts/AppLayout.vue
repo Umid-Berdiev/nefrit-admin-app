@@ -11,6 +11,7 @@ import ActivityPanel from '../components/partials/panels/ActivityPanel.vue';
 import LanguagesPanel from '../components/partials/panels/LanguagesPanel.vue';
 import VViewWrapper from '../components/base/layouts/VViewWrapper.vue';
 import Toolbar from '../components/partials/toolbars/Toolbar.vue';
+import ContractDownloadModal from '../components/base/modal/ContractDownloadModal.vue';
 
 const props = withDefaults(
   defineProps<{
@@ -68,7 +69,7 @@ console.log('activeMobileSubsidebar: ', activeMobileSubsidebar.value);
 
     <!-- Mobile navigation -->
     <MobileNavbar :is-open="isMobileSidebarOpen" @toggle="isMobileSidebarOpen = !isMobileSidebarOpen">
-      <template #brand>
+      <!-- <template #brand>
         <RouterLink :to="{ name: 'index' }" class="navbar-item is-brand">
           <AnimatedLogo width="38px" height="38px" />
         </RouterLink>
@@ -77,18 +78,18 @@ console.log('activeMobileSubsidebar: ', activeMobileSubsidebar.value);
           <NotificationsMobileDropdown />
           <UserProfileDropdown />
         </div>
-      </template>
+      </template> -->
     </MobileNavbar>
 
     <!-- Mobile sidebar links -->
     <MobileSidebar :is-open="isMobileSidebarOpen" @toggle="isMobileSidebarOpen = !isMobileSidebarOpen">
-      <template #links>
+      <!-- <template #links>
         <li>
           <RouterLink :to="{ name: 'app' }">
             <i aria-hidden="true" class="iconify" data-icon="feather:home"></i>
           </RouterLink>
         </li>
-      </template>
+      </template> -->
 
       <!-- <template #bottom-links>
         <li>
@@ -150,5 +151,6 @@ console.log('activeMobileSubsidebar: ', activeMobileSubsidebar.value);
     </VViewWrapper>
 
     <ConfirmActionModal />
+    <ContractDownloadModal />
   </div>
 </template>

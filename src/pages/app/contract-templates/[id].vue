@@ -12,13 +12,13 @@ import VFlexPagination from '/@src/components/base/pagination/VFlexPagination.vu
 
 const { t } = useI18n()
 const viewWrapper = useViewWrapper()
-// viewWrapper.setPageTitle(t('Applicant_Info'))
+viewWrapper.setPageTitle(t('User_details'))
 
 // We want to retrieve the post from the API where the id matches the current id
 const route = useRoute()
 const currentId = (route.params?.id as string) ?? ''
 
-const applicant = ref<ApplicantInterface>()
+const applicant = ref()
 const isFormModalOpen = ref(false)
 const data = [
   {
@@ -55,7 +55,7 @@ async function fetchApplicantById(id: number) {
   const router = useRouter()
 
   try {
-    const { data } = await api.get<ApplicantInterface[]>(`/applicants?id=${id}`)
+    const { data } = await api.get(`/applicants?id=${id}`)
 
     if (!data.length) {
       // the applicant does not exist, we replace the route to the 404 page

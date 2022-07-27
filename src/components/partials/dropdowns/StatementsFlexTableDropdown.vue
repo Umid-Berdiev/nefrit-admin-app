@@ -2,7 +2,7 @@
 
 const emits = defineEmits<{
   (e: 'view'): void
-  (e: 'remove'): void
+  // (e: 'remove'): void
   (e: 'feedback'): void
   (e: 'conclusion'): void
 }>()
@@ -53,7 +53,7 @@ const emits = defineEmits<{
         </div>
       </a>
 
-      <hr class="dropdown-divider" />
+      <!-- <hr class="dropdown-divider" />
 
       <a role="menuitem" href="#" class="dropdown-item is-media" @click.prevent="
         () => {
@@ -67,7 +67,7 @@ const emits = defineEmits<{
         <div class="meta">
           <span>{{ $t('Remove') }}</span>
         </div>
-      </a>
+      </a> -->
     </template>
   </VDropdown>
 </template>

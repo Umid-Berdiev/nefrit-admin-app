@@ -1,19 +1,18 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, computed, reactive } from 'vue'
 import { useHead } from '@vueuse/head'
 
 // we import our useApi helper
-import { useApi } from '/@src/composable/useApi'
 import { useViewWrapper } from '/@src/stores/viewWrapper'
 import { useI18n } from 'vue-i18n'
-import VFlexPagination from '/@src/components/base/pagination/VFlexPagination.vue'
 import { timeline } from '/@src/stores/timeline'
-import UsersGridV1 from '/@src/components/pages/UsersGridV1.vue'
-import StatementConclusionTable from '/@src/components/base/table/StatementConclusionTable.vue'
-import PaymentStatusTable from '../../../../components/base/table/PaymentStatusTable.vue'
+import { useRoute } from 'vue-router'
 
 const { t } = useI18n()
+const route = useRoute()
+const selectedTab = ref(route.hash.slice(1) || 'details')
+console.log('selectedTab: ', selectedTab.value);
+
 const viewWrapper = useViewWrapper()
 viewWrapper.setPageTitle(t('Statement_details'))
 
@@ -36,7 +35,17 @@ const data = [
   },
   // and more data ...
 ]
-
+const tabs = reactive([
+  { label: t('Statement_details'), value: 'details', icon: 'lnil lnil-tap' },
+  { label: t('Payment'), value: 'payment', icon: 'fas fa-tree' },
+  {
+    label: t('Statement_conclusions'),
+    value: 'conclusions',
+    icon: 'lnil lnil-euro-down',
+  },
+  { label: t('ITK'), value: 'itk', icon: 'feather:activity' },
+  { label: t('Chat'), value: 'chat', icon: 'fas fa-comments' },
+]);
 const columns = {
   id: 'Id',
   statement_date: 'Statement_date',
@@ -53,23 +62,14 @@ const columns = {
 useHead({
   title: computed(() => statement.value?.title ?? 'Loading statement...'),
 })
+
 </script>
 
 <template>
   <div class="statement-detail-wrapper">
-    <VTabs selected="details" :tabs="[
-      { label: t('Statement_details'), value: 'details', icon: 'lnil lnil-tap' },
-      { label: t('Payment'), value: 'payment', icon: 'fas fa-tree' },
-      {
-        label: t('Statement_conclusions'),
-        value: 'conclusions',
-        icon: 'lnil lnil-euro-down',
-      },
-      { label: t('ITK'), value: 'itk', icon: 'feather:activity' },
-      { label: t('Chat'), value: 'chat', icon: 'fas fa-comments' },
-    ]">
+    <VTabs :selected="selectedTab" :tabs="tabs">
       <template #tab="{ activeValue }">
-        <div v-if="activeValue === 'details'" class="columns">
+        <div v-if="activeValue === 'details'" class="columns mt-5">
           <div class="column is-6">
             <StatementForm />
           </div>
@@ -79,16 +79,16 @@ useHead({
             </ListWidgetSingle>
           </div>
         </div>
-        <div v-else-if="activeValue === 'payment'">
-          <PaymentStatusTable />
+        <div v-else-if="activeValue === 'payment'" class="mt-5">
+          <PaymentStatusTable :is-contract-info-table-visible="true" />
         </div>
-        <div v-else-if="activeValue === 'conclusions'">
+        <div v-else-if="activeValue === 'conclusions' || route.hash == '#conclusions'" class="mt-5">
           <StatementConclusionTable />
         </div>
-        <div v-else-if="activeValue === 'itk'">
+        <div v-else-if="activeValue === 'itk'" class="mt-5">
           <UsersGridV1 />
         </div>
-        <div v-else-if="activeValue === 'chat'">
+        <div v-else-if="activeValue === 'chat'" class="mt-5">
           <MessagingV1 />
         </div>
       </template>

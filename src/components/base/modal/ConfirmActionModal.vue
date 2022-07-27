@@ -5,9 +5,11 @@ import { useMainStore } from "/@src/stores";
 const mainStore = useMainStore()
 
 const state = computed(() => mainStore.confirmModalState)
+const color = computed(() => mainStore.confirmModalOkButtonColor)
 
 async function onClose() {
   mainStore.$patch({ confirmModalState: false })
+  mainStore.$patch({ confirmModalOkButtonColor: 'danger' })
 }
 
 async function onConfirm() {
@@ -18,12 +20,12 @@ async function onConfirm() {
 
 <template>
   <VModal :open="state" actions="center" :title="$t('Confirm_action')" :noclose="true" @close="onClose"
-    :cancel-label="$t('Cancel')">
+    :cancel-label="$t('No')">
     <template #content>
       <VPlaceholderSection :title="$t('Are_you_sure')" />
     </template>
     <template #action>
-      <VButton color="danger" outlined @click="onConfirm">{{ $t('Confirm') }}</VButton>
+      <VButton class="is-justify-content-center" :color="color" outlined @click="onConfirm">{{ $t('Yes') }}</VButton>
     </template>
   </VModal>
 </template>

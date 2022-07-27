@@ -52,7 +52,8 @@ function openDrugInfoModal(id: number) {
 <template>
   <ListWidgetSingle :title="$t('Statement_details')" straight class="list-widget-v3">
     <template #actions>
-      <VIconButton color="success" icon="feather:edit" circle outlined @click="isStatementEditModalOpen = true" />
+      <VIconButton class="px-4" color="success" icon="feather:edit" circle outlined
+        @click="isStatementEditModalOpen = true" />
     </template>
     <table class="table is-hoverable is-bordered is-fullwidth">
       <tbody>

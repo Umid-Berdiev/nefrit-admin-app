@@ -7,6 +7,7 @@ import { useDarkmode } from '/@src/stores/darkmode'
 import { useUserSession } from '/@src/stores/userSession'
 import { useNotyf } from '/@src/composable/useNotyf'
 import sleep from '/@src/utils/sleep'
+import LocalesDropdown from '/@src/components/partials/dropdowns/LocalesDropdown.vue'
 
 const isLoading = ref(false)
 const darkmode = useDarkmode()
@@ -45,56 +46,24 @@ useHead({
 
 <template>
   <div class="auth-wrapper-inner columns is-gapless">
-    <!-- Image section (hidden on mobile) -->
-    <div class="column login-column is-7 h-hidden-mobile h-hidden-tablet-p hero-banner">
-      <div class="hero login-hero is-fullheight is-app-grey">
-        <div class="hero-body">
-          <div class="columns">
-            <div class="column is-10 is-offset-1">
-              <!-- <img
-                class="light-image has-light-shadow has-light-border"
-                src="/@src/assets/illustrations/apps/vuero-banking-light.png?format=webp"
-                alt=""
-              />
-              <img
-                class="dark-image has-light-shadow"
-                src="/@src/assets/illustrations/apps/vuero-banking-dark.png?format=webp"
-                alt=""
-              /> -->
-            </div>
-          </div>
-        </div>
-        <div class="hero-footer">
-          <p class="has-text-centered"></p>
-        </div>
-      </div>
-    </div>
-
     <!-- Form section -->
-    <div class="column is-5">
+    <div class="column">
       <div class="hero is-fullheight is-white">
         <div class="hero-heading">
-          <label class="dark-mode ml-auto" tabindex="0"
-            @keydown.space.prevent="(e) => (e.target as HTMLLabelElement).click()">
+          <LocalesDropdown />
+          <label class="dark-mode" tabindex="0" @keydown.space.prevent="(e) => (e.target as HTMLLabelElement).click()">
             <input type="checkbox" :checked="!darkmode.isDark" @change="darkmode.onChange" />
             <span></span>
           </label>
-          <div class="auth-logo">
-            <RouterLink :to="{ name: 'index' }">
-              <AnimatedLogo width="36px" height="36px" />
-            </RouterLink>
-          </div>
         </div>
         <div class="hero-body">
           <div class="container">
             <div class="columns">
               <div class="column is-12">
                 <div class="auth-content">
-                  <h2>Welcome to NEFRIT</h2>
-                  <p>Please sign in to your account</p>
-                  <RouterLink :to="{ name: 'auth' }">
-                    I do not have an account yet
-                  </RouterLink>
+                  <h2>{{ $t('Welcome_to_NEFRIT') }}</h2>
+                  <p>{{ $t('Please_sign_in_to_your_account') }}</p>
+
                 </div>
                 <div class="auth-form-wrapper">
                   <!-- Login Form -->
@@ -103,33 +72,38 @@ useHead({
                       <!-- Username -->
                       <VField>
                         <VControl icon="feather:user">
-                          <VInput type="text" placeholder="Username" autocomplete="username" />
+                          <VInput type="text" :placeholder="$t('Username')" autocomplete="username" />
                         </VControl>
                       </VField>
 
                       <!-- Password -->
                       <VField>
                         <VControl icon="feather:lock">
-                          <VInput type="password" placeholder="Password" autocomplete="current-password" />
+                          <VInput type="password" :placeholder="$t('Password')" autocomplete="current-password" />
                         </VControl>
                       </VField>
 
                       <!-- Switch -->
                       <VField>
                         <VControl class="setting-item">
-                          <VCheckbox label="Remember me" paddingless />
+                          <VCheckbox :label="$t('Remember_me')" paddingless />
                         </VControl>
                       </VField>
 
                       <!-- Submit -->
                       <div class="login">
                         <VButton :loading="isLoading" color="primary" type="submit" bold fullwidth raised>
-                          Sign In
+                          {{ $t('Sign_In') }}
                         </VButton>
                       </div>
 
-                      <div class="forgot-link has-text-centered">
-                        <a>Forgot Password?</a>
+                      <div class="is-flex is-justify-content-space-between">
+                        <RouterLink :to="{ name: 'auth' }">
+                          <i>{{ $t('I_do_not_have_an_account_yet') }}</i>
+                        </RouterLink>
+                        <a>
+                          <i>{{ $t('Forgot_Password') }}?</i>
+                        </a>
                       </div>
                     </div>
                   </form>

@@ -1,24 +1,25 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import VTextarea from '../form/VTextarea.vue';
 
 defineProps({
   modelValue: Boolean,
 })
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits<{
+  (e: 'update:modelValue', value: boolean): void
+}>()
 
-const files = ref([]);
+const files = ref<File[]>([]);
 
-function onFileUpload(event: any) {
-  const target = event.target
+function onFileUpload(event: Event) {
+  const target = event.target as HTMLInputElement
   console.log('files: ', target.files);
-  files.value.push(target.files[0]);
+  files.value?.push(target.files[0]);
 }
 
-function onRemoveFile(id: any) {
+function onFileRemove(id: number) {
   console.log('id on remove file: ', id);
-  files.value = files.value.filter(file => file.lastModified !== id)
+  files.value = files.value?.filter(file => file.lastModified !== id)
 }
 </script>
 
@@ -37,6 +38,9 @@ function onRemoveFile(id: any) {
           </div>
           <div class="column is-12">
             <StatusSelect />
+          </div>
+          <div class="column is-12">
+            <VFileInput :files="files" @file-upload="onFileUpload" @file-remove="onFileRemove" />
           </div>
         </div>
       </div>

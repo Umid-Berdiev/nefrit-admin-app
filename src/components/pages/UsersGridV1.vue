@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 
-import type { VAvatarProps, VAvatarColor } from '/@src/components/base/avatar/VAvatar.vue'
 import { users } from '/@src/data/user-grid-v1'
 
 const filters = ref('')
@@ -21,38 +20,39 @@ const filteredData = computed(() => {
   }
 })
 
-const valueSingle = ref(0)
-const optionsSingle = [
-  'All',
-  'UI/UX Design',
-  'Web Development',
-  'Software Eng.',
-  'Business',
-]
 const files = ref([]);
+const isConclusionModalOpen = ref(false);
+const selectedAnswer = ref<String>();
 
-function onFileUpload(event: any) {
-  const target = event.target
-  console.log('files: ', target.files);
-  files.value.push(target.files[0]);
-}
-
-function onRemoveFile(id: any) {
-  console.log('id on remove file: ', id);
-  files.value = files.value.filter(file => file.lastModified !== id)
-}
-
-function getAvatarData(user: any): VAvatarProps {
-  return {
-    picture: user?.avatar,
-    initials: user?.initials,
-    color: user?.color as VAvatarColor,
-  }
+function onGivingConclusion(val: String) {
+  isConclusionModalOpen.value = true;
+  selectedAnswer.value = val
 }
 </script>
 
 <template>
   <div class="container">
+    <div class="company-header is-dark-card-bordered is-dark-bg-6">
+      <div class="header-item is-dark-bordered-12">
+        <div class="item-inner">
+          <span class="dark-inverted">5</span>
+          <p>{{ $t('Total_voted') }}</p>
+        </div>
+      </div>
+      <div class="header-item is-dark-bordered-12">
+        <div class="item-inner">
+          <span class="dark-inverted">3</span>
+          <p>{{ $t('Accepted') }}</p>
+        </div>
+      </div>
+      <div class="header-item is-dark-bordered-12">
+        <div class="item-inner">
+          <span class="dark-inverted">2</span>
+          <p>{{ $t('rejected') }}</p>
+        </div>
+      </div>
+    </div>
+
     <div class="user-grid user-grid-v1">
       <!--List Empty Search Placeholder -->
       <VPlaceholderPage :class="[filteredData.length !== 0 && 'is-hidden']"
@@ -71,63 +71,37 @@ function getAvatarData(user: any): VAvatarProps {
             <!-- <div class="people">
               <VAvatar v-for="user in item.team" :key="user.id" size="small" v-bind="getAvatarData(user)" />
             </div> -->
-            <div class="is-grouped mt-5">
-              <VButton :color="itemIndex % 2 === 0 ? 'success' : 'light'" style="width: 40%;" class="mr-5">
+            <div v-if="itemIndex === 4" class="is-grouped mt-5">
+              <VButton color="success" style="width: 45%;" class="is-justify-content-center mr-3"
+                @click="onGivingConclusion('Yes')">
                 <span class="icon">
-                  <i aria-hidden="true" class="iconify" data-icon="feather:check"></i>
+                  <i aria-hidden="true" class="iconify" data-icon="feather:check" />
                 </span>
                 <span>{{ $t('Yes') }}</span>
               </VButton>
-              <VButton :color="itemIndex % 2 !== 0 ? 'danger' : 'light'" style="width: 40%;">
+              <VButton color="danger" style="width: 45%;" class="is-justify-content-center"
+                @click="onGivingConclusion('No')">
                 <span class="icon">
                   <i aria-hidden="true" class="iconify" data-icon="feather:x"></i>
                 </span>
                 <span>{{ $t('No') }}</span>
               </VButton>
             </div>
+            <div v-else class="is-grouped mt-5">
+              <VButton class="is-fullwidth is-justify-content-center"
+                :color="itemIndex % 2 === 0 ? 'success' : 'danger'">
+                <span class="icon">
+                  <i aria-hidden="true" class="iconify"
+                    :data-icon="itemIndex % 2 === 0 ? 'feather:check' : 'feather:x'" />
+                </span>
+                <span>{{ itemIndex % 2 === 0 ? $t('Yes') : $t('No') }}</span>
+              </VButton>
+            </div>
           </div>
         </div>
       </TransitionGroup>
     </div>
-    <div class="columns is-multiline mt-5">
-      <div class="column is-12">
-        <VField :label="$t('conclusion_in_details') + '*'">
-          <VControl>
-            <VTextarea :placeholder="$t('Add_text')" :rows="2" />
-          </VControl>
-        </VField>
-      </div>
-      <div class="column is-12 is-flex">
-        <div id="file-js-example" class="file has-name w-auto is-warning">
-          <label class="file-label">
-            <input class="file-input" type="file" @change="onFileUpload">
-            <span class="file-cta">
-              <span class="file-icon">
-                <i class="fas fa-upload"></i>
-              </span>
-              <span class="file-label">
-                {{ $t('Choose_a_file') }}…
-              </span>
-            </span>
-          </label>
-        </div>
-        <div class="ml-auto">
-          <VButton color="primary" raised @click="close()">{{ $t('Save_changes') }}</VButton>
-        </div>
-      </div>
-      <div class="column is-12">
-        <div class="is-divider my-1"></div>
-        <div class="is-flex is-flex-direction-column">
-          <div v-for="(file, fileIndex) in files" :key="fileIndex"
-            class="is-flex is-align-items-center	mb-3 is-justify-content-space-between	">
-            <span class="has-text-white mr-3">{{ file.name }}</span>
-            <button class="button is-warning is-outlined is-rounded p-3" @click="onRemoveFile(file.lastModified)">
-              <span class="iconify" data-icon="feather:x" />
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+    <ConclusionFormModal v-model="isConclusionModalOpen" :selected-answer="selectedAnswer" />
 
   </div>
 </template>
@@ -221,6 +195,48 @@ function getAvatarData(user: any): VAvatarProps {
     .columns {
       .column {
         min-width: 33.3% !important;
+      }
+    }
+  }
+}
+
+.company-header {
+  display: flex;
+  padding: 20px;
+  background: var(--white);
+  border: 1px solid var(--fade-grey-dark-3);
+  border-radius: var(--radius-large);
+  margin: 1.5rem 0;
+
+  .header-item {
+    width: 33.33%;
+    border-right: 1px solid var(--fade-grey-dark-3);
+
+    &:last-child {
+      border-right: none;
+    }
+
+    .item-inner {
+      text-align: center;
+
+      .lnil,
+      .lnir {
+        font-size: 1.8rem;
+        margin-bottom: 6px;
+        color: var(--primary);
+      }
+
+      span {
+        display: block;
+        font-family: var(--font);
+        font-weight: 600;
+        font-size: 1.6rem;
+        color: var(--dark-text);
+      }
+
+      p {
+        font-family: var(--font-alt);
+        font-size: 0.95rem;
       }
     }
   }

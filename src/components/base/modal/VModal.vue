@@ -72,14 +72,11 @@ onUnmounted(() => {
             actions === 'right' && 'is-end',
           ]">
             <slot name="cancel" :close="() => emit('close')">
-              <VButton tabindex="0" outlined color="warning" :class="[rounded && 'is-rounded']"
-                @keydown.space.prevent="emit('close')" @click="emit('close')">
+              <VButton tabindex="0" outlined color="warning"
+                :class="[rounded && 'is-rounded', 'is-justify-content-center']" @keydown.space.prevent="emit('close')"
+                @click="emit('close')">
                 {{ cancelLabel }}
               </VButton>
-              <!-- <button tabindex="0" class="button" :class="[rounded && 'is-rounded']"
-                @keydown.space.prevent="emit('close')" @click="emit('close')">
-                {{ cancelLabel }}
-              </button> -->
             </slot>
             <slot name="action" :close="() => emit('close')"></slot>
           </div>
@@ -96,7 +93,7 @@ onUnmounted(() => {
   &.is-big {
     .modal-content {
       width: 100%;
-      max-width: 840px;
+      max-width: 70vw;
 
       .modal-card {
         width: 100%;

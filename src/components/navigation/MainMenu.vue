@@ -1,7 +1,17 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router';
+import { useMainStore } from '/@src/stores';
 
 const route = useRoute()
+const mainStore = useMainStore()
+
+function openContractDownloadModal() {
+  mainStore.$patch({ contractDownloadModalState: true })
+  // if (mainStore.confirmState) {
+  //   console.log('User deleted!');
+  //   mainStore.$patch({ confirmState: false })
+  // }
+}
 </script>
 
 <template>
@@ -56,6 +66,33 @@ const route = useRoute()
         <span class="fa-li"><i class="fas fa-database" aria-hidden="true"></i></span>
         {{ $t('Handbook') }}
       </RouterLink>
+    </li>
+    <li>
+      <RouterLink class="is-size-6" :class="{ 'router-link-exact-active': route.path.startsWith('/app/departments') }"
+        :to="{ name: 'app-departments' }">
+        <!-- <i aria-hidden="true" class="lnil lnil-database"></i> -->
+        <span class="fa-li"><i class="fas fa-file" aria-hidden="true"></i></span>
+        {{ $t('Departments') }}
+      </RouterLink>
+    </li>
+    <li>
+      <RouterLink class="is-size-6"
+        :class="{ 'router-link-exact-active': route.path.startsWith('/app/contract_templates') }"
+        :to="{ name: 'app-contract-templates' }">
+        <!-- <i aria-hidden="true" class="lnil lnil-database"></i> -->
+        <span class="fa-li"><i class="fas fa-file" aria-hidden="true"></i></span>
+        {{ $t('Contract_templates') }}
+      </RouterLink>
+    </li>
+    <div class="is-divider" />
+    <li>
+      <!-- <i aria-hidden="true" class="lnil lnil-database"></i> -->
+      <span class="fa-li">
+        <VButton color="primary" outlined class="is-size-6" @click="openContractDownloadModal">
+          <i class="fas fa-download" aria-hidden="true"></i>
+          {{ $t('Download_contract_template') }}
+        </VButton>
+      </span>
     </li>
   </ul>
 </template>

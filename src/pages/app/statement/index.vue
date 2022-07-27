@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import { useHead } from '@vueuse/head'
 
 import type {
   VFlexTableWrapperSortFunction,
@@ -12,7 +13,7 @@ import { useViewWrapper } from '/@src/stores/viewWrapper'
 import CountrySelect from '/@src/components/forms/selects/CountrySelect.vue'
 import { useMainStore } from "/@src/stores";
 import FeedbackModal from '/@src/components/base/modal/FeedbackModal.vue'
-import { useHead } from '@vueuse/head'
+import StatementStatusTag from '/@src/components/base/tags/StatementStatusTag.vue'
 
 const { t } = useI18n()
 
@@ -28,9 +29,6 @@ type User = typeof users[0]
 
 // duplicate user data to grow the array
 const data: User[] = users
-// for (let i = 0; i < 100; i++) {
-//   data.push(...users)
-// }
 const filterForm = ref({})
 
 const isFormModalOpen = ref(false)
@@ -65,10 +63,10 @@ const userFilter: VFlexTableWrapperFilterFunction<User> = ({ searchTerm, row }) 
 }
 
 const columns = {
-  select: {
-    label: '',
-    cellClass: 'is-flex-grow-0',
-  },
+  // select: {
+  //   label: '',
+  //   cellClass: 'is-flex-grow-0',
+  // },
   orderNumber: {
     label: 'Ariza qabul raqami',
     // cellClass: 'is-flex-grow-0',
@@ -130,12 +128,12 @@ function clickOnRow(row: any) {
   }
 }
 
-function onActionTriggered(rowId) {
+function onActionTriggered(rowId: number) {
   router.push('/app/statement/' + rowId)
 }
 
 function gotoConclusionList(statementId: number) {
-  router.push(`/app/statement/${statementId}/conclusions`)
+  router.push(`/app/statement/${statementId}#conclusions`)
 }
 
 function confirmAction() {
@@ -145,7 +143,8 @@ function confirmAction() {
 
 <template>
   <div class="applicant-list-wrapper">
-    <TableActionsBlock center title="" @add="isFormModalOpen = true" @filter="displayFilterForm = !displayFilterForm" />
+    <TableActionsBlock center title="" @add="isFormModalOpen = true" @filter="displayFilterForm = !displayFilterForm"
+      :remove-disabled="true" />
     <div v-show="displayFilterForm" class="mb-5">
       <VCard radius="small">
         <h3 class="title is-5 mb-2">{{ t('Filter_form') }}</h3>
@@ -184,11 +183,11 @@ function confirmAction() {
           </VField>
           <CountrySelect v-model="filterForm.applicantsCountry" class="column" />
         </div>
-        <div class="columns">
-          <div class="column is-1 ml-auto">
-            <VButton outlined color="warning" fullwidth icon="feather:filter">{{ t('Filter') }}</VButton>
-          </div>
-        </div>
+        <VFlex>
+          <VFlexItem class="ml-auto">
+            <VButton outlined color="warning" icon="feather:filter">{{ t('Filter') }}</VButton>
+          </VFlexItem>
+        </VFlex>
       </VCard>
     </div>
 
@@ -214,30 +213,20 @@ function confirmAction() {
         <VFlexTable rounded>
           <!-- header-column slot -->
           <template #header-column="{ column }">
-            <VCheckbox v-if="column.key === 'select'" class="ml-2 mr-3" :checked="isAllSelected" name="all_selected"
-              color="primary" @click="toggleSelection" />
+            <!-- <VCheckbox v-if="column.key === 'select'" class="ml-2 mr-3" :checked="isAllSelected" name="all_selected"
+              color="primary" @click="toggleSelection" /> -->
           </template>
 
           <!-- Custom "name" cell content -->
           <template #body-cell="{ row, column, value, index }">
-            <VCheckbox v-if="column.key === 'select'" v-model="selectedRowsId" :value="row.id" name="selection"
-              @change="clickOnRow" />
+            <!-- <VCheckbox v-if="column.key === 'select'" v-model="selectedRowsId" :value="row.id" name="selection"
+              @change="clickOnRow" /> -->
 
-            <template v-else-if="column.key === 'orderNumber'">
+            <template v-if="column.key === 'orderNumber'">
               {{ '00000' + (row.id + 1) }}
             </template>
             <template v-else-if="column.key === 'status'">
-              <VTag class="is-size-6" rounded :color="
-                value === 'pending'
-                  ? 'warning'
-                  : value === 'rejected'
-                    ? 'danger'
-                    : value === 'completed'
-                      ? 'primary'
-                      : undefined
-              ">
-                {{ t(value) }}
-              </VTag>
+              <StatementStatusTag :status="value" />
             </template>
             <template v-else-if="column.key === 'stage'">
               <VTag class="is-size-6" rounded color="info">

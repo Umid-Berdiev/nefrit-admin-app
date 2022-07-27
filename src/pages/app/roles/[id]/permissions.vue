@@ -18,28 +18,36 @@ const permissionTabs = ref([
   {
     label: t('Users'),
     value: 'users',
-    // icon: 'feather:users'
   },
   {
     label: t('Roles'),
     value: 'roles',
-    // icon: 'feather:user-check'
   },
   {
     label: t('Reports'),
     value: 'reports',
-    // icon: 'feather:file-text'
-  }
+  },
+  {
+    label: t('Applicants'),
+    value: 'applicants',
+  },
+  {
+    label: t('Statements'),
+    value: 'statements',
+  },
 ]);
+
 // here we setup our page meta with our permissions data
 useHead({
   title: computed(() => t('Role_permissions')),
 })
+
+
 </script>
 
 <template>
   <div class="permissions-detail-wrapper">
-    <VTabs selected="users" :tabs="permissionTabs" type="boxed">
+    <VTabs selected="users" :tabs="permissionTabs" type="boxed" class="boxed_tabs">
       <template #tab="{ activeValue }">
         <div v-if="activeValue === 'users'" class="active_tab_content p-5">
           <table class="table is-striped is-fullwidth">
@@ -49,7 +57,7 @@ useHead({
                 <td>
                   <VField>
                     <VControl>
-                      <VSwitchBlock color="primary" checked />
+                      <VSwitchBlock color="primary" :checked="true" />
                     </VControl>
                   </VField>
                 </td>
@@ -59,7 +67,7 @@ useHead({
                 <td>
                   <VField>
                     <VControl>
-                      <VSwitchBlock color="primary" checked />
+                      <VSwitchBlock color="primary" :checked="true" />
                     </VControl>
                   </VField>
                 </td>
@@ -69,7 +77,7 @@ useHead({
                 <td>
                   <VField>
                     <VControl>
-                      <VSwitchBlock color="primary" checked />
+                      <VSwitchBlock color="primary" :checked="true" />
                     </VControl>
                   </VField>
                 </td>
@@ -79,7 +87,7 @@ useHead({
                 <td>
                   <VField>
                     <VControl>
-                      <VSwitchBlock color="primary" checked />
+                      <VSwitchBlock color="primary" :checked="true" />
                     </VControl>
                   </VField>
                 </td>
@@ -89,7 +97,7 @@ useHead({
                 <td>
                   <VField>
                     <VControl>
-                      <VSwitchBlock color="primary" checked />
+                      <VSwitchBlock color="primary" :checked="true" />
                     </VControl>
                   </VField>
                 </td>
@@ -105,7 +113,7 @@ useHead({
                 <td>
                   <VField>
                     <VControl>
-                      <VSwitchBlock color="primary" checked />
+                      <VSwitchBlock color="primary" :checked="true" />
                     </VControl>
                   </VField>
                 </td>
@@ -115,7 +123,7 @@ useHead({
                 <td>
                   <VField>
                     <VControl>
-                      <VSwitchBlock color="primary" checked />
+                      <VSwitchBlock color="primary" :checked="true" />
                     </VControl>
                   </VField>
                 </td>
@@ -125,7 +133,7 @@ useHead({
                 <td>
                   <VField>
                     <VControl>
-                      <VSwitchBlock color="primary" checked />
+                      <VSwitchBlock color="primary" :checked="true" />
                     </VControl>
                   </VField>
                 </td>
@@ -135,7 +143,7 @@ useHead({
                 <td>
                   <VField>
                     <VControl>
-                      <VSwitchBlock color="primary" checked />
+                      <VSwitchBlock color="primary" :checked="true" />
                     </VControl>
                   </VField>
                 </td>
@@ -151,7 +159,7 @@ useHead({
                 <td>
                   <VField>
                     <VControl>
-                      <VSwitchBlock color="primary" checked />
+                      <VSwitchBlock color="primary" :checked="true" />
                     </VControl>
                   </VField>
                 </td>
@@ -161,7 +169,79 @@ useHead({
                 <td>
                   <VField>
                     <VControl>
-                      <VSwitchBlock color="primary" checked />
+                      <VSwitchBlock color="primary" :checked="true" />
+                    </VControl>
+                  </VField>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div v-else-if="activeValue === 'applicants'" class="active_tab_content p-5">
+          <table class="table is-striped is-fullwidth">
+            <tbody>
+              <tr>
+                <td>{{ $t('View_applicant') }}</td>
+                <td>
+                  <VField>
+                    <VControl>
+                      <VSwitchBlock color="primary" :checked="true" />
+                    </VControl>
+                  </VField>
+                </td>
+              </tr>
+              <tr>
+                <td>{{ $t('Edit_applicant') }}</td>
+                <td>
+                  <VField>
+                    <VControl>
+                      <VSwitchBlock color="primary" :checked="true" />
+                    </VControl>
+                  </VField>
+                </td>
+              </tr>
+              <tr>
+                <td>{{ $t('Remove_applicant') }}</td>
+                <td>
+                  <VField>
+                    <VControl>
+                      <VSwitchBlock color="primary" :checked="true" />
+                    </VControl>
+                  </VField>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div v-else-if="activeValue === 'statements'" class="active_tab_content p-5">
+          <table class="table is-striped is-fullwidth">
+            <tbody>
+              <tr>
+                <td>{{ $t('View_statement') }}</td>
+                <td>
+                  <VField>
+                    <VControl>
+                      <VSwitchBlock color="primary" :checked="true" />
+                    </VControl>
+                  </VField>
+                </td>
+              </tr>
+              <tr>
+                <td>{{ $t('Edit_statement') }}</td>
+                <td>
+                  <VField>
+                    <VControl>
+                      <VSwitchBlock color="primary" :checked="true" />
+                    </VControl>
+                  </VField>
+                </td>
+              </tr>
+              <tr>
+                <td>{{ $t('Remove_statement') }}</td>
+                <td>
+                  <VField>
+                    <VControl>
+                      <VSwitchBlock color="primary" :checked="true" />
                     </VControl>
                   </VField>
                 </td>
@@ -187,9 +267,14 @@ useHead({
 
 .active_tab_content {
   background-color: var(--white);
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  border-left: 1px solid var(--border);
 }
 
-.is-dark .active_tab_content {
-  background: var(--dark-sidebar-light-1);
+.is-dark {
+  .active_tab_content {
+    background: var(--dark-sidebar-light-1);
+  }
 }
 </style>
