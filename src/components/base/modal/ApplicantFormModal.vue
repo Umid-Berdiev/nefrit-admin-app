@@ -1,20 +1,71 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, reactive, ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n';
 
 const props = defineProps({
   modelValue: Boolean,
+  item: {
+    type: Number,
+    default: null
+  }
 })
 
-const emit = defineEmits(['update:modelValue'])
+const emits = defineEmits<{
+  (e: 'update:modelValue', modelValue: boolean): void
+  (e: 'update:list'): void
+}>()
+
+const { t } = useI18n()
+const title = ref(t('Add'))
+const names = reactive({
+  uz: '',
+  ru: '',
+  en: ''
+})
+
+watch(
+  () => props.item,
+  async (newVal) => {
+    // const isEmptyObj = Object.values(newVal).every(x => x === null || x === '');
+
+    if (!newVal) {
+      title.value = t('Add')
+      Object.assign(names, {
+        uz: '',
+        ru: '',
+        en: ''
+      })
+    } else {
+      title.value = t('Edit')
+      const res = await fetchById(Number(props.item))
+      Object.assign(names, res.name)
+    }
+  },
+  { deep: true, immediate: true }
+)
+
+async function onSubmit(event: Event) {
+  try {
+    props.item ? await updateById(props.item, { name: names }) : await create({ name: names })
+    emits('update:list')
+    onClose()
+  } catch (error) {
+    throw error
+  }
+}
+
+function onClose() {
+  emits('update:modelValue', false)
+}
 </script>
 
 <template>
-  <VModal :open="modelValue" size="large" :title="$t('edit')" actions="right" @close="emit('update:modelValue', false)">
+  <VModal :open="modelValue" size="large" :title="title" actions="right" @close="onClose">
     <template #content>
       <div class="modal-form">
         <div class="columns is-multiline">
           <div class="column is-12">
-            <VField :label="$t('Boss_name') + '*'">
+            <VField :label="$t('Boss_name')" required>
               <VControl>
                 <VInput type="text" placeholder="Ex: A cool project" />
               </VControl>

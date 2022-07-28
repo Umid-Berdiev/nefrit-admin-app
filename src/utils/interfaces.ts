@@ -1,21 +1,21 @@
 export interface ApplicantData {
+  address?: string
+  block_reason?: Text
+  blocked_at?: Date // block qilingan vaqt
+  boss_name?: string //filterga+ cols +
+  country?: string //filterga +
+  eds?: string //elektron raqamli imzo
+  fax?: string
   id?: number
-  user_id: number //filterga+ cols +
-  boss_name: string //filterga+ cols +
-  website: string
-  address: string
-  certificate: string // yuridik shaxs guvohnomasi
-  inn: string // soliq to'lovchining identifikatsion raqami cols +
-  name: string // Company name
-  phone: string // filterga+ cols +
-  fax: string
-  country: string //filterga +
-  eds: string //elektron raqamli imzo
-  is_national: boolean // mahalliy yoki chet el firmasiligini aniqlash uchun //filterga+ cols +
-  status_id: number //filterga+ cols +
-  verified_at: Date // tasdiqlangan firma ekaninni belgilash uchun (true => tasdiqlangan)
-  blocked_at: Date // block qilingan vaqt
-  block_reason: Text
+  inn?: string // soliq to'lovchining identifikatsion raqami cols +
+  is_national?: boolean // mahalliy yoki chet el firmasiligini aniqlash uchun //filterga+ cols +
+  name?: string // Company name
+  phone?: string // filterga+ cols +
+  status?: Object //filterga+ cols +
+  user?: Object //filterga+ cols +
+  verified_at?: Date // tasdiqlangan firma ekaninni belgilash uchun (true => tasdiqlangan)
+  website?: string
+  certificate?: string // yuridik shaxs guvohnomasi
 }
 
 export interface StatementInterface {

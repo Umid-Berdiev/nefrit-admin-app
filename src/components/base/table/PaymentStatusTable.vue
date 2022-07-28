@@ -117,9 +117,9 @@ async function onReject() {
             <template v-if="column.key === 'invoice'">
               <a href="javascript:;" class="has-text-primary is-pushed-mobile">{{ row.invoice }}</a>
             </template>
-            <template v-if="column.key === 'status'">
+            <!-- <template v-if="column.key === 'status'">
               <StatementStatusTag :status="value" />
-            </template>
+            </template> -->
             <template v-if="column.key === 'actions'">
               <VButtons v-if="row.status !== 'completed'">
                 <VButton class="is-primary is-outlined px-3" @click="onVerify">{{ $t('Verify') }}</VButton>

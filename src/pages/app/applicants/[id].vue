@@ -1,27 +1,21 @@
 <script setup lang="ts">
-import { ref, computed, reactive } from 'vue'
+import { ref, computed, reactive, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useHead } from '@vueuse/head'
 
 // we import our useApi helper
 import { useViewWrapper } from '/@src/stores/viewWrapper'
 import { useI18n } from 'vue-i18n'
-import { users } from '/@src/stores/usersMockData'
 import { useMainStore } from '/@src/stores'
+import { fetchById } from '/@src/utils/api/applicant'
+import { ApplicantData } from '/@src/utils/interfaces'
 
 const mainStore = useMainStore()
 const { t } = useI18n()
-const viewWrapper = useViewWrapper()
-viewWrapper.setPageTitle(t('Applicant_Info'))
-
-// We want to retrieve the post from the API where the id matches the current id
 const route = useRoute()
 const router = useRouter()
 const currentId = (route.params?.id as string) ?? ''
-
 const applicant = ref<ApplicantInterface>()
-const isFormModalOpen = ref(false)
-const data = users
 const tabs = reactive<TabHeader[]>([
   { label: t('Applicant_details'), value: 'details', icon: 'feather:info' },
   {
@@ -32,7 +26,6 @@ const tabs = reactive<TabHeader[]>([
   { label: t('Payments'), value: 'payments', icon: 'fas fa-dollar' },
   { label: t('Chat'), value: 'chat', icon: 'fas fa-comments' },
 ])
-
 const columns = {
   select: {
     label: '',
@@ -60,10 +53,22 @@ const columns = {
 const isAllSelected = ref(false)
 const isFeedbackModalOpen = ref(false)
 const selectedRowsId = ref<number[]>([])
+const viewWrapper = useViewWrapper()
+viewWrapper.setPageTitle(t('Applicant_Info'))
+const data = reactive<ApplicantData>({})
+
+onMounted(async () => {
+  await fetchData()
+})
 
 useHead({
   title: computed(() => applicant.value?.title ?? 'Loading applicant...'),
 })
+
+async function fetchData() {
+  const res = await fetchById(Number(currentId))
+  Object.assign(data, res)
+}
 
 // the select all checkbox click handler
 function toggleSelection() {
@@ -103,7 +108,7 @@ function gotoList(statementId: number) {
     <VTabs selected="details" :tabs="tabs">
       <template #tab="{ activeValue }">
         <div v-if="activeValue === 'details'" class="mt-5">
-          <ApplicantForm />
+          <ApplicantForm :applicant-data="data" />
         </div>
         <div v-else-if="activeValue === 'statements'" class="mt-5">
           <VFlexTable :data="data" :columns="columns" rounded compact>
@@ -140,7 +145,6 @@ function gotoList(statementId: number) {
                 </VTag>
               </template>
               <template v-else-if="column.key === 'actions'">
-                <!-- <ActionButtons @edit="isFormModalOpen = true" /> -->
                 <StatementsFlexTableDropdown @view="onActionTriggered(row.id)" @conclusion="gotoList(row.id)"
                   @remove="confirmAction" @feedback="isFeedbackModalOpen = true" />
               </template>
@@ -159,7 +163,6 @@ function gotoList(statementId: number) {
         </div>
       </template>
     </VTabs>
-    <ApplicantFormModal v-model="isFormModalOpen" />
   </div>
 </template>
 

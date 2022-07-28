@@ -151,7 +151,7 @@ function clickOnRow(row: any) {
 }
 
 function onActionTriggered(rowId: string | number) {
-  router.push('/app/applicant/' + rowId)
+  router.push('/app/applicants/' + rowId)
 }
 
 async function fetchData(page: number = 1) {
@@ -167,10 +167,22 @@ async function fetchData(page: number = 1) {
       <VCard radius="small">
         <h3 class="title is-5 mb-2">{{ t('Filter_form') }}</h3>
         <div class="columns is-desktop">
-          <VField class="column">
+          <!-- <VField class="column">
             <VLabel>{{ t('Applicant_user_name') }}</VLabel>
             <VControl>
               <VInput v-model="filterForm.applicantUser" type="text" placeholder="" />
+            </VControl>
+          </VField> -->
+          <VField class="column">
+            <VLabel>{{ t('Boss_name') }}</VLabel>
+            <VControl>
+              <VInput v-model="filterForm.applicantBossName" type="text" placeholder="" />
+            </VControl>
+          </VField>
+          <VField class="column">
+            <VLabel>{{ t('Applicant_name') }}</VLabel>
+            <VControl>
+              <VInput v-model="filterForm.applicantName" type="text" placeholder="" />
             </VControl>
           </VField>
           <VField class="column">
@@ -179,26 +191,12 @@ async function fetchData(page: number = 1) {
               <VInput v-model="filterForm.applicantStatus" type="text" placeholder="" />
             </VControl>
           </VField>
-          <VField class="column">
-            <VLabel>{{ t('Boss_name') }}</VLabel>
-            <VControl>
-              <VInput v-model="filterForm.applicantBossName" type="text" placeholder="" />
-            </VControl>
-          </VField>
-          <!-- </div>
-              <div class="columns is-desktop"> -->
-          <VField class="column">
-            <VLabel>{{ t('Applicant_name') }}</VLabel>
-            <VControl>
-              <VInput v-model="filterForm.applicantName" type="text" placeholder="" />
-            </VControl>
-          </VField>
-          <VField class="column">
+          <!-- <VField class="column">
             <VLabel>{{ t('Phone') }}</VLabel>
             <VControl>
               <VInput v-model="filterForm.applicantPhone" type="text" placeholder="" />
             </VControl>
-          </VField>
+          </VField> -->
           <CountrySelect v-model="filterForm.applicantsCountry" class="column" />
         </div>
         <VFlex>
@@ -256,6 +254,6 @@ async function fetchData(page: number = 1) {
           :total-items="data.pagination.total" />
       </template>
     </VFlexTableWrapper>
-    <ApplicantFormModal v-model="isFormModalOpen" />
+    <ApplicantFormModal v-model="isFormModalOpen" :item="selectedId" @update:list="fetchData" />
   </div>
 </template>

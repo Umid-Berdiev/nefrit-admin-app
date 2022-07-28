@@ -3,52 +3,35 @@ import { useWindowScroll } from '@vueuse/core'
 import { computed, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import moment from 'moment';
-import { users } from '/@src/stores/usersMockData'
 
-import VSelect from '/@src/components/base/form/VSelect.vue'
-import VCheckbox from '/@src/components/base/form/VCheckbox.vue'
-import VTextarea from '/@src/components/base/form/VTextarea.vue'
-
-const companySize = ref('')
-const businessType = ref('')
-const productToDemo = ref('')
+const { t } = useI18n()
+const props = defineProps({
+  applicantData: {
+    type: Object,
+    default: () => { }
+  }
+})
 const selectedCountry = ref('')
 const isNational = ref(false)
 const date = ref(new Date())
 const blockedAt = ref(new Date())
-const selectedUser = ref({})
-
-const { t } = useI18n()
-const { y } = useWindowScroll()
-
-onMounted(() => {
-  selectedUser.value = users[0]
-})
-
-const isStuck = computed(() => {
-  return y.value > 30
-})
-
-const onSubmit = () => {
-  console.log('Form submitted!')
-}
+// const applicantData = ref({})
 
 function formatDate(value: Date) {
-  return moment(value).format('YYYY-MM-DD');
+  return value && moment(value).format('YYYY-MM-DD');
 }
-
 
 </script>
 
 <template>
   <form class="form-layout is-separate" @submit.prevent="onSubmit">
-    <VBlock title="" center>
+    <!-- <VBlock title="" center>
       <template #action>
         <VButton class="mr-3" outlined color="success" icon="fas fa-user-edit" type="submit">
           {{ $t('Save_changes') }}
         </VButton>
       </template>
-    </VBlock>
+    </VBlock> -->
     <div class="form-outer">
       <div class="form-body">
         <div class="form-section">
@@ -59,7 +42,7 @@ function formatDate(value: Date) {
                 <VField>
                   <VLabel>{{ t('Applicant_user_name') }}</VLabel>
                   <VControl icon="feather:user">
-                    <VInput type="text" :value="selectedUser.name" disabled autocomplete="applicant-name" />
+                    <VInput type="text" :value="applicantData.user?.username" disabled autocomplete="applicant-name" />
                   </VControl>
                 </VField>
               </div>
@@ -67,7 +50,7 @@ function formatDate(value: Date) {
                 <VField>
                   <VLabel>Arizachini telefon raqami</VLabel>
                   <VControl icon="feather:phone">
-                    <VInput type="tel" :value="selectedUser.phone" disabled autocomplete="applicant-name" />
+                    <VInput type="tel" :value="applicantData.phone" disabled autocomplete="applicant-name" />
                   </VControl>
                 </VField>
               </div>
@@ -75,15 +58,16 @@ function formatDate(value: Date) {
                 <VField>
                   <VLabel>{{ t('Boss_name') }}</VLabel>
                   <VControl icon="feather:user">
-                    <VInput type="text" :value="selectedUser.shortname" placeholder="" autocomplete="boss-name" />
+                    <VInput type="text" disabled :value="applicantData.boss_name" placeholder=""
+                      autocomplete="boss-name" />
                   </VControl>
                 </VField>
               </div>
               <div class="column is-12 mb-3">
                 <VField>
-                  <VLabel>Websayt (agar mavjud bo'lsa)</VLabel>
+                  <VLabel>{{ $t('Website') }}</VLabel>
                   <VControl icon="feather:globe">
-                    <VInput type="text" value="nefrit.uz" autocomplete="website-name" />
+                    <VInput type="text" disabled :value="applicantData.website" autocomplete="website-name" />
                   </VControl>
                 </VField>
               </div>
@@ -91,7 +75,8 @@ function formatDate(value: Date) {
                 <VField>
                   <VLabel>{{ t('Email_address') }}</VLabel>
                   <VControl icon="feather:mail">
-                    <VInput type="email" value="info@nefrit.uz" autocomplete="email" inputmode="email" />
+                    <VInput type="email" disabled :value="applicantData.user?.email" autocomplete="email"
+                      inputmode="email" />
                   </VControl>
                 </VField>
               </div>
@@ -106,7 +91,7 @@ function formatDate(value: Date) {
                 <VField>
                   <VLabel>{{ t('Company_name') }} <span class="has-text-danger">*</span></VLabel>
                   <VControl icon="feather:briefcase">
-                    <VInput type="text" :value="selectedUser.company" placeholder="" autocomplete="company_name" />
+                    <VInput disabled :value="applicantData.name" autocomplete="company_name" />
                   </VControl>
                 </VField>
               </div>
@@ -114,7 +99,7 @@ function formatDate(value: Date) {
                 <VField>
                   <VLabel>{{ t('Company_phone') }} <span class="has-text-danger">*</span></VLabel>
                   <VControl icon="feather:phone">
-                    <VInput type="tel" :value="selectedUser.phone" placeholder="" autocomplete="tel" inputmode="tel" />
+                    <VInput type="tel" disabled :value="applicantData.phone" autocomplete="tel" inputmode="tel" />
                   </VControl>
                 </VField>
               </div>
@@ -122,7 +107,7 @@ function formatDate(value: Date) {
                 <VField>
                   <VLabel>{{ t('Company_fax') }} <span class="has-text-danger">*</span></VLabel>
                   <VControl icon="feather:printer">
-                    <VInput type="tel" :value="selectedUser.phone" placeholder="" autocomplete="tel" inputmode="tel" />
+                    <VInput disabled :value="applicantData.phone" autocomplete="tel" inputmode="tel" />
                   </VControl>
                 </VField>
               </div>
@@ -130,7 +115,8 @@ function formatDate(value: Date) {
                 <VField>
                   <VLabel>{{ t('Country') }}</VLabel>
                   <VControl class="has-icons-left" icon="fas fa-globe">
-                    <VSelect v-model="selectedCountry">
+                    <VInput disabled :value="applicantData.country" />
+                    <!-- <VSelect v-model="selectedCountry">
                       <VOption value="" disabled>Select a Hero</VOption>
                       <VOption value="Superman">Superman</VOption>
                       <VOption value="Batman">Batman</VOption>
@@ -138,7 +124,7 @@ function formatDate(value: Date) {
                       <VOption value="Deadpool">Deadpool</VOption>
                       <VOption value="Spawn">Spawn</VOption>
                       <VOption value="Galactus">Galactus</VOption>
-                    </VSelect>
+                    </VSelect> -->
                   </VControl>
                 </VField>
               </div>
@@ -146,7 +132,7 @@ function formatDate(value: Date) {
                 <VField>
                   <VLabel>{{ t('stir') }}</VLabel>
                   <VControl icon="fas fa-hashtag">
-                    <VInput type="text" :placeholder="t('STIR')" autocomplete="stir" />
+                    <VInput disabled :value="applicantData.inn" />
                   </VControl>
                 </VField>
               </div>
@@ -154,16 +140,15 @@ function formatDate(value: Date) {
                 <VField>
                   <VLabel>{{ t('Address') }}</VLabel>
                   <VControl>
-                    <VTextarea class="textarea" rows="2" autocomplete="off" autocapitalize="off" spellcheck="true" />
+                    <VTextarea disabled :value="applicantData.address" :rows="2" />
                   </VControl>
                 </VField>
               </div>
               <div class="column is-12">
-                <VField>
-                  <VControl>
-                    <VCheckbox v-model="isNational" :label="t('isNational')" />
-                  </VControl>
-                </VField>
+                <input disabled id="checkbox1" type="checkbox" :checked="applicantData.is_national" />
+                <label disabled for="checkbox1" class="checkbox">
+                  {{ $t('isNational') }}
+                </label>
               </div>
             </div>
           </div>
@@ -176,7 +161,7 @@ function formatDate(value: Date) {
                 <VField>
                   <VLabel>{{ t('Status') }}</VLabel>
                   <VControl class="has-icons-left" icon="feather:layers">
-                    <VSelect v-model="selectedCountry">
+                    <!-- <VSelect v-model="selectedCountry">
                       <VOption value="" disabled>{{ t('Select') }} ...</VOption>
                       <VOption value="Superman">Superman</VOption>
                       <VOption value="Batman">Batman</VOption>
@@ -184,7 +169,8 @@ function formatDate(value: Date) {
                       <VOption value="Deadpool">Deadpool</VOption>
                       <VOption value="Spawn">Spawn</VOption>
                       <VOption value="Galactus">Galactus</VOption>
-                    </VSelect>
+                    </VSelect> -->
+                    <VInput disabled :value="applicantData.status?.name" />
                   </VControl>
                 </VField>
               </div>
@@ -192,8 +178,7 @@ function formatDate(value: Date) {
                 <VField>
                   <VLabel>{{ t('verified_at') }}</VLabel>
                   <VControl>
-                    <VInput disabled value="2022-06-23" type="date" :value="formatDate(date)"
-                      class="input form-datepicker" />
+                    <VInput disabled :value="formatDate(applicantData.verified_at)" class="input form-datepicker" />
                   </VControl>
                 </VField>
               </div>
@@ -201,8 +186,7 @@ function formatDate(value: Date) {
                 <VField>
                   <VLabel>{{ t('blocked_at') }}</VLabel>
                   <VControl>
-                    <VInput disabled value="2022-06-27" type="date" :value="formatDate(blockedAt)"
-                      class="input form-datepicker" />
+                    <VInput disabled :value="formatDate(applicantData.blocked_at)" class="input form-datepicker" />
                   </VControl>
                 </VField>
               </div>
@@ -210,8 +194,7 @@ function formatDate(value: Date) {
                 <VField>
                   <VLabel>{{ t('block_reason') }}</VLabel>
                   <VControl>
-                    <VTextarea disabled class="textarea" rows="2" autocomplete="off" autocapitalize="off"
-                      spellcheck="true" />
+                    <VTextarea disabled class="textarea" :rows="2" :value="applicantData.block_reason" />
                   </VControl>
                 </VField>
               </div>
