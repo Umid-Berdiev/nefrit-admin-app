@@ -26,7 +26,7 @@ const data = reactive({
   pagination: {
     current_page: 1,
     per_page: 10,
-    total: 100,
+    total: 10,
   },
   result: []
 })
@@ -34,7 +34,7 @@ const isFormModalOpen = ref(false)
 const selectedRowIds = ref<number[]>([])
 const isAllSelected = computed(() => data.result.length === selectedRowIds.value.length)
 const router = useRouter()
-const selectedId = ref()
+const selectedId = ref<number | null>(null)
 
 // this is a sample for custom sort function
 const locationSorter: VFlexTableWrapperSortFunction<User> = ({ order, a, b }) => {
@@ -180,7 +180,8 @@ async function fetchData() {
               @change="clickOnRow" />
 
             <template v-if="column.key === 'actions'">
-              <RolesFlexTableDropdown @edit="onEdit(row)" @remove="onRemove" @permissions="gotoPermissions(row.id)" />
+              <RolesFlexTableDropdown @edit="onEdit(row.id)" @remove="onRemove"
+                @permissions="gotoPermissions(row.id)" />
             </template>
           </template>
         </VFlexTable>

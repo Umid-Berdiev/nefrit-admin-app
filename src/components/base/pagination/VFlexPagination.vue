@@ -61,27 +61,31 @@ const pages = computed(() => {
 
 const showLastLink = computed(() => lastPage.value > 1)
 
-const paginatedLink = (page = 1) => {
-  if (props.noRouter) {
-    return {}
-  }
+// const paginatedLink = (page = 1) => {
+//   console.log('paginatedLink: ', page);
 
-  const _page = Math.max(1, Math.min(page, lastPage.value))
-  const query: any = {
-    ...route.query,
-  }
+//   if (props.noRouter) {
+//     return {}
+//   }
 
-  if (props.routerQueryKey) {
-    query[props.routerQueryKey] = _page <= 1 ? undefined : _page
-  }
+//   const _page = Math.max(1, Math.min(page, lastPage.value))
+//   const query: any = {
+//     ...route.query,
+//   }
 
-  return {
-    name: route.name,
-    params: route.params,
-    query,
-  } as RouteLocationOptions
-}
-const handleLinkClick = (e: MouseEvent, page = 1) => {
+//   if (props.routerQueryKey) {
+//     query[props.routerQueryKey] = _page <= 1 ? undefined : _page
+//   }
+
+//   return {
+//     name: route.name,
+//     params: route.params,
+//     query,
+//   } as RouteLocationOptions
+// }
+
+const handleLinkClick = (e: Event, page = 1) => {
+  console.log('handleLinkClick: ', page);
   const _page = Math.max(1, Math.min(page, lastPage.value))
   emits('update:currentPage', _page)
 
@@ -115,11 +119,10 @@ zh-CN:
     <ul class="pagination-list">
       <slot name="before-pagination"></slot>
       <li>
-        <RouterLink :to="paginatedLink(1)" tabindex="0" class="pagination-link"
-          :aria-label="t('goto-page-title', { page: 1 })" :class="[currentPage === 1 && 'is-current']"
-          @keydown.space.prevent="(e) => (e.target as HTMLAnchorElement).click()" @click="(e) => handleLinkClick(e, 1)">
+        <VButton tabindex="0" class="pagination-link" :aria-label="t('goto-page-title', { page: 1 })"
+          :class="[currentPage === 1 && 'is-current']" @click="(e: Event) => handleLinkClick(e)">
           1
-        </RouterLink>
+        </VButton>
       </li>
 
       <li v-if="showLastLink && (pages.length === 0 || pages[0] > 2)">
@@ -127,13 +130,11 @@ zh-CN:
       </li>
 
       <li v-for="page in pages" :key="page">
-        <RouterLink :to="paginatedLink(page)" tabindex="0" class="pagination-link"
-          :aria-label="t('goto-page-title', { page: page })" :aria-current="currentPage === page ? 'page' : undefined"
-          :class="[currentPage === page && 'is-current']"
-          @keydown.space.prevent="(e) => (e.target as HTMLAnchorElement).click()"
-          @click="(e) => handleLinkClick(e, page)">
+        <VButton tabindex="0" class="pagination-link" :aria-label="t('goto-page-title', { page: page })"
+          :aria-current="currentPage === page ? 'page' : undefined" :class="[currentPage === page && 'is-current']"
+          @click="(e: Event) => handleLinkClick(e, page)">
           {{ page }}
-        </RouterLink>
+        </VButton>
       </li>
 
       <li v-if="showLastLink && pages[pages.length - 1] < lastPage - 1">
@@ -141,27 +142,22 @@ zh-CN:
       </li>
 
       <li v-if="showLastLink">
-        <RouterLink :to="paginatedLink(lastPage)" tabindex="0" class="pagination-link"
-          :aria-label="t('goto-page-title', { page: lastPage })" :class="[currentPage === lastPage && 'is-current']"
-          @keydown.space.prevent="(e) => (e.target as HTMLAnchorElement).click()"
-          @click="(e) => handleLinkClick(e, lastPage)">
+        <VButton tabindex="0" class="pagination-link" :aria-label="t('goto-page-title', { page: lastPage })"
+          :class="[currentPage === lastPage && 'is-current']" @click="(e: Event) => handleLinkClick(e, lastPage)">
           {{ lastPage }}
-        </RouterLink>
+        </VButton>
       </li>
       <slot name="after-pagination"></slot>
     </ul>
 
     <slot name="before-navigation"></slot>
-    <RouterLink :to="paginatedLink(currentPage - 1)" tabindex="0" class="pagination-previous has-chevron"
-      @keydown.space.prevent="(e) => (e.target as HTMLAnchorElement).click()"
-      @click="(e) => handleLinkClick(e, currentPage - 1)">
+    <VButton tabindex="0" class="pagination-previous has-chevron"
+      @click="(e: Event) => handleLinkClick(e, currentPage - 1)">
       <i aria-hidden="true" class="iconify" data-icon="feather:chevron-left"></i>
-    </RouterLink>
-    <RouterLink :to="paginatedLink(currentPage + 1)" tabindex="0" class="pagination-next has-chevron"
-      @keydown.space.prevent="(e) => (e.target as HTMLAnchorElement).click()"
-      @click="(e) => handleLinkClick(e, currentPage + 1)">
+    </VButton>
+    <VButton tabindex="0" class="pagination-next has-chevron" @click="(e: Event) => handleLinkClick(e, currentPage + 1)">
       <i aria-hidden="true" class="iconify" data-icon="feather:chevron-right"></i>
-    </RouterLink>
+    </VButton>
     <slot name="after-navigation"></slot>
   </VFlex>
 </template>

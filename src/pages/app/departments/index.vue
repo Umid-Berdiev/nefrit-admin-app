@@ -2,6 +2,7 @@
 import { ref, computed, onMounted, h, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import { useHead } from '@vueuse/head'
 
 import type {
   VFlexTableWrapperSortFunction,
@@ -9,7 +10,6 @@ import type {
 } from '/@src/components/base/table/VFlexTableWrapper.vue'
 import { useViewWrapper } from '/@src/stores/viewWrapper'
 import { useMainStore } from '/@src/stores'
-import { useHead } from '@vueuse/head'
 import { fetchList, removeById } from '/@src/utils/api/department';
 
 const { t, locale } = useI18n()
@@ -26,16 +26,22 @@ const data = reactive({
   pagination: {
     current_page: 1,
     per_page: 10,
-    total: 100,
+    total: 10,
   },
   result: []
 })
 const isFormModalOpen = ref(false)
 const selectedRowIds = ref<number[]>([])
 const isAllSelected = computed(() => data.result.length === selectedRowIds.value.length)
-const router = useRouter()
 const selectedId = ref()
-
+const currentPage = computed({
+  get: () => {
+    return data.pagination.current_page
+  },
+  set: async (page) => {
+    await fetchData(page)
+  }
+})
 // this is a sample for custom sort function
 const locationSorter: VFlexTableWrapperSortFunction<User> = ({ order, a, b }) => {
   if (order === 'asc') {
@@ -128,8 +134,8 @@ async function handleRemoveAction() {
   fetchData()
 }
 
-async function fetchData() {
-  const res = await fetchList(locale.value)
+async function fetchData(page: number = 1) {
+  const res = await fetchList(page, locale.value)
   Object.assign(data, res)
 }
 </script>
@@ -175,8 +181,8 @@ async function fetchData() {
         </VFlexTable>
 
         <!-- Table Pagination with wrapperState.page binded-->
-        <VFlexPagination v-model:current-page="data.pagination.current_page" class="mt-6"
-          :item-per-page="data.pagination.per_page" :total-items="data.pagination.total" />
+        <VFlexPagination v-model:current-page="currentPage" class="mt-6" :item-per-page="data.pagination.per_page"
+          :total-items="data.pagination.total" />
       </template>
     </VFlexTableWrapper>
     <DepartmentFormModal v-model="isFormModalOpen" :item="selectedId" @update:list="fetchData" />

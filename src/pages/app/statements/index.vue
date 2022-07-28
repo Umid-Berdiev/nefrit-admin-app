@@ -3,20 +3,15 @@ import { ref, computed, onMounted, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useHead } from '@vueuse/head'
+import moment from 'moment'
 
 import type {
   VFlexTableWrapperSortFunction,
   VFlexTableWrapperFilterFunction,
 } from '/@src/components/base/table/VFlexTableWrapper.vue'
 import { useViewWrapper } from '/@src/stores/viewWrapper'
-import CountrySelect from '/@src/components/forms/selects/CountrySelect.vue'
 import { useMainStore } from "/@src/stores";
-import FeedbackModal from '/@src/components/base/modal/FeedbackModal.vue'
-import StatementStatusTag from '/@src/components/base/tags/StatementStatusTag.vue'
 import { fetchList } from '/@src/utils/api/statement'
-import { StatementData } from '/@src/utils/interfaces'
-import moment from 'moment'
-import { number } from 'zod'
 
 const { t, locale } = useI18n()
 
@@ -44,6 +39,14 @@ const displayFilterForm = ref(false)
 const selectedRowsId = ref<number[]>([])
 const isAllSelected = computed(() => data.length === selectedRowsId.value.length)
 const router = useRouter()
+const currentPage = computed({
+  get: () => {
+    return data.pagination.current_page
+  },
+  set: async (page) => {
+    await fetchData(page)
+  }
+})
 
 // this is a sample for custom sort function
 const locationSorter: VFlexTableWrapperSortFunction<User> = ({ order, a, b }) => {
@@ -105,8 +108,7 @@ const columns = {
 } as const
 
 onMounted(async () => {
-  const res = await fetchList(locale.value)
-  Object.assign(data, res)
+  await fetchData()
 })
 
 // the select all checkbox click handler
@@ -143,6 +145,11 @@ function confirmAction() {
 
 function formatDate(date: string) {
   moment(date).format('YYYY-MM-DD')
+}
+
+async function fetchData(page: number = 1) {
+  const res = await fetchList(page, locale.value)
+  Object.assign(data, res)
 }
 </script>
 
@@ -251,7 +258,7 @@ function formatDate(date: string) {
         </div>
 
         <!-- Table Pagination with wrapperState.page binded-->
-        <VFlexPagination class="mt-6" v-model:current-page="wrapperState.page" :item-per-page="data.pagination.per_page"
+        <VFlexPagination class="mt-6" v-model:current-page="currentPage" :item-per-page="data.pagination.per_page"
           :total-items="data.pagination.total" />
       </template>
     </VFlexTableWrapper>

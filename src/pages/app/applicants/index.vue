@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, h } from 'vue'
+import { ref, computed, onMounted, h, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useHead } from '@vueuse/head'
@@ -8,21 +8,28 @@ import type {
   VFlexTableWrapperSortFunction,
   VFlexTableWrapperFilterFunction,
 } from '/@src/components/base/table/VFlexTableWrapper.vue'
-import { users } from '/@src/stores/usersMockData'
 import { useViewWrapper } from '/@src/stores/viewWrapper'
+import { useMainStore } from '/@src/stores'
+import { fetchList } from '/@src/utils/api/applicant';
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 
 useHead({
   title: t('Applicants') + ' - Nefrit',
 })
 
+const mainStore = useMainStore()
 const viewWrapper = useViewWrapper()
 viewWrapper.setPageTitle(t('Applicants_List'))
 
-type User = typeof users[0]
-
-const data: User[] = users
+const data = reactive({
+  pagination: {
+    current_page: 1,
+    per_page: 10,
+    total: 10,
+  },
+  result: []
+})
 const filterForm = ref<UserFilterForm>({
   applicantUser: 'Abdullaev Baxrom',
 })
@@ -30,8 +37,17 @@ const filterForm = ref<UserFilterForm>({
 const isFormModalOpen = ref(false)
 const displayFilterForm = ref(false)
 const selectedRowsId = ref<number[]>([])
-const isAllSelected = computed(() => data.length === selectedRowsId.value.length)
+const isAllSelected = computed(() => data.result.length === selectedRowsId.value.length)
 const router = useRouter()
+const selectedId = ref()
+const currentPage = computed({
+  get: () => {
+    return data.pagination.current_page
+  },
+  set: async (page) => {
+    await fetchData(page)
+  }
+})
 
 // this is a sample for custom sort function
 const locationSorter: VFlexTableWrapperSortFunction<User> = ({ order, a, b }) => {
@@ -68,14 +84,14 @@ const columns = {
     cellClass: 'is-flex-grow-0',
   },
   name: {
-    label: t('Applicant_user_name'),
+    label: t('Applicant_name'),
     // media: true,
     // grow: true,
     searchable: true,
     sortable: true,
     filter: userFilter,
   },
-  shortname: {
+  boss_name: {
     label: t('Boss_name'),
     // media: true,
     // grow: true,
@@ -83,14 +99,14 @@ const columns = {
     sortable: true,
     filter: userFilter,
   },
-  company: {
-    label: t('Company_name'),
-    // media: true,
-    // grow: true,
-    searchable: true,
-    sortable: true,
-    filter: userFilter,
-  },
+  // company: {
+  //   label: t('Company_name'),
+  //   // media: true,
+  //   // grow: true,
+  //   searchable: true,
+  //   sortable: true,
+  //   filter: userFilter,
+  // },
   phone: {
     label: t('Phone_number'),
     sortable: true,
@@ -103,12 +119,16 @@ const columns = {
     searchable: true,
     sort: locationSorter,
   },
-  location: t('Location'),
+  country: t('Location'),
   actions: {
     label: t('Actions'),
     align: 'center',
   },
 } as const
+
+onMounted(async () => {
+  await fetchData()
+})
 
 // the select all checkbox click handler
 function toggleSelection() {
@@ -117,7 +137,7 @@ function toggleSelection() {
   if (isAllSelected.value) {
     selectedRowsId.value = []
   } else {
-    selectedRowsId.value = data.map((row: any) => row.id)
+    selectedRowsId.value = data.result.map((row: any) => row.id)
   }
 }
 
@@ -132,6 +152,11 @@ function clickOnRow(row: any) {
 
 function onActionTriggered(rowId: string | number) {
   router.push('/app/applicant/' + rowId)
+}
+
+async function fetchData(page: number = 1) {
+  const res = await fetchList(page, locale.value)
+  Object.assign(data, res)
 }
 </script>
 
@@ -185,7 +210,8 @@ function onActionTriggered(rowId: string | number) {
     </div>
 
     <!-- table -->
-    <VFlexTableWrapper :columns="columns" :data="data">
+    <VFlexTableWrapper :columns="columns" :data="data.result" :limit="data.pagination.per_page"
+      :total="data.pagination.total">
       <!--
         Here we retrieve the internal wrapperState.
         Note that we can not destructure it
@@ -216,7 +242,7 @@ function onActionTriggered(rowId: string | number) {
             <VCheckbox v-if="column.key === 'select'" v-model="selectedRowsId" :value="row.id" name="selection"
               @change="clickOnRow" />
 
-            <template v-else-if="column.key === 'status'">
+            <template v-else-if="column.key === 'status' && value">
               <StatementStatusTag :status="value" />
             </template>
             <template v-if="column.key === 'actions'">
@@ -226,8 +252,8 @@ function onActionTriggered(rowId: string | number) {
         </VFlexTable>
 
         <!-- Table Pagination with wrapperState.page binded-->
-        <VFlexPagination v-model:current-page="wrapperState.page" class="mt-6" :item-per-page="wrapperState.limit"
-          :total-items="wrapperState.total" :max-links-displayed="5" no-router />
+        <VFlexPagination v-model:current-page="currentPage" class="mt-6" :item-per-page="data.pagination.per_page"
+          :total-items="data.pagination.total" />
       </template>
     </VFlexTableWrapper>
     <ApplicantFormModal v-model="isFormModalOpen" />

@@ -31,7 +31,7 @@ function openContractDownloadModal() {
     </li>
     <li>
       <RouterLink class="is-size-6" :class="{ 'router-link-exact-active': route.path.startsWith('/app/statement') }"
-        :to="{ name: 'app-statement' }">
+        :to="{ name: 'app-statements' }">
         <span class="fa-li"><i class="fas fa-file-alt" aria-hidden="true"></i></span>
         {{ $t('Statements') }}
       </RouterLink>

@@ -2,10 +2,10 @@ import { useApi } from '/@src/composable/useApi'
 
 const api = useApi()
 
-export async function fetchList(locale: string) {
+export async function fetchList(page: number, locale: string) {
   try {
     const { data } = await api({
-      url: `/api/admin/role`,
+      url: `/api/admin/role?page=${page}`,
       headers: {
         Language: locale,
       },
@@ -53,7 +53,7 @@ export async function updateById(id: number, payload: Object) {
   }
 }
 
-export async function removeById(id: number) {
+export async function removeById(id: number | null) {
   try {
     const { data } = await api({
       url: `/api/admin/role/${id}`,
