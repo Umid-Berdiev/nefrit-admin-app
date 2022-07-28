@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, h } from 'vue'
+import { ref, computed, onMounted, h, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 
@@ -7,13 +7,12 @@ import type {
   VFlexTableWrapperSortFunction,
   VFlexTableWrapperFilterFunction,
 } from '/@src/components/base/table/VFlexTableWrapper.vue'
-import { users } from '/@src/stores/usersMockData'
 import { useViewWrapper } from '/@src/stores/viewWrapper'
-import TableActionsBlock from '/@src/components/base/block/TableActionsBlock.vue'
 import { useMainStore } from '/@src/stores'
 import { useHead } from '@vueuse/head'
+import { fetchList, removeById } from '/@src/utils/api/role';
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 
 useHead({
   title: t('Roles') + ' - Nefrit',
@@ -23,20 +22,19 @@ const mainStore = useMainStore()
 const viewWrapper = useViewWrapper()
 viewWrapper.setPageTitle(t('Roles_List'))
 
-type User = typeof users[0]
-
-// duplicate user data to grow the array
-const data: User[] = users
-// for (let i = 0; i < 100; i++) {
-//   data.push(...users)
-// }
-const filterForm = ref({})
-
+const data = reactive({
+  pagination: {
+    current_page: 1,
+    per_page: 10,
+    total: 100,
+  },
+  result: []
+})
 const isFormModalOpen = ref(false)
 const selectedRowIds = ref<number[]>([])
-const isAllSelected = computed(() => data.length === selectedRowIds.value.length)
+const isAllSelected = computed(() => data.result.length === selectedRowIds.value.length)
 const router = useRouter()
-const selectedRole = ref()
+const selectedId = ref()
 
 // this is a sample for custom sort function
 const locationSorter: VFlexTableWrapperSortFunction<User> = ({ order, a, b }) => {
@@ -92,6 +90,10 @@ const columns = {
   },
 } as const
 
+onMounted(async () => {
+  await fetchData()
+})
+
 // the select all checkbox click handler
 function toggleSelection() {
   // console.log('data:', data)
@@ -112,13 +114,9 @@ function clickOnRow(row: any) {
   }
 }
 
-function onActionTriggered(rowId: number) {
-  router.push('/app/applicant/' + rowId)
-}
-
-function onEdit(rowId: Object) {
+function onEdit(rowId: number | null) {
   isFormModalOpen.value = true
-  selectedRole.value = rowId
+  selectedId.value = rowId
 }
 
 function confirmAction() {
@@ -127,25 +125,33 @@ function confirmAction() {
   else alert(t('No_row_selected'))
 }
 
-async function onRemove() {
+async function onRemove(id: number) {
+  selectedId.value = id
   mainStore.$patch({ confirmModalState: true })
-  if (mainStore.confirmState) {
-    console.log('User deleted!');
-    mainStore.$patch({ confirmState: false })
-  }
 }
 
 function gotoPermissions(id: number) {
   router.push(`/app/roles/${id}/permissions`)
 }
+
+async function handleRemoveAction() {
+  await removeById(selectedId.value)
+  fetchData()
+}
+
+async function fetchData() {
+  const res = await fetchList(locale.value)
+  Object.assign(data, res)
+}
 </script>
 
 <template>
   <div class="applicant-list-wrapper">
-    <TableActionsBlock center title="" @add="onEdit({})" :filter-disabled="true" @remove="confirmAction" />
+    <TableActionsBlock center title="" @add="onEdit(null)" :filter-disabled="true" @remove="confirmAction" />
 
     <!-- table -->
-    <VFlexTableWrapper :columns="columns" :data="data">
+    <VFlexTableWrapper :columns="columns" :data="data.result" :limit="data.pagination.per_page"
+      :total="data.pagination.total">
       <!--
         Here we retrieve the internal wrapperState.
         Note that we can not destructure it
@@ -180,10 +186,11 @@ function gotoPermissions(id: number) {
         </VFlexTable>
 
         <!-- Table Pagination with wrapperState.page binded-->
-        <VFlexPagination v-model:current-page="wrapperState.page" class="mt-6" :item-per-page="wrapperState.limit"
-          :total-items="wrapperState.total" :max-links-displayed="5" no-router />
+        <VFlexPagination v-model:current-page="data.pagination.current_page" class="mt-6"
+          :item-per-page="data.pagination.per_page" :total-items="data.pagination.total" />
       </template>
     </VFlexTableWrapper>
-    <RoleFormModal v-model="isFormModalOpen" :item="selectedRole" />
+    <RoleFormModal v-model="isFormModalOpen" :item="selectedId" @update:list="fetchData" />
+    <ConfirmActionModal @confirm-action="handleRemoveAction" />
   </div>
 </template>

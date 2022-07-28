@@ -35,9 +35,8 @@ export default definePlugin(({ router, api, pinia }) => {
       try {
         // Do api request call to retreive user profile.
         // Note that the api is provided with json-server
-        const { data: user } = await api.get('/api/users/me')
-        userSession.setUser(user)
-        notyf.success(`Welcome back, ${user.name}`)
+        userSession.fetchProfile()
+        // notyf.success(`Welcome back, ${data.data.username?.toUpperCase()}`)
       } catch (err) {
         // delete stored token if it fails
         userSession.logoutUser()
@@ -57,8 +56,8 @@ export default definePlugin(({ router, api, pinia }) => {
       // 2. If the requires auth via requiresAuth meta, check if user is logged in
       // if not, redirect to login page.
       notyf.error({
-        message: 'Sorry, you should loggin to access this section (anything will work)',
-        duration: 7000,
+        message: 'Sorry, you should loggin to access this section',
+        duration: 5000,
       })
 
       return {

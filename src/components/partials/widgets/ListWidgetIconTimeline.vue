@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { onceImageErrored } from '/@src/utils/via-placeholder'
-import VIcon from '../../base/icon/VIcon.vue';
+import moment from 'moment';
 
 const props = withDefaults(
   defineProps<{
@@ -12,6 +11,10 @@ const props = withDefaults(
     items: () => [],
   }
 )
+
+function formatDate(date: string) {
+  return date ? moment(date).format('YYYY-MM-DD') : ''
+}
 </script>
 
 <template>
@@ -23,8 +26,8 @@ const props = withDefaults(
       <div class="timeline-marker is-primary" :class="[index === items.length - 1 && 'is-danger is-icon']">
       </div>
       <div class="timeline-content">
-        <span>{{ item.time }}</span>
-        <p class="heading">{{ item.title }}</p>
+        <span>{{ formatDate(item.date) }}</span>
+        <p class="heading">{{ item.stage?.name }}</p>
       </div>
     </div>
     <header class="timeline-header">

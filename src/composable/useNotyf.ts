@@ -6,10 +6,10 @@ import { useThemeColors } from '/@src/composable/useThemeColors'
 export const useNotyf = createSharedComposable(() => {
   const themeColors = useThemeColors()
   const notyf = new Notyf({
-    duration: 2000,
+    duration: 3000,
     position: {
       x: 'right',
-      y: 'bottom',
+      y: 'top',
     },
     types: [
       {

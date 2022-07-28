@@ -1,20 +1,21 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import { useStorage } from '@vueuse/core'
-
-export type UserData = Record<string, any> | null
+import { useApi } from '../composable/useApi'
+import { UserData } from '../utils/interfaces'
 
 export const useUserSession = defineStore('userSession', () => {
   // token will be synced with local storage
   // @see https://vueuse.org/core/usestorage/
+  const api = useApi()
   const token = useStorage('token', '')
 
-  const user = ref<Partial<UserData>>()
+  const user = ref<UserData>()
   const loading = ref(true)
 
   const isLoggedIn = computed(() => token.value !== undefined && token.value !== '')
 
-  function setUser(newUser: Partial<UserData>) {
+  function setUser(newUser: UserData) {
     user.value = newUser
   }
 
@@ -26,9 +27,46 @@ export const useUserSession = defineStore('userSession', () => {
     loading.value = newLoading
   }
 
+  async function loginUser(payload: any) {
+    try {
+      const { data } = await api({
+        url: `/api/login`,
+        method: 'post',
+        headers: {
+          Language: 'uz',
+        },
+        data: payload,
+      })
+
+      setUser(data.user)
+      setToken(data.token)
+    } catch (error) {
+      throw error
+    }
+  }
+
   async function logoutUser() {
-    token.value = undefined
-    user.value = undefined
+    try {
+      await api({
+        url: '/api/logout',
+        method: 'post',
+      })
+      token.value = undefined
+      user.value = undefined
+    } catch (error) {
+      throw error
+    }
+  }
+
+  async function fetchProfile() {
+    try {
+      const { data } = await api({
+        url: '/api/admin/profile',
+      })
+      setUser(data.data)
+    } catch (error) {
+      throw error
+    }
   }
 
   return {
@@ -36,7 +74,9 @@ export const useUserSession = defineStore('userSession', () => {
     token,
     isLoggedIn,
     loading,
+    loginUser,
     logoutUser,
+    fetchProfile,
     setUser,
     setToken,
     setLoading,

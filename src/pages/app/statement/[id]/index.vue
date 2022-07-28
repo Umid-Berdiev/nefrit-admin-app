@@ -1,40 +1,20 @@
 <script setup lang="ts">
-import { ref, computed, reactive } from 'vue'
+import { ref, computed, reactive, onMounted } from 'vue'
 import { useHead } from '@vueuse/head'
 
 // we import our useApi helper
 import { useViewWrapper } from '/@src/stores/viewWrapper'
 import { useI18n } from 'vue-i18n'
-import { timeline } from '/@src/stores/timeline'
 import { useRoute } from 'vue-router'
+import { fetchChronologies } from '/@src/utils/api/statement'
 
 const { t } = useI18n()
 const route = useRoute()
+const currentId = (route.params?.id as string) ?? null
 const selectedTab = ref(route.hash.slice(1) || 'details')
-console.log('selectedTab: ', selectedTab.value);
-
 const viewWrapper = useViewWrapper()
 viewWrapper.setPageTitle(t('Statement_details'))
-
 const statement = ref<StatementInterface>()
-const isFormModalOpen = ref(false)
-const data = [
-  {
-    id: 1,
-    statement_date: '2022-06-23',
-    statement_status: 'In process',
-    in_stage: '2-stage',
-    company: 'Grubspot',
-  },
-  {
-    id: 2,
-    statement_date: '2022-06-23',
-    statement_status: 'In process',
-    in_stage: '2-stage',
-    company: 'Ferrario',
-  },
-  // and more data ...
-]
 const tabs = reactive([
   { label: t('Statement_details'), value: 'details', icon: 'lnil lnil-tap' },
   { label: t('Payment'), value: 'payment', icon: 'fas fa-tree' },
@@ -46,17 +26,12 @@ const tabs = reactive([
   { label: t('ITK'), value: 'itk', icon: 'feather:activity' },
   { label: t('Chat'), value: 'chat', icon: 'fas fa-comments' },
 ]);
-const columns = {
-  id: 'Id',
-  statement_date: 'Statement_date',
-  statement_status: 'Statement_status',
-  in_stage: 'In_stage',
-  company: 'Company',
-  actions: {
-    label: 'Actions',
-    align: 'center'
-  },
-}
+const chronologyData = ref([])
+
+onMounted(async () => {
+  const res = await fetchChronologies(Number(currentId))
+  chronologyData.value = res
+})
 
 // here we setup our page meta with our statement data
 useHead({
@@ -75,7 +50,7 @@ useHead({
           </div>
           <div class="column is-6">
             <ListWidgetSingle :title="$t('Chronology')" straight class="list-widget-v3">
-              <ListWidgetIconTimeline :items="timeline" />
+              <ListWidgetIconTimeline :items="chronologyData" />
             </ListWidgetSingle>
           </div>
         </div>

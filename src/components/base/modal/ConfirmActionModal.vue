@@ -2,8 +2,11 @@
 import { computed } from "vue";
 import { useMainStore } from "/@src/stores";
 
-const mainStore = useMainStore()
+const emits = defineEmits<{
+  (e: 'confirmAction'): void
+}>()
 
+const mainStore = useMainStore()
 const state = computed(() => mainStore.confirmModalState)
 const color = computed(() => mainStore.confirmModalOkButtonColor)
 
@@ -15,6 +18,7 @@ async function onClose() {
 async function onConfirm() {
   mainStore.$patch({ confirmState: true })
   await onClose()
+  emits('confirmAction')
 }
 </script>
 

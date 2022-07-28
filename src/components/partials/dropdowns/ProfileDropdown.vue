@@ -1,11 +1,23 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { useRouter } from 'vue-router';
+import { logout } from '/@src/api';
+import { useNotyf } from '/@src/composable/useNotyf';
 import { useUserSession } from '/@src/stores/userSession';
 
-const { user } = useUserSession()
+const { user, token, logoutUser, setLoading } = useUserSession()
+const notif = useNotyf()
+const router = useRouter()
 
-function onLogout() {
-  //
+async function onLogout() {
+  try {
+    setLoading(true)
+    await logoutUser()
+    router.push('/auth/login')
+  } catch (error: any) {
+    notif.error(error.message)
+  } finally {
+    setLoading(false)
+  }
 }
 </script>
 
@@ -18,9 +30,9 @@ function onLogout() {
     </template>
 
     <template #content>
-      <a href="#" class="dropdown-item">
-        {{ 'John Doe' }}
-      </a>
+      <h1 class="dropdown-item is-size-4">
+        {{ user?.username?.toUpperCase() }}
+      </h1>
       <RouterLink to="/app/profile/profile-edit" class="dropdown-item is-media">
         <div class="icon">
           <i class="iconify" data-icon="feather:user" aria-hidden="true"></i>

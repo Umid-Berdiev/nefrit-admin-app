@@ -1,10 +1,15 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n';
+import { LegalEntityData } from '/@src/utils/interfaces';
 
 const props = defineProps({
   modelValue: Boolean,
-  id: Number
+  id: Number,
+  companyData: {
+    type: Object,
+    default: () => { }
+  }
 })
 
 const emit = defineEmits(['update:modelValue'])
@@ -35,13 +40,13 @@ const columns = {
         <tbody>
           <tr>
             <td class="has-text-weight-bold">{{ columns.name.label }}</td>
-            <td>Xeshelme</td>
+            <td>{{ companyData?.name }}</td>
           </tr>
           <tr>
             <td class="has-text-weight-bold">{{ columns.phone.label }}</td>
-            <td>Wistmus</td>
+            <td>{{ companyData?.phone }}</td>
           </tr>
-          <tr>
+          <!-- <tr>
             <td class="has-text-weight-bold">{{ columns.bossName.label }}</td>
             <td>Watson</td>
           </tr>
@@ -56,14 +61,10 @@ const columns = {
           <tr>
             <td class="has-text-weight-bold">{{ columns.status }}</td>
             <td>Jensen</td>
-          </tr>
+          </tr> -->
           <tr>
             <td class="has-text-weight-bold">{{ columns.country }}</td>
-            <td>Jensen</td>
-          </tr>
-          <tr>
-            <td class="has-text-weight-bold">{{ columns.sertificate }}</td>
-            <td>Jensen</td>
+            <td>{{ companyData?.country }}</td>
           </tr>
         </tbody>
       </table>

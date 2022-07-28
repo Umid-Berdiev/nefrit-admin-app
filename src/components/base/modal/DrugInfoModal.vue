@@ -4,7 +4,11 @@ import { useI18n } from 'vue-i18n';
 
 const props = defineProps({
   modelValue: Boolean,
-  id: Number
+  id: Number,
+  drugData: {
+    type: Object,
+    default: () => { }
+  }
 })
 
 const emit = defineEmits(['update:modelValue'])
@@ -35,25 +39,25 @@ const columns = {
         <tbody>
           <tr>
             <td class="has-text-weight-bold">{{ columns.name.label }}</td>
-            <td>NAME</td>
+            <td>{{ drugData?.name }}</td>
           </tr>
           <tr>
             <td class="has-text-weight-bold">{{ columns.saleName.label }}</td>
-            <td>SALENAME</td>
+            <td>{{ drugData?.trade_name }}</td>
           </tr>
-          <tr>
+          <!-- <tr>
             <td class="has-text-weight-bold">{{ columns.composition.label }}</td>
             <td>COMPOSITION</td>
           </tr>
           <tr>
             <td class="has-text-weight-bold">{{ columns.drugForm }}</td>
             <td>DRUGFORM</td>
-          </tr>
+          </tr> -->
           <tr>
             <td class="has-text-weight-bold">{{ columns.patentNumber }}</td>
-            <td>PATENTNUMBER</td>
+            <td>{{ drugData?.patent }}</td>
           </tr>
-          <tr>
+          <!-- <tr>
             <td class="has-text-weight-bold">{{ columns.use }}</td>
             <td>USE</td>
           </tr>
@@ -64,7 +68,7 @@ const columns = {
           <tr>
             <td class="has-text-weight-bold">{{ columns.manufacturer }}</td>
             <td>MANUFACTURER</td>
-          </tr>
+          </tr> -->
         </tbody>
       </table>
     </template>

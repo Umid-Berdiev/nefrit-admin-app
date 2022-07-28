@@ -1,31 +1,36 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { reactive, ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useHead } from '@vueuse/head'
 
 import { useDarkmode } from '/@src/stores/darkmode'
 import { useUserSession } from '/@src/stores/userSession'
 import { useNotyf } from '/@src/composable/useNotyf'
-import sleep from '/@src/utils/sleep'
 import LocalesDropdown from '/@src/components/partials/dropdowns/LocalesDropdown.vue'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const isLoading = ref(false)
 const darkmode = useDarkmode()
 const router = useRouter()
 const route = useRoute()
 const notif = useNotyf()
-const userSession = useUserSession()
+const { loginUser } = useUserSession()
 const redirect = route.query.redirect as string
+const errors = reactive({
+  username: '',
+  password: '',
+})
 
-const handleLogin = async () => {
-  if (!isLoading.value) {
+const handleLogin = async (event: Event) => {
+  try {
     isLoading.value = true
+    const values = Object.fromEntries(new FormData(event.target as HTMLFormElement))
 
-    await sleep(2000)
-    userSession.setToken('logged-in')
+    await loginUser(values)
 
     notif.dismissAll()
-    notif.success('Welcome back, Erik Kovalsky')
+    notif.success(`${t('Welcome_back')}, ${values.username?.toUpperCase()}`)
 
     if (redirect) {
       router.push(redirect)
@@ -34,7 +39,10 @@ const handleLogin = async () => {
         name: 'app',
       })
     }
-
+  } catch (error: any) {
+    Object.assign(errors, error.response?.data?.errors)
+    error.response?.data?.errors.message && notif.error(error.response?.data?.errors.message[0])
+  } finally {
     isLoading.value = false
   }
 }
@@ -42,6 +50,10 @@ const handleLogin = async () => {
 useHead({
   title: 'Auth Login - Vuero',
 })
+
+function clearErrors(event: Event) {
+  errors[event.target.name] = ''
+}
 </script>
 
 <template>
@@ -71,15 +83,21 @@ useHead({
                     <div class="login-form">
                       <!-- Username -->
                       <VField>
-                        <VControl icon="feather:user">
-                          <VInput type="text" :placeholder="$t('Username')" autocomplete="username" />
+                        <VControl icon="feather:user" :has-error="errors.username[0]">
+                          <VInput type="text" name="username" :placeholder="$t('Username')" autocomplete="username"
+                            @input="clearErrors" />
+                          <!-- <span class="has-text-danger">{{ errors.username[0] }}</span> -->
+                          <p class="help has-text-danger">{{ errors.username[0] }}</p>
                         </VControl>
                       </VField>
 
                       <!-- Password -->
                       <VField>
-                        <VControl icon="feather:lock">
-                          <VInput type="password" :placeholder="$t('Password')" autocomplete="current-password" />
+                        <VControl icon="feather:lock" :has-error="errors.password[0]">
+                          <VInput type="password" name="password" :placeholder="$t('Password')"
+                            autocomplete="current-password" @input="clearErrors" />
+                          <!-- <span class="has-text-danger">{{ errors.password[0] }}</span> -->
+                          <p class="help has-text-danger">{{ errors.password[0] }}</p>
                         </VControl>
                       </VField>
 

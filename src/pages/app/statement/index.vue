@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useHead } from '@vueuse/head'
@@ -8,14 +8,17 @@ import type {
   VFlexTableWrapperSortFunction,
   VFlexTableWrapperFilterFunction,
 } from '/@src/components/base/table/VFlexTableWrapper.vue'
-import { users } from '/@src/stores/usersMockData'
 import { useViewWrapper } from '/@src/stores/viewWrapper'
 import CountrySelect from '/@src/components/forms/selects/CountrySelect.vue'
 import { useMainStore } from "/@src/stores";
 import FeedbackModal from '/@src/components/base/modal/FeedbackModal.vue'
 import StatementStatusTag from '/@src/components/base/tags/StatementStatusTag.vue'
+import { fetchList } from '/@src/utils/api/statement'
+import { StatementData } from '/@src/utils/interfaces'
+import moment from 'moment'
+import { number } from 'zod'
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 
 useHead({
   title: t('Statements') + ' - Nefrit',
@@ -25,10 +28,14 @@ const mainStore = useMainStore()
 const viewWrapper = useViewWrapper()
 viewWrapper.setPageTitle(t('Statements'))
 
-type User = typeof users[0]
-
-// duplicate user data to grow the array
-const data: User[] = users
+const data = reactive({
+  pagination: {
+    current_page: null,
+    per_page: null,
+    total: null,
+  },
+  result: []
+})
 const filterForm = ref({})
 
 const isFormModalOpen = ref(false)
@@ -63,30 +70,16 @@ const userFilter: VFlexTableWrapperFilterFunction<User> = ({ searchTerm, row }) 
 }
 
 const columns = {
-  // select: {
-  //   label: '',
-  //   cellClass: 'is-flex-grow-0',
-  // },
-  orderNumber: {
-    label: 'Ariza qabul raqami',
+  code: {
+    label: t('statement_code'),
     // cellClass: 'is-flex-grow-0',
   },
-  // name: {
-  //   label: t('User'),
-  //   // media: true,
-  //   // grow: true,
-  //   searchable: true,
-  //   sortable: true,
-  //   filter: userFilter,
-  // },
-  company: {
+  legal_entity: {
     label: t('applied_legal_entity'),
-    // media: true,
-    // grow: true,
     searchable: true,
     sortable: true,
     filter: userFilter,
-    // bold: true
+    // grow: true,
   },
   drug: {
     label: t('drug_name'),
@@ -101,12 +94,20 @@ const columns = {
     sort: locationSorter,
   },
   status: t('Status'),
-  stage: t('Stage'),
+  stage: {
+    label: t('Stage'),
+    grow: true,
+  },
   actions: {
     label: t('Actions'),
     align: 'center',
   },
 } as const
+
+onMounted(async () => {
+  const res = await fetchList(locale.value)
+  Object.assign(data, res)
+})
 
 // the select all checkbox click handler
 function toggleSelection() {
@@ -139,12 +140,16 @@ function gotoConclusionList(statementId: number) {
 function confirmAction() {
   mainStore.$patch({ confirmModalState: true })
 }
+
+function formatDate(date: string) {
+  moment(date).format('YYYY-MM-DD')
+}
 </script>
 
 <template>
   <div class="applicant-list-wrapper">
     <TableActionsBlock center title="" @add="isFormModalOpen = true" @filter="displayFilterForm = !displayFilterForm"
-      :remove-disabled="true" />
+      :remove-disabled="true" :add-disabled="true" />
     <div v-show="displayFilterForm" class="mb-5">
       <VCard radius="small">
         <h3 class="title is-5 mb-2">{{ t('Filter_form') }}</h3>
@@ -192,7 +197,8 @@ function confirmAction() {
     </div>
 
     <!-- table -->
-    <VFlexTableWrapper :columns="columns" :data="data">
+    <VFlexTableWrapper :columns="columns" :data="data.result" :limit="data.pagination.per_page"
+      :total="data.pagination.total">
       <!--
         Here we retrieve the internal wrapperState.
         Note that we can not destructure it
@@ -210,40 +216,43 @@ function confirmAction() {
           </template>
         </VFlexTableToolbar>
 
-        <VFlexTable rounded>
-          <!-- header-column slot -->
-          <template #header-column="{ column }">
-            <!-- <VCheckbox v-if="column.key === 'select'" class="ml-2 mr-3" :checked="isAllSelected" name="all_selected"
-              color="primary" @click="toggleSelection" /> -->
-          </template>
+        <div class="table-container">
+          <VFlexTable rounded>
+            <!-- Custom "name" cell content -->
+            <template #body-cell="{ row, column, value, index }">
+              <!-- <VCheckbox v-if="column.key === 'select'" v-model="selectedRowsId" :value="row.id" name="selection"
+        @change="clickOnRow" /> -->
 
-          <!-- Custom "name" cell content -->
-          <template #body-cell="{ row, column, value, index }">
-            <!-- <VCheckbox v-if="column.key === 'select'" v-model="selectedRowsId" :value="row.id" name="selection"
-              @change="clickOnRow" /> -->
+              <template v-if="column.key === 'legal_entity'">
+                <span>{{ value.name }}</span>
+              </template>
+              <template v-else-if="column.key === 'drug'">
+                <span>{{ value.name }}</span>
+              </template>
+              <template v-else-if="column.key === 'date'">
+                <span>{{ value }}</span>
+              </template>
+              <template v-else-if="column.key === 'status'">
+                <StatementStatusTag :status="value" />
+              </template>
+              <template v-else-if="column.key === 'stage'">
+                <VTag class="is-size-6" rounded color="info">
+                  {{ value.name }}
+                </VTag>
+              </template>
+              <template v-else-if="column.key === 'actions'">
+                <!-- <ActionButtons @edit="isFormModalOpen = true" /> -->
+                <StatementsFlexTableDropdown @view="onActionTriggered(row.id)" @conclusion="gotoConclusionList(row.id)"
+                  @remove="confirmAction" @feedback="isFeedbackModalOpen = true" />
+              </template>
+            </template>
+          </VFlexTable>
 
-            <template v-if="column.key === 'orderNumber'">
-              {{ '00000' + (row.id + 1) }}
-            </template>
-            <template v-else-if="column.key === 'status'">
-              <StatementStatusTag :status="value" />
-            </template>
-            <template v-else-if="column.key === 'stage'">
-              <VTag class="is-size-6" rounded color="info">
-                {{ t(value) }}
-              </VTag>
-            </template>
-            <template v-else-if="column.key === 'actions'">
-              <!-- <ActionButtons @edit="isFormModalOpen = true" /> -->
-              <StatementsFlexTableDropdown @view="onActionTriggered(row.id)" @conclusion="gotoConclusionList(row.id)"
-                @remove="confirmAction" @feedback="isFeedbackModalOpen = true" />
-            </template>
-          </template>
-        </VFlexTable>
+        </div>
 
         <!-- Table Pagination with wrapperState.page binded-->
-        <VFlexPagination v-model:current-page="wrapperState.page" class="mt-6" :item-per-page="wrapperState.limit"
-          :total-items="wrapperState.total" :max-links-displayed="5" no-router />
+        <VFlexPagination class="mt-6" v-model:current-page="wrapperState.page" :item-per-page="data.pagination.per_page"
+          :total-items="data.pagination.total" />
       </template>
     </VFlexTableWrapper>
     <FeedbackModal v-model="isFeedbackModalOpen" />

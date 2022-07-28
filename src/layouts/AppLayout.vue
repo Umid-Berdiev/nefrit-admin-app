@@ -6,7 +6,6 @@ import type { SidebarTheme } from '/@src/components/navigation/desktop/Sidebar.v
 import { useViewWrapper } from '/@src/stores/viewWrapper'
 import ApplicantsSubsidebar from './sidebar-subsidebar/ApplicantsSubsidebar.vue';
 import ApplicantsMobileSubsidebar from './mobile-subsidebars/ApplicantsMobileSubsidebar.vue';
-import ConfirmActionModal from '../components/base/modal/ConfirmActionModal.vue';
 import ActivityPanel from '../components/partials/panels/ActivityPanel.vue';
 import LanguagesPanel from '../components/partials/panels/LanguagesPanel.vue';
 import VViewWrapper from '../components/base/layouts/VViewWrapper.vue';
@@ -150,7 +149,6 @@ console.log('activeMobileSubsidebar: ', activeMobileSubsidebar.value);
       </VPageContent>
     </VViewWrapper>
 
-    <ConfirmActionModal />
     <ContractDownloadModal />
   </div>
 </template>

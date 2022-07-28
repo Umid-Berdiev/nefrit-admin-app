@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import VAction from '../base/button/VAction.vue';
-import VButton from '../base/button/VButton.vue';
-import VModal from '../base/modal/VModal.vue';
 import CompanyInfoModal from '../base/modal/CompanyInfoModal.vue';
-import VIcon from '../base/icon/VIcon.vue';
 import DrugInfoModal from '../base/modal/DrugInfoModal.vue';
+import { fetchById } from '/@src/utils/api/statement'
+import { useRoute } from 'vue-router';
+import { StatementData } from '/@src/utils/interfaces';
 
 const { t } = useI18n()
 const columns = {
@@ -37,6 +36,14 @@ const selectedCompanyId = ref()
 const selectedDrugId = ref()
 const isCompanyInfoModalOpen = ref(false)
 const isDrugInfoModalOpen = ref(false)
+const route = useRoute()
+const currentId = (route.params?.id as string) ?? null
+const currentStatementData = ref<StatementData>()
+
+onMounted(async () => {
+  const res = await fetchById(Number(currentId))
+  currentStatementData.value = res
+})
 
 function openCompanyInfoModal(id: number) {
   selectedCompanyId.value = id
@@ -51,17 +58,17 @@ function openDrugInfoModal(id: number) {
 
 <template>
   <ListWidgetSingle :title="$t('Statement_details')" straight class="list-widget-v3">
-    <template #actions>
+    <!-- <template #actions>
       <VIconButton class="px-4" color="success" icon="feather:edit" circle outlined
         @click="isStatementEditModalOpen = true" />
-    </template>
+    </template> -->
     <table class="table is-hoverable is-bordered is-fullwidth">
       <tbody>
         <tr>
           <td class="has-text-weight-bold">{{ columns.company.label }}</td>
           <td>
             <a href="javascript:;" class="has-text-primary" @click="openCompanyInfoModal(1)">
-              Company name
+              {{ currentStatementData?.legal_entity?.name }}
               <i class="iconify" data-icon="feather:link" aria-hidden="true"></i>
             </a>
           </td>
@@ -70,26 +77,26 @@ function openDrugInfoModal(id: number) {
           <td class="has-text-weight-bold">{{ columns.drug.label }}</td>
           <td>
             <a href="javascript:;" class="has-text-primary" @click="openDrugInfoModal(1)">
-              Wistmus
+              {{ currentStatementData?.drug?.name }}
               <i class="iconify" data-icon="feather:link" aria-hidden="true"></i>
             </a>
           </td>
         </tr>
         <tr>
           <td class="has-text-weight-bold">{{ columns.statementCreator.label }}</td>
-          <td>Watson</td>
+          <td>{{ currentStatementData?.applicant }}</td>
         </tr>
         <tr>
           <td class="has-text-weight-bold">{{ columns.stage.label }}</td>
-          <td>Joestar</td>
+          <td>{{ currentStatementData?.stage?.name }}</td>
         </tr>
         <tr>
           <td class="has-text-weight-bold">{{ columns.date.label }}</td>
-          <td>Jensen</td>
+          <td>{{ currentStatementData?.date }}</td>
         </tr>
         <tr>
           <td class="has-text-weight-bold">{{ columns.paymentStatus.label }}</td>
-          <td>Jensen</td>
+          <td>{{ currentStatementData?.status && $t(currentStatementData.status) }}</td>
         </tr>
         <tr>
           <td class="has-text-weight-bold">{{ columns.certificate.label }}</td>
@@ -100,8 +107,8 @@ function openDrugInfoModal(id: number) {
       </tbody>
     </table>
   </ListWidgetSingle>
-  <CompanyInfoModal v-model="isCompanyInfoModalOpen" />
-  <DrugInfoModal v-model="isDrugInfoModalOpen" />
+  <CompanyInfoModal v-model="isCompanyInfoModalOpen" :company-data="currentStatementData?.legal_entity" />
+  <DrugInfoModal v-model="isDrugInfoModalOpen" :drug-data="currentStatementData?.drug" />
 </template>
 
 <style scoped lang="scss">

@@ -1,4 +1,4 @@
-export interface ApplicantInterface {
+export interface ApplicantData {
   id?: number
   user_id: number //filterga+ cols +
   boss_name: string //filterga+ cols +
@@ -44,4 +44,85 @@ export interface TabHeader {
   label: string
   value: string
   icon: string
+}
+
+export interface UserData {
+  avatar: string
+  department: string
+  email: string
+  firstname: string
+  id: number
+  is_employee: boolean
+  lastname: string
+  name: string
+  role_id: number
+  username: string
+}
+
+export interface DrugData {
+  id?: number
+  name: string
+  trade_name: string
+  patent: string
+}
+
+export interface LegalEntityData {
+  id?: number
+  name: string
+  phone: string
+  country: string
+}
+
+export interface StageData {
+  id: number
+  stage: number
+  name: string
+  description: null | string
+  next_stage: null | string
+}
+
+export type StatementStatusType = 'completed' | 'created'
+
+export interface StatementData {
+  applicant: string
+  code: string
+  contract_id: number
+  date: Date
+  drug: DrugData
+  id: number
+  is_approved: boolean
+  is_payed: null | boolean
+  legal_entity: LegalEntityData
+  stage: StageData
+  status: StatementStatusType
+}
+
+export interface DepartmentNameData {
+  id: number
+  field: string
+  language: string
+  value: string
+}
+
+export interface DepartmentData {
+  id?: number
+  names: {
+    uz: string
+    ru: string
+    en: string
+  }
+}
+
+export interface RoleData {
+  id?: number
+  name: {
+    uz: string
+    ru: string
+    en: string
+  }
+  department: {
+    uz: string
+    ru: string
+    en: string
+  }
 }

@@ -17,6 +17,7 @@ const props = withDefaults(defineProps<VBlockProps>(), {
   infratitle: undefined,
   filterDisabled: false,
   removeDisabled: false,
+  addDisabled: false,
 })
 
 const emits = defineEmits<{
@@ -51,7 +52,7 @@ const emits = defineEmits<{
         <VButton outlined rounded color="info" icon="feather:plus" @click.prevent="
         () => {
           emits('add')
-        }"> {{ $t('Add') }}
+        }" v-if="!removeDisabled"> {{ $t('Add') }}
         </VButton>
         <VButton outlined rounded color="primary" icon="feather:printer" @click.prevent="
         () => {
