@@ -1,5 +1,4 @@
 import axios, { AxiosInstance } from 'axios'
-
 import { useUserSession } from '/@src/stores/userSession'
 
 let api: AxiosInstance
@@ -24,6 +23,27 @@ export function createApi() {
 
     return config
   })
+
+  // We set an interceptor for each response to
+  // check if user is logged in
+  api.interceptors.response.use(
+    function (response) {
+      // Any status code that lie within the range of 2xx cause this function to trigger
+      // Do something with response data
+      return response
+    },
+    function (error) {
+      const userSession = useUserSession()
+      if (error) {
+        if (error.response?.status === 401 /* && !originalRequest._retry */) {
+          userSession.setToken(undefined)
+          userSession.setUser(undefined)
+        }
+
+        throw error
+      }
+    }
+  )
 
   return api
 }

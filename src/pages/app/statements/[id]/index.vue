@@ -23,6 +23,11 @@ const tabs = reactive([
     value: 'conclusions',
     icon: 'lnil lnil-euro-down',
   },
+  {
+    label: t('Statement_notices'),
+    value: 'notices',
+    icon: 'lnil lnil-euro-down',
+  },
   { label: t('ITK'), value: 'itk', icon: 'feather:activity' },
   { label: t('Chat'), value: 'chat', icon: 'fas fa-comments' },
 ]);
@@ -59,6 +64,9 @@ useHead({
         </div>
         <div v-else-if="activeValue === 'conclusions' || route.hash == '#conclusions'" class="mt-5">
           <StatementConclusionTable />
+        </div>
+        <div v-else-if="activeValue === 'notices' || route.hash == '#notices'" class="mt-5">
+          <StatementNoticeTable />
         </div>
         <div v-else-if="activeValue === 'itk'" class="mt-5">
           <UsersGridV1 />

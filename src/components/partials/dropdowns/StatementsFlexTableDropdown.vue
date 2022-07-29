@@ -2,9 +2,10 @@
 
 const emits = defineEmits<{
   (e: 'view'): void
-  // (e: 'remove'): void
-  (e: 'feedback'): void
-  (e: 'conclusion'): void
+  (e: 'conclusion:add'): void
+  (e: 'conclusion:list'): void
+  (e: 'notice:add'): void
+  (e: 'notice:list'): void
 }>()
 </script>
 
@@ -27,7 +28,7 @@ const emits = defineEmits<{
 
       <a role="menuitem" href="#" class="dropdown-item is-media" @click.prevent="
         () => {
-          emits('feedback')
+          emits('conclusion:add')
           close()
         }
       ">
@@ -41,7 +42,21 @@ const emits = defineEmits<{
 
       <a role="menuitem" href="#" class="dropdown-item is-media" @click.prevent="
         () => {
-          emits('conclusion')
+          emits('notice:add')
+          close()
+        }
+      ">
+        <div class="icon">
+          <i aria-hidden="true" class="lnil lnil-briefcase"></i>
+        </div>
+        <div class="meta">
+          <span>{{ $t('Make_notice') }}</span>
+        </div>
+      </a>
+
+      <a role="menuitem" href="#" class="dropdown-item is-media" @click.prevent="
+        () => {
+          emits('conclusion:list')
           close()
         }
       ">
@@ -53,21 +68,19 @@ const emits = defineEmits<{
         </div>
       </a>
 
-      <!-- <hr class="dropdown-divider" />
-
       <a role="menuitem" href="#" class="dropdown-item is-media" @click.prevent="
         () => {
-          emits('remove')
+          emits('notice:list')
           close()
         }
       ">
         <div class="icon">
-          <i aria-hidden="true" class="lnil lnil-trash-can-alt"></i>
+          <i aria-hidden="true" class="lnil lnil-briefcase"></i>
         </div>
         <div class="meta">
-          <span>{{ $t('Remove') }}</span>
+          <span>{{ $t('Go_to_notices_list') }}</span>
         </div>
-      </a> -->
+      </a>
     </template>
   </VDropdown>
 </template>

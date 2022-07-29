@@ -35,7 +35,9 @@ const filterForm = ref({})
 
 const isFormModalOpen = ref(false)
 const isFeedbackModalOpen = ref(false)
+const isNoticeFormModalOpen = ref(false)
 const displayFilterForm = ref(false)
+const selectedRowId = ref<number>()
 const selectedRowsId = ref<number[]>([])
 const isAllSelected = computed(() => data.result.length === selectedRowsId.value.length)
 const router = useRouter()
@@ -135,6 +137,10 @@ function onActionTriggered(rowId: number) {
 
 function gotoConclusionList(statementId: number) {
   router.push(`/app/statements/${statementId}#conclusions`)
+}
+
+function gotoNoticeList(statementId: number) {
+  router.push(`/app/statements/${statementId}#notices`)
 }
 
 function confirmAction() {
@@ -246,8 +252,10 @@ async function fetchData(page: number = 1) {
             </template>
             <template v-else-if="column.key === 'actions'">
               <!-- <ActionButtons @edit="isFormModalOpen = true" /> -->
-              <StatementsFlexTableDropdown @view="onActionTriggered(row.id)" @conclusion="gotoConclusionList(row.id)"
-                @remove="confirmAction" @feedback="isFeedbackModalOpen = true" />
+              <StatementsFlexTableDropdown @view="onActionTriggered(row.id)"
+                @conclusion:add="isFeedbackModalOpen = true; selectedRowId = row.id"
+                @notice:add="isNoticeFormModalOpen = true; selectedRowId = row.id"
+                @conclusion:list="gotoConclusionList(row.id)" @notice:list="gotoNoticeList(row.id)" />
             </template>
           </template>
         </VFlexTable>
@@ -257,6 +265,7 @@ async function fetchData(page: number = 1) {
           :total-items="data.pagination.total" />
       </template>
     </VFlexTableWrapper>
-    <FeedbackModal v-model="isFeedbackModalOpen" />
+    <FeedbackModal v-model="isFeedbackModalOpen" :statement-id="selectedRowId" />
+    <NoticeFormModal v-model="isNoticeFormModalOpen" :statement-id="selectedRowId" />
   </div>
 </template>

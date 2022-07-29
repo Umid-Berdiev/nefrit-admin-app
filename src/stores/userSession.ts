@@ -15,11 +15,11 @@ export const useUserSession = defineStore('userSession', () => {
 
   const isLoggedIn = computed(() => token.value !== undefined && token.value !== '')
 
-  function setUser(newUser: UserData) {
+  function setUser(newUser: UserData | undefined) {
     user.value = newUser
   }
 
-  function setToken(newToken: string) {
+  function setToken(newToken: string | undefined) {
     token.value = newToken
   }
 

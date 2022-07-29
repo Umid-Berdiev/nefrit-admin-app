@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
-defineProps({
+const props = defineProps({
   modelValue: Boolean,
+  statementId: Number
 })
 
 const emit = defineEmits<{
