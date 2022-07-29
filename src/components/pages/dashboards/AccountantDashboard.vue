@@ -5,7 +5,7 @@ import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { users } from '/@src/stores/usersMockData'
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 const router = useRouter()
 
 const range = reactive({
@@ -197,7 +197,7 @@ function gotoView(rowId: number) {
         <div class="dashboard-card is-base-chart">
           <div class="content-box is-flex">
             <h1 class="is-size-4">{{ $t('Statement_statuses') }}</h1>
-            <VDatePicker class="ml-auto" v-model="range" is-range color="green" trim-weeks
+            <VDatePicker :locale="locale" class="ml-auto" v-model="range" is-range color="green" trim-weeks
               :model-config="datePickerModelConfig">
               <template v-slot="{ inputValue, inputEvents }">
                 <VField addons>
@@ -227,7 +227,7 @@ function gotoView(rowId: number) {
         <div class="dashboard-card is-base-chart">
           <div class="content-box is-flex">
             <h1 class="is-size-4">{{ $t('Statement_payments') }}</h1>
-            <VDatePicker class="ml-auto" v-model="range" is-range color="green" trim-weeks>
+            <VDatePicker :locale="locale" class="ml-auto" v-model="range" is-range color="green" trim-weeks>
               <template v-slot="{ inputValue, inputEvents }">
                 <VField addons>
                   <VControl expanded icon="feather:corner-down-right">

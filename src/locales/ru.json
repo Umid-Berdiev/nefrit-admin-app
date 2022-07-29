@@ -236,5 +236,7 @@
   "Departments": "Отделения",
   "created": "Недавно добавлен",
   "statement_code": "Номер заявления",
-  "Departments_List": "Список отделов"
+  "Departments_List": "Список отделов",
+  "Statement_should_paid": "Заявления, обязательные к оплате",
+  "Total": "Всего"
 }

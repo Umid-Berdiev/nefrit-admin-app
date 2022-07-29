@@ -10,6 +10,7 @@ export interface VBlockProps {
   tResponsive?: boolean
   filterDisabled?: boolean
   removeDisabled?: boolean
+  addDisabled?: boolean
 }
 
 const props = withDefaults(defineProps<VBlockProps>(), {
@@ -52,7 +53,7 @@ const emits = defineEmits<{
         <VButton outlined rounded color="info" icon="feather:plus" @click.prevent="
         () => {
           emits('add')
-        }" v-if="!removeDisabled"> {{ $t('Add') }}
+        }" v-if="!addDisabled"> {{ $t('Add') }}
         </VButton>
         <VButton outlined rounded color="primary" icon="feather:printer" @click.prevent="
         () => {

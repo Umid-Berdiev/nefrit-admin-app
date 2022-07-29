@@ -236,5 +236,7 @@
   "Departments": "Departments",
   "created": "Created",
   "statement_code": "Statement number",
-  "Departments_List": "Departments List"
+  "Departments_List": "Departments List",
+  "Statement_should_paid": "Statements should be paid",
+  "Total": "Total"
 }

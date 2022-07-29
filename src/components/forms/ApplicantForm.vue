@@ -1,37 +1,44 @@
 <script setup lang="ts">
-import { useWindowScroll } from '@vueuse/core'
-import { computed, onMounted, ref } from 'vue'
+import { onMounted, reactive } from 'vue';
 import { useI18n } from 'vue-i18n'
+import { useRoute, useRouter } from 'vue-router';
 import moment from 'moment';
+import { fetchById } from '/@src/utils/api/applicant';
+import { ApplicantData } from '/@src/utils/interfaces';
 
-const { t } = useI18n()
-const props = defineProps({
-  applicantData: {
-    type: Object,
-    default: () => { }
-  }
+const { t, locale } = useI18n()
+const route = useRoute()
+const currentId = (route.params?.id as string) ?? ''
+const applicantData = reactive<ApplicantData>({})
+
+onMounted(async () => {
+  await fetchData()
 })
-const selectedCountry = ref('')
-const isNational = ref(false)
-const date = ref(new Date())
-const blockedAt = ref(new Date())
-// const applicantData = ref({})
+
+async function fetchData() {
+  const res = await fetchById(Number(currentId))
+  Object.assign(applicantData, res)
+}
 
 function formatDate(value: Date) {
   return value && moment(value).format('YYYY-MM-DD');
 }
 
+function onSubmit(event: Event) {
+  const values = Object.fromEntries(new FormData(event.target as HTMLFormElement))
+  console.log({ values });
+}
 </script>
 
 <template>
   <form class="form-layout is-separate" @submit.prevent="onSubmit">
-    <!-- <VBlock title="" center>
+    <VBlock title="" center>
       <template #action>
         <VButton class="mr-3" outlined color="success" icon="fas fa-user-edit" type="submit">
           {{ $t('Save_changes') }}
         </VButton>
       </template>
-    </VBlock> -->
+    </VBlock>
     <div class="form-outer">
       <div class="form-body">
         <div class="form-section">

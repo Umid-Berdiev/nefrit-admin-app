@@ -1,6 +1,7 @@
 #nprogress .bar {
   background: var(--primary);
   z-index: 100000;
+  height: 5px;
 }
 
 #nprogress .spinner {

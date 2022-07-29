@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { useWindowScroll } from '@vueuse/core'
 import { computed, ref } from 'vue'
+import { useI18n } from 'vue-i18n';
 import { popovers } from '/@src/data/users/userPopovers'
 
+const { t, locale } = useI18n()
 const selectedColor = ref('')
 const calendarTarget = ref('')
 const notificationMedium = ref('')
@@ -53,7 +55,7 @@ const onSubmit = () => {
               </VField>
             </div>
 
-            <VDatePicker v-model="date" is-range color="green" trim-weeks class="column is-6">
+            <VDatePicker :locale="locale" v-model="date" is-range color="green" trim-weeks class="column is-6">
               <template #default="{ inputValue, inputEvents }">
                 <div class="columns v-calendar-combo">
                   <div class="column is-6">
@@ -80,7 +82,7 @@ const onSubmit = () => {
               </template>
             </VDatePicker>
 
-            <VDatePicker v-model="date.start" class="column is-3" color="green" mode="time" is24hr>
+            <VDatePicker :locale="locale" v-model="date.start" class="column is-3" color="green" mode="time" is24hr>
               <template #default="{ inputValue, inputEvents }">
                 <VField>
                   <VLabel>Meeting start time</VLabel>
@@ -91,7 +93,7 @@ const onSubmit = () => {
               </template>
             </VDatePicker>
 
-            <VDatePicker v-model="date.end" class="column is-3" color="green" mode="time" is24hr>
+            <VDatePicker :locale="locale" v-model="date.end" class="column is-3" color="green" mode="time" is24hr>
               <template #default="{ inputValue, inputEvents }">
                 <VField>
                   <VLabel class="is-vhidden">Meeting end time</VLabel>

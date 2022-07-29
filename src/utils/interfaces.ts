@@ -1,3 +1,16 @@
+export interface UserData {
+  avatar: string
+  department: string
+  email: string
+  firstname: string
+  id: number
+  is_employee: boolean
+  lastname: string
+  name: string
+  role_id: number
+  username: string
+}
+
 export interface ApplicantData {
   address?: string
   block_reason?: Text
@@ -12,7 +25,7 @@ export interface ApplicantData {
   name?: string // Company name
   phone?: string // filterga+ cols +
   status?: Object //filterga+ cols +
-  user?: Object //filterga+ cols +
+  user?: UserData //filterga+ cols +
   verified_at?: Date // tasdiqlangan firma ekaninni belgilash uchun (true => tasdiqlangan)
   website?: string
   certificate?: string // yuridik shaxs guvohnomasi
@@ -44,19 +57,6 @@ export interface TabHeader {
   label: string
   value: string
   icon: string
-}
-
-export interface UserData {
-  avatar: string
-  department: string
-  email: string
-  firstname: string
-  id: number
-  is_employee: boolean
-  lastname: string
-  name: string
-  role_id: number
-  username: string
 }
 
 export interface DrugData {

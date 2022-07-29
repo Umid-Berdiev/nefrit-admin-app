@@ -118,7 +118,7 @@ async function onReject() {
               <a href="javascript:;" class="has-text-primary is-pushed-mobile">{{ row.invoice }}</a>
             </template>
             <!-- <template v-if="column.key === 'status'">
-              <StatementStatusTag :status="value" />
+              <StatusTag :status="value" />
             </template> -->
             <template v-if="column.key === 'actions'">
               <VButtons v-if="row.status !== 'completed'">

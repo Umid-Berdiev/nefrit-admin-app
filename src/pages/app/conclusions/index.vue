@@ -10,7 +10,6 @@ import { useViewWrapper } from '/@src/stores/viewWrapper'
 import CountrySelect from '/@src/components/forms/selects/CountrySelect.vue'
 import { useMainStore } from '/@src/stores'
 import ConclusionFlexTableDropdown from '/@src/components/partials/dropdowns/ConclusionFlexTableDropdown.vue'
-import FeedbackModal from '/@src/components/base/modal/FeedbackModal.vue'
 
 const mainStore = useMainStore()
 const { t } = useI18n()

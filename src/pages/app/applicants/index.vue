@@ -126,9 +126,7 @@ const columns = {
   },
 } as const
 
-onMounted(async () => {
-  await fetchData()
-})
+await fetchData()
 
 // the select all checkbox click handler
 function toggleSelection() {
@@ -162,7 +160,7 @@ async function fetchData(page: number = 1) {
 
 <template>
   <div class="applicant-list-wrapper">
-    <TableActionsBlock center title="" @add="isFormModalOpen = true" @filter="displayFilterForm = !displayFilterForm" />
+    <TableActionsBlock center title="" :add-disabled="true" @filter="displayFilterForm = !displayFilterForm" />
     <div v-show="displayFilterForm" class="mb-5">
       <VCard radius="small">
         <h3 class="title is-5 mb-2">{{ t('Filter_form') }}</h3>
@@ -241,7 +239,7 @@ async function fetchData(page: number = 1) {
               @change="clickOnRow" />
 
             <template v-else-if="column.key === 'status' && value">
-              <StatementStatusTag :status="value" />
+              <StatusTag :status="value" />
             </template>
             <template v-if="column.key === 'actions'">
               <ApplicantFlexTableDropdown @view="onActionTriggered(row.id)" @edit="isFormModalOpen = true" />

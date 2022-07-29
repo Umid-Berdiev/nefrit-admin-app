@@ -37,7 +37,7 @@ const isFormModalOpen = ref(false)
 const isFeedbackModalOpen = ref(false)
 const displayFilterForm = ref(false)
 const selectedRowsId = ref<number[]>([])
-const isAllSelected = computed(() => data.length === selectedRowsId.value.length)
+const isAllSelected = computed(() => data.result.length === selectedRowsId.value.length)
 const router = useRouter()
 const currentPage = computed({
   get: () => {
@@ -107,9 +107,7 @@ const columns = {
   },
 } as const
 
-onMounted(async () => {
-  await fetchData()
-})
+await fetchData()
 
 // the select all checkbox click handler
 function toggleSelection() {
@@ -118,7 +116,7 @@ function toggleSelection() {
   if (isAllSelected.value) {
     selectedRowsId.value = []
   } else {
-    selectedRowsId.value = data.map((row: any) => row.id)
+    selectedRowsId.value = data.result.map((row: any) => row.id)
   }
 }
 
@@ -132,11 +130,11 @@ function clickOnRow(row: any) {
 }
 
 function onActionTriggered(rowId: number) {
-  router.push('/app/statement/' + rowId)
+  router.push('/app/statements/' + rowId)
 }
 
 function gotoConclusionList(statementId: number) {
-  router.push(`/app/statement/${statementId}#conclusions`)
+  router.push(`/app/statements/${statementId}#conclusions`)
 }
 
 function confirmAction() {
@@ -223,39 +221,36 @@ async function fetchData(page: number = 1) {
           </template>
         </VFlexTableToolbar>
 
-        <div class="table-container">
-          <VFlexTable rounded>
-            <!-- Custom "name" cell content -->
-            <template #body-cell="{ row, column, value, index }">
-              <!-- <VCheckbox v-if="column.key === 'select'" v-model="selectedRowsId" :value="row.id" name="selection"
+        <VFlexTable rounded>
+          <!-- Custom "name" cell content -->
+          <template #body-cell="{ row, column, value, index }">
+            <!-- <VCheckbox v-if="column.key === 'select'" v-model="selectedRowsId" :value="row.id" name="selection"
         @change="clickOnRow" /> -->
 
-              <template v-if="column.key === 'legal_entity'">
-                <span>{{ value.name }}</span>
-              </template>
-              <template v-else-if="column.key === 'drug'">
-                <span>{{ value.name }}</span>
-              </template>
-              <template v-else-if="column.key === 'date'">
-                <span>{{ value }}</span>
-              </template>
-              <template v-else-if="column.key === 'status'">
-                <StatementStatusTag :status="value" />
-              </template>
-              <template v-else-if="column.key === 'stage'">
-                <VTag class="is-size-6" rounded color="info">
-                  {{ value.name }}
-                </VTag>
-              </template>
-              <template v-else-if="column.key === 'actions'">
-                <!-- <ActionButtons @edit="isFormModalOpen = true" /> -->
-                <StatementsFlexTableDropdown @view="onActionTriggered(row.id)" @conclusion="gotoConclusionList(row.id)"
-                  @remove="confirmAction" @feedback="isFeedbackModalOpen = true" />
-              </template>
+            <template v-if="column.key === 'legal_entity'">
+              <span>{{ value.name }}</span>
             </template>
-          </VFlexTable>
-
-        </div>
+            <template v-else-if="column.key === 'drug'">
+              <span>{{ value.name }}</span>
+            </template>
+            <template v-else-if="column.key === 'date'">
+              <span>{{ value }}</span>
+            </template>
+            <template v-else-if="column.key === 'status'">
+              <StatusTag :status="value" />
+            </template>
+            <template v-else-if="column.key === 'stage'">
+              <VTag class="is-size-6" rounded color="info">
+                {{ value.name }}
+              </VTag>
+            </template>
+            <template v-else-if="column.key === 'actions'">
+              <!-- <ActionButtons @edit="isFormModalOpen = true" /> -->
+              <StatementsFlexTableDropdown @view="onActionTriggered(row.id)" @conclusion="gotoConclusionList(row.id)"
+                @remove="confirmAction" @feedback="isFeedbackModalOpen = true" />
+            </template>
+          </template>
+        </VFlexTable>
 
         <!-- Table Pagination with wrapperState.page binded-->
         <VFlexPagination class="mt-6" v-model:current-page="currentPage" :item-per-page="data.pagination.per_page"

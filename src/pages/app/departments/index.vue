@@ -89,9 +89,7 @@ const columns = {
   },
 } as const
 
-onMounted(async () => {
-  await fetchData()
-})
+await fetchData()
 
 // the select all checkbox click handler
 function toggleSelection() {

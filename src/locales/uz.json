@@ -251,5 +251,7 @@
   "Description_en": "Inglizcha tavsif",
   "Uzbek": "O'zbekcha",
   "Russian": "Ruscha",
-  "English": "Inglizcha"
+  "English": "Inglizcha",
+  "Statement_should_paid": "To'lanishi lozim bo'lgan arizalar",
+  "Total": "Jami"
 }

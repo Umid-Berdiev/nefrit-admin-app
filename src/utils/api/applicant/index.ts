@@ -33,10 +33,10 @@ export async function fetchById(id: number): Promise<ApplicantData> {
   }
 }
 
-export async function fetchApplicantStatements(id: number) {
+export async function fetchApplicantStatements(id: number, page: number) {
   try {
     const { data } = await api({
-      url: `/api/admin/legal-entity/${id}/applications`,
+      url: `/api/admin/legal-entity/${id}/applications?page=${page}`,
     })
 
     return data.data
