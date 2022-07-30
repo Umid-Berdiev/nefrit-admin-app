@@ -238,5 +238,10 @@
   "statement_code": "Statement number",
   "Departments_List": "Departments List",
   "Statement_should_paid": "Statements should be paid",
-  "Total": "Total"
+  "Total": "Total",
+  "View_applicant_details": "View applicant details",
+  "Block": "Block",
+  "Block_applicant": "Block applicant",
+  "Make_notice": "Make notice",
+  "Go_to_notices_list": "Go to notices list"
 }

@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n';
 import { reactive, ref, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { create, updateById, fetchById } from '/@src/utils/api/role';
-import VTextarea from '../form/VTextarea.vue';
 
 const props = defineProps({
   modelValue: Boolean,
@@ -48,6 +47,7 @@ watch(
         en: ''
       })
     } else {
+      title.value = t('Edit')
       const res = await fetchById(Number(props.item))
       Object.assign(names, res.name)
       Object.assign(description, res.description)

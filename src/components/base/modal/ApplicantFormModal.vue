@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import { computed, onMounted, reactive, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n';
+import { fetchById, updateApplicant, fetchApplicantStatuses } from '/@src/utils/api/applicant';
+import { ApplicantData } from '/@src/utils/interfaces';
+import VSelect from '../form/VSelect.vue';
 
 const props = defineProps({
   modelValue: Boolean,
-  item: {
+  applicantId: {
     type: Number,
     default: null
   }
@@ -15,30 +18,24 @@ const emits = defineEmits<{
   (e: 'update:list'): void
 }>()
 
-const { t } = useI18n()
-const title = ref(t('Add'))
-const names = reactive({
-  uz: '',
-  ru: '',
-  en: ''
+const { t, locale } = useI18n()
+const title = ref(t('Edit'))
+const applicantData: ApplicantData = reactive({})
+const statusList = ref([])
+
+onMounted(async () => {
+  const res = await fetchApplicantStatuses(locale.value)
+  statusList.value = res
 })
 
 watch(
-  () => props.item,
+  () => props.applicantId,
   async (newVal) => {
-    // const isEmptyObj = Object.values(newVal).every(x => x === null || x === '');
-
     if (!newVal) {
-      title.value = t('Add')
-      Object.assign(names, {
-        uz: '',
-        ru: '',
-        en: ''
-      })
+      Object.assign(applicantData, {})
     } else {
-      title.value = t('Edit')
-      const res = await fetchById(Number(props.item))
-      Object.assign(names, res.name)
+      const res = await fetchById(Number(props.applicantId))
+      Object.assign(applicantData, res)
     }
   },
   { deep: true, immediate: true }
@@ -46,7 +43,7 @@ watch(
 
 async function onSubmit(event: Event) {
   try {
-    props.item ? await updateById(props.item, { name: names }) : await create({ name: names })
+    props.applicantId && await updateApplicant(props.applicantId, applicantData)
     emits('update:list')
     onClose()
   } catch (error) {
@@ -62,129 +59,64 @@ function onClose() {
 <template>
   <VModal :open="modelValue" size="large" :title="title" actions="right" @close="onClose">
     <template #content>
-      <div class="modal-form">
+      <form id="submit-form" class="modal-form" @submit.prevent="onSubmit">
         <div class="columns is-multiline">
+          <div class="column is-12">
+            <VField :label="$t('Applicant_name')" required>
+              <VControl>
+                <VInput type="text" v-model="applicantData.name" />
+              </VControl>
+            </VField>
+          </div>
           <div class="column is-12">
             <VField :label="$t('Boss_name')" required>
               <VControl>
-                <VInput type="text" placeholder="Ex: A cool project" />
+                <VInput type="text" v-model="applicantData.boss_name" />
               </VControl>
             </VField>
           </div>
           <div class="column is-6">
-            <VField class="is-image-select" label="Project Member">
+            <VField :label="$t('Phone_number')">
               <VControl>
-                <Multiselect placeholder="Select employees" track-by="name" label="name" :search="true" :options="[
-                  {
-                    value: 'alice',
-                    name: 'Alice Carasca',
-                    image: '/images/avatars/svg/vuero-3.svg',
-                  },
-                  {
-                    value: 'erik',
-                    name: 'Erik Kovalsky',
-                    image: '/images/avatars/svg/vuero-1.svg',
-                  },
-                  {
-                    value: 'melany',
-                    name: 'melany Wallace',
-                    image: '/images/avatars/svg/vuero-3.svg',
-                  },
-                  {
-                    value: 'tara',
-                    name: 'Tara Svenson',
-                    image: '/images/avatars/svg/vuero-3.svg',
-                  },
-                  {
-                    value: 'mary',
-                    name: 'Mary Lebowski',
-                    image: '/images/avatars/svg/vuero-3.svg',
-                  },
-                  {
-                    value: 'irina',
-                    name: 'Irina Vierbovsky',
-                    image: '/images/avatars/svg/vuero-3.svg',
-                  },
-                  {
-                    value: 'jonathan',
-                    name: 'Jonathan Krugger',
-                    image: '/images/avatars/svg/vuero-3.svg',
-                  },
-                ]" :max-height="145">
-                  <template #singlelabel="{ value }">
-                    <div class="multiselect-single-label">
-                      <img class="select-label-icon" :src="value.image" alt="" />
-                      {{ value.name }}
-                    </div>
-                  </template>
-                  <template #option="{ option }">
-                    <img class="select-option-icon" :src="option.image" alt="" />
-                    {{ option.name }}
-                  </template>
-                </Multiselect>
+                <VInput type="text" v-model="applicantData.phone" />
               </VControl>
             </VField>
           </div>
           <div class="column is-6">
-            <VField class="is-image-select" label="Project Type *">
+            <VField :label="$t('Fax')">
               <VControl>
-                <Multiselect placeholder="Select language" track-by="name" label="name" :search="true" :options="[
-                  {
-                    value: 'javascript',
-                    name: 'Javascript',
-                    image: '/images/icons/stacks/js.svg',
-                  },
-                  {
-                    value: 'reactjs',
-                    name: 'ReactJS',
-                    image: '/images/icons/stacks/reactjs.svg',
-                  },
-                  {
-                    value: 'vuejs',
-                    name: 'VueJS',
-                    image: '/images/icons/stacks/vuejs.svg',
-                  },
-                ]" :max-height="145">
-                  <template #singlelabel="{ value }">
-                    <div class="multiselect-single-label">
-                      <img class="select-label-icon" :src="value.image" alt="" />
-                      {{ value.name }}
-                    </div>
-                  </template>
-                  <template #option="{ option }">
-                    <img class="select-option-icon" :src="option.image" alt="" />
-                    {{ option.name }}
-                  </template>
-                </Multiselect>
+                <VInput type="text" v-model="applicantData.fax" />
               </VControl>
             </VField>
           </div>
           <div class="column is-6">
-            <VField label="Project Budget *">
+            <VField :label="$t('stir')">
               <VControl>
-                <VInput type="text" placeholder="Ex: $3,500" />
+                <VInput type="text" v-model="applicantData.inn" />
               </VControl>
             </VField>
           </div>
           <div class="column is-6">
-            <VField label="Project URL *">
-              <VControl>
-                <VInput type="text" class="VInput" placeholder="Ex: https://project.com" />
-              </VControl>
-            </VField>
+            <CountrySelect v-model="applicantData.country" />
+          </div>
+          <div class="column is-6 is-align-self-flex-end">
+            <input id="checkbox1" type="checkbox" :checked="applicantData.is_national" />
+            <label for="checkbox1" class="checkbox">
+              {{ $t('isNational') }}
+            </label>
           </div>
           <div class="column is-12">
-            <VField label="Description *">
+            <VField :label="$t('Address')">
               <VControl>
-                <VTextarea rows="3" placeholder="Details about the project..." />
+                <VTextarea rows="2" v-model="applicantData.address" />
               </VControl>
             </VField>
           </div>
         </div>
-      </div>
+      </form>
     </template>
     <template #action="{ close }">
-      <VButton color="primary" outlined @click="close()">{{ $t('Save_changes') }}</VButton>
+      <VButton type="submit" color="primary" outlined form="submit-form">{{ $t('Save_changes') }}</VButton>
     </template>
   </VModal>
 </template>

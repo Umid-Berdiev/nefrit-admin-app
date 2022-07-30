@@ -76,13 +76,5 @@ useHead({
         </div>
       </template>
     </VTabs>
-    <!-- <StatementFormModal v-model="isFormModalOpen" /> -->
   </div>
 </template>
-
-<style lang="scss" scoped>
-.statement-detail-wrapper {
-  // Here we can add custom styles for the blog page
-  // They will be only applied to this component
-}
-</style>

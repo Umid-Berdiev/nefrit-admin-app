@@ -78,6 +78,7 @@ declare module '@vue/runtime-core' {
     MessagingV1: typeof import('./src/components/MessagingV1.vue')['default']
     MobileNavbar: typeof import('./src/components/navigation/mobile/MobileNavbar.vue')['default']
     MobileSidebar: typeof import('./src/components/navigation/mobile/MobileSidebar.vue')['default']
+    NoticeFlexTableDropdown: typeof import('./src/components/partials/dropdowns/NoticeFlexTableDropdown.vue')['default']
     NoticeFormModal: typeof import('./src/components/base/modal/NoticeFormModal.vue')['default']
     NotificationPage: typeof import('./src/components/pages/profile/NotificationPage.vue')['default']
     NotificationsMobileDropdown: typeof import('./src/components/partials/dropdowns/NotificationsMobileDropdown.vue')['default']

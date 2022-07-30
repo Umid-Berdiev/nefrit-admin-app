@@ -1,3 +1,11 @@
+export interface StatusData {
+  color: string
+  description: string
+  id: number
+  name: string
+  type: string
+}
+
 export interface UserData {
   avatar: string
   department: string
@@ -24,7 +32,7 @@ export interface ApplicantData {
   is_national?: boolean // mahalliy yoki chet el firmasiligini aniqlash uchun //filterga+ cols +
   name?: string // Company name
   phone?: string // filterga+ cols +
-  status?: Object //filterga+ cols +
+  status?: StatusData //filterga+ cols +
   user?: UserData //filterga+ cols +
   verified_at?: Date // tasdiqlangan firma ekaninni belgilash uchun (true => tasdiqlangan)
   website?: string
@@ -125,4 +133,13 @@ export interface RoleData {
     ru: string
     en: string
   }
+}
+
+export interface NoticeData {
+  id?: number
+  message: string
+  text: string
+  application_id?: number
+  status_id?: number
+  status?: StatusData
 }

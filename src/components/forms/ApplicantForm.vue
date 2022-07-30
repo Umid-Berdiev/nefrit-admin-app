@@ -3,11 +3,13 @@ import { onMounted, reactive } from 'vue';
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router';
 import moment from 'moment';
-import { fetchById } from '/@src/utils/api/applicant';
+import { fetchById, verifyApplicant } from '/@src/utils/api/applicant';
 import { ApplicantData } from '/@src/utils/interfaces';
+import { useMainStore } from '/@src/stores';
 
 const { t, locale } = useI18n()
 const route = useRoute()
+const mainStore = useMainStore()
 const currentId = (route.params?.id as string) ?? ''
 const applicantData = reactive<ApplicantData>({})
 
@@ -20,7 +22,7 @@ async function fetchData() {
   Object.assign(applicantData, res)
 }
 
-function formatDate(value: Date) {
+function formatDate(value: string) {
   return value && moment(value).format('YYYY-MM-DD');
 }
 
@@ -28,102 +30,117 @@ function onSubmit(event: Event) {
   const values = Object.fromEntries(new FormData(event.target as HTMLFormElement))
   console.log({ values });
 }
+
+async function onConfirmAction() {
+  await verifyApplicant(Number(currentId))
+  await fetchData()
+}
+
+async function onVerifyAction() {
+  mainStore.$patch({ confirmModalState: true, confirmModalOkButtonColor: 'success' })
+}
 </script>
 
 <template>
-  <form class="form-layout is-separate" @submit.prevent="onSubmit">
-    <VBlock title="" center>
-      <template #action>
-        <VButton class="mr-3" outlined color="success" icon="fas fa-user-edit" type="submit">
-          {{ $t('Save_changes') }}
-        </VButton>
-      </template>
-    </VBlock>
-    <div class="form-outer">
-      <div class="form-body">
-        <div class="form-section">
-          <div class="form-section-inner has-padding-bottom">
-            <h3 class="has-text-centered">{{ t('Applicant_details') }}</h3>
-            <div class="columns is-multiline">
-              <div class="column is-12 mb-3">
-                <VField>
-                  <VLabel>{{ t('Applicant_user_name') }}</VLabel>
-                  <VControl icon="feather:user">
-                    <VInput type="text" :value="applicantData.user?.username" disabled autocomplete="applicant-name" />
-                  </VControl>
-                </VField>
-              </div>
-              <div class="column is-12 mb-3">
-                <VField>
-                  <VLabel>Arizachini telefon raqami</VLabel>
-                  <VControl icon="feather:phone">
-                    <VInput type="tel" :value="applicantData.phone" disabled autocomplete="applicant-name" />
-                  </VControl>
-                </VField>
-              </div>
-              <div class="column is-12 mb-3">
-                <VField>
-                  <VLabel>{{ t('Boss_name') }}</VLabel>
-                  <VControl icon="feather:user">
-                    <VInput type="text" disabled :value="applicantData.boss_name" placeholder=""
-                      autocomplete="boss-name" />
-                  </VControl>
-                </VField>
-              </div>
-              <div class="column is-12 mb-3">
-                <VField>
-                  <VLabel>{{ $t('Website') }}</VLabel>
-                  <VControl icon="feather:globe">
-                    <VInput type="text" disabled :value="applicantData.website" autocomplete="website-name" />
-                  </VControl>
-                </VField>
-              </div>
-              <div class="column is-12 mb-3">
-                <VField>
-                  <VLabel>{{ t('Email_address') }}</VLabel>
-                  <VControl icon="feather:mail">
-                    <VInput type="email" disabled :value="applicantData.user?.email" autocomplete="email"
-                      inputmode="email" />
-                  </VControl>
-                </VField>
+  <div>
+    <form class="form-layout is-separate" @submit.prevent="onSubmit">
+      <VBlock title="" center>
+        <template #action>
+          <VButton type="button" class="mr-3" outlined color="warning" icon="fas fa-check-double"
+            @click="onVerifyAction">
+            {{ $t('Verify') }}
+          </VButton>
+          <VButton class="mr-3" outlined color="success" icon="fas fa-user-edit" type="submit">
+            {{ $t('Save_changes') }}
+          </VButton>
+        </template>
+      </VBlock>
+      <div class="form-outer">
+        <div class="form-body">
+          <div class="form-section">
+            <div class="form-section-inner has-padding-bottom">
+              <h3 class="has-text-centered">{{ t('Applicant_details') }}</h3>
+              <div class="columns is-multiline">
+                <div class="column is-12 mb-3">
+                  <VField>
+                    <VLabel>{{ t('Applicant_user_name') }}</VLabel>
+                    <VControl icon="feather:user">
+                      <VInput type="text" :value="applicantData.user?.username" disabled
+                        autocomplete="applicant-name" />
+                    </VControl>
+                  </VField>
+                </div>
+                <div class="column is-12 mb-3">
+                  <VField>
+                    <VLabel>Arizachini telefon raqami</VLabel>
+                    <VControl icon="feather:phone">
+                      <VInput type="tel" :value="applicantData.phone" disabled autocomplete="applicant-name" />
+                    </VControl>
+                  </VField>
+                </div>
+                <div class="column is-12 mb-3">
+                  <VField>
+                    <VLabel>{{ t('Boss_name') }}</VLabel>
+                    <VControl icon="feather:user">
+                      <VInput type="text" disabled :value="applicantData.boss_name" placeholder=""
+                        autocomplete="boss-name" />
+                    </VControl>
+                  </VField>
+                </div>
+                <div class="column is-12 mb-3">
+                  <VField>
+                    <VLabel>{{ $t('Website') }}</VLabel>
+                    <VControl icon="feather:globe">
+                      <VInput type="text" disabled :value="applicantData.website" autocomplete="website-name" />
+                    </VControl>
+                  </VField>
+                </div>
+                <div class="column is-12 mb-3">
+                  <VField>
+                    <VLabel>{{ t('Email_address') }}</VLabel>
+                    <VControl icon="feather:mail">
+                      <VInput type="email" disabled :value="applicantData.user?.email" autocomplete="email"
+                        inputmode="email" />
+                    </VControl>
+                  </VField>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="form-section">
-          <div class="form-section-inner has-padding-bottom">
-            <h3 class="has-text-centered">{{ t('Company_information') }}</h3>
-            <div class="columns is-multiline">
-              <div class="column is-12 mb-3">
-                <VField>
-                  <VLabel>{{ t('Company_name') }} <span class="has-text-danger">*</span></VLabel>
-                  <VControl icon="feather:briefcase">
-                    <VInput disabled :value="applicantData.name" autocomplete="company_name" />
-                  </VControl>
-                </VField>
-              </div>
-              <div class="column is-6 mb-3">
-                <VField>
-                  <VLabel>{{ t('Company_phone') }} <span class="has-text-danger">*</span></VLabel>
-                  <VControl icon="feather:phone">
-                    <VInput type="tel" disabled :value="applicantData.phone" autocomplete="tel" inputmode="tel" />
-                  </VControl>
-                </VField>
-              </div>
-              <div class="column is-6 mb-3">
-                <VField>
-                  <VLabel>{{ t('Company_fax') }} <span class="has-text-danger">*</span></VLabel>
-                  <VControl icon="feather:printer">
-                    <VInput disabled :value="applicantData.phone" autocomplete="tel" inputmode="tel" />
-                  </VControl>
-                </VField>
-              </div>
-              <div class="column is-6 mb-3">
-                <VField>
-                  <VLabel>{{ t('Country') }}</VLabel>
-                  <VControl class="has-icons-left" icon="fas fa-globe">
-                    <VInput disabled :value="applicantData.country" />
-                    <!-- <VSelect v-model="selectedCountry">
+          <div class="form-section">
+            <div class="form-section-inner has-padding-bottom">
+              <h3 class="has-text-centered">{{ t('Company_information') }}</h3>
+              <div class="columns is-multiline">
+                <div class="column is-12 mb-3">
+                  <VField>
+                    <VLabel>{{ t('Company_name') }} <span class="has-text-danger">*</span></VLabel>
+                    <VControl icon="feather:briefcase">
+                      <VInput disabled :value="applicantData.name" autocomplete="company_name" />
+                    </VControl>
+                  </VField>
+                </div>
+                <div class="column is-6 mb-3">
+                  <VField>
+                    <VLabel>{{ t('Company_phone') }} <span class="has-text-danger">*</span></VLabel>
+                    <VControl icon="feather:phone">
+                      <VInput type="tel" disabled :value="applicantData.phone" autocomplete="tel" inputmode="tel" />
+                    </VControl>
+                  </VField>
+                </div>
+                <div class="column is-6 mb-3">
+                  <VField>
+                    <VLabel>{{ t('Company_fax') }} <span class="has-text-danger">*</span></VLabel>
+                    <VControl icon="feather:printer">
+                      <VInput disabled :value="applicantData.phone" autocomplete="tel" inputmode="tel" />
+                    </VControl>
+                  </VField>
+                </div>
+                <div class="column is-6 mb-3">
+                  <VField>
+                    <VLabel>{{ t('Country') }}</VLabel>
+                    <VControl class="has-icons-left" icon="fas fa-globe">
+                      <VInput disabled :value="applicantData.country" />
+                      <!-- <VSelect v-model="selectedCountry">
                       <VOption value="" disabled>Select a Hero</VOption>
                       <VOption value="Superman">Superman</VOption>
                       <VOption value="Batman">Batman</VOption>
@@ -132,43 +149,43 @@ function onSubmit(event: Event) {
                       <VOption value="Spawn">Spawn</VOption>
                       <VOption value="Galactus">Galactus</VOption>
                     </VSelect> -->
-                  </VControl>
-                </VField>
-              </div>
-              <div class="column is-6 mb-3">
-                <VField>
-                  <VLabel>{{ t('stir') }}</VLabel>
-                  <VControl icon="fas fa-hashtag">
-                    <VInput disabled :value="applicantData.inn" />
-                  </VControl>
-                </VField>
-              </div>
-              <div class="column is-12 mb-3">
-                <VField>
-                  <VLabel>{{ t('Address') }}</VLabel>
-                  <VControl>
-                    <VTextarea disabled :value="applicantData.address" :rows="2" />
-                  </VControl>
-                </VField>
-              </div>
-              <div class="column is-12">
-                <input disabled id="checkbox1" type="checkbox" :checked="applicantData.is_national" />
-                <label disabled for="checkbox1" class="checkbox">
-                  {{ $t('isNational') }}
-                </label>
+                    </VControl>
+                  </VField>
+                </div>
+                <div class="column is-6 mb-3">
+                  <VField>
+                    <VLabel>{{ t('stir') }}</VLabel>
+                    <VControl icon="fas fa-hashtag">
+                      <VInput disabled :value="applicantData.inn" />
+                    </VControl>
+                  </VField>
+                </div>
+                <div class="column is-12 mb-3">
+                  <VField>
+                    <VLabel>{{ t('Address') }}</VLabel>
+                    <VControl>
+                      <VTextarea disabled :value="applicantData.address" :rows="2" />
+                    </VControl>
+                  </VField>
+                </div>
+                <div class="column is-12">
+                  <input disabled id="checkbox1" type="checkbox" :checked="applicantData.is_national" />
+                  <label disabled for="checkbox1" class="checkbox">
+                    {{ $t('isNational') }}
+                  </label>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="form-section">
-          <div class="form-section-inner has-padding-bottom">
-            <h3 class="has-text-centered">{{ t('Applicant_status') }}</h3>
-            <div class="columns is-multiline">
-              <div class="column is-12 mb-3">
-                <VField>
-                  <VLabel>{{ t('Status') }}</VLabel>
-                  <VControl class="has-icons-left" icon="feather:layers">
-                    <!-- <VSelect v-model="selectedCountry">
+          <div class="form-section">
+            <div class="form-section-inner has-padding-bottom">
+              <h3 class="has-text-centered">{{ t('Applicant_status') }}</h3>
+              <div class="columns is-multiline">
+                <div class="column is-12 mb-3">
+                  <VField>
+                    <VLabel>{{ t('Status') }}</VLabel>
+                    <VControl class="has-icons-left" icon="feather:layers">
+                      <!-- <VSelect v-model="selectedCountry">
                       <VOption value="" disabled>{{ t('Select') }} ...</VOption>
                       <VOption value="Superman">Superman</VOption>
                       <VOption value="Batman">Batman</VOption>
@@ -177,40 +194,43 @@ function onSubmit(event: Event) {
                       <VOption value="Spawn">Spawn</VOption>
                       <VOption value="Galactus">Galactus</VOption>
                     </VSelect> -->
-                    <VInput disabled :value="applicantData.status?.name" />
-                  </VControl>
-                </VField>
-              </div>
-              <div class="column is-desktop-6 mb-3">
-                <VField>
-                  <VLabel>{{ t('verified_at') }}</VLabel>
-                  <VControl>
-                    <VInput disabled :value="formatDate(applicantData.verified_at)" class="input form-datepicker" />
-                  </VControl>
-                </VField>
-              </div>
-              <div class="column is-desktop-6 mb-3">
-                <VField>
-                  <VLabel>{{ t('blocked_at') }}</VLabel>
-                  <VControl>
-                    <VInput disabled :value="formatDate(applicantData.blocked_at)" class="input form-datepicker" />
-                  </VControl>
-                </VField>
-              </div>
-              <div class="column is-12 mb-3">
-                <VField>
-                  <VLabel>{{ t('block_reason') }}</VLabel>
-                  <VControl>
-                    <VTextarea disabled class="textarea" :rows="2" :value="applicantData.block_reason" />
-                  </VControl>
-                </VField>
+                      <VInput disabled :value="applicantData.status?.name" />
+                    </VControl>
+                  </VField>
+                </div>
+                <div class="column is-desktop-6 mb-3">
+                  <VField>
+                    <VLabel>{{ t('verified_at') }}</VLabel>
+                    <VControl>
+                      <VInput disabled :value="formatDate(applicantData.verified_at)" class="input form-datepicker" />
+                    </VControl>
+                  </VField>
+                </div>
+                <div class="column is-desktop-6 mb-3">
+                  <VField>
+                    <VLabel>{{ t('blocked_at') }}</VLabel>
+                    <VControl>
+                      <VInput disabled :value="formatDate(applicantData.blocked_at)" class="input form-datepicker" />
+                    </VControl>
+                  </VField>
+                </div>
+                <div class="column is-12 mb-3">
+                  <VField>
+                    <VLabel>{{ t('block_reason') }}</VLabel>
+                    <VControl>
+                      <VTextarea disabled class="textarea" :rows="2" :value="applicantData.block_reason" />
+                    </VControl>
+                  </VField>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </form>
+    </form>
+
+    <ConfirmActionModal @confirm-action="onConfirmAction" />
+  </div>
 </template>
 
 <style lang="scss">

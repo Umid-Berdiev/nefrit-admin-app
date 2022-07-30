@@ -1,27 +1,42 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, reactive, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 import type {
   VFlexTableWrapperSortFunction,
 } from '/@src/components/base/table/VFlexTableWrapper.vue'
-import { users } from '/@src/stores/usersMockData'
 import { useViewWrapper } from '/@src/stores/viewWrapper'
 import { useMainStore } from '/@src/stores'
+import { useRoute, useRouter } from 'vue-router'
+import { fetchStatementNotices, removeStatementNoticeById } from "/@src/utils/api/statement";
 
+const route = useRoute()
 const mainStore = useMainStore()
-const { t } = useI18n()
+const { t, locale } = useI18n()
+const currentStatementId = (route.params?.id as string) ?? null
 const viewWrapper = useViewWrapper()
-viewWrapper.setPageTitle(t('Conclusions_List'))
+viewWrapper.setPageTitle(t('Notices_List'))
 
-type User = typeof users[0]
-
-const data: User[] = users
-
-const isConclusionModalOpen = ref(false)
-const isFeedbackModalOpen = ref(false)
+const data = reactive({
+  pagination: {
+    current_page: 1,
+    per_page: 10,
+    total: 10,
+  },
+  result: []
+})
+const isNoticeModalOpen = ref(false)
 const selectedRowsId = ref<number[]>([])
-const isAllSelected = computed(() => data.length === selectedRowsId.value.length)
+const isAllSelected = computed(() => data.result.length === selectedRowsId.value.length)
+const selectedId = ref()
+const currentPage = computed({
+  get: () => {
+    return data.pagination.current_page
+  },
+  set: async (page) => {
+    await fetchData(page)
+  }
+})
 
 // this is a sample for custom sort function
 const locationSorter: VFlexTableWrapperSortFunction<User> = ({ order, a, b }) => {
@@ -44,45 +59,35 @@ const columns = {
     format: (value, row, index) => `${index + 1}`,
     cellClass: 'is-flex-grow-0',
   },
-  bio: { // description column
-    label: t('Conclusion_desc'),
-    // inverted: true,
-    // grow: true,
-  },
-  company: { // created_by_dept column
-    label: t('Department'),
-    searchable: true,
-    sortable: true,
-    sort: locationSorter,
-  },
-  name: { // created_by column
-    label: t('Employee_name'),
+  message: { // created_by column
+    label: t('Notice_message'),
     searchable: true,
     sortable: true,
     sort: locationSorter,
     // filter: userFilter,
   },
-  date: {
-    label: t('Date')
-  }, // created_at column
-  files: {
-    label: t('Files'),
-    // align: 'center',
+  text: { // description column
+    label: t('Notice_details'),
+    // inverted: true,
+    // grow: true,
   },
+  status: {
+    label: t('Status')
+  }, // created_at column
   actions: {
     label: t('Actions'),
     align: 'center',
   },
 } as const
 
+await fetchData()
+
 // the select all checkbox click handler
 function toggleSelection() {
-  // console.log('data:', data)
-
   if (isAllSelected.value) {
     selectedRowsId.value = []
   } else {
-    selectedRowsId.value = data.map((row: any) => row.id)
+    selectedRowsId.value = data.result.map((row: any) => row.id)
   }
 }
 
@@ -95,32 +100,41 @@ function clickOnRow(row: any) {
   }
 }
 
-function confirmAction() {
+async function fetchData(page: number = 1) {
+  const res = await fetchStatementNotices(Number(currentStatementId), page)
+  Object.assign(data, res)
+}
+
+async function onEdit(id: number) {
+  selectedId.value = id
+  isNoticeModalOpen.value = true
+}
+
+async function onRemove(id: number) {
+  selectedId.value = id
   mainStore.$patch({ confirmModalState: true })
+}
+
+async function handleRemoveAction() {
+  await removeStatementNoticeById(selectedId.value)
+  fetchData()
 }
 </script>
 
 <template>
   <div class="applicant-list-wrapper">
-    <!-- table -->
-    <div class="columns">
-      <div class="column">
-      </div>
-      <div class="column">
-        <!--  -->
-      </div>
-    </div>
     <VFlex class="mb-4" flex-wrap="wrap">
       <VFlexItem>
-        <h1 class="is-size-3 mb-3">{{ $t('Statement_conclusions') }}</h1>
+        <h1 class="is-size-3 mb-3">{{ $t('Statement_notices') }}</h1>
       </VFlexItem>
       <VFlexItem class="ml-auto">
-        <VButton outlined rounded color="info" icon="feather:plus" @click.prevent="isConclusionModalOpen = true">
+        <VButton outlined rounded color="info" icon="feather:plus" @click.prevent="isNoticeModalOpen = true">
           {{ $t('Add') }}
         </VButton>
       </VFlexItem>
     </VFlex>
-    <VFlexTableWrapper :columns="columns" :data="data">
+    <VFlexTableWrapper :columns="columns" :data="data.result" :limit="data.pagination.per_page"
+      :total="data.pagination.total">
       <template #default="wrapperState">
         <VFlexTable rounded>
           <!-- header-column slot -->
@@ -131,38 +145,31 @@ function confirmAction() {
           </template>
 
           <!-- Custom "name" cell content -->
-          <template #body-cell="{ row, column }">
+          <template #body-cell="{ row, column, value }">
             <VCheckbox v-if="column.key === 'select'" v-model="selectedRowsId" :value="row.id" name="selection"
               @change="clickOnRow" />
 
-            <template v-else-if="column.key === 'bio'">
+            <template v-else-if="column.key === 'text'">
               <div style="white-space: break-spaces;">
-                {{ row.bio }}
+                {{ row.text }}
               </div>
             </template>
-            <template v-else-if="column.key === 'files'">
-              <ul class="is-pushed-mobile">
-                <li>
-                  <a href="javascript:;" class="has-text-primary">file1</a>
-                </li>
-                <li>
-                  <a href="javascript:;" class="has-text-primary">file2</a>
-                </li>
-                <li>
-                  <a href="javascript:;" class="has-text-primary">file3</a>
-                </li>
-              </ul>
+            <template v-else-if="column.key === 'status' && value">
+              <StatusTag :status="value" />
             </template>
             <template v-else-if="column.key === 'actions'">
-              <ConclusionFlexTableDropdown @edit="isConclusionModalOpen = true" @remove="confirmAction" />
+              <NoticeFlexTableDropdown @edit="onEdit(row.id)" @remove="onRemove(row.id)" />
             </template>
           </template>
         </VFlexTable>
 
-        <VFlexPagination v-model:current-page="wrapperState.page" class="mt-6" :item-per-page="wrapperState.limit"
-          :total-items="wrapperState.total" :max-links-displayed="5" no-router />
+        <!-- Table Pagination with wrapperState.page binded-->
+        <VFlexPagination v-model:current-page="currentPage" class="mt-6" :item-per-page="data.pagination.per_page"
+          :total-items="data.pagination.total" />
       </template>
     </VFlexTableWrapper>
-    <NoticeFormModal v-model="isConclusionModalOpen" />
+    <NoticeFormModal v-model="isNoticeModalOpen" :item-id="selectedId" :parent-id="currentStatementId"
+      @update:list="fetchData" @close="selectedId = null" />
+    <ConfirmActionModal @confirm-action="handleRemoveAction" />
   </div>
 </template>

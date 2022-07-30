@@ -238,5 +238,10 @@
   "statement_code": "Номер заявления",
   "Departments_List": "Список отделов",
   "Statement_should_paid": "Заявления, обязательные к оплате",
-  "Total": "Всего"
+  "Total": "Всего",
+  "View_applicant_details": "Посмотреть детали заявителя",
+  "Block": "Блокировать",
+  "Block_applicant": "Блокировать заявителя",
+  "Make_notice": "Создать уведомление",
+  "Go_to_notices_list": "Перейти к списку уведомлений"
 }

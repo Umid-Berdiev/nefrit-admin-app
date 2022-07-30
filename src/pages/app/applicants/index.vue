@@ -9,8 +9,8 @@ import type {
   VFlexTableWrapperFilterFunction,
 } from '/@src/components/base/table/VFlexTableWrapper.vue'
 import { useViewWrapper } from '/@src/stores/viewWrapper'
+import { blockApplicant, fetchList } from '/@src/utils/api/applicant';
 import { useMainStore } from '/@src/stores'
-import { fetchList } from '/@src/utils/api/applicant';
 
 const { t, locale } = useI18n()
 
@@ -148,7 +148,7 @@ function clickOnRow(row: any) {
   }
 }
 
-function onActionTriggered(rowId: string | number) {
+function onView(rowId: string | number) {
   router.push('/app/applicants/' + rowId)
 }
 
@@ -156,11 +156,27 @@ async function fetchData(page: number = 1) {
   const res = await fetchList(page, locale.value)
   Object.assign(data, res)
 }
+
+function onEdit(rowId: number) {
+  selectedId.value = rowId;
+  isFormModalOpen.value = true
+}
+
+async function onBlock(id: number) {
+  selectedId.value = id
+  mainStore.$patch({ confirmModalState: true })
+}
+
+async function handleBlockAction() {
+  await blockApplicant(selectedId.value)
+  fetchData()
+}
 </script>
 
 <template>
   <div class="applicant-list-wrapper">
-    <TableActionsBlock center title="" :add-disabled="true" @filter="displayFilterForm = !displayFilterForm" />
+    <TableActionsBlock center title="" :add-disabled="true" :remove-disabled="true"
+      @filter="displayFilterForm = !displayFilterForm" />
     <div v-show="displayFilterForm" class="mb-5">
       <VCard radius="small">
         <h3 class="title is-5 mb-2">{{ t('Filter_form') }}</h3>
@@ -242,7 +258,7 @@ async function fetchData(page: number = 1) {
               <StatusTag :status="value" />
             </template>
             <template v-if="column.key === 'actions'">
-              <ApplicantFlexTableDropdown @view="onActionTriggered(row.id)" @edit="isFormModalOpen = true" />
+              <ApplicantFlexTableDropdown @view="onView(row.id)" @edit="onEdit(row.id)" @block="onBlock(row.id)" />
             </template>
           </template>
         </VFlexTable>
@@ -252,6 +268,6 @@ async function fetchData(page: number = 1) {
           :total-items="data.pagination.total" />
       </template>
     </VFlexTableWrapper>
-    <ApplicantFormModal v-model="isFormModalOpen" :item="selectedId" @update:list="fetchData" />
+    <ApplicantFormModal v-model="isFormModalOpen" :applicant-id="selectedId" @update:list="fetchData" />
   </div>
 </template>

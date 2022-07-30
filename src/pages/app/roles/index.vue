@@ -137,8 +137,8 @@ async function handleRemoveAction() {
   fetchData()
 }
 
-async function fetchData() {
-  const res = await fetchList(locale.value)
+async function fetchData(page = 1) {
+  const res = await fetchList(page, locale.value)
   Object.assign(data, res)
 }
 </script>
@@ -178,7 +178,7 @@ async function fetchData() {
               @change="clickOnRow" />
 
             <template v-if="column.key === 'actions'">
-              <RolesFlexTableDropdown @edit="onEdit(row.id)" @remove="onRemove"
+              <RolesFlexTableDropdown @edit="onEdit(row.id)" @remove="onRemove(row.id)"
                 @permissions="gotoPermissions(row.id)" />
             </template>
           </template>

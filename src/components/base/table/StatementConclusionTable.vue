@@ -102,14 +102,6 @@ function confirmAction() {
 
 <template>
   <div class="applicant-list-wrapper">
-    <!-- table -->
-    <div class="columns">
-      <div class="column">
-      </div>
-      <div class="column">
-        <!--  -->
-      </div>
-    </div>
     <VFlex class="mb-4" flex-wrap="wrap">
       <VFlexItem>
         <h1 class="is-size-3 mb-3">{{ $t('Statement_conclusions') }}</h1>

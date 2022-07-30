@@ -1,9 +1,7 @@
 <script setup lang="ts">
-
 const emits = defineEmits<{
-  (e: 'view'): void
   (e: 'edit'): void
-  (e: 'block'): void
+  (e: 'remove'): void
 }>()
 </script>
 
@@ -12,31 +10,15 @@ const emits = defineEmits<{
     <template #content="{ close }">
       <a role="menuitem" href="#" class="dropdown-item is-media" @click.prevent="
         () => {
-          emits('view')
-          close()
-        }
-      ">
-        <div class="icon">
-          <i aria-hidden="true" class="lnil lnil-eye"></i>
-        </div>
-        <div class="meta">
-          <span>{{ $t('View') }}</span>
-          <span>{{ $t('View_applicant_details') }}</span>
-        </div>
-      </a>
-
-      <a role="menuitem" href="#" class="dropdown-item is-media" @click.prevent="
-        () => {
           emits('edit')
           close()
         }
       ">
         <div class="icon">
-          <i aria-hidden="true" class="lnil lnil-briefcase"></i>
+          <i class="iconify" aria-hidden="true" data-icon="feather:edit"></i>
         </div>
         <div class="meta">
           <span>{{ $t('Edit') }}</span>
-          <span>{{ $t('Edit_applicant') }}</span>
         </div>
       </a>
 
@@ -44,16 +26,15 @@ const emits = defineEmits<{
 
       <a role="menuitem" href="#" class="dropdown-item is-media" @click.prevent="
         () => {
-          emits('block')
+          emits('remove')
           close()
         }
       ">
         <div class="icon">
-          <i class="lnir lnir-ban" aria-hidden="true"></i>
+          <i class="iconify" aria-hidden="true" data-icon="feather:trash"></i>
         </div>
         <div class="meta">
-          <span>{{ $t('Block') }}</span>
-          <span>{{ $t('Block_applicant') }}</span>
+          <span>{{ $t('Remove') }}</span>
         </div>
       </a>
     </template>

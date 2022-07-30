@@ -30,7 +30,7 @@ const selectedCountry = computed({
     <VControl>
       <VSelect v-model="selectedCountry">
         <VOption value="">{{ $t('Select') }}...</VOption>
-        <VOption v-for="country in countries" :key="country.iso2" :value="country.iso2" v-text="country.name" />
+        <VOption v-for="country in countries" :key="country.iso2" :value="country.name" v-text="country.name" />
       </VSelect>
     </VControl>
   </VField>

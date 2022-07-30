@@ -115,14 +115,14 @@ function clearErrors(event: Event) {
                         </VButton>
                       </div>
 
-                      <div class="is-flex is-justify-content-space-between">
+                      <!-- <div class="is-flex is-justify-content-space-between">
                         <RouterLink :to="{ name: 'auth' }">
                           <i>{{ $t('I_do_not_have_an_account_yet') }}</i>
                         </RouterLink>
                         <a>
                           <i>{{ $t('Forgot_Password') }}?</i>
                         </a>
-                      </div>
+                      </div> -->
                     </div>
                   </form>
                 </div>
