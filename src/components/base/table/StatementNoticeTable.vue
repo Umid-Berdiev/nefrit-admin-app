@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { ref, computed, reactive, onMounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import { useMainStore } from '/@src/stores'
 
 import type {
   VFlexTableWrapperSortFunction,
 } from '/@src/components/base/table/VFlexTableWrapper.vue'
 import { useViewWrapper } from '/@src/stores/viewWrapper'
-import { useMainStore } from '/@src/stores'
-import { useRoute, useRouter } from 'vue-router'
 import { fetchStatementNotices, removeStatementNoticeById } from "/@src/utils/api/statement";
 
 const route = useRoute()
@@ -139,17 +139,12 @@ async function handleRemoveAction() {
         <VFlexTable rounded>
           <!-- header-column slot -->
           <template #header-column="{ column }">
-            <VCheckbox v-if="column.key === 'select'" class="ml-2 mr-3" :checked="isAllSelected" name="all_selected"
-              color="primary" @click="toggleSelection" />
             <span v-if="column.key === 'orderNumber'" class="is-flex-grow-0" v-text="'#'" />
           </template>
 
           <!-- Custom "name" cell content -->
           <template #body-cell="{ row, column, value }">
-            <VCheckbox v-if="column.key === 'select'" v-model="selectedRowsId" :value="row.id" name="selection"
-              @change="clickOnRow" />
-
-            <template v-else-if="column.key === 'text'">
+            <template v-if="column.key === 'text'">
               <div style="white-space: break-spaces;">
                 {{ row.text }}
               </div>

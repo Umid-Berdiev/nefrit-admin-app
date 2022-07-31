@@ -58,7 +58,7 @@ watch(
     }
   }
 )
-console.log('activeMobileSubsidebar: ', activeMobileSubsidebar.value);
+// console.log('activeMobileSubsidebar: ', activeMobileSubsidebar.value);
 
 </script>
 

@@ -1,50 +1,146 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import VTextarea from '../form/VTextarea.vue';
+import { reactive, ref, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
+import {
+  createStatementConclusion,
+  updateStatementConclusionById,
+  fetchStatementConclusionById,
+  fetchStatementConclusionStatuses,
+} from '/@src/utils/api/statement';
+import { ConclusionData } from '/@src/utils/interfaces'
 
-defineProps({
+const props = defineProps({
   modelValue: Boolean,
-  selectedAnswer: String,
+  itemId: {
+    type: Number,
+    default: null
+  },
+  parentId: {
+    type: Number,
+    default: null
+  }
 })
 
 const emits = defineEmits<{
-  (e: 'update:modelValue', value: boolean): void
-}>();
+  (e: 'update:modelValue', modelValue: boolean): void
+  (e: 'update:list'): void
+}>()
 
+const { t } = useI18n()
+let title = ref(t('Add'))
+const text = ref('')
+const statusId = ref()
 const files = ref<File[]>([]);
+const remoteFiles = ref([]);
+const removedFileIds = ref<number[]>([]);
+const conclusionStatuses = await fetchStatementConclusionStatuses()
+const errors = reactive({
+  text: '',
+  status_id: ''
+})
 
-function onFileUpload(event: any) {
-  const target = event.target
-  console.log('files: ', target.files);
-  files.value?.push(target.files[0]);
+watch(
+  () => props.itemId,
+  async (newVal) => {
+    if (!newVal) {
+      title.value = t('Add')
+      text.value = ''
+      statusId.value = ''
+      remoteFiles.value = []
+    } else {
+      title.value = t('Edit')
+      const res = await fetchStatementConclusionById(Number(props.itemId))
+      text.value = res.text
+      statusId.value = res.status?.id
+      remoteFiles.value = res.files
+    }
+  },
+  { deep: true, immediate: true }
+)
+
+async function onSubmit(event: Event) {
+  try {
+    const conclusionData: ConclusionData = {
+      text: text.value,
+      application_id: props.parentId,
+      status_id: statusId.value,
+      files: files.value,
+      removed_files: removedFileIds.value,
+
+    }
+
+    props.itemId ?
+      await updateStatementConclusionById(props.itemId, conclusionData) :
+      await createStatementConclusion(conclusionData)
+    emits('update:list')
+    onClose()
+  } catch (error: any) {
+    Object.assign(errors, error.response?.data?.errors)
+    // throw error
+  }
 }
 
-function onFileRemove(id: string | number) {
-  console.log('id on remove file: ', id);
+function onClose() {
+  text.value = ''
+  statusId.value = ''
+  files.value = []
+  remoteFiles.value = []
+  removedFileIds.value = []
+
+  Object.assign(errors, {
+    text: '',
+    status_id: ''
+  })
+  emits('update:modelValue', false)
+}
+
+function clearErrors(event: Event) {
+  errors[event.target.name] = ''
+}
+
+function onFileUpload(event: Event) {
+  const target = event.target as HTMLInputElement
+  console.log('files: ', target.files);
+  target.files && files.value?.push(target.files[0]);
+}
+
+function onFileRemove(id: number) {
   files.value = files.value?.filter(file => file.lastModified !== id)
+}
+
+function onRemoteFileRemove(id: number) {
+  removedFileIds.value.push(id)
+  remoteFiles.value = remoteFiles.value?.filter(file => file.id !== id)
 }
 </script>
 
 <template>
-  <VModal :open="modelValue" size="large" :title="$t('Add_feedback')" actions="right"
-    @close="emits('update:modelValue', false)">
+  <VModal :open="modelValue" size="large" :title="title" actions="right" @close="onClose">
     <template #content>
-      <h1>{{ $t('Your_answer') }}: {{ selectedAnswer && $t(selectedAnswer) }}</h1>
-      <div class="columns is-multiline mt-5">
-        <div class="column is-12">
-          <VField :label="$t('conclusion_in_details') + '*'">
-            <VControl>
-              <VTextarea :placeholder="$t('Add_text')" :rows="2" />
-            </VControl>
-          </VField>
+      <form id="submit-form" class="modal-form" @submit.prevent="onSubmit">
+        <div class="columns is-multiline">
+          <div class="column is-12">
+            <VField :label="$t('conclusion_in_details') + '*'">
+              <VControl :has-error="errors.text[0]">
+                <VTextarea name="text" :placeholder="$t('Add_text')" v-model="text" @input="clearErrors" />
+                <p class="help has-text-danger">{{ errors.text[0] }}</p>
+              </VControl>
+            </VField>
+          </div>
+          <div class="column is-12">
+            <StatusSelect name="status_id" v-model="statusId" :list="conclusionStatuses" :is-required="true"
+              @change="clearErrors" />
+            <p class="help has-text-danger">{{ errors.status_id[0] }}</p>
+          </div>
+          <div class="column is-12">
+            <VFileInput :files="files" :remote-files="remoteFiles" @file-upload="onFileUpload"
+              @file-remove="onFileRemove" @remote-file-remove="onRemoteFileRemove" />
+          </div>
         </div>
-        <div class="column is-12">
-          <VFileInput :files="files" @file-upload="onFileUpload" @file-remove="onFileRemove" />
-        </div>
-      </div>
+      </form>
     </template>
     <template #action="{ close }">
-      <VButton color="primary" outlined @click="close()">{{ $t('Save_changes') }}</VButton>
+      <VButton color="primary" outlined type="submit" form="submit-form">{{ $t('Save') }}</VButton>
     </template>
   </VModal>
 </template>

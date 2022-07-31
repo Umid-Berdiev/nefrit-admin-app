@@ -99,7 +99,7 @@ function toggleSelection() {
   if (isAllSelected.value) {
     selectedRowIds.value = []
   } else {
-    selectedRowIds.value = data.map((row: any) => row.id)
+    selectedRowIds.value = data.result.map((row: any) => row.id)
   }
 }
 
@@ -145,7 +145,8 @@ async function fetchData(page = 1) {
 
 <template>
   <div class="applicant-list-wrapper">
-    <TableActionsBlock center title="" @add="onEdit(null)" :filter-disabled="true" @remove="confirmAction" />
+    <TableActionsBlock center title="" @add="onEdit(null)" :filter-disabled="true" :print-disabled="true"
+      @remove="confirmAction" />
 
     <!-- table -->
     <VFlexTableWrapper :columns="columns" :data="data.result" :limit="data.pagination.per_page"
@@ -189,7 +190,7 @@ async function fetchData(page = 1) {
           :item-per-page="data.pagination.per_page" :total-items="data.pagination.total" />
       </template>
     </VFlexTableWrapper>
-    <RoleFormModal v-model="isFormModalOpen" :item="selectedId" @update:list="fetchData" />
+    <RoleFormModal v-model="isFormModalOpen" :item="selectedId" @update:list="fetchData" @close="selectedId = null" />
     <ConfirmActionModal @confirm-action="handleRemoveAction" />
   </div>
 </template>

@@ -137,3 +137,86 @@ export async function createStatementNotice(payload: NoticeData): Promise<Notice
     throw error
   }
 }
+
+export async function fetchStatementConclusions(id: number, page: number) {
+  try {
+    const { data } = await api({
+      // url: `/api/admin/app/conclusion`,
+      url: `/api/admin/application/${id}/conclusion?page=${page}`,
+    })
+
+    return data.data
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function fetchStatementConclusionStatuses() {
+  try {
+    const { data } = await api({
+      url: `/api/admin/conclusionstatus`,
+    })
+
+    return data.data
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function fetchStatementConclusionById(id: number): Promise<ConclusionData> {
+  try {
+    const { data } = await api({
+      url: `/api/admin/application/conclusion/${id}`,
+    })
+
+    return data.data
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function updateStatementConclusionById(
+  id: number,
+  payload: ConclusionData
+): Promise<ConclusionData> {
+  try {
+    const { data } = await api({
+      url: `/api/admin/application/conclusion/${id}`,
+      method: 'PUT',
+      data: payload,
+    })
+
+    return data.data
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function removeStatementConclusionById(id: number) {
+  try {
+    const { data } = await api({
+      url: `/api/admin/application/conclusion/${id}`,
+      method: 'DELETE',
+    })
+
+    return data.data
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function createStatementConclusion(
+  payload: ConclusionData
+): Promise<ConclusionData> {
+  try {
+    const { data } = await api({
+      url: `/api/admin/application/${payload.application_id}/conclusion`,
+      method: 'POST',
+      data: payload,
+    })
+
+    return data.data
+  } catch (error) {
+    throw error
+  }
+}

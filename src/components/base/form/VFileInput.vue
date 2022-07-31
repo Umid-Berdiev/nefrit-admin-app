@@ -1,11 +1,13 @@
 <script setup lang="ts">
 const props = defineProps<{
   files: File[]
+  remoteFiles: File[]
 }>()
 
 const emits = defineEmits<{
   (e: 'file-upload', event: Event): void
   (e: 'file-remove', id: number): void
+  (e: 'remote-file-remove', id: number): void
 }>();
 </script>
 
@@ -26,10 +28,19 @@ const emits = defineEmits<{
     </div>
     <div class="is-flex is-flex-direction-column">
       <div class="is-divider my-3"></div>
+      <div v-for="(file, fileIndex) in remoteFiles" :key="fileIndex"
+        class="is-flex is-align-items-center mb-3 is-justify-content-space-between">
+        <span class="mr-3">{{ file.name }}</span>
+        <button type="button" class="button is-warning is-outlined is-rounded p-3"
+          @click="emits('remote-file-remove', file.id)">
+          <span class="iconify" data-icon="feather:x" />
+        </button>
+      </div>
       <div v-for="(file, fileIndex) in files" :key="fileIndex"
         class="is-flex is-align-items-center mb-3 is-justify-content-space-between">
         <span class="mr-3">{{ file.name }}</span>
-        <button class="button is-warning is-outlined is-rounded p-3" @click="emits('file-remove', file.lastModified)">
+        <button type="button" class="button is-warning is-outlined is-rounded p-3"
+          @click="emits('file-remove', file.lastModified)">
           <span class="iconify" data-icon="feather:x" />
         </button>
       </div>

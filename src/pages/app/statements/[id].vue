@@ -3,10 +3,11 @@ import { ref, computed, reactive, onMounted } from 'vue'
 import { useHead } from '@vueuse/head'
 
 // we import our useApi helper
-import { useViewWrapper } from '/@src/stores/viewWrapper'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 import { fetchChronologies } from '/@src/utils/api/statement'
+import { useViewWrapper } from '/@src/stores/viewWrapper'
+import { StatementData } from '/@src/utils/interfaces'
 
 const { t } = useI18n()
 const route = useRoute()
@@ -14,8 +15,8 @@ const currentId = (route.params?.id as string) ?? null
 const selectedTab = ref(route.hash.slice(1) || 'details')
 const viewWrapper = useViewWrapper()
 viewWrapper.setPageTitle(t('Statement_details'))
-const statement = ref<StatementInterface>()
-const tabs = reactive([
+const statement = ref<StatementData>()
+const tabs = ref([
   { label: t('Statement_details'), value: 'details', icon: 'lnil lnil-tap' },
   { label: t('Payment'), value: 'payment', icon: 'fas fa-tree' },
   {
@@ -40,7 +41,7 @@ onMounted(async () => {
 
 // here we setup our page meta with our statement data
 useHead({
-  title: computed(() => statement.value?.title ?? 'Loading statement...'),
+  title: computed(() => t('Statement_details')),
 })
 
 </script>

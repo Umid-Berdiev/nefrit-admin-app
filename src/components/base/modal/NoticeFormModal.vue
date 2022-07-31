@@ -35,7 +35,7 @@ const noticeStatuses = await fetchStatementNoticeStatuses()
 const errors = reactive({
   message: '',
   text: '',
-  status_id: '',
+  status_id: ''
 })
 
 watch(
@@ -78,6 +78,14 @@ async function onSubmit(event: Event) {
 }
 
 function onClose() {
+  message.value = ''
+  text.value = ''
+  statusId.value = ''
+  Object.assign(errors, {
+    message: '',
+    text: '',
+    status_id: ''
+  })
   emits('update:modelValue', false)
 }
 

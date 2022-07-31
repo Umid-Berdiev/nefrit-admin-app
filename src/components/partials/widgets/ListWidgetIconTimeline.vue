@@ -20,7 +20,7 @@ function formatDate(date: string) {
 <template>
   <div class="timeline is-centered">
     <header class="timeline-header">
-      <span class="tag is-medium is-primary">Start</span>
+      <span class="tag is-medium is-primary">{{ $t('Start') }}</span>
     </header>
     <div v-for="item, index in props.items" :key="item.id" class="timeline-item">
       <div class="timeline-marker is-primary" :class="[index === items.length - 1 && 'is-danger is-icon']"></div>
@@ -31,7 +31,7 @@ function formatDate(date: string) {
       </div>
     </div>
     <header class="timeline-header">
-      <span class="tag is-medium is-primary">End</span>
+      <span class="tag is-medium is-primary">{{ $t('End') }}</span>
     </header>
   </div>
 </template>

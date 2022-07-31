@@ -39,19 +39,6 @@ export interface ApplicantData {
   certificate?: string // yuridik shaxs guvohnomasi
 }
 
-export interface StatementInterface {
-  id: number // int [pk, increment]
-  legal_entity_id: number // int [ref:> legal_entities.id] // ariza topshirgan yuridik shaxs
-  representative_id: number // int [ref: - entities.id] // vakili
-  drug_id: number // int [ref: - drugs.id]
-  date: Date // datetime
-  applicant: string // string // arizachi fio si
-  status_id: number // int [ref:> statuses.id] // ariza holatini aniqlash uchun
-  is_approved: boolean // boolean // ariza tasdiqlangan yoki yo'qligini aniqlash uchun
-  stage_id: number // int [ref:> stages.id]
-  chat_id: number // int [ref:> chats.id]
-}
-
 export interface UserFilterForm {
   applicantUser?: string
   applicantStatus?: string
@@ -142,4 +129,19 @@ export interface NoticeData {
   application_id?: number
   status_id?: number
   status?: StatusData
+}
+
+export interface ConclusionData {
+  application?: StatementData
+  application_id?: number
+  created_at?: string
+  department?: string
+  id?: number
+  message?: string
+  read_at?: string
+  status?: StatusData
+  status_id?: number
+  text: string
+  files: File[]
+  removed_files: number[]
 }

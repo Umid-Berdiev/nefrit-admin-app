@@ -11,6 +11,7 @@ export interface VBlockProps {
   filterDisabled?: boolean
   removeDisabled?: boolean
   addDisabled?: boolean
+  printDisabled?: boolean
 }
 
 const props = withDefaults(defineProps<VBlockProps>(), {
@@ -19,6 +20,7 @@ const props = withDefaults(defineProps<VBlockProps>(), {
   filterDisabled: false,
   removeDisabled: false,
   addDisabled: false,
+  printDisabled: false,
 })
 
 const emits = defineEmits<{
@@ -58,7 +60,7 @@ const emits = defineEmits<{
         <VButton outlined rounded color="primary" icon="feather:printer" @click.prevent="
         () => {
           emits('print')
-        }">
+        }" v-if="!printDisabled">
           {{ $t('Print') }}
         </VButton>
         <VButton outlined rounded color="warning" icon="feather:filter" @click.prevent="() => {

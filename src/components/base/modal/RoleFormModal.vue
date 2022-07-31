@@ -67,6 +67,16 @@ async function onSubmit(event: Event) {
 }
 
 function onClose() {
+  Object.assign(names, {
+    uz: '',
+    ru: '',
+    en: ''
+  })
+  Object.assign(description, {
+    uz: '',
+    ru: '',
+    en: ''
+  })
   emits('update:modelValue', false)
 }
 </script>
