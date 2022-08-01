@@ -45,30 +45,30 @@ const columns = {
             <td class="has-text-weight-bold">{{ columns.saleName.label }}</td>
             <td>{{ drugData?.trade_name }}</td>
           </tr>
-          <!-- <tr>
+          <tr>
             <td class="has-text-weight-bold">{{ columns.composition.label }}</td>
-            <td>COMPOSITION</td>
+            <td>{{ drugData?.structure }}</td>
           </tr>
           <tr>
             <td class="has-text-weight-bold">{{ columns.drugForm }}</td>
-            <td>DRUGFORM</td>
-          </tr> -->
+            <td>{{ drugData?.structure }}</td>
+          </tr>
           <tr>
             <td class="has-text-weight-bold">{{ columns.patentNumber }}</td>
             <td>{{ drugData?.patent }}</td>
           </tr>
-          <!-- <tr>
+          <tr>
             <td class="has-text-weight-bold">{{ columns.use }}</td>
-            <td>USE</td>
+            <td>{{ drugData?.usage }}</td>
           </tr>
           <tr>
             <td class="has-text-weight-bold">{{ columns.producer }}</td>
-            <td>PRODUCER</td>
+            <td>{{ drugData?.preparer.name }}</td>
           </tr>
           <tr>
             <td class="has-text-weight-bold">{{ columns.manufacturer }}</td>
-            <td>MANUFACTURER</td>
-          </tr> -->
+            <td>{{ drugData?.manufacturer.name }}</td>
+          </tr>
         </tbody>
       </table>
     </template>

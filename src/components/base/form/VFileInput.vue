@@ -2,6 +2,7 @@
 const props = defineProps<{
   files: File[]
   remoteFiles: File[]
+  errorMessage: ''
 }>()
 
 const emits = defineEmits<{
@@ -26,8 +27,10 @@ const emits = defineEmits<{
         </span>
       </label>
     </div>
+    <p class="help has-text-danger">{{ errorMessage }}</p>
     <div class="is-flex is-flex-direction-column">
       <div class="is-divider my-3"></div>
+      <!-- <template v-if="remoteFiles?.length > 0"> -->
       <div v-for="(file, fileIndex) in remoteFiles" :key="fileIndex"
         class="is-flex is-align-items-center mb-3 is-justify-content-space-between">
         <span class="mr-3">{{ file.name }}</span>
@@ -36,6 +39,7 @@ const emits = defineEmits<{
           <span class="iconify" data-icon="feather:x" />
         </button>
       </div>
+      <!-- </template> -->
       <div v-for="(file, fileIndex) in files" :key="fileIndex"
         class="is-flex is-align-items-center mb-3 is-justify-content-space-between">
         <span class="mr-3">{{ file.name }}</span>

@@ -66,12 +66,22 @@ async function onSubmit(event: Event) {
       status_id: statusId.value,
       files: files.value,
       removed_files: removedFileIds.value,
-
     }
 
+    const formData = new FormData()
+    formData.append('text', conclusionData.text)
+    formData.append('application_id', conclusionData.application_id)
+    formData.append('status_id', conclusionData.status_id)
+    files.value.forEach(file => {
+      formData.append('files[]', file)
+    })
+    remoteFiles.value.forEach(file => {
+      formData.append('removes[]', file)
+    })
+
     props.itemId ?
-      await updateStatementConclusionById(props.itemId, conclusionData) :
-      await createStatementConclusion(conclusionData)
+      await updateStatementConclusionById(props.itemId, formData) :
+      await createStatementConclusion(formData)
     emits('update:list')
     onClose()
   } catch (error: any) {

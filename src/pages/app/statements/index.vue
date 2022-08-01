@@ -84,7 +84,7 @@ const columns = {
     searchable: true,
     sortable: true,
     filter: userFilter,
-    // grow: true,
+    grow: true,
   },
   drug: {
     label: t('drug_name'),
@@ -92,16 +92,16 @@ const columns = {
     // sortable: true,
     // filter: userFilter,
   },
+  status: t('Status'),
+  stage: {
+    label: t('Stage'),
+    grow: true,
+  },
   date: {
     label: t('applied_at'),
     sortable: true,
     searchable: true,
     sort: locationSorter,
-  },
-  status: t('Status'),
-  stage: {
-    label: t('Stage'),
-    grow: true,
   },
   actions: {
     label: t('Actions'),
@@ -148,7 +148,7 @@ function confirmAction() {
 }
 
 function formatDate(date: string) {
-  moment(date).format('YYYY-MM-DD')
+  return date ? moment(date).format('HH:mm DD.MM.YYYY') : ''
 }
 
 async function fetchData(page: number = 1) {
@@ -240,15 +240,16 @@ async function fetchData(page: number = 1) {
               <span>{{ value.name }}</span>
             </template>
             <template v-else-if="column.key === 'date'">
-              <span>{{ value }}</span>
+              <span>{{ formatDate(value) }}</span>
             </template>
             <template v-else-if="column.key === 'status'">
               <StatusTag :status="value" />
             </template>
             <template v-else-if="column.key === 'stage'">
-              <VTag class="is-size-6" rounded color="info">
+              <button class="button is-size-6 has-background-info is-rounded has-text-white p-5" rounded
+                style="white-space: break-spaces;">
                 {{ value.name }}
-              </VTag>
+              </button>
             </template>
             <template v-else-if="column.key === 'actions'">
               <!-- <ActionButtons @edit="isFormModalOpen = true" /> -->

@@ -6,8 +6,10 @@ import DrugInfoModal from '../base/modal/DrugInfoModal.vue';
 import { fetchById } from '/@src/utils/api/statement'
 import { useRoute } from 'vue-router';
 import { StatementData } from '/@src/utils/interfaces';
+import moment from 'moment';
+import VButton from '../base/button/VButton.vue';
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 const columns = {
   company: {
     label: t('Applied_legal_entity'),
@@ -22,10 +24,13 @@ const columns = {
     label: t('Stage')
   },
   date: {
-    label: t('Applied_at'),
+    label: t('applied_at'),
   },
   paymentStatus: {
     label: t('Payment_status')
+  },
+  contract: {
+    label: t('Contract')
   },
   certificate: {
     label: t('Certificate')
@@ -36,13 +41,13 @@ const selectedCompanyId = ref()
 const selectedDrugId = ref()
 const isCompanyInfoModalOpen = ref(false)
 const isDrugInfoModalOpen = ref(false)
+const isCertificateFormModalOpen = ref(false)
 const route = useRoute()
 const currentId = (route.params?.id as string) ?? null
 const currentStatementData = ref<StatementData>()
 
 onMounted(async () => {
-  const res = await fetchById(Number(currentId))
-  currentStatementData.value = res
+  await fetchData()
 })
 
 function openCompanyInfoModal(id: number) {
@@ -53,6 +58,15 @@ function openCompanyInfoModal(id: number) {
 function openDrugInfoModal(id: number) {
   selectedDrugId.value = id
   isDrugInfoModalOpen.value = true
+}
+
+function formatDate(date: string) {
+  return date ? moment(date).format('HH:mm DD.MM.YYYY') : ''
+}
+
+async function fetchData() {
+  const res = await fetchById(Number(currentId), locale.value)
+  currentStatementData.value = res
 }
 </script>
 
@@ -92,16 +106,43 @@ function openDrugInfoModal(id: number) {
         </tr>
         <tr>
           <td class="has-text-weight-bold">{{ columns.date.label }}</td>
-          <td>{{ currentStatementData?.date }}</td>
+          <td>{{ formatDate(currentStatementData?.date) }}</td>
         </tr>
         <tr>
           <td class="has-text-weight-bold">{{ columns.paymentStatus.label }}</td>
-          <td>{{ currentStatementData?.status && $t(currentStatementData.status) }}</td>
+          <td>
+            <VTag v-if="currentStatementData?.is_payed" color="primary" :label="$t('Paid')" outlined rounded />
+            <VTag v-else color="danger" :label="$t('Not_Paid')" outlined rounded />
+          </td>
+        </tr>
+        <tr>
+          <td class="has-text-weight-bold">{{ columns.contract.label }}</td>
+          <td>
+            <a v-if="currentStatementData?.contract_id" :href="'/app/contract/' + currentStatementData?.contract_id"
+              class="has-text-primary">
+              {{ $t('Link_for_contract') }}
+              <i class="iconify" data-icon="feather:link" aria-hidden="true"></i>
+            </a>
+            <span v-else class="has-text-danger">
+              {{ $t('No_contract') }}
+            </span>
+          </td>
         </tr>
         <tr>
           <td class="has-text-weight-bold">{{ columns.certificate.label }}</td>
-          <td>
-            <a href="javascript:;" class="has-text-primary">Link for certificate</a>
+          <td class="is-flex is-align-items-center">
+            <a v-if="currentStatementData?.certificate" :href="currentStatementData?.certificate?.file"
+              class="has-text-primary" download>
+              {{ currentStatementData?.certificate?.number }}
+              <i class="iconify" data-icon="feather:link" aria-hidden="true"></i>
+            </a>
+            <span v-else class="has-text-danger">
+              {{ $t('No_certificate') }}
+            </span>
+            <VButton class="ml-auto" color="primary" rounded icon="fas fa-plus"
+              @click="isCertificateFormModalOpen = true"> {{
+                  $t('Upload')
+              }} </VButton>
           </td>
         </tr>
       </tbody>
@@ -109,6 +150,7 @@ function openDrugInfoModal(id: number) {
   </ListWidgetSingle>
   <CompanyInfoModal v-model="isCompanyInfoModalOpen" :company-data="currentStatementData?.legal_entity" />
   <DrugInfoModal v-model="isDrugInfoModalOpen" :drug-data="currentStatementData?.drug" />
+  <CertificateFormModal v-model="isCertificateFormModalOpen" :statement-id="currentId" @close="fetchData" />
 </template>
 
 <style scoped lang="scss">

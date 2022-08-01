@@ -1,4 +1,9 @@
-import { NoticeData, StatementData } from '../../interfaces'
+import {
+  ConclusionData,
+  NoticeData,
+  StatementCertificateData,
+  StatementData,
+} from '../../interfaces'
 import { useApi } from '/@src/composable/useApi'
 
 const api = useApi()
@@ -21,10 +26,13 @@ export async function fetchList(
   }
 }
 
-export async function fetchById(id: number): Promise<StatementData> {
+export async function fetchById(id: number, locale: string): Promise<StatementData> {
   try {
     const { data } = await api({
       url: `/api/admin/application/${id}`,
+      headers: {
+        Language: locale,
+      },
     })
 
     return data.data
@@ -45,10 +53,13 @@ export async function fetchStages(id: number) {
   }
 }
 
-export async function fetchChronologies(id: number) {
+export async function fetchChronologies(id: number, locale: string) {
   try {
     const { data } = await api({
       url: `/api/admin/application/${id}/chronologies`,
+      headers: {
+        Language: locale,
+      },
     })
 
     return data.data
@@ -177,12 +188,12 @@ export async function fetchStatementConclusionById(id: number): Promise<Conclusi
 
 export async function updateStatementConclusionById(
   id: number,
-  payload: ConclusionData
+  payload: FormData
 ): Promise<ConclusionData> {
   try {
     const { data } = await api({
       url: `/api/admin/application/conclusion/${id}`,
-      method: 'PUT',
+      method: 'POST',
       data: payload,
     })
 
@@ -206,11 +217,95 @@ export async function removeStatementConclusionById(id: number) {
 }
 
 export async function createStatementConclusion(
-  payload: ConclusionData
+  payload: FormData
 ): Promise<ConclusionData> {
   try {
     const { data } = await api({
-      url: `/api/admin/application/${payload.application_id}/conclusion`,
+      url: `/api/admin/application/${payload.get('application_id')}/conclusion`,
+      method: 'POST',
+      data: payload,
+    })
+
+    return data.data
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function fetchStatementCertificates(id: number, page: number) {
+  try {
+    const { data } = await api({
+      url: `/api/admin/${id}/certificate?page=${page}`,
+    })
+
+    return data.data
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function fetchStatementCertificateStatuses() {
+  try {
+    const { data } = await api({
+      url: `/api/admin/certificate/status`,
+    })
+
+    return data.data
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function fetchStatementCertificateById(
+  id: number
+): Promise<StatementCertificateData> {
+  try {
+    const { data } = await api({
+      url: `/api/admin/certificate/${id}`,
+    })
+
+    return data.data
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function updateStatementCertificateById(
+  id: number,
+  payload: StatementCertificateData
+): Promise<StatementCertificateData> {
+  try {
+    const { data } = await api({
+      url: `/api/admin/certificate/${id}`,
+      method: 'PUT',
+      data: payload,
+    })
+
+    return data.data
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function removeStatementCertificateById(id: number) {
+  try {
+    const { data } = await api({
+      url: `/api/admin/certificate/${id}`,
+      method: 'DELETE',
+    })
+
+    return data.data
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function createStatementCertificate(
+  payload: StatementCertificateData
+): Promise<StatementCertificateData> {
+  try {
+    const { data } = await api({
+      url: `/api/admin/certificate`,
       method: 'POST',
       data: payload,
     })

@@ -9,7 +9,7 @@ import { fetchChronologies } from '/@src/utils/api/statement'
 import { useViewWrapper } from '/@src/stores/viewWrapper'
 import { StatementData } from '/@src/utils/interfaces'
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 const route = useRoute()
 const currentId = (route.params?.id as string) ?? null
 const selectedTab = ref(route.hash.slice(1) || 'details')
@@ -18,7 +18,7 @@ viewWrapper.setPageTitle(t('Statement_details'))
 const statement = ref<StatementData>()
 const tabs = ref([
   { label: t('Statement_details'), value: 'details', icon: 'lnil lnil-tap' },
-  { label: t('Payment'), value: 'payment', icon: 'fas fa-tree' },
+  // { label: t('Payment'), value: 'payment', icon: 'fas fa-tree' },
   {
     label: t('Statement_conclusions'),
     value: 'conclusions',
@@ -35,7 +35,7 @@ const tabs = ref([
 const chronologyData = ref([])
 
 onMounted(async () => {
-  const res = await fetchChronologies(Number(currentId))
+  const res = await fetchChronologies(Number(currentId), locale.value)
   chronologyData.value = res
 })
 
@@ -60,9 +60,9 @@ useHead({
             </ListWidgetSingle>
           </div>
         </div>
-        <div v-else-if="activeValue === 'payment'" class="mt-5">
+        <!-- <div v-else-if="activeValue === 'payment'" class="mt-5">
           <PaymentStatusTable :is-contract-info-table-visible="true" />
-        </div>
+        </div> -->
         <div v-else-if="activeValue === 'conclusions' || route.hash == '#conclusions'" class="mt-5">
           <StatementConclusionTable />
         </div>

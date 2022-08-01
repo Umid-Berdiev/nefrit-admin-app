@@ -78,11 +78,23 @@ export interface StageData {
 
 export type StatementStatusType = 'completed' | 'created'
 
+export interface StatementCertificateData {
+  application_id?: string | number
+  file?: File
+  id?: number
+  number?: string | number
+  drug_name: string
+  start_date: string
+  end_date: string
+  manufacturer_name: string
+  status_id: number
+}
+
 export interface StatementData {
   applicant: string
   code: string
   contract_id: number
-  date: Date
+  date: string
   drug: DrugData
   id: number
   is_approved: boolean
@@ -90,6 +102,7 @@ export interface StatementData {
   legal_entity: LegalEntityData
   stage: StageData
   status: StatementStatusType
+  certificate: StatementCertificateData
 }
 
 export interface DepartmentNameData {

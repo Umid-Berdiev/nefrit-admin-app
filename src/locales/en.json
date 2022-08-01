@@ -262,5 +262,18 @@
   "Statement_notices": "Statement notices",
   "Notices_List": "Notices list",
   "No_matches": "No matches",
-  "There_is_no_data_that_match_your_query": "There is no data that match your query"
+  "There_is_no_data_that_match_your_query": "There is no data that match your query",
+  "Start": "Start",
+  "Start": "Start",
+  "No_contract": "No contract",
+  "No_certificate": "No certificate",
+  "Paid": "Paid",
+  "Not_Paid": "Not Paid",
+  "Link_for_contract": "Link for contract",
+  "Contract": "Contract",
+  "Add_certificate_number": "Add certificate number",
+  "Certificate_number": "Certificate number",
+  "Start_date": "Start date",
+  "End_date": "End date",
+  "Add_certificate": "Add certificate"
 }

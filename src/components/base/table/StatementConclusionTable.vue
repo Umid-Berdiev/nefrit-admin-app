@@ -9,6 +9,7 @@ import type {
 } from '/@src/components/base/table/VFlexTableWrapper.vue'
 import { useViewWrapper } from '/@src/stores/viewWrapper'
 import { fetchStatementConclusions, removeStatementConclusionById } from "/@src/utils/api/statement";
+import VAvatar from '../avatar/VAvatar.vue'
 
 const route = useRoute()
 const mainStore = useMainStore()
@@ -54,14 +55,14 @@ const columns = {
     format: (value, row, index) => `${index + 1}`,
     cellClass: 'is-flex-grow-0',
   },
-  text: { // description column
+  user: {
+    label: t('Created_by'),
+  },
+  text: {
     label: t('Conclusion_desc'),
   },
-  department: { // created_by_dept column
+  department: {
     label: t('Department'),
-    searchable: true,
-    sortable: true,
-    sort: locationSorter,
   },
   files: {
     label: t('Files'),
@@ -137,6 +138,10 @@ async function handleRemoveAction() {
 
           <!-- Custom "name" cell content -->
           <template #body-cell="{ row, column, value }">
+            <template v-if="column.key === 'user'">
+              <VAvatar v-if="value.avatar" :picture="value.avatar" class="mr-5" />
+              <h1>{{ value.username }}</h1>
+            </template>
             <template v-if="column.key === 'text'">
               <div style="white-space: break-spaces;">
                 {{ row.text }}

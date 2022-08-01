@@ -20,6 +20,7 @@ declare module '@vue/runtime-core' {
     ApplicantStatementsTable: typeof import('./src/components/base/table/ApplicantStatementsTable.vue')['default']
     AuthLayout: typeof import('./src/layouts/AuthLayout.vue')['default']
     BillboardJsDashboard: typeof import('./src/components/pages/charts/BillboardJsDashboard.vue')['default']
+    CertificateFormModal: typeof import('./src/components/base/modal/CertificateFormModal.vue')['default']
     ChatBody: typeof import('./src/components/partials/chat/ChatBody.vue')['default']
     ChatBodyWrap: typeof import('./src/components/partials/chat/ChatBodyWrap.vue')['default']
     ChatCard: typeof import('./src/components/partials/chat/ChatCard.vue')['default']

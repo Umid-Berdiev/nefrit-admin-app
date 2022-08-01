@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, h, reactive } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 
 import type {
@@ -10,18 +10,12 @@ import type {
 import { useViewWrapper } from '/@src/stores/viewWrapper'
 import { useMainStore } from '/@src/stores'
 import { useHead } from '@vueuse/head'
-import { fetchList, removeById, searchList } from '/@src/utils/api/role';
+import { fetchList, removeById, searchList, sortList } from '/@src/utils/api/role';
 
+const route = useRoute()
+const router = useRouter()
 const { t, locale } = useI18n()
-
-useHead({
-  title: t('Roles') + ' - Nefrit',
-})
-
 const mainStore = useMainStore()
-const viewWrapper = useViewWrapper()
-viewWrapper.setPageTitle(t('Roles_List'))
-
 const data = reactive({
   pagination: {
     current_page: 1,
@@ -33,41 +27,40 @@ const data = reactive({
 const isFormModalOpen = ref(false)
 const selectedRowIds = ref<number[]>([])
 const isAllSelected = computed(() => data.result.length === selectedRowIds.value.length && selectedRowIds.value.length !== 0)
-const router = useRouter()
 const selectedId = ref<number | null>(null)
 const searchInput = computed({
   get(): string {
     return ''
   },
-
   async set(v: string) {
     await onSearch(v)
   }
 })
+const defaultSort = ref('')
+const sort = computed({
+  get: () => {
+    let sortQuery: string = defaultSort.value
 
-// this is a sample for custom sort function
-const locationSorter: VFlexTableWrapperSortFunction<User> = ({ order, a, b }) => {
-  if (order === 'asc') {
-    return a.location.localeCompare(b.location)
-  } else if (order === 'desc') {
-    return b.location.localeCompare(a.location)
-  }
+    // read "sort" from the query params
+    // if (Array.isArray(route?.query?.sort)) {
+    //   sortQuery = route.query.sort?.[0] ?? defaultSort
+    // } else {
+    //   sortQuery = route.query.sort ?? defaultSort
+    // }
 
-  return 0
-}
-
-// this is a sample for custom filter function
-const userFilter: VFlexTableWrapperFilterFunction<User> = ({ searchTerm, row }) => {
-  if (!searchTerm) {
-    return true
-  }
-
-  // search either in the name or the bio
-  return (
-    row.name.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase()) ||
-    row.bio.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase())
-  )
-}
+    return sortQuery
+  },
+  async set(value) {
+    // router.push({
+    //   query: {
+    //     sort: value === defaultSort ? undefined : value,
+    //   },
+    // })
+    defaultSort.value = value ?? ''
+    console.log({ value });
+    await onSort(value)
+  },
+})
 
 const columns = computed(() => ({
   select: {
@@ -75,7 +68,6 @@ const columns = computed(() => ({
     cellClass: 'is-flex-grow-0',
   },
   orderNumber: {
-    // label: '#',
     format: (value, row, index) => `${index + 1}`,
     cellClass: 'is-flex-grow-0',
   },
@@ -83,28 +75,28 @@ const columns = computed(() => ({
     label: t('Name'),
     searchable: true,
     sortable: true,
-    sort: locationSorter,
-    filter: userFilter,
   },
   description: {
     label: t('Description'),
-    // searchable: true,
-    // sortable: true,
-    // sort: locationSorter,
-    // filter: userFilter,
+    sortable: true,
   },
   actions: {
     label: t('Actions'),
     align: 'center',
   },
 }))
+const viewWrapper = useViewWrapper()
+
+viewWrapper.setPageTitle(t('Roles_List'))
+
+useHead({
+  title: t('Roles') + ' - Nefrit',
+})
 
 await fetchData()
 
 // the select all checkbox click handler
 function toggleSelection() {
-  // console.log('data:', data)
-
   if (isAllSelected.value) {
     selectedRowIds.value = []
   } else {
@@ -155,6 +147,23 @@ async function onSearch(val: string) {
   const res = await searchList(val, locale.value)
   Object.assign(data, res)
 }
+
+async function onSort(val: string) {
+  const res = await sortList(val, locale.value)
+  Object.assign(data, res)
+}
+
+async function filter({ searchTerm, row }) {
+  if (!searchTerm) {
+    return true
+  }
+
+  // search either in the name or the bio
+  return (
+    row.name.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase()) ||
+    row.bio.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase())
+  )
+}
 </script>
 
 <template>
@@ -164,7 +173,7 @@ async function onSearch(val: string) {
 
     <!-- table -->
     <VFlexTableWrapper :columns="columns" :data="data.result" :limit="data.pagination.per_page"
-      :total="data.pagination.total">
+      :total="data.pagination.total" v-model:sort="sort">
       <!--
         Here we retrieve the internal wrapperState.
         Note that we can not destructure it

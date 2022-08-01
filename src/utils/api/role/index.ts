@@ -32,6 +32,21 @@ export async function searchList(search: string, locale: string) {
   }
 }
 
+export async function sortList(sort: string, locale: string) {
+  try {
+    const { data } = await api({
+      url: `/api/admin/role?sort=${sort}`,
+      headers: {
+        Language: locale,
+      },
+    })
+
+    return data.data
+  } catch (error) {
+    throw error
+  }
+}
+
 export async function fetchById(id: number) {
   try {
     const { data } = await api({
@@ -73,6 +88,18 @@ export async function removeById(id: number | null) {
     const { data } = await api({
       url: `/api/admin/role/${id}`,
       method: 'DELETE',
+    })
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function removeMulti(ids: number[]) {
+  try {
+    const { data } = await api({
+      url: `/api/admin/role`,
+      method: 'DELETE',
+      data: { ids },
     })
   } catch (error) {
     throw error

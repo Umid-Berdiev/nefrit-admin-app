@@ -135,7 +135,7 @@
   "Invoice": "Счет",
   "Amount": "Количество",
   "Paid_date": "Дата оплаты",
-  "Producer": "Производитель",
+  "Producer": "Изготовитель",
   "Applied_at": "Дата подачи заявки",
   "Verified_date": "Дата подтверждения",
   "Verify": "Подтвердить",
@@ -262,5 +262,18 @@
   "Statement_notices": "Уведомления заявки",
   "Notices_List": "Список уведомлений",
   "No_matches": "Нет совпадений",
-  "There_is_no_data_that_match_your_query": "Нет данных, соответствующих вашему запросу"
+  "There_is_no_data_that_match_your_query": "Нет данных, соответствующих вашему запросу",
+  "Start": "Начало",
+  "End": "Конец",
+  "No_contract": "Контракт еще не сформирован",
+  "No_certificate": "Сертификат еще не сформирован",
+  "Paid": "Оплачено",
+  "Not_Paid": "Не оплачено",
+  "Link_for_contract": "Ссылка для контракта",
+  "Contract": "Контракт",
+  "Add_certificate_number": "Введите номер сертификата",
+  "Certificate_number": "Номер сертификата",
+  "Start_date": "Дата начало",
+  "End_date": "Дата конец",
+  "Add_certificate": "Добавить сертификат"
 }

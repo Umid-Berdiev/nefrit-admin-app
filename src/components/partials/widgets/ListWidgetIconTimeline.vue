@@ -13,7 +13,7 @@ const props = withDefaults(
 )
 
 function formatDate(date: string) {
-  return date ? moment(date).format('YYYY-MM-DD') : ''
+  return date ? moment(date).format('DD.MM.YYYY') : ''
 }
 </script>
 
@@ -23,25 +23,29 @@ function formatDate(date: string) {
       <span class="tag is-medium is-primary">{{ $t('Start') }}</span>
     </header>
     <div v-for="item, index in props.items" :key="item.id" class="timeline-item">
-      <div class="timeline-marker is-primary" :class="[index === items.length - 1 && 'is-danger is-icon']"></div>
-      <div class="timeline-content">
-        <span>{{ formatDate(item.date) }}</span>
-        <p class="heading">{{ item.stage }}</p>
-        <p class="">{{ item.message }}</p>
-      </div>
+      <template v-if="item.key === 'stages'">
+        <div class="timeline-marker is-icon has-text-dark" :class="[item.date && 'is-primary has-text-white']">
+          {{ item.stage_number }}
+        </div>
+        <div class="timeline-content">
+          <span>{{ formatDate(item.date) }}</span>
+          <p class="heading">{{ item.stage }}</p>
+          <p class="">{{ item.message }}</p>
+        </div>
+      </template>
+      <template v-else>
+        <div class="timeline-marker has-text-dark" :class="[item.date && 'is-primary has-text-white']">
+        </div>
+        <div class="timeline-content">
+          <span>{{ formatDate(item.date) }}</span>
+          <p class="heading">{{ item.department }}</p>
+          <p class="">{{ item.message }}</p>
+        </div>
+      </template>
+
     </div>
     <header class="timeline-header">
-      <span class="tag is-medium is-primary">{{ $t('End') }}</span>
+      <span class="tag is-medium is-info">{{ $t('End') }}</span>
     </header>
   </div>
 </template>
-
-<!-- <style scoped lang="scss">
-.timeline.is-centered .timeline-item:nth-of-type(2n) {
-  align-self: flex-start;
-  flex-direction: row-reverse;
-  margin-left: 0;
-  margin-right: 2em;
-}
-</style> -->
-

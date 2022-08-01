@@ -2,6 +2,7 @@
 import { computed, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n';
 import { LegalEntityData } from '/@src/utils/interfaces';
+import VTag from '../tags/VTag.vue';
 
 const props = defineProps({
   modelValue: Boolean,
@@ -46,22 +47,26 @@ const columns = {
             <td class="has-text-weight-bold">{{ columns.phone.label }}</td>
             <td>{{ companyData?.phone }}</td>
           </tr>
-          <!-- <tr>
+          <tr>
             <td class="has-text-weight-bold">{{ columns.bossName.label }}</td>
-            <td>Watson</td>
+            <td>{{ companyData?.boss_name }}</td>
           </tr>
           <tr>
             <td class="has-text-weight-bold">{{ columns.website }}</td>
-            <td>Joestar</td>
+            <td>{{ companyData?.website }}</td>
           </tr>
           <tr>
             <td class="has-text-weight-bold">{{ columns.stir }}</td>
-            <td>Jensen</td>
+            <td>{{ companyData?.inn }}</td>
           </tr>
           <tr>
             <td class="has-text-weight-bold">{{ columns.status }}</td>
-            <td>Jensen</td>
-          </tr> -->
+            <td v-if="companyData?.status">
+              <VTag class="is-size-7" rounded :color="companyData?.status?.color">
+                {{ $t(companyData?.status?.name) }}
+              </VTag>
+            </td>
+          </tr>
           <tr>
             <td class="has-text-weight-bold">{{ columns.country }}</td>
             <td>{{ companyData?.country }}</td>
