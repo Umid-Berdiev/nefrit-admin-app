@@ -32,7 +32,7 @@ const data = reactive({
 })
 const isFormModalOpen = ref(false)
 const selectedRowIds = ref<number[]>([])
-const isAllSelected = computed(() => data.result.length === selectedRowIds.value.length)
+const isAllSelected = computed(() => data.result.length === selectedRowIds.value.length && selectedRowIds.value.length !== 0)
 const router = useRouter()
 const selectedId = ref<number | null>(null)
 const searchInput = computed({
@@ -214,7 +214,7 @@ async function onSearch(val: string) {
 
             <!-- This is the empty state -->
             <div v-else-if="data.result.length === 0" class="flex-list-inner">
-              <VPlaceholderSection title="No matches" :subtitle="$t('There_is_no_data_that_match_your_query')"
+              <VPlaceholderSection :title="$t('No_matches')" :subtitle="$t('There_is_no_data_that_match_your_query')"
                 class="my-6" />
             </div>
           </template>

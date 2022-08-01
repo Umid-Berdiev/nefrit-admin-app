@@ -260,5 +260,7 @@
   "Make_notice": "Создать уведомление",
   "Go_to_notices_list": "Перейти к списку уведомлений",
   "Statement_notices": "Уведомления заявки",
-  "Notices_List": "Список уведомлений"
+  "Notices_List": "Список уведомлений",
+  "No_matches": "Нет совпадений",
+  "There_is_no_data_that_match_your_query": "Нет данных, соответствующих вашему запросу"
 }

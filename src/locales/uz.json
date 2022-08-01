@@ -260,5 +260,7 @@
   "Make_notice": "Bildirishnoma qo'shish",
   "Go_to_notices_list": "Bildirishnomalar ro'yxatiga o'tish",
   "Statement_notices": "Ariza bildirishnomalari",
-  "Notices_List": "Bildirishnomalar ro'yxati"
+  "Notices_List": "Bildirishnomalar ro'yxati",
+  "No_matches": "Moslik topilmadi",
+  "There_is_no_data_that_match_your_query": "So'rovingizga mos keladigan ma'lumotlar yo'q"
 }

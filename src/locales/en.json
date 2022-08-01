@@ -260,5 +260,7 @@
   "Make_notice": "Make notice",
   "Go_to_notices_list": "Go to notices list",
   "Statement_notices": "Statement notices",
-  "Notices_List": "Notices list"
+  "Notices_List": "Notices list",
+  "No_matches": "No matches",
+  "There_is_no_data_that_match_your_query": "There is no data that match your query"
 }
