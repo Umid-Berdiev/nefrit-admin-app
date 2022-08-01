@@ -11,13 +11,14 @@ export interface StatusData {
 }
 
 export interface StatusSelectProps {
-  modelValue: StatusData,
+  modelValue: number | string,
   isRequired: boolean,
   list: StatusData[],
 }
 
 const props = withDefaults(defineProps<StatusSelectProps>(), {
-  isRequired: false
+  isRequired: false,
+  modelValue: ''
 })
 const emit = defineEmits(['update:modelValue']);
 const { t } = useI18n()

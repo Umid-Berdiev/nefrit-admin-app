@@ -9,12 +9,12 @@ import { StatementCertificateData } from '/@src/utils/interfaces'
 import VFlex from '../flex/VFlex.vue';
 import moment from 'moment';
 
-const props = defineProps({
-  modelValue: Boolean,
-  statementId: {
-    type: Number,
-    default: null
-  }
+const props = withDefaults(defineProps<{
+  modelValue: boolean,
+  statementId: number | string
+}>(), {
+  modelValue: false,
+  statementId: ''
 })
 
 const emits = defineEmits<{
@@ -149,7 +149,7 @@ function onFileRemove() {
           </div>
           <div class="column is-12">
             <VFileInput :files="files" @file-upload="onFileUpload" @file-remove="onFileRemove"
-              :error-message="errors.file[0]" />
+              :error-message="errors.file[0]" :remote-files="[]" />
           </div>
         </div>
       </form>

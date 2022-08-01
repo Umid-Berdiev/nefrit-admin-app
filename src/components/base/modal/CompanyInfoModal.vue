@@ -63,7 +63,7 @@ const columns = {
             <td class="has-text-weight-bold">{{ columns.status }}</td>
             <td v-if="companyData?.status">
               <VTag class="is-size-7" rounded :color="companyData?.status?.color">
-                {{ $t(companyData?.status?.name) }}
+                {{ companyData?.status?.name }}
               </VTag>
             </td>
           </tr>

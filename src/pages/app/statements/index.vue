@@ -34,7 +34,7 @@ const data = reactive({
 const filterForm = ref({})
 
 const isFormModalOpen = ref(false)
-const isFeedbackModalOpen = ref(false)
+const isConclusionFormModalOpen = ref(false)
 const isNoticeFormModalOpen = ref(false)
 const displayFilterForm = ref(false)
 const selectedRowId = ref<number>()
@@ -254,7 +254,7 @@ async function fetchData(page: number = 1) {
             <template v-else-if="column.key === 'actions'">
               <!-- <ActionButtons @edit="isFormModalOpen = true" /> -->
               <StatementsFlexTableDropdown @view="onActionTriggered(row.id)"
-                @conclusion:add="isFeedbackModalOpen = true; selectedRowId = row.id"
+                @conclusion:add="isConclusionFormModalOpen = true; selectedRowId = row.id"
                 @notice:add="isNoticeFormModalOpen = true; selectedRowId = row.id"
                 @conclusion:list="gotoConclusionList(row.id)" @notice:list="gotoNoticeList(row.id)" />
             </template>
@@ -266,7 +266,8 @@ async function fetchData(page: number = 1) {
           :total-items="data.pagination.total" />
       </template>
     </VFlexTableWrapper>
-    <FeedbackModal v-model="isFeedbackModalOpen" :statement-id="selectedRowId" />
+    <ConclusionFormModal v-model="isConclusionFormModalOpen" :parent-id="Number(selectedRowId)" @update:list="fetchData"
+      @close="selectedRowId = undefined" />
     <NoticeFormModal v-model="isNoticeFormModalOpen" :statement-id="selectedRowId" />
   </div>
 </template>

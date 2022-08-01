@@ -14,6 +14,6 @@ const props = defineProps<Props>()
 
 <template>
   <VTag class="is-size-6" rounded :color="status.color">
-    {{ $t(status.name) }}
+    {{ status.name }}
   </VTag>
 </template>

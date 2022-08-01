@@ -275,5 +275,8 @@
   "Certificate_number": "Certificate number",
   "Start_date": "Start date",
   "End_date": "End date",
-  "Add_certificate": "Add certificate"
+  "Add_certificate": "Add certificate",
+  "Fax": "Fax",
+  "Notice_message": "Notice message",
+  "Notice_details": "Notice details"
 }

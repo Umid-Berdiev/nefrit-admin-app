@@ -275,5 +275,8 @@
   "Certificate_number": "Guvohnoma raqami",
   "Start_date": "Boshlang'ich sana",
   "End_date": "Amal qilish sanasi",
-  "Add_certificate": "Guvohnoma qo'shish"
+  "Add_certificate": "Guvohnoma qo'shish",
+  "Fax": "Fax",
+  "Notice_message": "Bildirishnoma habari",
+  "Notice_details": "Bildirishnoma batafsil matni"
 }

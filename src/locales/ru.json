@@ -275,5 +275,8 @@
   "Certificate_number": "Номер сертификата",
   "Start_date": "Дата начало",
   "End_date": "Дата конец",
-  "Add_certificate": "Добавить сертификат"
+  "Add_certificate": "Добавить сертификат",
+  "Fax": "Факс",
+  "Notice_message": "Сообщение уведомление",
+  "Notice_details": "Детальная описания уведомление"
 }

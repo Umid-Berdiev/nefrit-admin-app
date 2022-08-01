@@ -130,7 +130,7 @@ function onRemoteFileRemove(id: number) {
       <form id="submit-form" class="modal-form" @submit.prevent="onSubmit">
         <div class="columns is-multiline">
           <div class="column is-12">
-            <VField :label="$t('conclusion_in_details') + '*'">
+            <VField :label="$t('conclusion_in_details')" required>
               <VControl :has-error="errors.text[0]">
                 <VTextarea name="text" :placeholder="$t('Add_text')" v-model="text" @input="clearErrors" />
                 <p class="help has-text-danger">{{ errors.text[0] }}</p>
@@ -144,7 +144,7 @@ function onRemoteFileRemove(id: number) {
           </div>
           <div class="column is-12">
             <VFileInput :files="files" :remote-files="remoteFiles" @file-upload="onFileUpload"
-              @file-remove="onFileRemove" @remote-file-remove="onRemoteFileRemove" />
+              @file-remove="onFileRemove" @remote-file-remove="onRemoteFileRemove" error-message="" />
           </div>
         </div>
       </form>

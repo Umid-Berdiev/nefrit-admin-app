@@ -167,7 +167,7 @@ async function handleRemoveAction() {
           :total-items="data.pagination.total" />
       </template>
     </VFlexTableWrapper>
-    <ConclusionFormModal v-model="isConclusionModalOpen" :item-id="selectedId" :parent-id="currentStatementId"
+    <ConclusionFormModal v-model="isConclusionModalOpen" :item-id="selectedId" :parent-id="Number(currentStatementId)"
       @update:list="fetchData" @close="selectedId = null" />
     <ConfirmActionModal @confirm-action="handleRemoveAction" />
   </div>

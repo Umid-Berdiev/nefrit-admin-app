@@ -21,11 +21,11 @@ const filteredData = computed(() => {
 })
 
 const files = ref([]);
-const isConclusionModalOpen = ref(false);
+const isFeedbackFormModalOpen = ref(false);
 const selectedAnswer = ref<String>();
 
-function onGivingConclusion(val: String) {
-  isConclusionModalOpen.value = true;
+function onGivingFeedback(val: String) {
+  isFeedbackFormModalOpen.value = true;
   selectedAnswer.value = val
 }
 </script>
@@ -73,14 +73,14 @@ function onGivingConclusion(val: String) {
             </div> -->
             <div v-if="itemIndex === 4" class="is-grouped mt-5">
               <VButton color="success" style="width: 45%;" class="is-justify-content-center mr-3"
-                @click="onGivingConclusion('Yes')">
+                @click="onGivingFeedback('Yes')">
                 <span class="icon">
                   <i aria-hidden="true" class="iconify" data-icon="feather:check" />
                 </span>
                 <span>{{ $t('Yes') }}</span>
               </VButton>
               <VButton color="danger" style="width: 45%;" class="is-justify-content-center"
-                @click="onGivingConclusion('No')">
+                @click="onGivingFeedback('No')">
                 <span class="icon">
                   <i aria-hidden="true" class="iconify" data-icon="feather:x"></i>
                 </span>
@@ -101,7 +101,7 @@ function onGivingConclusion(val: String) {
         </div>
       </TransitionGroup>
     </div>
-    <ConclusionFormModal v-model="isConclusionModalOpen" :selected-answer="selectedAnswer" />
+    <FeedbackFormModal v-model="isFeedbackFormModalOpen" :selected-answer="selectedAnswer" />
 
   </div>
 </template>
