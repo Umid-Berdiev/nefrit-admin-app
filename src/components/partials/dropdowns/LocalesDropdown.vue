@@ -3,8 +3,10 @@ import { computed, ref } from 'vue'
 import { watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useStorage } from '@vueuse/core'
+import { useRouter } from 'vue-router';
 
 
+const router = useRouter()
 const { locale, availableLocales, t } = useI18n()
 
 /**
@@ -40,6 +42,11 @@ const localFlagSrc = computed(() => {
       return '/images/icons/flags/united-states-of-america.svg'
   }
 })
+
+function changeLocale(loc: string) {
+  locale.value = loc
+  router.go(0)
+}
 </script>
 
 <template>
@@ -52,7 +59,8 @@ const localFlagSrc = computed(() => {
 
     <template #content="{ close }">
       <div @mouseleave="close" class="p-3">
-        <a href="javascript:;" class="dropdown-item is-size-6" v-for="lang in filteredLocales" @click="locale = lang">
+        <a href="javascript:;" class="dropdown-item is-size-6" v-for="lang in filteredLocales"
+          @click="changeLocale(lang)">
           <!-- <img :src="localFlagSrc" alt="" /> -->
           <span>{{ lang.toUpperCase() }}</span>
         </a>

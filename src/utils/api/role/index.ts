@@ -17,6 +17,21 @@ export async function fetchList(page: number, locale: string) {
   }
 }
 
+export async function searchList(search: string, locale: string) {
+  try {
+    const { data } = await api({
+      url: `/api/admin/role?search=${search}`,
+      headers: {
+        Language: locale,
+      },
+    })
+
+    return data.data
+  } catch (error) {
+    throw error
+  }
+}
+
 export async function fetchById(id: number) {
   try {
     const { data } = await api({

@@ -10,7 +10,7 @@ import type {
 import { useViewWrapper } from '/@src/stores/viewWrapper'
 import { useMainStore } from '/@src/stores'
 import { useHead } from '@vueuse/head'
-import { fetchList, removeById } from '/@src/utils/api/role';
+import { fetchList, removeById, searchList } from '/@src/utils/api/role';
 
 const { t, locale } = useI18n()
 
@@ -35,6 +35,15 @@ const selectedRowIds = ref<number[]>([])
 const isAllSelected = computed(() => data.result.length === selectedRowIds.value.length)
 const router = useRouter()
 const selectedId = ref<number | null>(null)
+const searchInput = computed({
+  get(): string {
+    return ''
+  },
+
+  async set(v: string) {
+    await onSearch(v)
+  }
+})
 
 // this is a sample for custom sort function
 const locationSorter: VFlexTableWrapperSortFunction<User> = ({ order, a, b }) => {
@@ -60,7 +69,7 @@ const userFilter: VFlexTableWrapperFilterFunction<User> = ({ searchTerm, row }) 
   )
 }
 
-const columns = {
+const columns = computed(() => ({
   select: {
     label: '',
     cellClass: 'is-flex-grow-0',
@@ -88,7 +97,7 @@ const columns = {
     label: t('Actions'),
     align: 'center',
   },
-} as const
+}))
 
 await fetchData()
 
@@ -141,6 +150,11 @@ async function fetchData(page = 1) {
   const res = await fetchList(page, locale.value)
   Object.assign(data, res)
 }
+
+async function onSearch(val: string) {
+  const res = await searchList(val, locale.value)
+  Object.assign(data, res)
+}
 </script>
 
 <template>
@@ -162,7 +176,7 @@ async function fetchData(page = 1) {
             <!-- We can bind wrapperState.searchInput to any input -->
             <VField>
               <VControl icon="feather:search">
-                <VInput v-model="wrapperState.searchInput" class="is-rounded" :placeholder="t('Search') + '...'" />
+                <VInput v-model="searchInput" class="is-rounded" :placeholder="t('Search') + '...'" />
               </VControl>
             </VField>
           </template>
@@ -174,6 +188,37 @@ async function fetchData(page = 1) {
               color="primary" @click="toggleSelection" />
             <span v-if="column.key === 'orderNumber'" class="is-flex-grow-0" v-text="'#'" />
           </template>
+          <template #body>
+            <!--
+            The wrapperState.loading will be update
+            when the fetchData function is running
+          -->
+            <div v-if="wrapperState.loading" class="flex-list-inner">
+              <div v-for="key in wrapperState.limit" :key="key" class="flex-table-item">
+                <VFlexTableCell :column="{ grow: true, media: true }">
+                  <VPlaceloadAvatar size="medium" />
+
+                  <VPlaceloadText :lines="2" width="60%" last-line-width="20%" class="mx-2" />
+                </VFlexTableCell>
+                <VFlexTableCell>
+                  <VPlaceload width="60%" class="mx-1" />
+                </VFlexTableCell>
+                <VFlexTableCell>
+                  <VPlaceload width="60%" class="mx-1" />
+                </VFlexTableCell>
+                <VFlexTableCell :column="{ align: 'end' }">
+                  <VPlaceload width="45%" class="mx-1" />
+                </VFlexTableCell>
+              </div>
+            </div>
+
+            <!-- This is the empty state -->
+            <div v-else-if="data.result.length === 0" class="flex-list-inner">
+              <VPlaceholderSection title="No matches" :subtitle="$t('There_is_no_data_that_match_your_query')"
+                class="my-6" />
+            </div>
+          </template>
+
           <template #body-cell="{ row, column, value, index }">
             <VCheckbox v-if="column.key === 'select'" v-model="selectedRowIds" :value="row.id" name="selection"
               @change="clickOnRow" />
