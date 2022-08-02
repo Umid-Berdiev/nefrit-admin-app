@@ -74,11 +74,11 @@ const columns = computed(() => ({
   name: {
     label: t('Name'),
     searchable: true,
-    sortable: true,
+    // sortable: true,
   },
   description: {
     label: t('Description'),
-    sortable: true,
+    // sortable: true,
   },
   actions: {
     label: t('Actions'),
@@ -198,31 +198,8 @@ async function filter({ searchTerm, row }) {
             <span v-if="column.key === 'orderNumber'" class="is-flex-grow-0" v-text="'#'" />
           </template>
           <template #body>
-            <!--
-            The wrapperState.loading will be update
-            when the fetchData function is running
-          -->
-            <div v-if="wrapperState.loading" class="flex-list-inner">
-              <div v-for="key in wrapperState.limit" :key="key" class="flex-table-item">
-                <VFlexTableCell :column="{ grow: true, media: true }">
-                  <VPlaceloadAvatar size="medium" />
-
-                  <VPlaceloadText :lines="2" width="60%" last-line-width="20%" class="mx-2" />
-                </VFlexTableCell>
-                <VFlexTableCell>
-                  <VPlaceload width="60%" class="mx-1" />
-                </VFlexTableCell>
-                <VFlexTableCell>
-                  <VPlaceload width="60%" class="mx-1" />
-                </VFlexTableCell>
-                <VFlexTableCell :column="{ align: 'end' }">
-                  <VPlaceload width="45%" class="mx-1" />
-                </VFlexTableCell>
-              </div>
-            </div>
-
             <!-- This is the empty state -->
-            <div v-else-if="data.result.length === 0" class="flex-list-inner">
+            <div v-if="data.result.length === 0" class="flex-list-inner">
               <VPlaceholderSection :title="$t('No_matches')" :subtitle="$t('There_is_no_data_that_match_your_query')"
                 class="my-6" />
             </div>

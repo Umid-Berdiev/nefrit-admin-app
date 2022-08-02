@@ -77,20 +77,15 @@ const userFilter: VFlexTableWrapperFilterFunction<User> = ({ searchTerm, row }) 
 const columns = {
   code: {
     label: t('statement_code'),
-    // cellClass: 'is-flex-grow-0',
   },
   legal_entity: {
     label: t('applied_legal_entity'),
     searchable: true,
-    sortable: true,
-    filter: userFilter,
     grow: true,
   },
   drug: {
     label: t('drug_name'),
     searchable: true,
-    // sortable: true,
-    // filter: userFilter,
   },
   status: t('Status'),
   stage: {
@@ -99,9 +94,7 @@ const columns = {
   },
   date: {
     label: t('applied_at'),
-    sortable: true,
     searchable: true,
-    sort: locationSorter,
   },
   actions: {
     label: t('Actions'),
@@ -228,16 +221,21 @@ async function fetchData(page: number = 1) {
         </VFlexTableToolbar>
 
         <VFlexTable rounded>
+          <template #body>
+            <!-- This is the empty state -->
+            <div v-if="data.result.length === 0" class="flex-list-inner">
+              <VPlaceholderSection :title="$t('No_data')" :subtitle="$t('There_is_no_data_that_match_your_query')"
+                class="my-6" />
+            </div>
+          </template>
+
           <!-- Custom "name" cell content -->
           <template #body-cell="{ row, column, value, index }">
-            <!-- <VCheckbox v-if="column.key === 'select'" v-model="selectedRowsId" :value="row.id" name="selection"
-        @change="clickOnRow" /> -->
-
             <template v-if="column.key === 'legal_entity'">
-              <span>{{ value.name }}</span>
+              <span>{{ value?.name }}</span>
             </template>
             <template v-else-if="column.key === 'drug'">
-              <span>{{ value.name }}</span>
+              <span>{{ value?.name }}</span>
             </template>
             <template v-else-if="column.key === 'date'">
               <span>{{ formatDate(value) }}</span>
@@ -268,6 +266,7 @@ async function fetchData(page: number = 1) {
     </VFlexTableWrapper>
     <ConclusionFormModal v-model="isConclusionFormModalOpen" :parent-id="Number(selectedRowId)" @update:list="fetchData"
       @close="selectedRowId = undefined" />
-    <NoticeFormModal v-model="isNoticeFormModalOpen" :statement-id="selectedRowId" />
+    <NoticeFormModal v-model="isNoticeFormModalOpen" :parent-id="Number(selectedRowId)" @update:list="fetchData"
+      @close="selectedRowId = null" />
   </div>
 </template>

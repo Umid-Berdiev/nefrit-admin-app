@@ -3,21 +3,15 @@ import { ref, computed, reactive, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useMainStore } from '/@src/stores'
-
-import type {
-  VFlexTableWrapperSortFunction,
-} from '/@src/components/base/table/VFlexTableWrapper.vue'
 import { useViewWrapper } from '/@src/stores/viewWrapper'
 import { fetchStatementConclusions, removeStatementConclusionById } from "/@src/utils/api/statement";
 import VAvatar from '../avatar/VAvatar.vue'
+import { useHead } from '@vueuse/head';
 
 const route = useRoute()
 const mainStore = useMainStore()
 const { t, locale } = useI18n()
 const currentStatementId = (route.params?.id as string) ?? null
-const viewWrapper = useViewWrapper()
-viewWrapper.setPageTitle(t('Conclusions_List'))
-
 const data = reactive({
   pagination: {
     current_page: 1,
@@ -27,9 +21,7 @@ const data = reactive({
   result: []
 })
 const isConclusionModalOpen = ref(false)
-const selectedRowsId = ref<number[]>([])
-const isAllSelected = computed(() => data.result.length === selectedRowsId.value.length)
-const selectedId = ref()
+const selectedId = ref<number>()
 const currentPage = computed({
   get: () => {
     return data.pagination.current_page
@@ -38,18 +30,6 @@ const currentPage = computed({
     await fetchData(page)
   }
 })
-
-// this is a sample for custom sort function
-const locationSorter: VFlexTableWrapperSortFunction<User> = ({ order, a, b }) => {
-  if (order === 'asc') {
-    return a.location.localeCompare(b.location)
-  } else if (order === 'desc') {
-    return b.location.localeCompare(a.location)
-  }
-
-  return 0
-}
-
 const columns = {
   orderNumber: {
     format: (value, row, index) => `${index + 1}`,
@@ -76,24 +56,6 @@ const columns = {
 
 await fetchData()
 
-// the select all checkbox click handler
-function toggleSelection() {
-  if (isAllSelected.value) {
-    selectedRowsId.value = []
-  } else {
-    selectedRowsId.value = data.result.map((row: any) => row.id)
-  }
-}
-
-// this it the row click handler (enabled with clickable props)
-function clickOnRow(row: any) {
-  if (selectedRowsId.value.includes(row.id)) {
-    selectedRowsId.value = selectedRowsId.value.filter((i) => i !== row.id)
-  } else {
-    selectedRowsId.value = [...selectedRowsId.value, row.id]
-  }
-}
-
 async function fetchData(page: number = 1) {
   const res = await fetchStatementConclusions(Number(currentStatementId), page)
   Object.assign(data, res)
@@ -112,6 +74,10 @@ async function onRemove(id: number) {
 async function handleRemoveAction() {
   await removeStatementConclusionById(selectedId.value)
   fetchData()
+}
+
+function onModalClose() {
+  selectedId.value = null
 }
 </script>
 
@@ -136,11 +102,19 @@ async function handleRemoveAction() {
             <span v-if="column.key === 'orderNumber'" class="is-flex-grow-0" v-text="'#'" />
           </template>
 
+          <template #body>
+            <!-- This is the empty state -->
+            <div v-if="data.result.length === 0" class="flex-list-inner">
+              <VPlaceholderSection :title="$t('No_data')" :subtitle="$t('There_is_no_data_that_match_your_query')"
+                class="my-6" />
+            </div>
+          </template>
+
           <!-- Custom "name" cell content -->
           <template #body-cell="{ row, column, value }">
             <template v-if="column.key === 'user'">
               <VAvatar v-if="value.avatar" :picture="value.avatar" class="mr-5" />
-              <h1>{{ value.username }}</h1>
+              <h1>{{ value.firstname + ' ' + value.lastname }}</h1>
             </template>
             <template v-if="column.key === 'text'">
               <div style="white-space: break-spaces;">
@@ -152,8 +126,10 @@ async function handleRemoveAction() {
             </template>
             <template v-if="column.key === 'files'">
               <ul>
-                <li v-for="file in value">
-                  <a :href="file.file" class="has-text-primary">{{ file.name }}</a>
+                <li v-for="file in value" class="text-truncate">
+                  <a :href="file.file" class="has-text-primary">
+                    {{ file.name }}
+                  </a>
                 </li>
               </ul>
             </template>
@@ -168,7 +144,16 @@ async function handleRemoveAction() {
       </template>
     </VFlexTableWrapper>
     <ConclusionFormModal v-model="isConclusionModalOpen" :item-id="selectedId" :parent-id="Number(currentStatementId)"
-      @update:list="fetchData" @close="selectedId = null" />
+      @update:list="fetchData" @close="onModalClose" />
     <ConfirmActionModal @confirm-action="handleRemoveAction" />
   </div>
 </template>
+
+<style scoped lang="scss">
+.text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 300px;
+}
+</style>

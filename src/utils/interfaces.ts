@@ -90,6 +90,16 @@ export interface StatementCertificateData {
   status_id: number
 }
 
+export interface StatementVoteData {
+  description: string
+  value: number | string
+  application_id?: number
+  deadline?: string
+  department_id?: number
+  id?: number
+  user_id?: number
+}
+
 export interface StatementData {
   applicant: string
   code: string
@@ -157,4 +167,18 @@ export interface ConclusionData {
   text: string
   files: File[]
   removed_files: number[]
+}
+
+export interface PaginationData {
+  total: number
+  total_page: number
+  current_page: number
+  limit: number
+}
+
+export interface VoteStatisticsData {
+  voted: number
+  agree: number
+  disagre: number
+  didnt_vote: number
 }

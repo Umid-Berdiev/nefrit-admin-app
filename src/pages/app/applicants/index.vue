@@ -74,10 +74,6 @@ const userFilter: VFlexTableWrapperFilterFunction<User> = ({ searchTerm, row }) 
 }
 
 const columns = {
-  select: {
-    label: '',
-    cellClass: 'is-flex-grow-0',
-  },
   orderNumber: {
     // label: '#',
     format: (value: any, row: any, index: number) => `${index + 1}`,
@@ -86,7 +82,7 @@ const columns = {
   name: {
     label: t('Applicant_name'),
     // media: true,
-    // grow: true,
+    grow: true,
     searchable: true,
     sortable: true,
     filter: userFilter,
@@ -182,7 +178,7 @@ async function handleBlockAction() {
         <h3 class="title is-5 mb-2">{{ t('Filter_form') }}</h3>
         <div class="columns is-desktop">
           <!-- <VField class="column">
-            <VLabel>{{ t('Applicant_user_name') }}</VLabel>
+            <VLabel>{{ t('Applicant_username') }}</VLabel>
             <VControl>
               <VInput v-model="filterForm.applicantUser" type="text" placeholder="" />
             </VControl>
@@ -242,19 +238,20 @@ async function handleBlockAction() {
         </VFlexTableToolbar>
 
         <VFlexTable rounded>
-          <!-- header-column slot -->
           <template #header-column="{ column }">
-            <VCheckbox v-if="column.key === 'select'" class="ml-2 mr-3" :checked="isAllSelected" name="all_selected"
-              color="primary" @click="toggleSelection" />
             <span v-if="column.key === 'orderNumber'" class="is-flex-grow-0" v-text="'#'" />
+          </template>
+          <template #body>
+            <!-- This is the empty state -->
+            <div v-if="data.result.length === 0" class="flex-list-inner">
+              <VPlaceholderSection :title="$t('No_data')" :subtitle="$t('There_is_no_data_that_match_your_query')"
+                class="my-6" />
+            </div>
           </template>
 
           <!-- Custom "name" cell content -->
           <template #body-cell="{ row, column, value, index }">
-            <VCheckbox v-if="column.key === 'select'" v-model="selectedRowsId" :value="row.id" name="selection"
-              @change="clickOnRow" />
-
-            <template v-else-if="column.key === 'status' && value">
+            <template v-if="column.key === 'status' && value">
               <StatusTag :status="value" />
             </template>
             <template v-if="column.key === 'actions'">

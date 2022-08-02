@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import CompanyInfoModal from '../base/modal/CompanyInfoModal.vue';
 import DrugInfoModal from '../base/modal/DrugInfoModal.vue';
@@ -8,6 +8,8 @@ import { useRoute } from 'vue-router';
 import { StatementData } from '/@src/utils/interfaces';
 import moment from 'moment';
 import VButton from '../base/button/VButton.vue';
+import { useHead } from '@vueuse/head';
+import { useViewWrapper } from '/@src/stores/viewWrapper';
 
 const { t, locale } = useI18n()
 const columns = {

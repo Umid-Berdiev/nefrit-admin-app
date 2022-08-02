@@ -127,7 +127,7 @@ watch(
   }
 
   &:hover {
-    // color: var(--light-text);
+    color: var(--light-text);
   }
 
   &.is-paddingless {

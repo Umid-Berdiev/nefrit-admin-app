@@ -39,6 +39,10 @@ async function onConfirmAction() {
 async function onVerifyAction() {
   mainStore.$patch({ confirmModalState: true, confirmModalOkButtonColor: 'success' })
 }
+
+function onEdit(part: number) {
+  console.log('part: ', part)
+}
 </script>
 
 <template>
@@ -59,22 +63,26 @@ async function onVerifyAction() {
         <div class="form-body">
           <div class="form-section">
             <div class="form-section-inner has-padding-bottom">
-              <h3 class="has-text-centered">{{ t('Applicant_details') }}</h3>
+              <h3 class="has-text-centered">
+                {{ t('Applicant_details') }}
+                <a href="javascript:;" @click="onEdit(1)" class="edit-btn">
+                  <i class="iconify" data-icon="feather:edit-2" aria-hidden="true"></i>
+                </a>
+              </h3>
               <div class="columns is-multiline">
                 <div class="column is-12 mb-3">
                   <VField>
-                    <VLabel>{{ t('Applicant_user_name') }}</VLabel>
+                    <VLabel>{{ t('Applicant_username') }}</VLabel>
                     <VControl icon="feather:user">
-                      <VInput type="text" :value="applicantData.user?.username" disabled
-                        autocomplete="applicant-name" />
+                      <VInput type="text" :value="applicantData.user?.username" autocomplete="applicant-name" />
                     </VControl>
                   </VField>
                 </div>
                 <div class="column is-12 mb-3">
                   <VField>
-                    <VLabel>Arizachini telefon raqami</VLabel>
+                    <VLabel>{{ $t('Applicant_phone_number') }}</VLabel>
                     <VControl icon="feather:phone">
-                      <VInput type="tel" :value="applicantData.phone" disabled autocomplete="applicant-name" />
+                      <VInput type="tel" :value="applicantData.phone" autocomplete="applicant-name" />
                     </VControl>
                   </VField>
                 </div>
@@ -82,8 +90,7 @@ async function onVerifyAction() {
                   <VField>
                     <VLabel>{{ t('Boss_name') }}</VLabel>
                     <VControl icon="feather:user">
-                      <VInput type="text" disabled :value="applicantData.boss_name" placeholder=""
-                        autocomplete="boss-name" />
+                      <VInput type="text" :value="applicantData.boss_name" placeholder="" autocomplete="boss-name" />
                     </VControl>
                   </VField>
                 </div>
@@ -91,7 +98,7 @@ async function onVerifyAction() {
                   <VField>
                     <VLabel>{{ $t('Website') }}</VLabel>
                     <VControl icon="feather:globe">
-                      <VInput type="text" disabled :value="applicantData.website" autocomplete="website-name" />
+                      <VInput type="text" :value="applicantData.website" autocomplete="website-name" />
                     </VControl>
                   </VField>
                 </div>
@@ -99,8 +106,7 @@ async function onVerifyAction() {
                   <VField>
                     <VLabel>{{ t('Email_address') }}</VLabel>
                     <VControl icon="feather:mail">
-                      <VInput type="email" disabled :value="applicantData.user?.email" autocomplete="email"
-                        inputmode="email" />
+                      <VInput type="email" :value="applicantData.user?.email" autocomplete="email" inputmode="email" />
                     </VControl>
                   </VField>
                 </div>
@@ -115,7 +121,7 @@ async function onVerifyAction() {
                   <VField>
                     <VLabel>{{ t('Company_name') }} <span class="has-text-danger">*</span></VLabel>
                     <VControl icon="feather:briefcase">
-                      <VInput disabled :value="applicantData.name" autocomplete="company_name" />
+                      <VInput :value="applicantData.name" autocomplete="company_name" />
                     </VControl>
                   </VField>
                 </div>
@@ -123,7 +129,7 @@ async function onVerifyAction() {
                   <VField>
                     <VLabel>{{ t('Company_phone') }} <span class="has-text-danger">*</span></VLabel>
                     <VControl icon="feather:phone">
-                      <VInput type="tel" disabled :value="applicantData.phone" autocomplete="tel" inputmode="tel" />
+                      <VInput type="tel" :value="applicantData.phone" autocomplete="tel" inputmode="tel" />
                     </VControl>
                   </VField>
                 </div>
@@ -131,7 +137,7 @@ async function onVerifyAction() {
                   <VField>
                     <VLabel>{{ t('Company_fax') }} <span class="has-text-danger">*</span></VLabel>
                     <VControl icon="feather:printer">
-                      <VInput disabled :value="applicantData.phone" autocomplete="tel" inputmode="tel" />
+                      <VInput :value="applicantData.phone" autocomplete="tel" inputmode="tel" />
                     </VControl>
                   </VField>
                 </div>
@@ -139,9 +145,9 @@ async function onVerifyAction() {
                   <VField>
                     <VLabel>{{ t('Country') }}</VLabel>
                     <VControl class="has-icons-left" icon="fas fa-globe">
-                      <VInput disabled :value="applicantData.country" />
+                      <VInput :value="applicantData.country" />
                       <!-- <VSelect v-model="selectedCountry">
-                      <VOption value="" disabled>Select a Hero</VOption>
+                      <VOption value="" >Select a Hero</VOption>
                       <VOption value="Superman">Superman</VOption>
                       <VOption value="Batman">Batman</VOption>
                       <VOption value="Spiderman">Spiderman</VOption>
@@ -164,13 +170,13 @@ async function onVerifyAction() {
                   <VField>
                     <VLabel>{{ t('Address') }}</VLabel>
                     <VControl>
-                      <VTextarea disabled :value="applicantData.address" :rows="2" />
+                      <VTextarea :value="applicantData.address" :rows="2" />
                     </VControl>
                   </VField>
                 </div>
                 <div class="column is-12">
-                  <input disabled id="checkbox1" type="checkbox" :checked="applicantData.is_national" />
-                  <label disabled for="checkbox1" class="checkbox">
+                  <label for="checkbox1" class="checkbox">
+                    <input id="checkbox1" type="checkbox" :checked="applicantData.is_national" />
                     {{ $t('isNational') }}
                   </label>
                 </div>
@@ -449,6 +455,10 @@ async function onVerifyAction() {
         }
       }
     }
+  }
+
+  .edit-btn:hover {
+    color: antiquewhite;
   }
 }
 

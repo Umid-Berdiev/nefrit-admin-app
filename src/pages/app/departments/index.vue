@@ -168,6 +168,15 @@ async function fetchData(page: number = 1) {
               color="primary" @click="toggleSelection" />
             <span v-if="column.key === 'orderNumber'" class="is-flex-grow-0" v-text="'#'" />
           </template>
+
+          <template #body>
+            <!-- This is the empty state -->
+            <div v-if="data.result.length === 0" class="flex-list-inner">
+              <VPlaceholderSection :title="$t('No_data')" :subtitle="$t('There_is_no_data_that_match_your_query')"
+                class="my-6" />
+            </div>
+          </template>
+
           <template #body-cell="{ row, column, value, index }">
             <VCheckbox v-if="column.key === 'select'" v-model="selectedRowIds" :value="row.id" name="selection"
               @change="clickOnRow" />

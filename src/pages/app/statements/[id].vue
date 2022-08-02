@@ -7,15 +7,11 @@ import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 import { fetchChronologies } from '/@src/utils/api/statement'
 import { useViewWrapper } from '/@src/stores/viewWrapper'
-import { StatementData } from '/@src/utils/interfaces'
 
 const { t, locale } = useI18n()
 const route = useRoute()
 const currentId = (route.params?.id as string) ?? null
 const selectedTab = ref(route.hash.slice(1) || 'details')
-const viewWrapper = useViewWrapper()
-viewWrapper.setPageTitle(t('Statement_details'))
-const statement = ref<StatementData>()
 const tabs = ref([
   { label: t('Statement_details'), value: 'details', icon: 'lnil lnil-tap' },
   // { label: t('Payment'), value: 'payment', icon: 'fas fa-tree' },
@@ -33,15 +29,17 @@ const tabs = ref([
   { label: t('Chat'), value: 'chat', icon: 'fas fa-comments' },
 ]);
 const chronologyData = ref([])
+const viewWrapper = useViewWrapper()
+viewWrapper.setPageTitle(t('Statement_card'))
+
+// here we setup our page meta with our statement data
+useHead({
+  title: computed(() => t('Statement_card')),
+})
 
 onMounted(async () => {
   const res = await fetchChronologies(Number(currentId), locale.value)
   chronologyData.value = res
-})
-
-// here we setup our page meta with our statement data
-useHead({
-  title: computed(() => t('Statement_details')),
 })
 
 </script>

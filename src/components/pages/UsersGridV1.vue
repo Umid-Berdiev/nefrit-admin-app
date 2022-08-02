@@ -1,33 +1,37 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
+import { fetchStatementVotes, fetchStatementVoteStatistics } from '/@src/utils/api/statement';
+import { StatementVoteData, UserData, VoteStatisticsData } from '/@src/utils/interfaces';
 
-import { users } from '/@src/data/user-grid-v1'
-
-const filters = ref('')
-
-const filteredData = computed(() => {
-  if (!filters.value) {
-    return users.slice(0, 5)
-  } else {
-    return users.filter((item) => {
-      return (
-        item.username.match(new RegExp(filters.value, 'i')) ||
-        item.location.match(new RegExp(filters.value, 'i')) ||
-        item.position.match(new RegExp(filters.value, 'i')) ||
-        item.badge.match(new RegExp(filters.value, 'i'))
-      )
-    }).splice(0, 5)
-  }
-})
-
+const route = useRoute()
+const { t, locale } = useI18n()
+const currentStatementId = (route.params?.id as string) ?? null
 const files = ref([]);
 const isFeedbackFormModalOpen = ref(false);
-const selectedAnswer = ref<String>();
+const selectedAnswer = ref<string | number>();
+const voteList = ref<{ user: UserData, vote: StatementVoteData, is_me: boolean }[]>();
+const voteStatistics = ref<VoteStatisticsData>();
 
-function onGivingFeedback(val: String) {
+await fetchList()
+await fetchStatistics()
+
+function onGivingFeedback(val: string | number) {
   isFeedbackFormModalOpen.value = true;
   selectedAnswer.value = val
 }
+
+async function fetchList() {
+  const res = await fetchStatementVotes(Number(currentStatementId), locale.value)
+  voteList.value = res
+}
+
+async function fetchStatistics() {
+  const res = await fetchStatementVoteStatistics(Number(currentStatementId), locale.value)
+  voteStatistics.value = res
+}
+
 </script>
 
 <template>
@@ -35,73 +39,97 @@ function onGivingFeedback(val: String) {
     <div class="company-header is-dark-card-bordered is-dark-bg-6">
       <div class="header-item is-dark-bordered-12">
         <div class="item-inner">
-          <span class="dark-inverted">5</span>
+          <span class="dark-inverted">{{ voteStatistics?.voted }}</span>
           <p>{{ $t('Total_voted') }}</p>
         </div>
       </div>
       <div class="header-item is-dark-bordered-12">
         <div class="item-inner">
-          <span class="dark-inverted">3</span>
+          <span class="dark-inverted">{{ voteStatistics?.agree }}</span>
           <p>{{ $t('Accepted') }}</p>
         </div>
       </div>
       <div class="header-item is-dark-bordered-12">
         <div class="item-inner">
-          <span class="dark-inverted">2</span>
-          <p>{{ $t('rejected') }}</p>
+          <span class="dark-inverted">{{ voteStatistics?.disagre }}</span>
+          <p>{{ $t('Rejected') }}</p>
+        </div>
+      </div>
+      <div class="header-item is-dark-bordered-12">
+        <div class="item-inner">
+          <span class="dark-inverted">{{ voteStatistics?.didnt_vote }}</span>
+          <p>{{ $t('Not_voted') }}</p>
         </div>
       </div>
     </div>
 
     <div class="user-grid user-grid-v1">
-      <!--List Empty Search Placeholder -->
-      <VPlaceholderPage :class="[filteredData.length !== 0 && 'is-hidden']"
-        title="We couldn't find any matching results." subtitle="Too bad. Looks like we couldn't find any matching results for the
-          search terms you've entered. Please try different search terms or
-          criteria." larger>
-      </VPlaceholderPage>
-
       <TransitionGroup name="list" tag="div" class="columns is-multiline">
         <!--Grid item-->
-        <div v-for="item, itemIndex in filteredData" :key="item.id" class="column is-4">
-          <div class="grid-item">
-            <VAvatar :picture="item.avatar" size="xl" />
-            <h3 class="dark-inverted">{{ item.fullName }}</h3>
-            <p>{{ item.position }}</p>
-            <!-- <div class="people">
-              <VAvatar v-for="user in item.team" :key="user.id" size="small" v-bind="getAvatarData(user)" />
-            </div> -->
-            <div v-if="itemIndex === 4" class="is-grouped mt-5">
-              <VButton color="success" style="width: 45%;" class="is-justify-content-center mr-3"
-                @click="onGivingFeedback('Yes')">
-                <span class="icon">
-                  <i aria-hidden="true" class="iconify" data-icon="feather:check" />
-                </span>
-                <span>{{ $t('Yes') }}</span>
-              </VButton>
-              <VButton color="danger" style="width: 45%;" class="is-justify-content-center"
-                @click="onGivingFeedback('No')">
-                <span class="icon">
-                  <i aria-hidden="true" class="iconify" data-icon="feather:x"></i>
-                </span>
-                <span>{{ $t('No') }}</span>
-              </VButton>
+        <div v-for="item, itemIndex in voteList" :key="itemIndex" class="column is-4">
+          <div class="grid-item" :class="{ 'is-active': item.is_me }">
+            <VAvatar :picture="item.user?.avatar" size="xl" />
+            <h3 class="dark-inverted">{{ item.user?.firstname + ' ' + item.user?.lastname }}</h3>
+            <p>{{ item.user?.department }}</p>
+            <div v-if="item.is_me === true" class="is-grouped mt-5">
+              <template v-if="item.vote">
+                <VButton :color="item.vote.value === 1 ? 'success' : 'danger'" style="width: 80%;"
+                  class="is-justify-content-center mr-3">
+                  <span class="icon">
+                    <i aria-hidden="true" class="iconify"
+                      :data-icon="item.vote.value === 1 ? 'feather:check' : 'feather:x'" />
+                  </span>
+                  <span>{{ item.vote.value === 1 ? $t('Accepted') : $t('Rejected') }}</span>
+                </VButton>
+                <VButton color="warning" style="width: 10%;" class="is-justify-content-center"
+                  @click="onGivingFeedback(0)">
+                  <span class="icon">
+                    <i aria-hidden="true" class="iconify" data-icon="feather:edit-2"></i>
+                  </span>
+                  <!-- <span>{{ $t('Reject') }}</span> -->
+                </VButton>
+              </template>
+              <template v-else>
+                <VButton color="success" style="width: 45%;" class="is-justify-content-center mr-3"
+                  @click="onGivingFeedback(1)">
+                  <span class="icon">
+                    <i aria-hidden="true" class="iconify" data-icon="feather:check" />
+                  </span>
+                  <span>{{ $t('Accept') }}</span>
+                </VButton>
+                <VButton color="danger" style="width: 45%;" class="is-justify-content-center"
+                  @click="onGivingFeedback(0)">
+                  <span class="icon">
+                    <i aria-hidden="true" class="iconify" data-icon="feather:x"></i>
+                  </span>
+                  <span>{{ $t('Reject') }}</span>
+                </VButton>
+              </template>
             </div>
-            <div v-else class="is-grouped mt-5">
-              <VButton class="is-fullwidth is-justify-content-center"
-                :color="itemIndex % 2 === 0 ? 'success' : 'danger'">
-                <span class="icon">
-                  <i aria-hidden="true" class="iconify"
-                    :data-icon="itemIndex % 2 === 0 ? 'feather:check' : 'feather:x'" />
-                </span>
-                <span>{{ itemIndex % 2 === 0 ? $t('Yes') : $t('No') }}</span>
-              </VButton>
-            </div>
+            <template v-else>
+              <div v-if="item.vote" class="is-grouped mt-5">
+                <VButton class="is-fullwidth is-justify-content-center"
+                  :color="item.vote.value === 1 ? 'success' : 'danger'">
+                  <span class="icon">
+                    <i aria-hidden="true" class="iconify"
+                      :data-icon="item.vote.value === 1 ? 'feather:check' : 'feather:x'" />
+                  </span>
+                  <span>{{ item.vote.value === 1 ? $t('Accepted') : $t('Rejected') }}</span>
+                </VButton>
+              </div>
+              <div v-else class="is-grouped mt-5">
+                <VButton class="is-fullwidth is-justify-content-center" static>
+                  <span>{{ $t('Not_voted_yet') }}</span>
+                </VButton>
+              </div>
+            </template>
           </div>
         </div>
       </TransitionGroup>
     </div>
-    <FeedbackFormModal v-model="isFeedbackFormModalOpen" :selected-answer="selectedAnswer" />
+    <FeedbackFormModal v-model="isFeedbackFormModalOpen" :item="voteList?.find(item => item.is_me)?.vote"
+      :selected-answer="selectedAnswer" :parent-id="Number(currentStatementId)"
+      @update:list="() => { fetchList(); fetchStatistics() }" />
 
   </div>
 </template>
@@ -240,5 +268,9 @@ function onGivingFeedback(val: String) {
       }
     }
   }
+}
+
+.is-active {
+  border-color: var(--primary) !important;
 }
 </style>

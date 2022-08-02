@@ -41,13 +41,8 @@ const errors = reactive({
 
 watch(
   () => props.itemId,
-  async (newVal) => {
-    if (!newVal) {
-      title.value = t('Add')
-      text.value = ''
-      statusId.value = ''
-      remoteFiles.value = []
-    } else {
+  async (newVal, oldVal) => {
+    if (newVal) {
       title.value = t('Edit')
       const res = await fetchStatementConclusionById(Number(props.itemId))
       text.value = res.text
@@ -75,7 +70,7 @@ async function onSubmit(event: Event) {
     files.value.forEach(file => {
       formData.append('files[]', file)
     })
-    remoteFiles.value.forEach(file => {
+    removedFileIds.value.forEach(file => {
       formData.append('removes[]', file)
     })
 
@@ -83,7 +78,7 @@ async function onSubmit(event: Event) {
       await updateStatementConclusionById(props.itemId, formData) :
       await createStatementConclusion(formData)
     emits('update:list')
-    onClose()
+    // onClose()
   } catch (error: any) {
     Object.assign(errors, error.response?.data?.errors)
     // throw error
@@ -91,6 +86,7 @@ async function onSubmit(event: Event) {
 }
 
 function onClose() {
+  title.value = t('Add')
   text.value = ''
   statusId.value = ''
   files.value = []

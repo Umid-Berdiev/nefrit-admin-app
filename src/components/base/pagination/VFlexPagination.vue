@@ -125,9 +125,9 @@ zh-CN:
         </VButton>
       </li>
 
-      <li v-if="showLastLink && (pages.length === 0 || pages[0] > 2)">
+      <!-- <li v-if="showLastLink && (pages.length === 0 || pages[0] > 2)">
         <span class="pagination-ellipsis">…</span>
-      </li>
+      </li> -->
 
       <li v-for="page in pages" :key="page">
         <VButton tabindex="0" class="pagination-link" :aria-label="t('goto-page-title', { page: page })"
@@ -137,9 +137,9 @@ zh-CN:
         </VButton>
       </li>
 
-      <li v-if="showLastLink && pages[pages.length - 1] < lastPage - 1">
+      <!-- <li v-if="showLastLink && pages[pages.length - 1] < lastPage - 1">
         <span class="pagination-ellipsis">…</span>
-      </li>
+      </li> -->
 
       <li v-if="showLastLink">
         <VButton tabindex="0" class="pagination-link" :aria-label="t('goto-page-title', { page: lastPage })"
@@ -155,7 +155,8 @@ zh-CN:
       @click="(e: Event) => handleLinkClick(e, currentPage - 1)">
       <i aria-hidden="true" class="iconify" data-icon="feather:chevron-left"></i>
     </VButton>
-    <VButton tabindex="0" class="pagination-next has-chevron" @click="(e: Event) => handleLinkClick(e, currentPage + 1)">
+    <VButton tabindex="0" class="pagination-next has-chevron"
+      @click="(e: Event) => handleLinkClick(e, currentPage + 1)">
       <i aria-hidden="true" class="iconify" data-icon="feather:chevron-right"></i>
     </VButton>
     <slot name="after-navigation"></slot>

@@ -1,8 +1,11 @@
 import {
+  UserData,
   ConclusionData,
   NoticeData,
   StatementCertificateData,
+  StatementVoteData,
   StatementData,
+  VoteStatisticsData,
 } from '../../interfaces'
 import { useApi } from '/@src/composable/useApi'
 
@@ -41,6 +44,7 @@ export async function fetchById(id: number, locale: string): Promise<StatementDa
   }
 }
 
+// stages api
 export async function fetchStages(id: number) {
   try {
     const { data } = await api({
@@ -53,6 +57,7 @@ export async function fetchStages(id: number) {
   }
 }
 
+// chronologies api
 export async function fetchChronologies(id: number, locale: string) {
   try {
     const { data } = await api({
@@ -68,6 +73,7 @@ export async function fetchChronologies(id: number, locale: string) {
   }
 }
 
+// notices api
 export async function fetchStatementNotices(id: number, page: number) {
   try {
     const { data } = await api({
@@ -149,6 +155,7 @@ export async function createStatementNotice(payload: NoticeData): Promise<Notice
   }
 }
 
+// conclusions api
 export async function fetchStatementConclusions(id: number, page: number) {
   try {
     const { data } = await api({
@@ -232,10 +239,11 @@ export async function createStatementConclusion(
   }
 }
 
-export async function fetchStatementCertificates(id: number, page: number) {
+// certificates
+export async function fetchStatementCertificates(page: number) {
   try {
     const { data } = await api({
-      url: `/api/admin/${id}/certificate?page=${page}`,
+      url: `/api/admin/certificate?page=${page}`,
     })
 
     return data.data
@@ -306,6 +314,87 @@ export async function createStatementCertificate(
   try {
     const { data } = await api({
       url: `/api/admin/certificate`,
+      method: 'POST',
+      data: payload,
+    })
+
+    return data.data
+  } catch (error) {
+    throw error
+  }
+}
+
+/*
+ * votes_api
+ */
+export async function fetchStatementVotes(
+  id: number,
+  locale: string
+): Promise<{ user: UserData; vote: StatementVoteData; is_me: boolean }[]> {
+  try {
+    const { data } = await api({
+      url: `/api/admin/application/${id}/vote`,
+      headers: {
+        Language: locale,
+      },
+    })
+
+    return data.data
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function fetchStatementVoteStatistics(
+  id: number
+): Promise<VoteStatisticsData> {
+  try {
+    const { data } = await api({
+      url: `/api/admin/application/${id}/vote/statistics`,
+    })
+
+    return data.data
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function updateStatementVote(
+  applicationId: number,
+  payload: StatementVoteData
+) {
+  try {
+    const { data } = await api({
+      url: `/api/admin/application/${applicationId}/vote`,
+      method: 'POST',
+      data: payload,
+    })
+
+    return data.data
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function removeStatementVoteById(id: number) {
+  try {
+    const { data } = await api({
+      url: `/api/admin/application/vote/${id}`,
+      method: 'DELETE',
+    })
+
+    return data.data
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function createStatementVote(
+  payload: StatementVoteData
+): Promise<StatementVoteData> {
+  try {
+    const { data } = await api({
+      url: `/api/admin/vote`,
       method: 'POST',
       data: payload,
     })

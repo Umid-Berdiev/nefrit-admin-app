@@ -233,7 +233,7 @@ export const users = [
     },
     progress: 67,
     invoice: 'invoice_03_06_2022',
-    status: 'rejected',
+    status: 'Rejected',
     stage: 'stage_1',
     date: '2022-06-13',
     stir: 456987123,
