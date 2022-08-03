@@ -8,6 +8,7 @@ specifiers:
   '@commitlint/prompt-cli': 16.2.3
   '@iconify/iconify': 2.2.1
   '@iconify/json': 2.1.31
+  '@iconify/vue': ^3.2.1
   '@intlify/vite-plugin-vue-i18n': 3.4.0
   '@popperjs/core': 2.11.5
   '@types/dragula': 3.7.1
@@ -180,6 +181,7 @@ devDependencies:
   '@commitlint/config-conventional': 16.2.1
   '@commitlint/prompt-cli': 16.2.3
   '@iconify/json': 2.1.31
+  '@iconify/vue': 3.2.1_vue@3.2.33
   '@intlify/vite-plugin-vue-i18n': 3.4.0_43di5rjqcr3n2m6fubsxukhenm
   '@types/dragula': 3.7.1
   '@types/lodash': 4.14.182
@@ -1911,6 +1913,14 @@ packages:
 
   /@iconify/types/1.1.0:
     resolution: {integrity: sha512-Jh0llaK2LRXQoYsorIH8maClebsnzTcve+7U3rQUSnC11X4jtPnFuyatqFLvMxZ8MLG8dB4zfHsbPfuvxluONw==}
+    dev: true
+
+  /@iconify/vue/3.2.1_vue@3.2.33:
+    resolution: {integrity: sha512-c4R6ZgFo1JrJ8aPMMgOPgfU7lBswihMGR+yWe/P4ZukC3kTkeT4+lkt9Pc/itVFMkwva/S/7u9YofmYv57fnNQ==}
+    peerDependencies:
+      vue: 3.x
+    dependencies:
+      vue: 3.2.33
     dev: true
 
   /@intlify/bundle-utils/2.2.2_vue-i18n@9.2.0-beta.35:

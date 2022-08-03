@@ -291,5 +291,8 @@
   "Accept": "Accept",
   "Reject": "Reject",
   "Applicant_phone_number": "Applicant phone number",
-  "Payments": "Payments"
+  "Payments": "Payments",
+  "Updated_successfully": "Updated successfully",
+  "Statement_docs": "Statement's documents",
+  "Docs_not_attached_yet": "Documents are not attached yet"
 }

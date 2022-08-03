@@ -3,10 +3,9 @@ import { ref, computed, reactive, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useMainStore } from '/@src/stores'
-import { useViewWrapper } from '/@src/stores/viewWrapper'
 import { fetchStatementConclusions, removeStatementConclusionById } from "/@src/utils/api/statement";
 import VAvatar from '../avatar/VAvatar.vue'
-import { useHead } from '@vueuse/head';
+import { useNotyf } from '/@src/composable/useNotyf'
 
 const route = useRoute()
 const mainStore = useMainStore()
@@ -40,6 +39,7 @@ const columns = {
   },
   text: {
     label: t('Conclusion_desc'),
+    grow: true
   },
   department: {
     label: t('Department'),
@@ -53,6 +53,7 @@ const columns = {
     align: 'center',
   },
 } as const
+const notif = useNotyf()
 
 await fetchData()
 
@@ -77,7 +78,11 @@ async function handleRemoveAction() {
 }
 
 function onModalClose() {
-  selectedId.value = null
+  selectedId.value = undefined
+}
+
+function notify() {
+  notif.success(t('Updated_successfully'))
 }
 </script>
 
@@ -139,12 +144,12 @@ function onModalClose() {
           </template>
         </VFlexTable>
 
-        <VFlexPagination v-model:current-page="currentPage" class="mt-6" :item-per-page="data.pagination.per_page"
-          :total-items="data.pagination.total" />
+        <VFlexPagination v-if="data.result.length" v-model:current-page="currentPage" class="mt-6"
+          :item-per-page="data.pagination.per_page" :total-items="data.pagination.total" />
       </template>
     </VFlexTableWrapper>
     <ConclusionFormModal v-model="isConclusionModalOpen" :item-id="selectedId" :parent-id="Number(currentStatementId)"
-      @update:list="fetchData" @close="onModalClose" />
+      @update:list="() => { fetchData(); notify(); onModalClose() }" @close="onModalClose" />
     <ConfirmActionModal @confirm-action="handleRemoveAction" />
   </div>
 </template>

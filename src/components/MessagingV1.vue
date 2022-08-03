@@ -1,11 +1,15 @@
 <script setup lang="ts">
-import { computed, onMounted } from 'vue'
-
+import { computed, onMounted, reactive } from 'vue'
 import { useChat } from '/@src/stores/chat'
 import { useNotyf } from '/@src/composable/useNotyf'
 import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
+import { fetchStatementChats } from "/@src/utils/api/statement";
+import { StatementChatMessageData } from "/@src/utils/interfaces";
 
 const { t, locale } = useI18n()
+const route = useRoute()
+const currentId = (route.params?.id as string) ?? null
 
 /**
  * The chat store keep the chat data across the app
@@ -15,34 +19,9 @@ const chat = useChat()
 
 // Those utilities are used to manage the layout
 const notyf = useNotyf()
+const messages: StatementChatMessageData[] = reactive([])
 
-// onMounted is a composition hook that is called when the component is mounted
-onMounted(async () => {
-
-  try {
-    // Ask to the store to load conversations,
-    // - chat.loading will be set to true while loading
-    // - chat.conversations will be populated with the loaded conversations
-    await chat.loadConversations()
-
-    // When conversations are loaded, select last unread conversation to load its messages
-    const lastReadConversation = chat.conversations.find(
-      (conversation) => !conversation.unreadMessages
-    )
-
-    // Note that we do not await the messages to be loaded,
-    // we have nothing to do with them here but it will continue to run in background
-    if (lastReadConversation) {
-      chat.selectConversastion(lastReadConversation.id)
-    } else {
-      chat.selectConversastion(chat.conversations[0].id)
-    }
-  } catch (e: any) {
-    // We always catch errors in the components, so we can display messages to the user
-    // Here we just display the error with notyf popins
-    notyf.error(e.message)
-  }
-})
+await fetchChatMessages()
 
 // Click handler to display the addConversation inputs
 function addConversation() {
@@ -56,13 +35,17 @@ function selectConversation(id: number) {
   chat.selectConversastion(id)
 }
 
+async function fetchChatMessages() {
+  const res = await fetchStatementChats(Number(currentId), locale.value)
+  Object.assign(messages, res)
+}
 </script>
 
 <template>
   <!-- Chat Card -->
   <ChatCard>
     <template #body>
-      <li v-if="chat.messages.length === 0" class="no-messages">
+      <li v-if="messages.length === 0" class="no-messages">
         <!-- <img class="light-image" src="/@src/assets/illustrations/placeholders/search-4.svg" alt="" /> -->
         <!-- <img class="dark-image" src="/@src/assets/illustrations/placeholders/search-4-dark.svg" alt="" /> -->
         <div class="text">
@@ -71,7 +54,7 @@ function selectConversation(id: number) {
         </div>
       </li>
 
-      <ChatMsg v-for="message in chat.messages" :key="message.id" :message="message" />
+      <ChatMsg v-for="message in messages" :key="message.id" :message="message" />
 
       <!-- <li class="chat-loader" :class="[chat.loading && 'is-active']">
         <div class="loader is-loading"></div>

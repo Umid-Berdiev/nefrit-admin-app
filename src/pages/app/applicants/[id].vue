@@ -15,8 +15,8 @@ const tabs = reactive<TabHeader[]>([
     value: 'statements',
     icon: 'feather:file-text',
   },
-  { label: t('Payments'), value: 'payments', icon: 'fas fa-dollar' },
-  { label: t('Chat'), value: 'chat', icon: 'fas fa-comments' },
+  // { label: t('Payments'), value: 'payments', icon: 'fas fa-dollar' },
+  // { label: t('Chat'), value: 'chat', icon: 'fas fa-comments' },
 ])
 const viewWrapper = useViewWrapper()
 viewWrapper.setPageTitle(t('Applicant_Info'))
@@ -37,12 +37,12 @@ useHead({
         <div v-else-if="activeValue === 'statements'" class="mt-5">
           <ApplicantStatementsTable />
         </div>
-        <div v-else-if="activeValue === 'payments'" class="mt-5">
+        <!-- <div v-else-if="activeValue === 'payments'" class="mt-5">
           <PaymentStatusTable />
-        </div>
-        <div v-else-if="activeValue === 'chat'" class="mt-5">
+        </div> -->
+        <!-- <div v-else-if="activeValue === 'chat'" class="mt-5">
           <MessagingV1 />
-        </div>
+        </div> -->
       </template>
     </VTabs>
   </div>

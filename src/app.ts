@@ -8,6 +8,7 @@ import { createApi } from '/@src/composable/useApi'
 import VueroApp from './VueroApp.vue'
 
 import './styles'
+import utils from './utils'
 
 const plugins = import.meta.glob('./plugins/*.ts')
 
@@ -52,6 +53,6 @@ export async function createApp() {
 
   // use router after plugin registration, so we can register navigation guards
   app.use(vuero.router)
-
+  utils(app)
   return vuero
 }

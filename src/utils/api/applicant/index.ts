@@ -86,10 +86,24 @@ export async function updateApplicant(id: number, payload: ApplicantData) {
   }
 }
 
-export async function blockApplicant(id: number) {
+export async function blockApplicant(id: number, payload: { block_reason: string }) {
   try {
     const { data } = await api({
       url: `/api/admin/legal-entity/${id}/block`,
+      method: 'POST',
+      data: payload,
+    })
+
+    return data.data
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function unblockApplicant(id: number) {
+  try {
+    const { data } = await api({
+      url: `/api/admin/legal-entity/${id}/unblock`,
       method: 'POST',
     })
 

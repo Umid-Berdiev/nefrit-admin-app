@@ -1,105 +1,64 @@
 <script setup lang="ts">
 import type { Message } from '/@src/utils/api/chat/messages'
+import { StatementChatMessageData } from '/@src/utils/interfaces.js';
 
 const props = defineProps<{
-  message: Message
+  message: StatementChatMessageData
 }>()
 </script>
 
 <template>
   <li :class="[
-    props.message.type === 'system' && 'divider-container',
-    props.message.type !== 'system' && props.message.sender,
+    message.is_me && 'self',
+    !message.is_me && 'other',
   ]">
-    <!-- System messages -->
-    <template v-if="props.message.type === 'system'">
-  <li class="divider-container">
-    <div class="divider">
-      <span>{{ props.message.content.text }}</span>
-    </div>
-  </li>
-</template>
+    <!-- Text messages -->
+    <template v-if="message.message">
+      <div class="avatar">
+        <img v-if="message.user.avatar" :src="message.user.avatar" draggable="false" alt="" />
+      </div>
+      <div class="msg">
+        <div class="msg-inner">
+          <p>{{ message.message }}</p>
+        </div>
 
-<!-- Text messages -->
-<template v-else-if="props.message.type === 'msg'">
-  <div class="avatar">
-    <img v-if="props.message.avatar" :src="props.message.avatar" draggable="false" alt="" />
-  </div>
-  <div class="msg">
-    <div class="msg-inner">
-      <p>{{ props.message.content.text }}</p>
-    </div>
+        <time>
+          {{ $h.formatDate(message.created_at, 'DD.MM.YYYY') }}
+        </time>
+      </div>
+    </template>
 
-    <time>
-      {{ props.message.content.time }}
-    </time>
-  </div>
-</template>
-
-<!-- Image messages -->
-<template v-else-if="props.message.type === 'image'">
-  <div class="avatar is-online">
-    <img v-if="props.message.avatar" :src="props.message.avatar" draggable="false" alt="" />
-  </div>
-  <div class="msg is-image">
-    <div class="image-container">
-      <VPhotosSwipe v-if="props.message.content.image_url" :items="[
-        {
-          src: props.message.content.image_url,
-          thumbnail: props.message.content.image_url,
-          w: 300,
-          h: 200,
-          alt: 'optional alt attribute for thumbnail image',
-        },
-      ]" thumbnail-radius="full" />
-      <div class="image-overlay"></div>
-      <div class="image-actions">
-        <div class="actions-inner">
-          <div class="action download">
-            <span class="iconify" data-icon="feather:download"> </span>
+    <!-- Image messages -->
+    <template v-else-if="message.file">
+      <div class="avatar is-online">
+        <img v-if="message.user.avatar" :src="message.user.avatar" draggable="false" alt="" />
+      </div>
+      <div class="msg is-image">
+        <div class="image-container">
+          <VPhotosSwipe v-if="message.file" :items="[
+            {
+              src: message.file,
+              thumbnail: message.file,
+              w: 300,
+              h: 200,
+              alt: 'optional alt attribute for thumbnail image',
+            },
+          ]" thumbnail-radius="full" />
+          <div class="image-overlay"></div>
+          <div class="image-actions">
+            <div class="actions-inner">
+              <div class="action download">
+                <span class="iconify" data-icon="feather:download"> </span>
+              </div>
+              <a :href="message.file" class="action messaging-popup" aria-label="Maximize">
+                <span class="iconify" data-icon="feather:maximize"> </span>
+              </a>
+            </div>
           </div>
-          <a :href="props.message.content.image_url" class="action messaging-popup" aria-label="Maximize">
-            <span class="iconify" data-icon="feather:maximize"> </span>
-          </a>
         </div>
       </div>
-    </div>
-  </div>
-</template>
-
-<!-- Link image messages -->
-<template v-else-if="props.message.type === 'imagelink'">
-  <div class="avatar">
-    <img v-if="props.message.avatar" :src="props.message.avatar" draggable="false" alt="" />
-  </div>
-  <div class="msg is-link-image">
-    <figure class="image">
-      <img :src="props.message.content.link_image" alt="" />
-      <div class="link-badge">
-        <img :src="props.message.content.link_badge" alt="" />
-      </div>
-    </figure>
-    <div class="link-body">
-      <span class="link-title">{{ props.message.content.text }}</span>
-      <small>{{ props.message.content.subtext }}</small>
-    </div>
-  </div>
-</template>
-
-<!-- Link text messages -->
-<template v-else-if="props.message.type === 'link'">
-  <div class="avatar is-online">
-    <img v-if="props.message.avatar" :src="props.message.avatar" draggable="false" alt="" />
-  </div>
-  <div class="msg is-link">
-    <VIconWrap icon="feather:link" />
-    <p class="link-meta">
-      <span>{{ props.message.content.text }}</span>
-      <a href="#">{{ props.message.content.subtext }}</a>
-    </p>
-  </div>
-</template>
-</li>
+    </template>
+  </li>
 </template>
 
 <style lang="scss">

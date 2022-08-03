@@ -16,8 +16,6 @@ const props = defineProps({
 const data: User[] = users
 const mainStore = useMainStore()
 const { t } = useI18n()
-const viewWrapper = useViewWrapper()
-viewWrapper.setPageTitle(t('Conclusions_List'))
 
 // this is a sample for custom sort function
 const locationSorter: VFlexTableWrapperSortFunction<User> = ({ order, a, b }) => {
@@ -95,7 +93,7 @@ async function onReject() {
 <template>
   <div class="applicant-list-wrapper">
     <!-- table -->
-    <h1 class="is-size-3 mb-3">{{ $t('Payment_status') }}</h1>
+    <h1 class="is-size-3 mb-3">{{ $t('Payments') }}</h1>
     <ContractInfoTable v-if="isContractInfoTableVisible" />
     <VFlexTableWrapper :columns="columns" :data="data">
       <!--

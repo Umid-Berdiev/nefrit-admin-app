@@ -6,6 +6,8 @@ import {
   StatementVoteData,
   StatementData,
   VoteStatisticsData,
+  StatementDocumentData,
+  StatementChronologyData,
 } from '../../interfaces'
 import { useApi } from '/@src/composable/useApi'
 
@@ -58,7 +60,10 @@ export async function fetchStages(id: number) {
 }
 
 // chronologies api
-export async function fetchChronologies(id: number, locale: string) {
+export async function fetchChronologies(
+  id: number,
+  locale: string
+): Promise<StatementChronologyData[]> {
   try {
     const { data } = await api({
       url: `/api/admin/application/${id}/chronologies`,
@@ -397,6 +402,69 @@ export async function createStatementVote(
       url: `/api/admin/vote`,
       method: 'POST',
       data: payload,
+    })
+
+    return data.data
+  } catch (error) {
+    throw error
+  }
+}
+
+// statement docs api
+export async function fetchStatementDocuments(
+  id: number,
+  locale: string
+): Promise<StatementDocumentData[]> {
+  try {
+    const { data } = await api({
+      // url: `/api/admin/document?application_id=${id}`,
+      url: `/api/admin/application/${id}/document`,
+      headers: {
+        Language: locale,
+      },
+    })
+
+    return data.data
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function fetchStatementDocumentById(
+  id: number
+): Promise<StatementDocumentData> {
+  try {
+    const { data } = await api({
+      url: `/api/admin/document/${id}`,
+    })
+
+    return data.data
+  } catch (error) {
+    throw error
+  }
+}
+
+// statement chat api
+export async function fetchStatementChats(id: number, locale: string) {
+  try {
+    const { data } = await api({
+      // url: `/api/admin/document?application_id=${id}`,
+      url: `/api/admin/chat?application_id=${id}`,
+      headers: {
+        Language: locale,
+      },
+    })
+
+    return data.data
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function fetchStatementChatById(id: number): Promise<StatementChatData> {
+  try {
+    const { data } = await api({
+      url: `/api/admin/document/${id}`,
     })
 
     return data.data

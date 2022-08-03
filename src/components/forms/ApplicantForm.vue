@@ -1,17 +1,38 @@
 <script setup lang="ts">
-import { onMounted, reactive } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router';
 import moment from 'moment';
-import { fetchById, verifyApplicant } from '/@src/utils/api/applicant';
+import { fetchById, unblockApplicant, updateApplicant, verifyApplicant } from '/@src/utils/api/applicant';
 import { ApplicantData } from '/@src/utils/interfaces';
 import { useMainStore } from '/@src/stores';
+import { Icon } from '@iconify/vue';
+import CountrySelect from './selects/CountrySelect.vue';
+import { useNotyf } from '/@src/composable/useNotyf';
+import ApplicantBlockFormModal from '../base/modal/ApplicantBlockFormModal.vue';
 
 const { t, locale } = useI18n()
 const route = useRoute()
 const mainStore = useMainStore()
 const currentId = (route.params?.id as string) ?? ''
 const applicantData = reactive<ApplicantData>({})
+const isFirstBlockEditable = ref(false)
+const isSecondBlockEditable = ref(false)
+const errors = reactive({
+  boss_name: '',
+  phone: '',
+  fax: '',
+  website: '',
+  email: '',
+  name: '',
+  country: '',
+  address: '',
+  is_national: ''
+})
+const isLoading = ref(false)
+const notif = useNotyf()
+const isBlockFormModalOpen = ref(false)
+const callbackFunc = ref(Function)
 
 onMounted(async () => {
   await fetchData()
@@ -22,220 +43,286 @@ async function fetchData() {
   Object.assign(applicantData, res)
 }
 
-function formatDate(value: string) {
+function formatDate(value: string | undefined) {
   return value && moment(value).format('YYYY-MM-DD');
 }
 
-function onSubmit(event: Event) {
-  const values = Object.fromEntries(new FormData(event.target as HTMLFormElement))
-  console.log({ values });
+async function onFirstFormSubmit(event: Event) {
+  try {
+    isLoading.value = true
+    const res = await updateApplicant(Number(currentId), applicantData)
+    Object.assign(applicantData, res)
+    isFirstBlockEditable.value = false
+    notif.dismissAll()
+    notif.success(t('Updated_successfully'))
+  } catch (error: any) {
+    Object.assign(errors, error.response?.data?.errors)
+  } finally {
+    isLoading.value = false
+  }
+}
+
+async function onSecondFormSubmit(event: Event) {
+  try {
+    isLoading.value = true
+    const res = await updateApplicant(Number(currentId), applicantData)
+    Object.assign(applicantData, res)
+    isSecondBlockEditable.value = false
+    notif.dismissAll()
+    notif.success(t('Updated_successfully'))
+  } catch (error: any) {
+    Object.assign(errors, error.response?.data?.errors)
+  } finally {
+    isLoading.value = false
+  }
 }
 
 async function onConfirmAction() {
-  await verifyApplicant(Number(currentId))
+  await callbackFunc.value(Number(currentId))
   await fetchData()
 }
 
 async function onVerifyAction() {
+  callbackFunc.value = verifyApplicant
   mainStore.$patch({ confirmModalState: true, confirmModalOkButtonColor: 'success' })
 }
 
-function onEdit(part: number) {
-  console.log('part: ', part)
+function toggleFirstBlock() {
+  isFirstBlockEditable.value = !isFirstBlockEditable.value
+}
+
+function toggleSecondBlock() {
+  isSecondBlockEditable.value = !isSecondBlockEditable.value
+}
+
+function clearErrors(event: Event) {
+  errors[event.target.name] = ''
+}
+
+function onBlockAction() {
+  isBlockFormModalOpen.value = true
+}
+
+async function onUnblockAction() {
+  callbackFunc.value = unblockApplicant
+  mainStore.$patch({ confirmModalState: true, confirmModalOkButtonColor: 'success' })
 }
 </script>
 
 <template>
   <div>
-    <form class="form-layout is-separate" @submit.prevent="onSubmit">
+    <div class="form-layout is-separate">
       <VBlock title="" center>
         <template #action>
-          <VButton type="button" class="mr-3" outlined color="warning" icon="fas fa-check-double"
-            @click="onVerifyAction">
+          <VButton v-if="!applicantData.blocked_at" type="button" class="mr-3" outlined color="danger" icon="fas fa-ban"
+            @click="onBlockAction">
+            {{ $t('Block') }}
+          </VButton>
+          <VButton v-if="applicantData.blocked_at" type="button" class="mr-3" outlined color="warning" icon="fas fa-ban"
+            @click="onUnblockAction">
+            {{ $t('Unblock') }}
+          </VButton>
+          <VButton v-if="!applicantData.verified_at" type="button" class="mr-3" outlined color="primary"
+            icon="fas fa-check-double" @click="onVerifyAction">
             {{ $t('Verify') }}
           </VButton>
-          <VButton class="mr-3" outlined color="success" icon="fas fa-user-edit" type="submit">
+          <!-- <VButton class="mr-3" outlined color="success" icon="fas fa-user-edit" type="submit">
             {{ $t('Save_changes') }}
-          </VButton>
+          </VButton> -->
         </template>
       </VBlock>
       <div class="form-outer">
         <div class="form-body">
-          <div class="form-section">
+          <form id="first-block-form" class="form-section" @submit.prevent="onFirstFormSubmit">
             <div class="form-section-inner has-padding-bottom">
               <h3 class="has-text-centered">
                 {{ t('Applicant_details') }}
-                <a href="javascript:;" @click="onEdit(1)" class="edit-btn">
-                  <i class="iconify" data-icon="feather:edit-2" aria-hidden="true"></i>
+                <a href="javascript:;" @click="toggleFirstBlock" class="edit-btn ml-5">
+                  <Icon v-if="!isFirstBlockEditable" icon="feather:edit-2" />
+                  <Icon v-else icon="feather:x" />
+                </a>
+              </h3>
+              <div class="columns is-multiline">
+                <!-- <div class="column is-12 mb-3">
+                  <VField>
+                    <VLabel>{{ t('Applicant_username') }}</VLabel>
+                    <VControl icon="feather:user">
+                      <VInput :disabled="!isFirstBlockEditable" type="text" name="username"
+                        v-model="applicantData.username" autocomplete="applicant-name" />
+                    </VControl>
+                  </VField>
+                </div> -->
+                <div class="column is-12 mb-3">
+                  <VField required :label="$t('Boss_name')">
+                    <VControl icon="feather:user">
+                      <VInput :disabled="!isFirstBlockEditable" type="text" name="boss_name"
+                        v-model="applicantData.boss_name" placeholder="" autocomplete="boss-name" />
+                      <p class="help has-text-danger">{{ errors.boss_name[0] }}</p>
+                    </VControl>
+                  </VField>
+                </div>
+                <div class="column is-12 mb-3">
+                  <VField required :label="$t('Applicant_phone_number')">
+                    <VControl icon="feather:phone" required>
+                      <VInput :disabled="!isFirstBlockEditable" type="tel" name="phone" v-model="applicantData.phone"
+                        autocomplete="applicant-name" />
+                      <p class="help has-text-danger">{{ errors.phone[0] }}</p>
+                    </VControl>
+                  </VField>
+                </div>
+                <div class="column is-12 mb-3">
+                  <VField required :label="$t('Website')">
+                    <VControl icon="feather:globe" required>
+                      <VInput :disabled="!isFirstBlockEditable" type="text" name="website"
+                        v-model="applicantData.website" autocomplete="website-name" />
+                      <p class="help has-text-danger">{{ errors.website[0] }}</p>
+                    </VControl>
+                  </VField>
+                </div>
+                <div class="column is-12 mb-3">
+                  <VField required :label="$t('Email_address')">
+                    <VControl icon="feather:mail" required>
+                      <VInput :disabled="!isFirstBlockEditable" type="email" name="email" v-model="applicantData.email"
+                        autocomplete="email" inputmode="email" />
+                      <p class="help has-text-danger">{{ errors.email[0] }}</p>
+                    </VControl>
+                  </VField>
+                </div>
+                <div class="column is-12 is-flex">
+                  <VButton :loading="isLoading" v-if="isFirstBlockEditable" class="ml-auto" outlined color="success"
+                    icon="fas fa-save" type="submit" form="first-block-form">
+                    {{ $t('Save') }}
+                  </VButton>
+                </div>
+              </div>
+            </div>
+          </form>
+          <form id="second-block-form" class="form-section" @submit.prevent="onSecondFormSubmit">
+            <div class="form-section-inner has-padding-bottom">
+              <h3 class="has-text-centered">
+                {{ t('Company_information') }}
+                <a href="javascript:;" @click="toggleSecondBlock" class="edit-btn ml-5">
+                  <Icon v-if="!isSecondBlockEditable" icon="feather:edit-2" />
+                  <Icon v-else icon="feather:x" />
                 </a>
               </h3>
               <div class="columns is-multiline">
                 <div class="column is-12 mb-3">
-                  <VField>
-                    <VLabel>{{ t('Applicant_username') }}</VLabel>
-                    <VControl icon="feather:user">
-                      <VInput type="text" :value="applicantData.user?.username" autocomplete="applicant-name" />
+                  <VField required :label="$t('Company_name')">
+                    <VControl icon="feather:briefcase" required>
+                      <VInput :disabled="!isSecondBlockEditable" v-model="applicantData.name"
+                        autocomplete="company_name" />
+                      <p class="help has-text-danger">{{ errors.name[0] }}</p>
                     </VControl>
                   </VField>
                 </div>
-                <div class="column is-12 mb-3">
-                  <VField>
-                    <VLabel>{{ $t('Applicant_phone_number') }}</VLabel>
-                    <VControl icon="feather:phone">
-                      <VInput type="tel" :value="applicantData.phone" autocomplete="applicant-name" />
-                    </VControl>
-                  </VField>
-                </div>
-                <div class="column is-12 mb-3">
-                  <VField>
-                    <VLabel>{{ t('Boss_name') }}</VLabel>
-                    <VControl icon="feather:user">
-                      <VInput type="text" :value="applicantData.boss_name" placeholder="" autocomplete="boss-name" />
-                    </VControl>
-                  </VField>
-                </div>
-                <div class="column is-12 mb-3">
-                  <VField>
-                    <VLabel>{{ $t('Website') }}</VLabel>
-                    <VControl icon="feather:globe">
-                      <VInput type="text" :value="applicantData.website" autocomplete="website-name" />
-                    </VControl>
-                  </VField>
-                </div>
-                <div class="column is-12 mb-3">
-                  <VField>
-                    <VLabel>{{ t('Email_address') }}</VLabel>
-                    <VControl icon="feather:mail">
-                      <VInput type="email" :value="applicantData.user?.email" autocomplete="email" inputmode="email" />
-                    </VControl>
-                  </VField>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="form-section">
-            <div class="form-section-inner has-padding-bottom">
-              <h3 class="has-text-centered">{{ t('Company_information') }}</h3>
-              <div class="columns is-multiline">
-                <div class="column is-12 mb-3">
-                  <VField>
-                    <VLabel>{{ t('Company_name') }} <span class="has-text-danger">*</span></VLabel>
-                    <VControl icon="feather:briefcase">
-                      <VInput :value="applicantData.name" autocomplete="company_name" />
-                    </VControl>
-                  </VField>
-                </div>
-                <div class="column is-6 mb-3">
+                <!-- <div class="column is-6 mb-3">
                   <VField>
                     <VLabel>{{ t('Company_phone') }} <span class="has-text-danger">*</span></VLabel>
                     <VControl icon="feather:phone">
-                      <VInput type="tel" :value="applicantData.phone" autocomplete="tel" inputmode="tel" />
+                      <VInput :disabled="!isSecondBlockEditable" type="tel" v-model="applicantData.phone"
+                        autocomplete="tel" inputmode="tel" />
+                    </VControl>
+                  </VField>
+                </div> -->
+                <div class="column is-6 mb-3">
+                  <VField :label="$t('Company_fax')">
+                    <VControl icon="feather:printer" required>
+                      <VInput :disabled="!isSecondBlockEditable" v-model="applicantData.fax" autocomplete="tel"
+                        inputmode="tel" />
+                      <p class="help has-text-danger">{{ errors.fax[0] }}</p>
                     </VControl>
                   </VField>
                 </div>
                 <div class="column is-6 mb-3">
-                  <VField>
-                    <VLabel>{{ t('Company_fax') }} <span class="has-text-danger">*</span></VLabel>
-                    <VControl icon="feather:printer">
-                      <VInput :value="applicantData.phone" autocomplete="tel" inputmode="tel" />
-                    </VControl>
-                  </VField>
+                  <CountrySelect :disabled="!isSecondBlockEditable" v-model="applicantData.country" required />
                 </div>
                 <div class="column is-6 mb-3">
-                  <VField>
-                    <VLabel>{{ t('Country') }}</VLabel>
-                    <VControl class="has-icons-left" icon="fas fa-globe">
-                      <VInput :value="applicantData.country" />
-                      <!-- <VSelect v-model="selectedCountry">
-                      <VOption value="" >Select a Hero</VOption>
-                      <VOption value="Superman">Superman</VOption>
-                      <VOption value="Batman">Batman</VOption>
-                      <VOption value="Spiderman">Spiderman</VOption>
-                      <VOption value="Deadpool">Deadpool</VOption>
-                      <VOption value="Spawn">Spawn</VOption>
-                      <VOption value="Galactus">Galactus</VOption>
-                    </VSelect> -->
-                    </VControl>
-                  </VField>
-                </div>
-                <div class="column is-6 mb-3">
-                  <VField>
-                    <VLabel>{{ t('stir') }}</VLabel>
+                  <VField :label="$t('stir')">
                     <VControl icon="fas fa-hashtag">
                       <VInput disabled :value="applicantData.inn" />
                     </VControl>
                   </VField>
                 </div>
                 <div class="column is-12 mb-3">
-                  <VField>
-                    <VLabel>{{ t('Address') }}</VLabel>
+                  <VField required :label="$t('Address')">
                     <VControl>
-                      <VTextarea :value="applicantData.address" :rows="2" />
+                      <VTextarea v-model="applicantData.address" :rows="2" />
+                      <p class="help has-text-danger">{{ errors.address[0] }}</p>
                     </VControl>
                   </VField>
                 </div>
                 <div class="column is-12">
-                  <label for="checkbox1" class="checkbox">
-                    <input id="checkbox1" type="checkbox" :checked="applicantData.is_national" />
+                  <!-- <label for="checkbox-is-national" class="checkbox">
+                    <input :disabled="!isSecondBlockEditable" id="checkbox-is-national" type="checkbox"
+                      v-model="applicantData.is_national" :checked="applicantData.is_national" />
                     {{ $t('isNational') }}
-                  </label>
+                  </label> -->
+                  <VControl raw subcontrol>
+                    <VCheckbox class="pl-1" v-model="applicantData.is_national" :label="$t('isNational')"
+                      color="primary" :true-value="1" :false-value="0" :disabled="!isSecondBlockEditable" />
+                  </VControl>
+                </div>
+                <div class="column is-12 is-flex">
+                  <VButton :loading="isLoading" v-if="isSecondBlockEditable" class="ml-auto" outlined color="success"
+                    icon="fas fa-save" type="submit" form="second-block-form">
+                    {{ $t('Save') }}
+                  </VButton>
                 </div>
               </div>
             </div>
-          </div>
+          </form>
           <div class="form-section">
             <div class="form-section-inner has-padding-bottom">
               <h3 class="has-text-centered">{{ t('Applicant_status') }}</h3>
               <div class="columns is-multiline">
                 <div class="column is-12 mb-3">
-                  <VField>
-                    <VLabel>{{ t('Status') }}</VLabel>
-                    <VControl class="has-icons-left" icon="feather:layers">
-                      <!-- <VSelect v-model="selectedCountry">
-                      <VOption value="" disabled>{{ t('Select') }} ...</VOption>
-                      <VOption value="Superman">Superman</VOption>
-                      <VOption value="Batman">Batman</VOption>
-                      <VOption value="Spiderman">Spiderman</VOption>
-                      <VOption value="Deadpool">Deadpool</VOption>
-                      <VOption value="Spawn">Spawn</VOption>
-                      <VOption value="Galactus">Galactus</VOption>
-                    </VSelect> -->
-                      <VInput disabled :value="applicantData.status?.name" />
-                    </VControl>
-                  </VField>
-                </div>
-                <div class="column is-desktop-6 mb-3">
-                  <VField>
-                    <VLabel>{{ t('verified_at') }}</VLabel>
-                    <VControl>
-                      <VInput disabled :value="formatDate(applicantData.verified_at)" class="input form-datepicker" />
-                    </VControl>
-                  </VField>
-                </div>
-                <div class="column is-desktop-6 mb-3">
-                  <VField>
-                    <VLabel>{{ t('blocked_at') }}</VLabel>
-                    <VControl>
-                      <VInput disabled :value="formatDate(applicantData.blocked_at)" class="input form-datepicker" />
-                    </VControl>
-                  </VField>
-                </div>
-                <div class="column is-12 mb-3">
-                  <VField>
-                    <VLabel>{{ t('block_reason') }}</VLabel>
-                    <VControl>
-                      <VTextarea disabled class="textarea" :rows="2" :value="applicantData.block_reason" />
-                    </VControl>
-                  </VField>
+                  <table class="table is-hoverable is-bordered is-fullwidth">
+                    <tbody>
+                      <tr v-if="applicantData.status">
+                        <td class="has-text-weight-bold">
+                          <div class="name dark-inverted">{{ $t('Status') }}</div>
+                        </td>
+                        <td>
+                          <VTag :color="applicantData.status.color" rounded v-text="applicantData.status?.name" />
+                        </td>
+                      </tr>
+                      <tr v-if="applicantData.verified_at">
+                        <td class="has-text-weight-bold">
+                          <div class="name dark-inverted">{{ $t('verified_at') }}</div>
+                        </td>
+                        <td>
+                          <span class="has-text-primary is-size-6" v-text="formatDate(applicantData.verified_at)" />
+                        </td>
+                      </tr>
+                      <tr v-if="applicantData.block_reason">
+                        <td class="has-text-weight-bold">
+                          <div class="name dark-inverted">{{ $t('block_reason') }}</div>
+                        </td>
+                        <td>
+                          <span color="danger is-size-6" v-text="applicantData.block_reason" />
+                        </td>
+                      </tr>
+                      <tr v-if="applicantData.blocked_at">
+                        <td class="has-text-weight-bold">
+                          <div class="name dark-inverted">{{ $t('blocked_at') }}</div>
+                        </td>
+                        <td>
+                          <span class="has-text-danger is-size-6" v-text="formatDate(applicantData.blocked_at)" />
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </form>
+    </div>
 
     <ConfirmActionModal @confirm-action="onConfirmAction" />
+    <ApplicantBlockFormModal v-model="isBlockFormModalOpen" :item-id="Number(currentId)" @update:list="fetchData" />
   </div>
 </template>
 
@@ -457,8 +544,16 @@ function onEdit(part: number) {
     }
   }
 
-  .edit-btn:hover {
+  .edit-btn {
     color: antiquewhite;
+  }
+
+  .edit-btn:hover {
+    color: cornflowerblue;
+  }
+
+  .checkbox:hover {
+    color: var(--dark-text);
   }
 }
 

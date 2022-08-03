@@ -291,5 +291,8 @@
   "Accept": "Qabul qilish",
   "Reject": "Rad etish",
   "Applicant_phone_number": "Arizachini telefon raqami",
-  "Payments": "To'lovlar"
+  "Payments": "To'lovlar",
+  "Updated_successfully": "Muvoffaqiyatli yangilandi",
+  "Statement_docs": "Ariza hujjatlari",
+  "Docs_not_attached_yet": "Hujjatlar hali biriktirilmagan"
 }

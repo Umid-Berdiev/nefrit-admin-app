@@ -5,8 +5,11 @@ import { useHead } from '@vueuse/head'
 // we import our useApi helper
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
-import { fetchChronologies } from '/@src/utils/api/statement'
+import { fetchChronologies, fetchStatementDocuments } from '/@src/utils/api/statement'
 import { useViewWrapper } from '/@src/stores/viewWrapper'
+import { StatementDocumentData, StatementChronologyData } from '/@src/utils/interfaces.js'
+import StatementDocumentAccordion from '/@src/components/base/accordion/StatementDocumentAccordion.vue'
+import StatementDocumentCollapse from '/@src/components/base/accordion/StatementDocumentCollapse.vue'
 
 const { t, locale } = useI18n()
 const route = useRoute()
@@ -15,6 +18,11 @@ const selectedTab = ref(route.hash.slice(1) || 'details')
 const tabs = ref([
   { label: t('Statement_details'), value: 'details', icon: 'lnil lnil-tap' },
   // { label: t('Payment'), value: 'payment', icon: 'fas fa-tree' },
+  {
+    label: t('Statement_docs'),
+    value: 'docs',
+    icon: 'lnil lnil-files',
+  },
   {
     label: t('Statement_conclusions'),
     value: 'conclusions',
@@ -28,7 +36,9 @@ const tabs = ref([
   { label: t('ITK'), value: 'itk', icon: 'feather:activity' },
   { label: t('Chat'), value: 'chat', icon: 'fas fa-comments' },
 ]);
-const chronologyData = ref([])
+const chronologyData = ref<StatementChronologyData[]>()
+const docsData = ref<StatementDocumentData[]>()
+const docIndexList = ref<number[]>()
 const viewWrapper = useViewWrapper()
 viewWrapper.setPageTitle(t('Statement_card'))
 
@@ -39,7 +49,10 @@ useHead({
 
 onMounted(async () => {
   const res = await fetchChronologies(Number(currentId), locale.value)
+  const res2 = await fetchStatementDocuments(Number(currentId), locale.value)
   chronologyData.value = res
+  docsData.value = res2
+  docIndexList.value = res2.map((_, index) => index)
 })
 
 </script>
@@ -58,9 +71,9 @@ onMounted(async () => {
             </ListWidgetSingle>
           </div>
         </div>
-        <!-- <div v-else-if="activeValue === 'payment'" class="mt-5">
-          <PaymentStatusTable :is-contract-info-table-visible="true" />
-        </div> -->
+        <div v-else-if="activeValue === 'docs'" class="mt-5">
+          <StatementDocumentCollapse :items="docsData" :open-items="docIndexList" with-chevron />
+        </div>
         <div v-else-if="activeValue === 'conclusions' || route.hash == '#conclusions'" class="mt-5">
           <StatementConclusionTable />
         </div>

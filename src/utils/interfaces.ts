@@ -22,7 +22,7 @@ export interface UserData {
 export interface ApplicantData {
   address?: string
   block_reason?: Text
-  blocked_at?: Date // block qilingan vaqt
+  blocked_at?: string // block qilingan vaqt
   boss_name?: string //filterga+ cols +
   country?: string //filterga +
   eds?: string //elektron raqamli imzo
@@ -34,7 +34,7 @@ export interface ApplicantData {
   phone?: string // filterga+ cols +
   status?: StatusData //filterga+ cols +
   user?: UserData //filterga+ cols +
-  verified_at?: Date // tasdiqlangan firma ekaninni belgilash uchun (true => tasdiqlangan)
+  verified_at?: string // tasdiqlangan firma ekaninni belgilash uchun (true => tasdiqlangan)
   website?: string
   certificate?: string // yuridik shaxs guvohnomasi
 }
@@ -115,6 +115,17 @@ export interface StatementData {
   certificate: StatementCertificateData
 }
 
+export interface StatementChronologyData {
+  id: number
+  date: string
+  department: string
+  key: 'stages'
+  message: string
+  stage: string
+  stage_number: number
+  user: UserData
+}
+
 export interface DepartmentNameData {
   id: number
   field: string
@@ -181,4 +192,29 @@ export interface VoteStatisticsData {
   agree: number
   disagre: number
   didnt_vote: number
+}
+
+export interface StatementDocumentFileData {
+  application_id: number
+  category_id: number
+  file: string
+  id?: number
+  name: string
+}
+
+export interface StatementDocumentData {
+  description: string
+  files: StatementDocumentFileData[]
+  id?: number
+  name: string
+}
+
+export interface StatementChatMessageData {
+  chat_id: number
+  created_at: string
+  file: string
+  id: number
+  is_me: boolean
+  message: string
+  user: UserData
 }

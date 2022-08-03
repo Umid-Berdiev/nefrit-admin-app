@@ -38,7 +38,7 @@ const selectedStatus = computed({
     <VLabel>{{ t('Status') }} <span :class="{ 'has-text-danger': isRequired }">*</span></VLabel>
     <VControl>
       <VSelect v-model="selectedStatus">
-        <VOption value="">{{ t('Select') }} ...</VOption>
+        <VOption disabled hidden value="">{{ t('Select') }} ...</VOption>
         <VOption v-for="status in list" :key="status.id" :value="status.id" v-text="status.name" />
       </VSelect>
     </VControl>

@@ -78,7 +78,7 @@ async function onSubmit(event: Event) {
       await updateStatementConclusionById(props.itemId, formData) :
       await createStatementConclusion(formData)
     emits('update:list')
-    // onClose()
+    onClose()
   } catch (error: any) {
     Object.assign(errors, error.response?.data?.errors)
     // throw error

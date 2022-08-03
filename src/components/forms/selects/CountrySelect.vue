@@ -27,9 +27,9 @@ const selectedCountry = computed({
 <template>
   <VField>
     <VLabel>{{ $t('Country') }}</VLabel>
-    <VControl>
-      <VSelect v-model="selectedCountry">
-        <VOption value="">{{ $t('Select') }}...</VOption>
+    <VControl class="has-icons-left" icon="fas fa-globe">
+      <VSelect v-model="selectedCountry" v-bind="$attrs">
+        <VOption disabled hidden value="">{{ $t('Select') }}...</VOption>
         <VOption v-for="country in countries" :key="country.iso2" :value="country.name" v-text="country.name" />
       </VSelect>
     </VControl>

@@ -7,6 +7,7 @@ import type {
   VFlexTableWrapperSortFunction,
 } from '/@src/components/base/table/VFlexTableWrapper.vue'
 import { fetchStatementNotices, removeStatementNoticeById } from "/@src/utils/api/statement";
+import { useNotyf } from '/@src/composable/useNotyf'
 
 const route = useRoute()
 const mainStore = useMainStore()
@@ -70,6 +71,7 @@ const columns = {
     align: 'center',
   },
 } as const
+const notif = useNotyf()
 
 await fetchData()
 
@@ -91,6 +93,14 @@ async function onRemove(id: number) {
 async function handleRemoveAction() {
   await removeStatementNoticeById(selectedId.value)
   fetchData()
+}
+
+function notify() {
+  notif.success(t('Updated_successfully'))
+}
+
+function onModalClose() {
+  selectedId.value = undefined
 }
 </script>
 
@@ -140,12 +150,12 @@ async function handleRemoveAction() {
         </VFlexTable>
 
         <!-- Table Pagination with wrapperState.page binded-->
-        <VFlexPagination v-model:current-page="currentPage" class="mt-6" :item-per-page="data.pagination.per_page"
-          :total-items="data.pagination.total" />
+        <VFlexPagination v-if="data.result.length" v-model:current-page="currentPage" class="mt-6"
+          :item-per-page="data.pagination.per_page" :total-items="data.pagination.total" />
       </template>
     </VFlexTableWrapper>
     <NoticeFormModal v-model="isNoticeFormModalOpen" :item-id="selectedId" :parent-id="Number(currentStatementId)"
-      @update:list="fetchData" @close="selectedId = null" />
+      @update:list="() => { fetchData(); notify(); onModalClose() }" @close="onModalClose" />
     <ConfirmActionModal @confirm-action="handleRemoveAction" />
   </div>
 </template>
