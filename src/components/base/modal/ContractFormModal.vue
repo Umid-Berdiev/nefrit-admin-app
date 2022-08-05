@@ -4,7 +4,7 @@ import { useI18n } from 'vue-i18n';
 import VueSelect from "vue-select";
 import {
   createStatementContract,
-  updateStatementContractById,
+  updateContractById,
   fetchStatementContractById,
 } from '/@src/utils/api/statement';
 import {
@@ -97,7 +97,7 @@ async function onSubmit(event: Event) {
     })
 
     props.itemId ?
-      await updateStatementContractById(props.itemId, formData) :
+      await updateContractById(props.itemId, formData) :
       await createStatementContract(formData)
     emits('update:list')
     onClose()

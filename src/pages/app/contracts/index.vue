@@ -6,7 +6,7 @@ import { useI18n } from 'vue-i18n'
 import { useViewWrapper } from '/@src/stores/viewWrapper'
 import { useMainStore } from '/@src/stores'
 import { useHead } from '@vueuse/head'
-import { fetchStatementContracts, removeStatementContractById } from '/@src/utils/api/statement';
+import { fetchStatementContracts, removeContractById } from '/@src/utils/api/statement';
 import { PaginationData, StatementContractData } from "/@src/utils/interfaces";
 import { useNotyf } from '/@src/composable/useNotyf'
 
@@ -115,7 +115,7 @@ async function onRemove(id: number) {
 
 async function handleRemoveAction() {
   try {
-    await removeStatementContractById(Number(selectedId.value), locale.value)
+    await removeContractById(Number(selectedId.value), locale.value)
     fetchData()
     notif.success(t('Removed_successfully'))
   } catch (error: any) {

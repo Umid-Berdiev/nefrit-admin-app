@@ -5,7 +5,6 @@ import type {
   VFlexTableWrapperSortFunction,
 } from '/@src/components/base/table/VFlexTableWrapper.vue'
 import { users } from '/@src/stores/usersMockData'
-import { useViewWrapper } from '/@src/stores/viewWrapper'
 import { useMainStore } from '/@src/stores'
 
 type User = typeof users[0]
@@ -17,55 +16,25 @@ const data: User[] = users
 const mainStore = useMainStore()
 const { t } = useI18n()
 
-// this is a sample for custom sort function
-const locationSorter: VFlexTableWrapperSortFunction<User> = ({ order, a, b }) => {
-  if (order === 'asc') {
-    return a.location.localeCompare(b.location)
-  } else if (order === 'desc') {
-    return b.location.localeCompare(a.location)
-  }
-
-  return 0
-}
-
 const columns = {
-  // select: {
-  //   label: '',
-  //   cellClass: 'is-flex-grow-0',
-  // },
   orderNumber: {
-    // label: '',
     format: (value, row, index) => `${index + 1}`,
     cellClass: 'is-flex-grow-0',
   },
-  invoice: { // created_by column
+  invoice: {
     label: t('Invoice'),
-    searchable: true,
-    sortable: true,
-    sort: locationSorter,
-    bold: true,
-    // align: 'right',
   },
-  status: { // created_by_dept column
+  status: {
     label: t('Status'),
-    searchable: true,
-    sortable: true,
-    sort: locationSorter,
-    bold: true
   },
-  amount: { // description column
+  amount: {
     label: t('Amount'),
-    bold: true
-    // inverted: true,
-    // grow: true,
   },
   paidDate: {
     label: t('Paid_date'),
-    bold: true
   },
   verifiedDate: {
     label: t('Verified_date'),
-    bold: true
   },
   actions: {
     label: t('Actions'),

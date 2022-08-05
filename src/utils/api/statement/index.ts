@@ -525,7 +525,7 @@ export async function createStatementContract(payload: StatementContractData) {
   }
 }
 
-export async function updateStatementContractById(
+export async function updateContractById(
   id: number,
   payload: StatementContractData
 ): Promise<StatementContractData> {
@@ -542,7 +542,7 @@ export async function updateStatementContractById(
   }
 }
 
-export async function removeStatementContractById(id: number, locale: string) {
+export async function removeContractById(id: number, locale: string) {
   try {
     const { data } = await api({
       url: `/api/admin/appcontract/${id}`,
@@ -550,6 +550,33 @@ export async function removeStatementContractById(id: number, locale: string) {
       headers: {
         Language: locale,
       },
+    })
+
+    return data.data
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function verifyContractById(id: number) {
+  try {
+    const { data } = await api({
+      url: `/api/admin/appcontract/${id}/verify`,
+      method: 'PUT',
+    })
+
+    return data.data
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function addContractFile(id: number, formData: FormData) {
+  try {
+    const { data } = await api({
+      url: `/api/admin/appcontract/${id}/file`,
+      method: 'POST',
+      data: formData,
     })
 
     return data.data

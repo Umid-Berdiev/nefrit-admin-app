@@ -302,5 +302,14 @@
   "No_messages_yet": "No messages yet",
   "Contract_name": "Contract name",
   "Select_applicant": "Select applicant",
-  "Select_statements": "Select statements"
+  "Select_statements": "Select statements",
+  "Contract_details": "Contract details",
+  "Contract_files_list": "Contract files list",
+  "Template_file": "Template file",
+  "Legal_entity_file": "Legal entity file",
+  "File": "File",
+  "No_template_file": "No template file",
+  "No_legal_file": "No legal file",
+  "No_completed_file": "No completed file",
+  "Statement_code": "Statement code"
 }

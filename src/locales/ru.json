@@ -302,5 +302,14 @@
   "No_messages_yet": "Пока нет сообщений",
   "Contract_name": "Наименование контракта",
   "Select_applicant": "Выберите заявителя",
-  "Select_statements": "Выберите заявления"
+  "Select_statements": "Выберите заявления",
+  "Contract_details": "Детали контракта",
+  "Contract_files_list": "Список файлов контракта",
+  "Template_file": "Шаблон файл",
+  "Legal_entity_file": "Файл заявителя",
+  "File": "Файл",
+  "No_template_file": "Нет шаблон файла",
+  "No_legal_file": "Нет файл заказчика",
+  "No_completed_file": "Нет конечнее файла",
+  "Statement_code": "Номер заявлений"
 }

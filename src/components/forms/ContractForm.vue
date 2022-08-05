@@ -1,15 +1,10 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import CompanyInfoModal from '../base/modal/CompanyInfoModal.vue';
-import DrugInfoModal from '../base/modal/DrugInfoModal.vue';
-import { fetchById, fetchStatementContractById } from '/@src/utils/api/statement'
+import { fetchStatementContractById } from '/@src/utils/api/statement'
 import { useRoute } from 'vue-router';
-import { StatementContractData } from '/@src/utils/interfaces';
-import moment from 'moment';
+import { StatementContractData, StatementData } from '/@src/utils/interfaces';
 import VButton from '../base/button/VButton.vue';
-import { useHead } from '@vueuse/head';
-import { useViewWrapper } from '/@src/stores/viewWrapper';
 
 const { t, locale } = useI18n()
 const columns = computed(() => ({
@@ -25,6 +20,15 @@ const columns = computed(() => ({
   payment_amount: {
     label: t('Contract_amount'),
   },
+  template_file: {
+    label: t('Template_file'),
+  },
+  legal_file: {
+    label: t('Legal_entity_file'),
+  },
+  file: {
+    label: t('File'),
+  },
   verified_at: {
     label: t('Payment_status'),
   },
@@ -32,36 +36,24 @@ const columns = computed(() => ({
     label: t('Date'),
   }
 }))
-const selectedCompanyId = ref()
-const selectedDrugId = ref()
-const isCompanyInfoModalOpen = ref(false)
-const isDrugInfoModalOpen = ref(false)
-const isCertificateFormModalOpen = ref(false)
+const isFileUploadModalOpen = ref(false)
 const route = useRoute()
 const currentId = (route.params?.id as string) ?? null
 const contractData = ref<StatementContractData>()
+const contractStatements = ref<StatementData[]>()
+const filePropName = ref<string>('')
 
 await fetchData()
-// onMounted(async () => {
-// })
-
-function openCompanyInfoModal(id: number) {
-  selectedCompanyId.value = id
-  isCompanyInfoModalOpen.value = true
-}
-
-function openDrugInfoModal(id: number) {
-  selectedDrugId.value = id
-  isDrugInfoModalOpen.value = true
-}
-
-function formatDate(date: string) {
-  return date ? moment(date).format('HH:mm DD.MM.YYYY') : ''
-}
 
 async function fetchData() {
   const res = await fetchStatementContractById(Number(currentId), locale.value)
-  contractData.value = res
+  contractData.value = await res
+  contractStatements.value = contractData.value?.applications
+}
+
+function onUploadAction(propName: string) {
+  filePropName.value = propName
+  isFileUploadModalOpen.value = true
 }
 </script>
 
@@ -108,23 +100,52 @@ async function fetchData() {
 
             </tbody>
           </table>
+        </ListWidgetSingle>
+        <ListWidgetSingle :title="$t('Contract_files_list')" straight class="list-widget-v3">
           <table class="table is-hoverable is-bordered is-fullwidth">
             <tbody>
               <tr>
                 <td class="has-text-weight-bold">{{ columns.template_file.label }}</td>
                 <td class="is-flex is-align-items-center">
-                  <a v-if="currentStatementData?.certificate" :href="currentStatementData?.certificate?.file"
-                    class="has-text-primary" download>
-                    {{ currentStatementData?.certificate?.number }}
+                  <a v-if="contractData?.template_file" :href="contractData?.template_file" class="has-text-primary"
+                    download>
+                    {{ contractData?.template_file }}
                     <i class="iconify" data-icon="feather:link" aria-hidden="true"></i>
                   </a>
                   <span v-else class="has-text-danger">
-                    {{ $t('No_certificate') }}
+                    {{ $t('No_template_file') }}
                   </span>
                   <VButton class="ml-auto" color="primary" rounded icon="fas fa-plus"
-                    @click="isCertificateFormModalOpen = true"> {{
-                        $t('Upload')
-                    }} </VButton>
+                    @click="onUploadAction('template_file')">
+                    {{ $t('Upload') }}
+                  </VButton>
+                </td>
+              </tr>
+              <tr>
+                <td class="has-text-weight-bold">{{ columns.legal_file.label }}</td>
+                <td class="is-flex is-align-items-center">
+                  <a v-if="contractData?.legal_file" :href="contractData?.legal_file" class="has-text-primary" download>
+                    {{ contractData?.legal_file }}
+                    <i class="iconify" data-icon="feather:link" aria-hidden="true"></i>
+                  </a>
+                  <span v-else class="has-text-danger">
+                    {{ $t('No_legal_file') }}
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <td class="has-text-weight-bold">{{ columns.file.label }}</td>
+                <td class="is-flex is-align-items-center">
+                  <a v-if="contractData?.file" :href="contractData?.file" class="has-text-primary" download>
+                    {{ contractData?.file }}
+                    <i class="iconify" data-icon="feather:link" aria-hidden="true"></i>
+                  </a>
+                  <span v-else class="has-text-danger">
+                    {{ $t('No_completed_file') }}
+                  </span>
+                  <VButton class="ml-auto" color="primary" rounded icon="fas fa-plus" @click="onUploadAction('file')">
+                    {{ $t('Upload') }}
+                  </VButton>
                 </td>
               </tr>
             </tbody>
@@ -142,9 +163,9 @@ async function fetchData() {
               </tr>
             </thead>
             <tbody>
-              <tr v-for="item in contractData?.applications">
+              <tr v-for="item in contractStatements">
                 <td>
-                  {{ item.code }}
+                  <RouterLink :to="`/app/statements/${item.id}`">{{ item.code }}</RouterLink>
                 </td>
                 <td>
                   {{ item.drug }}
@@ -159,7 +180,8 @@ async function fetchData() {
         </ListWidgetSingle>
       </div>
     </div>
-
+    <FileUploadModal v-model="isFileUploadModalOpen" :contract-id="currentId" @close="fetchData"
+      :file-prop-name="filePropName" @update:data="fetchData" />
   </div>
 </template>
 
