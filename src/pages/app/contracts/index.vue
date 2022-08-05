@@ -7,10 +7,8 @@ import { useViewWrapper } from '/@src/stores/viewWrapper'
 import { useMainStore } from '/@src/stores'
 import { useHead } from '@vueuse/head'
 import { fetchStatementContracts, removeContractById } from '/@src/utils/api/statement';
-import { PaginationData, StatementContractData } from "/@src/utils/interfaces";
 import { useNotyf } from '/@src/composable/useNotyf'
 
-const route = useRoute()
 const router = useRouter()
 const { t, locale } = useI18n()
 const mainStore = useMainStore()
@@ -24,7 +22,6 @@ const data = reactive({
   result: []
 })
 const isFormModalOpen = ref(false)
-const selectedRowIds = ref<number[]>([])
 const selectedId = ref<number>()
 const searchInput = computed({
   get(): string {
@@ -33,31 +30,6 @@ const searchInput = computed({
   async set(v: string) {
     // await onSearch(v)
   }
-})
-const defaultSort = ref('')
-const sort = computed({
-  get: () => {
-    let sortQuery: string = defaultSort.value
-
-    // read "sort" from the query params
-    // if (Array.isArray(route?.query?.sort)) {
-    //   sortQuery = route.query.sort?.[0] ?? defaultSort
-    // } else {
-    //   sortQuery = route.query.sort ?? defaultSort
-    // }
-
-    return sortQuery
-  },
-  async set(value) {
-    // router.push({
-    //   query: {
-    //     sort: value === defaultSort ? undefined : value,
-    //   },
-    // })
-    defaultSort.value = value ?? ''
-    console.log({ value });
-    await onSort(value)
-  },
 })
 const columns = computed(() => ({
   orderNumber: {
@@ -132,16 +104,6 @@ async function fetchData(page = 1) {
   Object.assign(data, res)
 }
 
-// async function onSearch(val: string) {
-//   const res = await searchList(val, locale.value)
-//   Object.assign(data, res)
-// }
-
-// async function onSort(val: string) {
-//   const res = await sortList(val, locale.value)
-//   Object.assign(data, res)
-// }
-
 function onModalClose() {
   selectedId.value = undefined
 }
@@ -158,7 +120,7 @@ function notify() {
 
     <!-- table -->
     <VFlexTableWrapper :columns="columns" :data="data.result" :limit="data.pagination.per_page"
-      :total="data.pagination.total" v-model:sort="sort">
+      :total="data.pagination.total">
       <!--
         Here we retrieve the internal wrapperState.
         Note that we can not destructure it

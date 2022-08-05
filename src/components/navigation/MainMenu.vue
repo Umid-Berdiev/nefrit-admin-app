@@ -37,10 +37,10 @@ function openContractDownloadModal() {
       </RouterLink>
     </li>
     <li>
-      <RouterLink class="is-size-6" :class="{ 'router-link-exact-active': route.path.startsWith('/app/users') }"
-        :to="{ name: 'app-users' }">
+      <RouterLink class="is-size-6" :class="{ 'router-link-exact-active': route.path.startsWith('/app/employees') }"
+        :to="{ name: 'app-employees' }">
         <span class="fa-li"><i class="fas fa-users" aria-hidden="true"></i></span>
-        {{ $t('Users') }}
+        {{ $t('Employees') }}
       </RouterLink>
     </li>
     <li>

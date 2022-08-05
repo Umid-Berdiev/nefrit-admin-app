@@ -54,6 +54,8 @@ declare module '@vue/runtime-core' {
     EditProfileGeneral: typeof import('./src/components/forms/edit-profile/EditProfileGeneral.vue')['default']
     EditProfileSettings: typeof import('./src/components/forms/edit-profile/EditProfileSettings.vue')['default']
     EditProfileSkills: typeof import('./src/components/forms/edit-profile/EditProfileSkills.vue')['default']
+    EmployeeFlexTableDropdown: typeof import('./src/components/partials/dropdowns/EmployeeFlexTableDropdown.vue')['default']
+    EmployeeFormModal: typeof import('./src/components/base/modal/EmployeeFormModal.vue')['default']
     FeedbackFormModal: typeof import('./src/components/base/modal/FeedbackFormModal.vue')['default']
     FileUploadModal: typeof import('./src/components/base/modal/FileUploadModal.vue')['default']
     FlexTableDropdown: typeof import('./src/components/partials/dropdowns/FlexTableDropdown.vue')['default']

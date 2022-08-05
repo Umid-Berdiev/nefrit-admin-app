@@ -511,6 +511,21 @@ export async function fetchStatementContractById(id: number, locale: string) {
   }
 }
 
+export async function fetchContractPayments(id: number, locale: string) {
+  try {
+    const { data } = await api({
+      url: `/api/admin/appcontract/${id}/payments`,
+      headers: {
+        Language: locale,
+      },
+    })
+
+    return data.data
+  } catch (error) {
+    throw error
+  }
+}
+
 export async function createStatementContract(payload: FormData) {
   try {
     const { data } = await api({
@@ -532,7 +547,7 @@ export async function updateContractById(
   try {
     const { data } = await api({
       url: `/api/admin/appcontract/${id}`,
-      method: 'PUT',
+      method: 'POST',
       data: payload,
     })
 

@@ -40,7 +40,6 @@ const columns = computed(() => ({
 }))
 const isFileUploadModalOpen = ref(false)
 const route = useRoute()
-const router = useRouter()
 const currentId = (route.params?.id as string) ?? null
 const contractData = ref<StatementContractData>()
 const contractStatements = ref<StatementData[]>()
@@ -198,7 +197,8 @@ function notify() {
         </ListWidgetSingle>
       </div>
     </div>
-    <ContractFormModal v-model="isFormModalOpen" :item-id="currentId" @update:list="() => { fetchData(); notify() }" />
+    <ContractFormModal v-model="isFormModalOpen" :item-id="currentId"
+      @update:list="() => { fetchData(); notify(); currentId = ''; }" />
     <FileUploadModal v-model="isFileUploadModalOpen" :contract-id="currentId" @close="fetchData"
       :file-prop-name="filePropName" @update:data="fetchData" />
   </div>

@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n';
-import { fetchById, updateApplicant, fetchApplicantStatuses } from '/@src/utils/api/applicant';
-import { ApplicantData } from '/@src/utils/interfaces';
+import { fetchById, updateById } from '/@src/utils/api/employee';
+import { EmployeeData } from '/@src/utils/interfaces';
 
 const props = defineProps({
   modelValue: Boolean,
-  applicantId: {
+  employeeId: {
     type: Number,
     default: null
   }
@@ -19,22 +19,27 @@ const emits = defineEmits<{
 
 const { t, locale } = useI18n()
 const title = ref(t('Edit'))
-const applicantData: ApplicantData = reactive({})
-const statusList = ref([])
+const employeeData: EmployeeData = reactive({
+  department_id: null,
+  email: '',
+  name: '',
+  password: '',
+  role_id: null,
+  username: '',
+})
 
 onMounted(async () => {
-  const res = await fetchApplicantStatuses(locale.value)
-  statusList.value = res
+  //
 })
 
 watch(
-  () => props.applicantId,
+  () => props.employeeId,
   async (newVal) => {
     if (!newVal) {
-      Object.assign(applicantData, {})
+      Object.assign(employeeData, {})
     } else {
-      const res = await fetchById(Number(props.applicantId))
-      Object.assign(applicantData, res)
+      const res = await fetchById(Number(props.employeeId))
+      Object.assign(employeeData, res)
     }
   },
   { deep: true, immediate: true }
@@ -42,7 +47,7 @@ watch(
 
 async function onSubmit(event: Event) {
   try {
-    props.applicantId && await updateApplicant(props.applicantId, applicantData)
+    props.employeeId && await updateById(props.employeeId, employeeData)
     emits('update:list')
     onClose()
   } catch (error) {
@@ -58,48 +63,48 @@ function onClose() {
 <template>
   <VModal :open="modelValue" size="large" :title="title" actions="right" @close="onClose">
     <template #content>
-      <form id="submit-form" class="modal-form" @submit.prevent="onSubmit">
+      <form id="employee-submit-form" class="modal-form" @submit.prevent="onSubmit">
         <div class="columns is-multiline">
           <div class="column is-12">
             <VField :label="$t('Applicant_name')" required>
               <VControl>
-                <VInput type="text" v-model="applicantData.name" />
+                <VInput type="text" v-model="employeeData.name" />
               </VControl>
             </VField>
           </div>
           <div class="column is-12">
             <VField :label="$t('Boss_name')" required>
               <VControl>
-                <VInput type="text" v-model="applicantData.boss_name" />
+                <VInput type="text" v-model="employeeData.boss_name" />
               </VControl>
             </VField>
           </div>
           <div class="column is-6">
             <VField :label="$t('Phone_number')">
               <VControl>
-                <VInput type="text" v-model="applicantData.phone" />
+                <VInput type="text" v-model="employeeData.phone" />
               </VControl>
             </VField>
           </div>
           <div class="column is-6">
             <VField :label="$t('Fax')">
               <VControl>
-                <VInput type="text" v-model="applicantData.fax" />
+                <VInput type="text" v-model="employeeData.fax" />
               </VControl>
             </VField>
           </div>
           <div class="column is-6">
             <VField :label="$t('stir')">
               <VControl>
-                <VInput type="text" v-model="applicantData.inn" />
+                <VInput type="text" v-model="employeeData.inn" />
               </VControl>
             </VField>
           </div>
           <div class="column is-6">
-            <CountrySelect v-model="applicantData.country" />
+            <CountrySelect v-model="employeeData.country" />
           </div>
           <div class="column is-6 is-align-self-flex-end">
-            <input id="checkbox1" type="checkbox" :checked="applicantData.is_national" />
+            <input id="checkbox1" type="checkbox" :checked="employeeData.is_national" />
             <label for="checkbox1" class="checkbox">
               {{ $t('isNational') }}
             </label>
@@ -107,7 +112,7 @@ function onClose() {
           <div class="column is-12">
             <VField :label="$t('Address')">
               <VControl>
-                <VTextarea rows="2" v-model="applicantData.address" />
+                <VTextarea rows="2" v-model="employeeData.address" />
               </VControl>
             </VField>
           </div>
@@ -115,7 +120,7 @@ function onClose() {
       </form>
     </template>
     <template #action="{ close }">
-      <VButton type="submit" color="primary" outlined form="submit-form">{{ $t('Save_changes') }}</VButton>
+      <VButton type="submit" color="primary" outlined form="employee-submit-form">{{ $t('Save') }}</VButton>
     </template>
   </VModal>
 </template>

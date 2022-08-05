@@ -220,6 +220,16 @@ export interface StatementChatMessageData {
   user?: UserData
 }
 
+export interface PaymentData {
+  amount: string | number
+  application_contract_id: number
+  created_at: string
+  file: string
+  id: number
+  status: StatusData | null
+  verified_at: string | null
+}
+
 export interface StatementContractData {
   body?: string
   file?: string | null
@@ -234,4 +244,22 @@ export interface StatementContractData {
   type_id?: number
   verified_at?: string | null
   applications: StatementData[] | number[]
+  payments?: PaymentData[]
+}
+
+export interface EmployeeData {
+  department_id: number | null
+  email: string
+  name: string
+  password: string
+  role_id: number | null
+  username: string
+  avatar?: string
+  department?: DepartmentData
+  firstname?: string
+  id?: number
+  is_employee?: number
+  lastname?: string
+  locale?: string
+  role?: RoleData
 }

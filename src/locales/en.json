@@ -312,5 +312,7 @@
   "No_legal_file": "No legal file",
   "No_completed_file": "No completed file",
   "Statement_code": "Statement code",
-  "File_upload_field_required": "File upload field required"
+  "File_upload_field_required": "File upload field required",
+  "Change_password": "Change password",
+  "Employees": "Employees"
 }

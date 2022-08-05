@@ -1,39 +1,40 @@
 <script setup lang="ts">
+import { ref } from 'vue';
 import { useI18n } from 'vue-i18n'
+import { useRoute } from 'vue-router';
+import { useNotyf } from '/@src/composable/useNotyf';
 
-import type {
-  VFlexTableWrapperSortFunction,
-} from '/@src/components/base/table/VFlexTableWrapper.vue'
-import { users } from '/@src/stores/usersMockData'
 import { useMainStore } from '/@src/stores'
+import { fetchContractPayments } from '/@src/utils/api/statement/index';
+import { StatementContractData } from '/@src/utils/interfaces';
 
-type User = typeof users[0]
-
-const props = defineProps({
-  isContractInfoTableVisible: Boolean
-});
-const data: User[] = users
+const { t, locale } = useI18n()
+const route = useRoute()
+const currentId = (route.params?.id as string) ?? null
 const mainStore = useMainStore()
-const { t } = useI18n()
-
+const notif = useNotyf()
+const contractData = ref<StatementContractData>()
+const selectedId = ref<number | null>(null)
 const columns = {
   orderNumber: {
     format: (value, row, index) => `${index + 1}`,
     cellClass: 'is-flex-grow-0',
   },
-  invoice: {
+  file: {
     label: t('Invoice'),
+    grow: true
+  },
+  amount: {
+    label: t('Amount'),
+    // grow: true
   },
   status: {
     label: t('Status'),
   },
-  amount: {
-    label: t('Amount'),
-  },
-  paidDate: {
+  created_at: {
     label: t('Paid_date'),
   },
-  verifiedDate: {
+  verified_at: {
     label: t('Verified_date'),
   },
   actions: {
@@ -42,29 +43,43 @@ const columns = {
   },
 } as const
 
-async function onVerify() {
-  mainStore.$patch({ confirmModalState: true, confirmModalOkButtonColor: 'primary' })
-  if (mainStore.confirmState) {
-    console.log('User deleted!');
-    mainStore.$patch({ confirmState: false })
-  }
+await fetchData()
+
+async function fetchData() {
+  const res = await fetchContractPayments(Number(currentId), locale.value)
+  contractData.value = await res
 }
 
-async function onReject() {
+async function onVerify(paymentId: number) {
+  selectedId.value = paymentId
+  mainStore.$patch({ confirmModalState: true, confirmModalOkButtonColor: 'primary' })
+}
+
+async function onReject(paymentId: number) {
+  selectedId.value = paymentId
   mainStore.$patch({ confirmModalState: true })
-  if (mainStore.confirmState) {
-    console.log('User deleted!');
-    mainStore.$patch({ confirmState: false })
-  }
+
+}
+
+function handleCallbackAction() {
+  console.log('handleCallbackAction clicked');
 }
 </script>
 
 <template>
   <div class="applicant-list-wrapper">
-    <!-- table -->
-    <h1 class="is-size-3 mb-3">{{ $t('Payments') }}</h1>
-    <ContractInfoTable />
-    <VFlexTableWrapper :columns="columns" :data="data">
+    <VFlex class="mb-4" flex-wrap="wrap">
+      <VFlexItem>
+        <h1 class="is-size-3 mb-3">{{ $t('Payments') }}</h1>
+      </VFlexItem>
+      <VFlexItem class="ml-auto">
+        <VButton v-if="!contractData?.verified_at" rounded color="primary" icon="feather:check"
+          @click.prevent="onVerify">
+          {{ $t('Verify') }}
+        </VButton>
+      </VFlexItem>
+    </VFlex>
+    <VFlexTableWrapper :columns="columns" :data="contractData.payments">
       <!--
         Here we retrieve the internal wrapperState.
         Note that we can not destructure it
@@ -81,12 +96,18 @@ async function onReject() {
             <!-- <VCheckbox v-if="column.key === 'select'" v-model="selectedRowsId" :value="row.id" name="selection"
               @change="clickOnRow" /> -->
 
-            <template v-if="column.key === 'invoice'">
-              <a href="javascript:;" class="has-text-primary is-pushed-mobile">{{ row.invoice }}</a>
+            <template v-if="column.key === 'file'">
+              <a href="row.file" class="has-text-primary is-pushed-mobile">{{ row.file }}</a>
             </template>
-            <!-- <template v-if="column.key === 'status'">
-              <StatusTag :status="value" />
-            </template> -->
+            <template v-if="column.key === 'status' && value">
+              <StatusTag :color="value.color" :status="value.name" />
+            </template>
+            <template v-if="column.key === 'created_at' && value">
+              {{ $h.formatDate(value, 'DD.MM.YYYY HH:mm') }}
+            </template>
+            <template v-if="column.key === 'verified_at' && value">
+              {{ $h.formatDate(value, 'DD.MM.YYYY HH:mm') }}
+            </template>
             <template v-if="column.key === 'actions'">
               <VButtons v-if="row.status !== 'completed'">
                 <VButton class="is-primary is-outlined px-3" @click="onVerify">{{ $t('Verify') }}</VButton>
@@ -99,5 +120,6 @@ async function onReject() {
           :total-items="wrapperState.total" :max-links-displayed="5" no-router />
       </template>
     </VFlexTableWrapper>
+    <ConfirmActionModal @confirm-action="handleCallbackAction" />
   </div>
 </template>

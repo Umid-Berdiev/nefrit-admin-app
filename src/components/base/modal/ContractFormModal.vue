@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { computed, onMounted, reactive, ref, watch } from 'vue';
+import { onMounted, reactive, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import VueSelect from "vue-select";
 import {
   createStatementContract,
   updateContractById,
@@ -12,9 +11,6 @@ import {
   fetchApplicantStatementsList
 } from '/@src/utils/api/applicant';
 import { StatementContractData, ApplicantData, StatementData } from '/@src/utils/interfaces'
-import VInput from '../form/VInput.vue';
-
-import 'vue-select/dist/vue-select.css';
 
 const props = defineProps({
   modelValue: Boolean,
@@ -85,7 +81,7 @@ async function onSubmit(event: Event) {
     const formData = new FormData()
     formData.append('name', contractObj.name)
     formData.append('payment_amount', contractObj.payment_amount)
-    formData.append('template_file', files.value[0])
+    formData.append('template_file', files.value.length ? files.value[0] : '')
     formData.append('legal_entity_id', contractObj.legal_entity_id)
 
     contractObjStatementIds.value.forEach(item => {
@@ -104,23 +100,25 @@ async function onSubmit(event: Event) {
 }
 
 function onClose() {
-  title.value = t('Add')
-  files.value = []
-  Object.assign(contractObj, {
-    legal_entity_id: null,
-    name: '',
-    payment_amount: 0,
-    template_file: '',
-    applications: []
-  })
+  if (!props.itemId) {
+    title.value = t('Add')
+    files.value = []
+    Object.assign(contractObj, {
+      legal_entity_id: null,
+      name: '',
+      payment_amount: 0,
+      template_file: '',
+      applications: []
+    })
 
-  Object.assign(errors, {
-    name: '',
-    payment_amount: '',
-    template_file: '',
-    applications: '',
-    legal_entity_id: '',
-  })
+    Object.assign(errors, {
+      name: '',
+      payment_amount: '',
+      template_file: '',
+      applications: '',
+      legal_entity_id: '',
+    })
+  }
   emits('update:modelValue', false)
 }
 
@@ -158,35 +156,40 @@ function onFileRemove(id: number) {
             </VField>
           </div>
           <div class="column is-12">
+            <VField v-slot="{ id }">
+              <VControl>
+                <Multiselect v-model="contractObj.legal_entity_id" :attrs="{ id }" :searchable="true"
+                  :options="applicantsList" :placeholder="$t('Select_applicant')" valueProp="id" label="name"
+                  :disabled="itemId" />
+              </VControl>
+            </VField>
+            <p class="help has-text-danger">{{ errors.legal_entity_id[0] }}</p>
+          </div>
+          <div class="column is-12">
+            <VField v-slot="{ id }">
+              <VControl>
+                <Multiselect v-model="contractObjStatementIds" :attrs="{ id }" :searchable="true"
+                  :options="statementsList" :placeholder="$t('Select_statements')" valueProp="id" label="code"
+                  mode="multiple" :close-on-select="false" :disabled="!contractObj.legal_entity_id">
+                  <template v-slot:multiplelabel="{ values }">
+                    <div v-if="values.length > 6" class="multiselect-multiple-label">
+                      {{ values.length + ' ' + $t('item_selected') }}
+                    </div>
+                    <div v-else-if="values.length === statementsList.length" class="multiselect-multiple-label">
+                      {{ $t('All_selected') }}
+                    </div>
+                    <div v-else class="multiselect-multiple-label">
+                      <VTag class="mr-3" v-for="val in values" :label="val.code" />
+                    </div>
+                  </template>
+                </Multiselect>
+              </VControl>
+            </VField>
+            <p class="help has-text-danger">{{ errors.applications[0] }}</p>
+          </div>
+          <div class="column is-12">
             <VFileInput @file-upload="onFileUpload" @file-remove="onFileRemove" :error-message="errors.template_file[0]"
               :files="files" :remote-files="[]" />
-          </div>
-          <div class="column is-12">
-            <VueSelect :disabled="itemId" v-model="contractObj.legal_entity_id" :options="applicantsList" label="name"
-              code="id" :reduce="applicant => applicant.id" :placeholder="$t('Select_applicant')" />
-            <p class="help has-text-danger">{{ errors.legal_entity_id[0] }}</p>
-            <!-- <VField>
-              <VControl>
-                <VSelect v-model="contractObj.legal_entity_id">
-                  <VOption disabled hidden value="">{{ $t('Select_applicant') }}</VOption>
-                  <VOption v-for="applicant in applicantsList" :value="applicant.id">
-                    {{ applicant.name }}
-                  </VOption>
-                </VSelect>
-              </VControl>
-            </VField> -->
-          </div>
-          <div class="column is-12">
-            <VueSelect :disabled="!contractObj.legal_entity_id" v-model="contractObjStatementIds"
-              :options="statementsList" :reduce="statement => statement.id" label="code" code="id"
-              :placeholder="$t('Select_statements')" multiple :close-on-select="false" />
-            <p class="help has-text-danger">{{ errors.applications[0] }}</p>
-            <!-- <VField>
-              <VControl>
-                <StatementMultiSelect :disabled="!contractObj.legal_entity_id" :selected-ids="contractObj.applications"
-                  :options="statementsList" />
-              </VControl>
-            </VField> -->
           </div>
         </div>
       </form>

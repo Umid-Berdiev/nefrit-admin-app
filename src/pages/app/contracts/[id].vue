@@ -17,24 +17,7 @@ const currentId = (route.params?.id as string) ?? null
 const selectedTab = ref(route.hash.slice(1) || 'details')
 const tabs = ref([
   { label: t('Contract_details'), value: 'details', icon: 'lnil lnil-tap' },
-  { label: t('Payment'), value: 'payment', icon: 'fas fa-tree' },
-  // {
-  //   label: t('Statement_docs'),
-  //   value: 'docs',
-  //   icon: 'lnil lnil-files',
-  // },
-  // {
-  //   label: t('Statement_conclusions'),
-  //   value: 'conclusions',
-  //   icon: 'lnil lnil-euro-down',
-  // },
-  // {
-  //   label: t('Statement_notices'),
-  //   value: 'notices',
-  //   icon: 'lnil lnil-euro-down',
-  // },
-  // { label: t('ITK'), value: 'itk', icon: 'feather:activity' },
-  // { label: t('Chat'), value: 'chat', icon: 'fas fa-comments' },
+  { label: t('Payment'), value: 'payment', icon: 'fas fa-tree' }
 ]);
 const chronologyData = ref<StatementChronologyData[]>()
 const docsData = ref<StatementDocumentData[]>()
@@ -44,7 +27,7 @@ viewWrapper.setPageTitle(t('Contract_card'))
 
 // here we setup our page meta with our statement data
 useHead({
-  title: computed(() => t('Contract_card')),
+  title: computed(() => t('Contract_card'))
 })
 
 onMounted(async () => {

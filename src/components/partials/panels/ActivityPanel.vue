@@ -113,8 +113,7 @@ const activeTab = ref<TabId>('team')
             <!--Project-->
             <div class="project-card">
               <div class="project-inner">
-                <img class="project-avatar" src="/images/icons/logos/slicer.svg" alt=""
-                  @error.once="(event) => onceImageErrored(event, '150x150')" />
+                <img class="project-avatar" src="/images/icons/logos/slicer.svg" alt="" />
                 <div class="meta">
                   <span>The slicer project</span>
                   <span>getslicer.io</span>
@@ -140,8 +139,7 @@ const activeTab = ref<TabId>('team')
             <!--Project-->
             <div class="project-card">
               <div class="project-inner">
-                <img class="project-avatar" src="/images/icons/logos/metamovies.svg" alt=""
-                  @error.once="(event) => onceImageErrored(event, '150x150')" />
+                <img class="project-avatar" src="/images/icons/logos/metamovies.svg" alt="" />
                 <div class="meta">
                   <span>Metamovies reworked</span>
                   <span>metamovies.co</span>
@@ -166,8 +164,7 @@ const activeTab = ref<TabId>('team')
             <!--Project-->
             <div class="project-card">
               <div class="project-inner">
-                <img class="project-avatar" src="/images/icons/logos/fastpizza.svg" alt=""
-                  @error.once="(event) => onceImageErrored(event, '150x150')" />
+                <img class="project-avatar" src="/images/icons/logos/fastpizza.svg" alt="" />
                 <div class="meta">
                   <span>Fast Pizza redesign</span>
                   <span>fastpizza.com</span>
@@ -206,7 +203,7 @@ const activeTab = ref<TabId>('team')
               <!--Timeline item-->
               <div class="timeline-item">
                 <div class="timeline-icon">
-                  <img class="avatar" src="" alt="" @error.once="(event) => onceImageErrored(event, '150x150')" />
+                  <img class="avatar" src="" alt="" />
                 </div>
                 <div class="timeline-content">
                   <p>Meeting with Alice</p>
