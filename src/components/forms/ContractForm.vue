@@ -2,9 +2,11 @@
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { fetchStatementContractById } from '/@src/utils/api/statement'
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { StatementContractData, StatementData } from '/@src/utils/interfaces';
 import VButton from '../base/button/VButton.vue';
+import { Icon } from "@iconify/vue";
+import { useNotyf } from '/@src/composable/useNotyf';
 
 const { t, locale } = useI18n()
 const columns = computed(() => ({
@@ -38,10 +40,13 @@ const columns = computed(() => ({
 }))
 const isFileUploadModalOpen = ref(false)
 const route = useRoute()
+const router = useRouter()
 const currentId = (route.params?.id as string) ?? null
 const contractData = ref<StatementContractData>()
 const contractStatements = ref<StatementData[]>()
 const filePropName = ref<string>('')
+const isFormModalOpen = ref<boolean>(false)
+const notif = useNotyf()
 
 await fetchData()
 
@@ -55,6 +60,14 @@ function onUploadAction(propName: string) {
   filePropName.value = propName
   isFileUploadModalOpen.value = true
 }
+
+function onEdit() {
+  isFormModalOpen.value = true
+}
+
+function notify() {
+  notif.success(t('Updated_successfully'))
+}
 </script>
 
 <template>
@@ -62,6 +75,11 @@ function onUploadAction(propName: string) {
     <div class="columns">
       <div class="column is-6">
         <ListWidgetSingle :title="$t('Contract_details')" straight class="list-widget-v3">
+          <template #actions>
+            <a href="javascript:;" @click="onEdit">
+              <Icon icon="feather:edit-2" />
+            </a>
+          </template>
           <table class="table is-hoverable is-bordered is-fullwidth mb-5">
             <tbody>
               <tr>
@@ -180,6 +198,7 @@ function onUploadAction(propName: string) {
         </ListWidgetSingle>
       </div>
     </div>
+    <ContractFormModal v-model="isFormModalOpen" :item-id="currentId" @update:list="() => { fetchData(); notify() }" />
     <FileUploadModal v-model="isFileUploadModalOpen" :contract-id="currentId" @close="fetchData"
       :file-prop-name="filePropName" @update:data="fetchData" />
   </div>

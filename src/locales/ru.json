@@ -311,5 +311,6 @@
   "No_template_file": "Нет шаблон файла",
   "No_legal_file": "Нет файл заказчика",
   "No_completed_file": "Нет конечнее файла",
-  "Statement_code": "Номер заявлений"
+  "Statement_code": "Номер заявлений",
+  "File_upload_field_required": "Поля файла обязательная"
 }

@@ -312,5 +312,6 @@
   "No_legal_file": "Arizachini fayli mavjud emas",
   "No_completed_file": "Yakuniy fayl mavjud emas",
   "Statement_code": "Ariza raqami",
-  "Contract_card": "Shartnoma kartasi"
+  "Contract_card": "Shartnoma kartasi",
+  "File_upload_field_required": "Fayl maydoni majburiy"
 }

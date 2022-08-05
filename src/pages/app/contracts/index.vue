@@ -102,6 +102,10 @@ useHead({
 
 await fetchData()
 
+function onAdd() {
+  isFormModalOpen.value = true
+}
+
 function onEdit(rowId: number) {
   // isFormModalOpen.value = true
   selectedId.value = rowId
@@ -149,7 +153,7 @@ function notify() {
 
 <template>
   <div class="applicant-list-wrapper">
-    <TableActionsBlock center title="" @add="onEdit(null)" :filter-disabled="true" :print-disabled="true"
+    <TableActionsBlock center title="" @add="onAdd" :filter-disabled="true" :print-disabled="true"
       :remove-disabled="true" />
 
     <!-- table -->

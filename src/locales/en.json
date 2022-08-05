@@ -311,5 +311,6 @@
   "No_template_file": "No template file",
   "No_legal_file": "No legal file",
   "No_completed_file": "No completed file",
-  "Statement_code": "Statement code"
+  "Statement_code": "Statement code",
+  "File_upload_field_required": "File upload field required"
 }

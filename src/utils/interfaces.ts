@@ -226,6 +226,7 @@ export interface StatementContractData {
   id: number
   is_paid: 1 | 0
   legal_entity_id: number | null
+  legal_entity: LegalEntityData
   legal_file: string | null
   name: string
   payment_amount: number

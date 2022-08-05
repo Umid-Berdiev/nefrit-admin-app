@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, reactive, ref, watch } from 'vue';
+import { computed, onMounted, reactive, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import VueSelect from "vue-select";
 import {
@@ -13,7 +13,6 @@ import {
 } from '/@src/utils/api/applicant';
 import { StatementContractData, ApplicantData, StatementData } from '/@src/utils/interfaces'
 import VInput from '../form/VInput.vue';
-import StatementMultiSelect from '../../forms/selects/StatementMultiSelect.vue';
 
 import 'vue-select/dist/vue-select.css';
 
@@ -23,10 +22,6 @@ const props = defineProps({
     type: Number,
     default: null
   },
-  parentId: {
-    type: Number,
-    default: null
-  }
 })
 
 const emits = defineEmits<{
@@ -46,7 +41,7 @@ const contractObj = ref<StatementContractData>({
   template_file: '',
   applications: []
 })
-
+const contractObjStatementIds = ref<number[]>()
 const errors = reactive({
   name: '',
   payment_amount: '',
@@ -54,6 +49,9 @@ const errors = reactive({
   legal_entity_id: '',
   applications: '',
 })
+
+const selectedApplicant = computed(() => contractObj.value?.legal_entity ?
+  contractObj.value?.legal_entity.id : contractObj.value?.legal_entity_id)
 
 onMounted(async () => {
   const res = await fetchApplicants(locale.value)
@@ -65,8 +63,9 @@ watch(
   async (newVal, oldVal) => {
     if (newVal) {
       title.value = t('Edit')
-      const res = await fetchStatementContractById(Number(props.itemId))
-      contractObj.value = res
+      const res = await fetchStatementContractById(Number(props.itemId), locale.value)
+      contractObj.value = await res
+      contractObjStatementIds.value = res.applications.map(item => item.id)
     }
   },
   { deep: true, immediate: true }
@@ -160,8 +159,8 @@ function onFileRemove(id: number) {
               :files="files" :remote-files="[]" />
           </div>
           <div class="column is-12">
-            <VueSelect v-model="contractObj.legal_entity_id" :options="applicantsList"
-              :reduce="applicant => applicant.id" label="name" code="id" :placeholder="$t('Select_applicant')" />
+            <VueSelect :disabled="itemId" v-model="contractObj.legal_entity_id" :options="applicantsList" label="name"
+              code="id" :reduce="applicant => applicant.id" :placeholder="$t('Select_applicant')" />
             <p class="help has-text-danger">{{ errors.legal_entity_id[0] }}</p>
             <!-- <VField>
               <VControl>
@@ -175,9 +174,9 @@ function onFileRemove(id: number) {
             </VField> -->
           </div>
           <div class="column is-12">
-            <VueSelect :disabled="!contractObj.legal_entity_id" v-model="contractObj.applications"
-              :options="statementsList" :reduce="statement => statement.id" label="code" code="id"
-              :placeholder="$t('Select_statements')" multiple :close-on-select="false" />
+            <VueSelect :disabled="!selectedApplicant" v-model="contractObjStatementIds" :options="statementsList"
+              :reduce="statement => statement.id" label="code" code="id" :placeholder="$t('Select_statements')" multiple
+              :close-on-select="false" />
             <p class="help has-text-danger">{{ errors.applications[0] }}</p>
             <!-- <VField>
               <VControl>
