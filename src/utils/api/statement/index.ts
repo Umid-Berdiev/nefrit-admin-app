@@ -511,7 +511,7 @@ export async function fetchStatementContractById(id: number, locale: string) {
   }
 }
 
-export async function createStatementContract(payload: StatementContractData) {
+export async function createStatementContract(payload: FormData) {
   try {
     const { data } = await api({
       url: `/api/admin/appcontract`,
@@ -527,7 +527,7 @@ export async function createStatementContract(payload: StatementContractData) {
 
 export async function updateContractById(
   id: number,
-  payload: StatementContractData
+  payload: FormData
 ): Promise<StatementContractData> {
   try {
     const { data } = await api({

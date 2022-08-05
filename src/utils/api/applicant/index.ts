@@ -21,9 +21,7 @@ export async function fetchList(
   }
 }
 
-export async function fetchApplicants(
-  locale: string
-): Promise<{ data: ApplicantData[] }> {
+export async function fetchApplicants(locale: string): Promise<ApplicantData[]> {
   try {
     const { data } = await api({
       url: `/api/admin/legal/entities`,

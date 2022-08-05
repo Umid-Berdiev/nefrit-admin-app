@@ -34,14 +34,14 @@ let title = ref(t('Add'))
 const files = ref<File[]>([]);
 const applicantsList = ref<ApplicantData[]>()
 const statementsList = ref<StatementData[]>()
-const contractObj = ref<StatementContractData>({
+const contractObj: StatementContractData = reactive({
   legal_entity_id: null,
   name: '',
   payment_amount: 0,
   template_file: '',
   applications: []
 })
-const contractObjStatementIds = ref<number[]>()
+const contractObjStatementIds = ref<number[]>([])
 const errors = reactive({
   name: '',
   payment_amount: '',
@@ -49,9 +49,6 @@ const errors = reactive({
   legal_entity_id: '',
   applications: '',
 })
-
-const selectedApplicant = computed(() => contractObj.value?.legal_entity ?
-  contractObj.value?.legal_entity.id : contractObj.value?.legal_entity_id)
 
 onMounted(async () => {
   const res = await fetchApplicants(locale.value)
@@ -64,17 +61,17 @@ watch(
     if (newVal) {
       title.value = t('Edit')
       const res = await fetchStatementContractById(Number(props.itemId), locale.value)
-      contractObj.value = await res
-      contractObjStatementIds.value = res.applications.map(item => item.id)
+      Object.assign(contractObj, res)
+      contractObjStatementIds.value = res.applications.map((item: StatementData) => item.id)
     }
   },
   { deep: true, immediate: true }
 )
 
 watch(
-  () => contractObj.value.legal_entity_id,
+  () => contractObj.legal_entity_id,
   async (newVal, oldVal) => {
-    contractObj.value.applications = []
+    contractObj.applications = []
     if (newVal) {
       const res = await fetchApplicantStatementsList(Number(newVal), locale.value)
       statementsList.value = res
@@ -86,12 +83,12 @@ watch(
 async function onSubmit(event: Event) {
   try {
     const formData = new FormData()
-    formData.append('name', contractObj.value?.name)
-    formData.append('payment_amount', contractObj.value?.payment_amount)
+    formData.append('name', contractObj.name)
+    formData.append('payment_amount', contractObj.payment_amount)
     formData.append('template_file', files.value[0])
-    formData.append('legal_entity_id', contractObj.value?.legal_entity_id)
+    formData.append('legal_entity_id', contractObj.legal_entity_id)
 
-    contractObj.value?.applications.forEach(item => {
+    contractObjStatementIds.value.forEach(item => {
       formData.append('applications[]', item)
     })
 
@@ -109,7 +106,7 @@ async function onSubmit(event: Event) {
 function onClose() {
   title.value = t('Add')
   files.value = []
-  contractObj.value = {} as StatementContractData
+  Object(contractObj, {} as StatementContractData)
 
   Object.assign(errors, {
     name: '',
@@ -174,9 +171,9 @@ function onFileRemove(id: number) {
             </VField> -->
           </div>
           <div class="column is-12">
-            <VueSelect :disabled="!selectedApplicant" v-model="contractObjStatementIds" :options="statementsList"
-              :reduce="statement => statement.id" label="code" code="id" :placeholder="$t('Select_statements')" multiple
-              :close-on-select="false" />
+            <VueSelect :disabled="!contractObj.legal_entity_id" v-model="contractObjStatementIds"
+              :options="statementsList" :reduce="statement => statement.id" label="code" code="id"
+              :placeholder="$t('Select_statements')" multiple :close-on-select="false" />
             <p class="help has-text-danger">{{ errors.applications[0] }}</p>
             <!-- <VField>
               <VControl>

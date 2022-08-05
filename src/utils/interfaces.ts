@@ -221,17 +221,17 @@ export interface StatementChatMessageData {
 }
 
 export interface StatementContractData {
-  body: string
-  file: string | null
-  id: number
-  is_paid: 1 | 0
+  body?: string
+  file?: string | null
+  id?: number
+  is_paid?: 1 | 0
   legal_entity_id: number | null
-  legal_entity: LegalEntityData
-  legal_file: string | null
+  legal_entity?: LegalEntityData
+  legal_file?: string | null
   name: string
   payment_amount: number
   template_file: string | null
-  type_id: number
-  verified_at: string | null
+  type_id?: number
+  verified_at?: string | null
   applications: StatementData[] | number[]
 }
