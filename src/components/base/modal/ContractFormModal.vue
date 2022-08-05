@@ -106,7 +106,13 @@ async function onSubmit(event: Event) {
 function onClose() {
   title.value = t('Add')
   files.value = []
-  Object(contractObj, {} as StatementContractData)
+  Object.assign(contractObj, {
+    legal_entity_id: null,
+    name: '',
+    payment_amount: 0,
+    template_file: '',
+    applications: []
+  })
 
   Object.assign(errors, {
     name: '',
@@ -118,8 +124,8 @@ function onClose() {
   emits('update:modelValue', false)
 }
 
-function clearErrors(event: Event) {
-  errors[event.target.name] = ''
+function clearErrors(prop: string) {
+  errors[prop] = ''
 }
 
 function onFileUpload(event: Event) {

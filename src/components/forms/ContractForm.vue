@@ -183,7 +183,7 @@ function notify() {
             <tbody>
               <tr v-for="item in contractStatements">
                 <td>
-                  <RouterLink :to="`/app/statements/${item.id}`">{{ item.code }}</RouterLink>
+                  <RouterLink class="has-text-primary" :to="`/app/statements/${item.id}`">{{ item.code }}</RouterLink>
                 </td>
                 <td>
                   {{ item.drug }}

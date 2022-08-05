@@ -58,18 +58,17 @@ function onFileRemove() {
 <template>
   <VModal :open="modelValue" size="large" :title="title" actions="right" @close="onClose">
     <template #content>
-      <form id="submit-form" class="modal-form" @submit.prevent="onSubmit">
+      <form id="submit-form2" class="modal-form" @submit.prevent="onSubmit">
         <div class="columns is-multiline">
           <div class="column is-12">
             <VFileInput :files="files" @file-upload="onFileUpload" @file-remove="onFileRemove"
               :error-message="errorMessage" :remote-files="[]" />
-            <!-- <p class="help has-text-danger">{{ errorMessage }}</p> -->
           </div>
         </div>
       </form>
     </template>
     <template #action="{ close }">
-      <VButton color="primary" outlined type="submit" form="submit-form">{{ $t('Save') }}</VButton>
+      <VButton color="primary" outlined type="submit" form="submit-form2">{{ $t('Save') }}</VButton>
     </template>
   </VModal>
 </template>
