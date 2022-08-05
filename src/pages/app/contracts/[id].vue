@@ -9,41 +9,42 @@ import { fetchChronologies, fetchStatementDocuments } from '/@src/utils/api/stat
 import { useViewWrapper } from '/@src/stores/viewWrapper'
 import { StatementDocumentData, StatementChronologyData } from '/@src/utils/interfaces.js'
 import StatementDocumentCollapse from '/@src/components/base/accordion/StatementDocumentCollapse.vue'
+import PaymentStatusTable from '/@src/components/base/table/PaymentStatusTable.vue'
 
 const { t, locale } = useI18n()
 const route = useRoute()
 const currentId = (route.params?.id as string) ?? null
 const selectedTab = ref(route.hash.slice(1) || 'details')
 const tabs = ref([
-  { label: t('Statement_details'), value: 'details', icon: 'lnil lnil-tap' },
-  // { label: t('Payment'), value: 'payment', icon: 'fas fa-tree' },
-  {
-    label: t('Statement_docs'),
-    value: 'docs',
-    icon: 'lnil lnil-files',
-  },
-  {
-    label: t('Statement_conclusions'),
-    value: 'conclusions',
-    icon: 'lnil lnil-euro-down',
-  },
-  {
-    label: t('Statement_notices'),
-    value: 'notices',
-    icon: 'lnil lnil-euro-down',
-  },
-  { label: t('ITK'), value: 'itk', icon: 'feather:activity' },
-  { label: t('Chat'), value: 'chat', icon: 'fas fa-comments' },
+  { label: t('Contract_details'), value: 'details', icon: 'lnil lnil-tap' },
+  { label: t('Payment'), value: 'payment', icon: 'fas fa-tree' },
+  // {
+  //   label: t('Statement_docs'),
+  //   value: 'docs',
+  //   icon: 'lnil lnil-files',
+  // },
+  // {
+  //   label: t('Statement_conclusions'),
+  //   value: 'conclusions',
+  //   icon: 'lnil lnil-euro-down',
+  // },
+  // {
+  //   label: t('Statement_notices'),
+  //   value: 'notices',
+  //   icon: 'lnil lnil-euro-down',
+  // },
+  // { label: t('ITK'), value: 'itk', icon: 'feather:activity' },
+  // { label: t('Chat'), value: 'chat', icon: 'fas fa-comments' },
 ]);
 const chronologyData = ref<StatementChronologyData[]>()
 const docsData = ref<StatementDocumentData[]>()
 const docIndexList = ref<number[]>()
 const viewWrapper = useViewWrapper()
-viewWrapper.setPageTitle(t('Statement_card'))
+viewWrapper.setPageTitle(t('Contract_card'))
 
 // here we setup our page meta with our statement data
 useHead({
-  title: computed(() => t('Statement_card')),
+  title: computed(() => t('Contract_card')),
 })
 
 onMounted(async () => {
@@ -61,16 +62,13 @@ onMounted(async () => {
     <VTabs :selected="selectedTab" :tabs="tabs">
       <template #tab="{ activeValue }">
         <div v-if="activeValue === 'details'" class="columns mt-5">
-          <div class="column is-6">
-            <StatementForm />
-          </div>
-          <div class="column is-6">
-            <ListWidgetSingle :title="$t('Chronology')" straight class="list-widget-v3">
-              <ListWidgetIconTimeline :items="chronologyData" />
-            </ListWidgetSingle>
-          </div>
+          <ContractForm />
         </div>
-        <div v-else-if="activeValue === 'docs'" class="mt-5">
+        <div v-if="activeValue === 'payment'" class="mt-5">
+          <PaymentStatusTable />
+        </div>
+
+        <!-- <div v-else-if="activeValue === 'docs'" class="mt-5">
           <StatementDocumentCollapse :items="docsData" :open-items="docIndexList" with-chevron />
         </div>
         <div v-else-if="activeValue === 'conclusions' || route.hash == '#conclusions'" class="mt-5">
@@ -84,7 +82,8 @@ onMounted(async () => {
         </div>
         <div v-else-if="activeValue === 'chat'" class="mt-5">
           <MessagingV1 />
-        </div>
+        </div> -->
+
       </template>
     </VTabs>
   </div>

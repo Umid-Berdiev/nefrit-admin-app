@@ -8,6 +8,8 @@ import {
   VoteStatisticsData,
   StatementDocumentData,
   StatementChronologyData,
+  StatementChatMessageData,
+  StatementContractData,
 } from '../../interfaces'
 import { useApi } from '/@src/composable/useApi'
 
@@ -445,7 +447,7 @@ export async function fetchStatementDocumentById(
 }
 
 // statement chat api
-export async function fetchStatementChats(id: number, locale: string) {
+export async function fetchStatementChatMessages(id: number, locale: string) {
   try {
     const { data } = await api({
       // url: `/api/admin/document?application_id=${id}`,
@@ -461,10 +463,93 @@ export async function fetchStatementChats(id: number, locale: string) {
   }
 }
 
-export async function fetchStatementChatById(id: number): Promise<StatementChatData> {
+export async function createChatMessage(
+  payload: StatementChatMessageData
+): Promise<StatementChatMessageData[]> {
   try {
     const { data } = await api({
-      url: `/api/admin/document/${id}`,
+      url: `/api/admin/message`,
+      method: 'POST',
+      data: payload,
+    })
+
+    return data.data
+  } catch (error) {
+    throw error
+  }
+}
+
+// statement contracts api
+export async function fetchStatementContracts(page: number, locale: string) {
+  try {
+    const { data } = await api({
+      // url: `/api/admin/document?application_id=${id}`,
+      url: `/api/admin/appcontract?page=${page}`,
+      headers: {
+        Language: locale,
+      },
+    })
+
+    return data.data
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function fetchStatementContractById(id: number, locale: string) {
+  try {
+    const { data } = await api({
+      url: `/api/admin/appcontract/${id}`,
+      headers: {
+        Language: locale,
+      },
+    })
+
+    return data.data
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function createStatementContract(payload: StatementContractData) {
+  try {
+    const { data } = await api({
+      url: `/api/admin/appcontract`,
+      method: 'POST',
+      data: payload,
+    })
+
+    return data.data
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function updateStatementContractById(
+  id: number,
+  payload: StatementContractData
+): Promise<StatementContractData> {
+  try {
+    const { data } = await api({
+      url: `/api/admin/appcontract/${id}`,
+      method: 'PUT',
+      data: payload,
+    })
+
+    return data.data
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function removeStatementContractById(id: number, locale: string) {
+  try {
+    const { data } = await api({
+      url: `/api/admin/appcontract/${id}`,
+      method: 'DELETE',
+      headers: {
+        Language: locale,
+      },
     })
 
     return data.data

@@ -108,7 +108,7 @@ export interface StatementData {
   drug: DrugData
   id: number
   is_approved: boolean
-  is_payed: null | boolean
+  is_paid: null | boolean
   legal_entity: LegalEntityData
   stage: StageData
   status: StatementStatusType
@@ -210,11 +210,27 @@ export interface StatementDocumentData {
 }
 
 export interface StatementChatMessageData {
-  chat_id: number
-  created_at: string
+  application_id?: number
+  message: string
+  file: string
+  chat_id?: number
+  created_at?: string
+  id?: number
+  is_me?: boolean
+  user?: UserData
+}
+
+export interface StatementContractData {
+  body: string
   file: string
   id: number
-  is_me: boolean
-  message: string
-  user: UserData
+  is_paid: 1 | 0
+  legal_entity_id: number | null
+  legal_file: number | null
+  name: string
+  payment_amount: number
+  template_file: string | null
+  type_id: number
+  verified_at: string | null
+  applications: number[]
 }

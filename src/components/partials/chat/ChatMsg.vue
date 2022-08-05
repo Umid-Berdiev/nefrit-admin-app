@@ -15,7 +15,7 @@ const props = defineProps<{
     <!-- Text messages -->
     <template v-if="message.message">
       <div class="avatar">
-        <img v-if="message.user.avatar" :src="message.user.avatar" draggable="false" alt="" />
+        <img v-if="message.user?.avatar" :src="message.user.avatar" draggable="false" alt="" />
       </div>
       <div class="msg">
         <div class="msg-inner">
@@ -23,19 +23,22 @@ const props = defineProps<{
         </div>
 
         <time>
-          {{ $h.formatDate(message.created_at, 'DD.MM.YYYY') }}
+          {{ $h.formatDate(message.created_at, 'DD.MM.YYYY HH:mm') }}
         </time>
       </div>
     </template>
 
     <!-- Image messages -->
-    <template v-else-if="message.file">
+    <template v-if="message.file">
       <div class="avatar is-online">
         <img v-if="message.user.avatar" :src="message.user.avatar" draggable="false" alt="" />
       </div>
       <div class="msg is-image">
         <div class="image-container">
-          <VPhotosSwipe v-if="message.file" :items="[
+          <figure class="image is-128x128">
+            <img :src="message.file">
+          </figure>
+          <!-- <VPhotosSwipe v-if="message.file" :items="[
             {
               src: message.file,
               thumbnail: message.file,
@@ -43,9 +46,9 @@ const props = defineProps<{
               h: 200,
               alt: 'optional alt attribute for thumbnail image',
             },
-          ]" thumbnail-radius="full" />
-          <div class="image-overlay"></div>
-          <div class="image-actions">
+          ]" thumbnail-radius="full" /> -->
+          <!-- <div class="image-overlay"></div> -->
+          <!-- <div class="image-actions">
             <div class="actions-inner">
               <div class="action download">
                 <span class="iconify" data-icon="feather:download"> </span>
@@ -54,7 +57,7 @@ const props = defineProps<{
                 <span class="iconify" data-icon="feather:maximize"> </span>
               </a>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </template>

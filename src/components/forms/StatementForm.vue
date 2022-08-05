@@ -113,7 +113,7 @@ async function fetchData() {
         <tr>
           <td class="has-text-weight-bold">{{ columns.paymentStatus.label }}</td>
           <td>
-            <VTag v-if="currentStatementData?.is_payed" color="primary" :label="$t('Paid')" outlined rounded />
+            <VTag v-if="currentStatementData?.is_paid" color="primary" :label="$t('Paid')" outlined rounded />
             <VTag v-else color="danger" :label="$t('Not_Paid')" outlined rounded />
           </td>
         </tr>

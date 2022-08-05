@@ -1,66 +1,85 @@
 <script setup lang="ts">
+import { isEmpty } from 'lodash';
 import { ref } from 'vue'
-
+import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
+import { Icon } from "@iconify/vue";
 import { useDropdown } from '/@src/composable/useDropdown'
+import { useMainStore } from '/@src/stores/index';
+import { createChatMessage } from "/@src/utils/api/statement";
+import { StatementChatMessageData } from '/@src/utils/interfaces';
+import VButton from '../../base/button/VButton.vue';
 
+const emits = defineEmits<{
+  (e: 'update:data'): void
+}>()
+const route = useRoute()
+const mainStore = useMainStore()
+const { t, locale } = useI18n()
+const currentStatementId = (route.params?.id as string) ?? null
 const dropdownElement = ref<HTMLElement>()
 const dropdown = useDropdown(dropdownElement)
+const textInput = ref('')
+const fileInput = ref<File>()
+const isMsgSending = ref(false);
+
+async function sendMessage() {
+  isMsgSending.value = true;
+
+  if (!isEmpty(textInput.value)) {
+    const message = textInput.value;
+    textInput.value = '';
+    const values: StatementChatMessageData = {
+      application_id: Number(currentStatementId),
+      message,
+      file: ''
+    }
+
+    const res = await createChatMessage(values)
+    emits('update:data')
+  }
+
+  isMsgSending.value = false
+}
+
+async function handleFileInput(e: Event) {
+  let target = e.target as HTMLInputElement;
+  let file = target.files && target.files[0];
+
+  if (!file) {
+    return
+  }
+
+  if (file.size > 5000000) {
+    alert('File should be smaller than 1MB')
+    return
+  }
+
+  fileInput.value = file;
+  const formData = new FormData();
+  formData.append('application_id', currentStatementId);
+  formData.append('file', file);
+  formData.append('message', textInput.value);
+
+  const res = await createChatMessage(formData);
+  emits('update:data')
+}
 </script>
 
 <template>
   <div class="message-field-wrapper">
     <div class="control">
-      <div class="add-content">
-        <div ref="dropdownElement" class="dropdown dropdown-trigger is-up">
-          <div>
-            <div class="button" aria-haspopup="true" @click="dropdown.toggle">
-              <i aria-hidden="true" class="iconify" data-icon="feather:plus"></i>
-            </div>
-          </div>
-          <div class="dropdown-menu" role="menu">
-            <div class="dropdown-content">
-              <a class="dropdown-item">
-                <i aria-hidden="true" class="iconify" data-icon="feather:video"></i>
-                <div class="meta">
-                  <span>Video</span>
-                  <span>Embed a video</span>
-                </div>
-              </a>
-              <a href="#" class="dropdown-item kill-drop v-modal-trigger">
-                <i aria-hidden="true" class="iconify" data-icon="feather:image"></i>
-                <div class="meta">
-                  <span>Images</span>
-                  <span>Upload pictures</span>
-                </div>
-              </a>
-              <a href="#" class="dropdown-item kill-drop v-modal-trigger">
-                <i aria-hidden="true" class="iconify" data-icon="feather:link"></i>
-                <div class="meta">
-                  <span>Link</span>
-                  <span>Post a link</span>
-                </div>
-              </a>
-              <hr class="dropdown-divider" />
-              <a href="#" class="dropdown-item kill-drop v-modal-trigger">
-                <i aria-hidden="true" class="iconify" data-icon="feather:file"></i>
-                <div class="meta">
-                  <span>File</span>
-                  <span>Upload a file</span>
-                </div>
-              </a>
-            </div>
-          </div>
-        </div>
+      <div class="add-file-content">
+        <VButton class="is-relative m-2">
+          <Icon icon="feather:paperclip" class="mt-2" />
+          <input class="is-absolute" type="file" @change="handleFileInput">
+        </VButton>
       </div>
-      <div class="add-emoji">
-        <div class="button">
-          <i aria-hidden="true" class="iconify" data-icon="feather:smile"></i>
-        </div>
-      </div>
-      <input id="chat-input" class="input is-rounded" type="text" placeholder="Write a message ..."
+      <input id="chat-input" class="input is-rounded" type="text" v-model="textInput" @keyup.enter="sendMessage"
         aria-label="Write a message" />
       <div class="send-message">
-        <div class="button v-button is-primary is-raised is-rounded">Send</div>
+        <button class="button v-button is-primary is-raised is-rounded" @click="sendMessage">{{ $t('Send') }}</button>
+        <!-- <VTextarea v-model="textInput" @keyup.enter="sendMessage" placeholder="Type your message..."></VTextarea> -->
       </div>
     </div>
 
@@ -100,7 +119,7 @@ const dropdown = useDropdown(dropdownElement)
       padding-left: 70px;
     }
 
-    .add-content {
+    .add-file-content {
       position: absolute;
       top: 0;
       left: 0;
@@ -116,6 +135,20 @@ const dropdown = useDropdown(dropdownElement)
               color: var(--primary);
             }
           }
+        }
+      }
+
+      input[type=file] {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        opacity: 0;
+
+        &:hover {
+          cursor: pointer;
         }
       }
 
@@ -262,7 +295,7 @@ const dropdown = useDropdown(dropdownElement)
 
 .is-dark {
   .message-field-wrapper {
-    .add-content {
+    .add-file-content {
       .button {
         background: var(--primary);
         border-color: var(--primary);

@@ -1,64 +1,63 @@
 <script setup lang="ts">
-import { computed, onMounted, reactive } from 'vue'
-import { useChat } from '/@src/stores/chat'
-import { useNotyf } from '/@src/composable/useNotyf'
+import { computed, onMounted, onUpdated, reactive, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
-import { fetchStatementChats } from "/@src/utils/api/statement";
+import { fetchStatementChatMessages } from "/@src/utils/api/statement";
 import { StatementChatMessageData } from "/@src/utils/interfaces";
 
 const { t, locale } = useI18n()
 const route = useRoute()
 const currentId = (route.params?.id as string) ?? null
 
-/**
- * The chat store keep the chat data across the app
- * It internaly uses the useApi composable to fetch the data (to the json-server)
- */
-const chat = useChat()
-
 // Those utilities are used to manage the layout
-const notyf = useNotyf()
 const messages: StatementChatMessageData[] = reactive([])
+const chatBoxBody = ref<HTMLDivElement>();
 
 await fetchChatMessages()
 
-// Click handler to display the addConversation inputs
-function addConversation() {
-  chat.unselectConversation()
-  chat.setAddConversationOpen(!chat.addConversationOpen)
-}
+// onMounted(() => {
+//   console.log('on mounted hook');
+//   scrollToBottom();
+// });
 
-// Click handler to toggle the conversations
-function selectConversation(id: number) {
-  chat.setAddConversationOpen(false)
-  chat.selectConversastion(id)
-}
+// onUpdated(() => {
+//   console.log('on updated hook');
+//   scrollToBottom();
+// });
+
+watch(
+  () => messages,
+  (newVal) => {
+    if (newVal) scrollToBottom()
+  },
+  { deep: true, immediate: true }
+)
 
 async function fetchChatMessages() {
-  const res = await fetchStatementChats(Number(currentId), locale.value)
+  const res = await fetchStatementChatMessages(Number(currentId), locale.value)
   Object.assign(messages, res)
 }
+
+async function scrollToBottom() {
+  const chatBody = document.getElementById('chat-body');
+  console.log('chatBody.offsetHeight: ', chatBody?.offsetHeight);
+
+  if (chatBody) chatBody.scrollTop = chatBody.offsetHeight + 50;
+}
+
 </script>
 
 <template>
   <!-- Chat Card -->
-  <ChatCard>
-    <template #body>
+  <ChatCard @update:data="fetchChatMessages">
+    <template #body ref="chatBoxBody">
       <li v-if="messages.length === 0" class="no-messages">
-        <!-- <img class="light-image" src="/@src/assets/illustrations/placeholders/search-4.svg" alt="" /> -->
-        <!-- <img class="dark-image" src="/@src/assets/illustrations/placeholders/search-4-dark.svg" alt="" /> -->
         <div class="text">
-          <h3>No messages yet</h3>
-          <p>Start the conversation by typing a message</p>
+          <h3>{{ $t('No_messages_yet') }}</h3>
         </div>
       </li>
 
       <ChatMsg v-for="message in messages" :key="message.id" :message="message" />
-
-      <!-- <li class="chat-loader" :class="[chat.loading && 'is-active']">
-        <div class="loader is-loading"></div>
-      </li> -->
     </template>
   </ChatCard>
 </template>

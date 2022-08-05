@@ -294,5 +294,13 @@
   "Payments": "Платежи",
   "Updated_successfully": "Успешно обновлен",
   "Statement_docs": "Документы заявления",
-  "Docs_not_attached_yet": "Документы ещё не закреплены"
+  "Docs_not_attached_yet": "Документы ещё не закреплены",
+  "Contracts": "Контракты",
+  "Applicant": "Заявитель",
+  "Removed_successfully": "Успешно удалено",
+  "Contracts_List": "Список контрактов",
+  "No_messages_yet": "Пока нет сообщений",
+  "Contract_name": "Наименование контракта",
+  "Select_applicant": "Выберите заявителя",
+  "Select_statements": "Выберите заявления"
 }

@@ -21,10 +21,42 @@ export async function fetchList(
   }
 }
 
+export async function fetchApplicants(
+  locale: string
+): Promise<{ data: ApplicantData[] }> {
+  try {
+    const { data } = await api({
+      url: `/api/admin/legal/entities`,
+      headers: {
+        Language: locale,
+      },
+    })
+
+    return data.data
+  } catch (error) {
+    throw error
+  }
+}
+
 export async function fetchApplicantStatuses(locale: string) {
   try {
     const { data } = await api({
       url: `/api/admin/legal-entity/status`,
+      headers: {
+        Language: locale,
+      },
+    })
+
+    return data.data
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function fetchApplicantStatementsList(id: number, locale: string) {
+  try {
+    const { data } = await api({
+      url: `/api/admin/legal/entities/${id}/applications`,
       headers: {
         Language: locale,
       },

@@ -294,5 +294,13 @@
   "Payments": "Payments",
   "Updated_successfully": "Updated successfully",
   "Statement_docs": "Statement's documents",
-  "Docs_not_attached_yet": "Documents are not attached yet"
+  "Docs_not_attached_yet": "Documents are not attached yet",
+  "Contracts": "Contracts",
+  "Applicant": "Applicant",
+  "Removed_successfully": "Removed successfully",
+  "Contracts_List": "Contracts list",
+  "No_messages_yet": "No messages yet",
+  "Contract_name": "Contract name",
+  "Select_applicant": "Select applicant",
+  "Select_statements": "Select statements"
 }

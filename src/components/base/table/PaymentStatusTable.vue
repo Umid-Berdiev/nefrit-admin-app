@@ -94,7 +94,7 @@ async function onReject() {
   <div class="applicant-list-wrapper">
     <!-- table -->
     <h1 class="is-size-3 mb-3">{{ $t('Payments') }}</h1>
-    <ContractInfoTable v-if="isContractInfoTableVisible" />
+    <ContractInfoTable />
     <VFlexTableWrapper :columns="columns" :data="data">
       <!--
         Here we retrieve the internal wrapperState.

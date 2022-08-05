@@ -1,3 +1,8 @@
+<script setup lang="ts">
+function updateData() {
+  // 
+}
+</script>
 <template>
   <div class="animated container">
     <!-- Header -->
@@ -15,7 +20,7 @@
       <slot name="side"></slot>
     </ChatBodyWrap>
 
-    <ChatMessageFieldWrapper />
+    <ChatMessageFieldWrapper @update:data="$emit('update:data')" />
   </div>
 </template>
 
