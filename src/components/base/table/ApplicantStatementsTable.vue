@@ -4,7 +4,6 @@ import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 import { useMainStore } from '/@src/stores';
 import { fetchApplicantStatements } from '/@src/utils/api/applicant';
-import { Icon } from '@iconify/vue';
 
 const route = useRoute()
 const router = useRouter()
@@ -111,7 +110,7 @@ function onView(statementId: number) {
           <!-- <StatementsFlexTableDropdown @view="onActionTriggered(row.id)" @conclusion="gotoConclusionList(row.id)"
             @remove="confirmAction" @feedback="isFeedbackModalOpen = true" /> -->
           <a href="javascript:;" @click="onView(row.id)">
-            <Icon icon="feather:eye" class="has-text-primary" height="1.5rem" />
+            <VueIconify icon="feather:eye" class="has-text-primary" height="1.5rem" />
           </a>
         </template>
       </template>

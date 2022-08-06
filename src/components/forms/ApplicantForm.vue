@@ -6,7 +6,6 @@ import moment from 'moment';
 import { fetchById, unblockApplicant, updateApplicant, verifyApplicant } from '/@src/utils/api/applicant';
 import { ApplicantData } from '/@src/utils/interfaces';
 import { useMainStore } from '/@src/stores';
-import { Icon } from '@iconify/vue';
 import CountrySelect from './selects/CountrySelect.vue';
 import { useNotyf } from '/@src/composable/useNotyf';
 import ApplicantBlockFormModal from '../base/modal/ApplicantBlockFormModal.vue';
@@ -41,10 +40,6 @@ onMounted(async () => {
 async function fetchData() {
   const res = await fetchById(Number(currentId))
   Object.assign(applicantData, res)
-}
-
-function formatDate(value: string | undefined) {
-  return value && moment(value).format('YYYY-MM-DD');
 }
 
 async function onFirstFormSubmit(event: Event) {
@@ -138,8 +133,8 @@ async function onUnblockAction() {
               <h3 class="has-text-centered">
                 {{ t('Applicant_details') }}
                 <a href="javascript:;" @click="toggleFirstBlock" class="edit-btn ml-5">
-                  <Icon v-if="!isFirstBlockEditable" icon="feather:edit-2" />
-                  <Icon v-else icon="feather:x" />
+                  <VueIconify v-if="!isFirstBlockEditable" icon="feather:edit-2" />
+                  <VueIconify v-else icon="feather:x" />
                 </a>
               </h3>
               <div class="columns is-multiline">
@@ -202,8 +197,8 @@ async function onUnblockAction() {
               <h3 class="has-text-centered">
                 {{ t('Company_information') }}
                 <a href="javascript:;" @click="toggleSecondBlock" class="edit-btn ml-5">
-                  <Icon v-if="!isSecondBlockEditable" icon="feather:edit-2" />
-                  <Icon v-else icon="feather:x" />
+                  <VueIconify v-if="!isSecondBlockEditable" icon="feather:edit-2" />
+                  <VueIconify v-else icon="feather:x" />
                 </a>
               </h3>
               <div class="columns is-multiline">
@@ -292,7 +287,8 @@ async function onUnblockAction() {
                           <div class="name dark-inverted">{{ $t('verified_at') }}</div>
                         </td>
                         <td>
-                          <span class="has-text-primary is-size-6" v-text="formatDate(applicantData.verified_at)" />
+                          <span class="has-text-primary is-size-6"
+                            v-text="$h.formatDate(applicantData.verified_at, 'DD.MM.YYYY')" />
                         </td>
                       </tr>
                       <tr v-if="applicantData.block_reason">
@@ -308,7 +304,8 @@ async function onUnblockAction() {
                           <div class="name dark-inverted">{{ $t('blocked_at') }}</div>
                         </td>
                         <td>
-                          <span class="has-text-danger is-size-6" v-text="formatDate(applicantData.blocked_at)" />
+                          <span class="has-text-danger is-size-6"
+                            v-text="$h.formatDate(applicantData.blocked_at, 'DD.MM.YYYY')" />
                         </td>
                       </tr>
                     </tbody>

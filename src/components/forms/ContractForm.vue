@@ -5,8 +5,8 @@ import { fetchStatementContractById } from '/@src/utils/api/statement'
 import { useRoute, useRouter } from 'vue-router';
 import { StatementContractData, StatementData } from '/@src/utils/interfaces';
 import VButton from '../base/button/VButton.vue';
-import { Icon } from "@iconify/vue";
 import { useNotyf } from '/@src/composable/useNotyf';
+import VFlexItem from '../base/flex/VFlexItem.vue';
 
 const { t, locale } = useI18n()
 const columns = computed(() => ({
@@ -75,8 +75,8 @@ function notify() {
       <div class="column is-6">
         <ListWidgetSingle :title="$t('Contract_details')" straight class="list-widget-v3">
           <template #actions>
-            <a href="javascript:;" @click="onEdit">
-              <Icon icon="feather:edit-2" />
+            <a v-if="!contractData?.verified_at" href="javascript:;" @click="onEdit">
+              <VueIconify icon="feather:edit-2" />
             </a>
           </template>
           <table class="table is-hoverable is-bordered is-fullwidth mb-5">
@@ -86,16 +86,16 @@ function notify() {
                 <td>
                   {{ contractData?.name }}
                   <!-- <a href="javascript:;" class="has-text-primary" @click="openCompanyInfoModal(1)">
-                  <i class="iconify" data-icon="feather:link" aria-hidden="true"></i>
+                                      <VueIconify icon="feather:link" />
                 </a> -->
                 </td>
               </tr>
               <tr>
                 <td class="has-text-weight-bold">{{ columns.payment_amount.label }}</td>
                 <td>
-                  {{ contractData?.payment_amount }}
+                  {{ contractData?.payment_amount.toLocaleString() }}
                   <!-- <a href="javascript:;" class="has-text-primary" @click="openDrugInfoModal(1)">
-                  <i class="iconify" data-icon="feather:link" aria-hidden="true"></i>
+                                      <VueIconify icon="feather:link" />
                 </a> -->
                 </td>
               </tr>
@@ -126,8 +126,8 @@ function notify() {
                 <td class="is-flex is-align-items-center">
                   <a v-if="contractData?.template_file" :href="contractData?.template_file" class="has-text-primary"
                     download>
-                    {{ contractData?.template_file }}
-                    <i class="iconify" data-icon="feather:link" aria-hidden="true"></i>
+                    <span class="mr-3">{{ $t('Download') }}</span>
+                    <VueIconify icon="feather:link" />
                   </a>
                   <span v-else class="has-text-danger">
                     {{ $t('No_template_file') }}
@@ -142,8 +142,8 @@ function notify() {
                 <td class="has-text-weight-bold">{{ columns.legal_file.label }}</td>
                 <td class="is-flex is-align-items-center">
                   <a v-if="contractData?.legal_file" :href="contractData?.legal_file" class="has-text-primary" download>
-                    {{ contractData?.legal_file }}
-                    <i class="iconify" data-icon="feather:link" aria-hidden="true"></i>
+                    <span class="mr-3">{{ $t('Download') }}</span>
+                    <VueIconify icon="feather:link" />
                   </a>
                   <span v-else class="has-text-danger">
                     {{ $t('No_legal_file') }}
@@ -154,8 +154,8 @@ function notify() {
                 <td class="has-text-weight-bold">{{ columns.file.label }}</td>
                 <td class="is-flex is-align-items-center">
                   <a v-if="contractData?.file" :href="contractData?.file" class="has-text-primary" download>
-                    {{ contractData?.file }}
-                    <i class="iconify" data-icon="feather:link" aria-hidden="true"></i>
+                    <span class="mr-3">{{ $t('Download') }}</span>
+                    <VueIconify icon="feather:link" />
                   </a>
                   <span v-else class="has-text-danger">
                     {{ $t('No_completed_file') }}
@@ -188,8 +188,15 @@ function notify() {
                   {{ item.drug }}
                 </td>
                 <td>
-                  <VTag class="is-size-6" :color="item.is_paid ? 'primary' : 'warning'" rounded
-                    :label="item.is_paid ? $t('Paid') : $t('Not_Paid')" />
+                  <VFlex justify-content="space-between">
+                    <VFlexItem>
+                      <VTag class="is-size-6" :color="item.is_paid ? 'primary' : 'warning'" rounded
+                        :label="item.is_paid ? $t('Paid') : $t('Not_Paid')" />
+                    </VFlexItem>
+                    <VFlexItem v-if="item.is_paid && !contractData?.verified_at">
+                      <VButton color="warning" rounded v-text="$t('Reject_statement_status')"></VButton>
+                    </VFlexItem>
+                  </VFlex>
                 </td>
               </tr>
             </tbody>
@@ -197,7 +204,7 @@ function notify() {
         </ListWidgetSingle>
       </div>
     </div>
-    <ContractFormModal v-model="isFormModalOpen" :item-id="currentId"
+    <ContractFormModal v-model="isFormModalOpen" :item-id="Number(currentId)"
       @update:list="() => { fetchData(); notify(); currentId = ''; }" />
     <FileUploadModal v-model="isFileUploadModalOpen" :contract-id="currentId" @close="fetchData"
       :file-prop-name="filePropName" @update:data="fetchData" />

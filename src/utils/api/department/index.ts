@@ -2,6 +2,18 @@ import { useApi } from '/@src/composable/useApi'
 
 const api = useApi()
 
+export async function fetchDepartments() {
+  try {
+    const { data } = await api({
+      url: `/api/admin/department/list`,
+    })
+
+    return data.data
+  } catch (error) {
+    throw error
+  }
+}
+
 export async function fetchList(page: number, locale: string) {
   try {
     const { data } = await api({

@@ -39,11 +39,12 @@ const columns = computed(() => ({
   name: {
     label: t('Name'),
     searchable: true,
+    grow: true,
     // sortable: true,
   },
   legal_entity: {
     label: t('Applicant'),
-    // sortable: true,
+    grow: true,
   },
   applications: {
     label: t('Statements'),
@@ -54,6 +55,7 @@ const columns = computed(() => ({
   },
   verified_at: {
     label: t('Payment_status'),
+    grow: true,
   },
   created_at: {
     label: t('Date'),
@@ -145,7 +147,7 @@ function notify() {
           <template #body>
             <!-- This is the empty state -->
             <div v-if="data.result.length === 0" class="flex-list-inner">
-              <VPlaceholderSection :title="$t('No_matches')" :subtitle="$t('There_is_no_data_that_match_your_query')"
+              <VPlaceholderSection :title="$t('No_data')" :subtitle="$t('There_is_no_data_that_match_your_query')"
                 class="my-6" />
             </div>
           </template>
@@ -173,7 +175,7 @@ function notify() {
         </VFlexTable>
 
         <!-- Table Pagination with wrapperState.page binded-->
-        <VFlexPagination v-model:current-page="data.pagination.current_page" class="mt-6"
+        <VFlexPagination v-if="data.result.length" v-model:current-page="data.pagination.current_page" class="mt-6"
           :item-per-page="data.pagination.per_page" :total-items="data.pagination.total" />
       </template>
     </VFlexTableWrapper>

@@ -313,5 +313,12 @@
   "No_completed_file": "Yakuniy fayl mavjud emas",
   "Statement_code": "Ariza raqami",
   "Contract_card": "Shartnoma kartasi",
-  "File_upload_field_required": "Fayl maydoni majburiy"
+  "File_upload_field_required": "Fayl maydoni majburiy",
+  "Change_password": "Parolni o'zgartirish",
+  "Employees": "Xodimlar",
+  "Add_file": "Fayl qo'shish",
+  "Verify_payment": "To'lovni tasdiqlash",
+  "Verify_all": "Barchasini tasdiqlash",
+  "Welcome_back": "Xush kelibsiz",
+  "Reject_statement_status": "Bekor qilish"
 }

@@ -26,9 +26,6 @@ const onSubmit = () => {
   console.log('Form submitted!')
 }
 
-function formatDate(value: Date) {
-  return moment(value).format('YYYY-MM-DD');
-}
 </script>
 
 <template>
@@ -176,7 +173,8 @@ function formatDate(value: Date) {
                 <VField>
                   <VLabel>{{ t('verified_at') }}</VLabel>
                   <VControl>
-                    <VInput disabled type="date" :value="formatDate(date)" class="input form-datepicker" />
+                    <VInput disabled type="date" :value="$h.formatDate(date, 'DD.MM.YYYY')"
+                      class="input form-datepicker" />
                   </VControl>
                 </VField>
               </div>
@@ -184,7 +182,8 @@ function formatDate(value: Date) {
                 <VField>
                   <VLabel>{{ t('blocked_at') }}</VLabel>
                   <VControl>
-                    <VInput disabled type="date" :value="formatDate(blockedAt)" class="input form-datepicker" />
+                    <VInput disabled type="date" :value="$h.formatDate(blockedAt, 'DD.MM.YYYY')"
+                      class="input form-datepicker" />
                   </VControl>
                 </VField>
               </div>

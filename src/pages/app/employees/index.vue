@@ -31,6 +31,7 @@ const filterForm = ref<UserFilterForm>({
 })
 
 const isFormModalOpen = ref(false)
+const isPasswordModalOpen = ref(false)
 const displayFilterForm = ref(false)
 const selectedRowsId = ref<number[]>([])
 const isAllSelected = computed(() => data.result.length === selectedRowsId.value.length)
@@ -100,7 +101,7 @@ async function fetchData(page: number = 1) {
   Object.assign(data, res)
 }
 
-function onEdit(rowId: number) {
+function onEdit(rowId: number | null) {
   selectedId.value = rowId;
   isFormModalOpen.value = true
 }
@@ -115,15 +116,18 @@ async function handleRemoveAction() {
   fetchData()
 }
 
-async function onChangePassword() {
-  const values = {}
-  await updatePassword(selectedId.value, values)
+async function onChangePassword(id: number) {
+  console.log({ id });
+
+  selectedId.value = id
+  isPasswordModalOpen.value = true
+  // await updatePassword(selectedId.value, values)
 }
 </script>
 
 <template>
   <div class="applicant-list-wrapper">
-    <TableActionsBlock center title="" :add-disabled="true" :remove-disabled="true"
+    <TableActionsBlock center title="" :remove-disabled="true" @add="onEdit(null)"
       @filter="displayFilterForm = !displayFilterForm" />
     <div v-show="displayFilterForm" class="mb-5">
       <VCard radius="small">
@@ -213,7 +217,9 @@ async function onChangePassword() {
           :total-items="data.pagination.total" />
       </template>
     </VFlexTableWrapper>
-    <EmployeeFormModal v-model="isFormModalOpen" :applicant-id="selectedId" @update:list="fetchData" />
+    <EmployeeFormModal v-model="isFormModalOpen" :employee-id="Number(selectedId)"
+      @update:list="() => { fetchData(); selectedId = null; }" @close="selectedId = null" />
     <ConfirmActionModal @confirm-action="handleRemoveAction" />
+    <EmployeePasswordFormModal v-model="isPasswordModalOpen" @employee-id="Number(selectedId)" />
   </div>
 </template>

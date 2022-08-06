@@ -62,10 +62,6 @@ function openDrugInfoModal(id: number) {
   isDrugInfoModalOpen.value = true
 }
 
-function formatDate(date: string) {
-  return date ? moment(date).format('HH:mm DD.MM.YYYY') : ''
-}
-
 async function fetchData() {
   const res = await fetchById(Number(currentId), locale.value)
   currentStatementData.value = res
@@ -108,7 +104,7 @@ async function fetchData() {
         </tr>
         <tr>
           <td class="has-text-weight-bold">{{ columns.date.label }}</td>
-          <td>{{ formatDate(currentStatementData?.date) }}</td>
+          <td>{{ $h.formatDate(currentStatementData?.date, 'HH:mm DD.MM.YYYY') }}</td>
         </tr>
         <tr>
           <td class="has-text-weight-bold">{{ columns.paymentStatus.label }}</td>

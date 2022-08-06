@@ -5,12 +5,14 @@ import { useRoute } from 'vue-router';
 import { useNotyf } from '/@src/composable/useNotyf';
 
 import { useMainStore } from '/@src/stores'
-import { fetchContractPayments } from '/@src/utils/api/statement/index';
+import { fetchContractPayments } from '/@src/utils/api/statement';
+import { verifyAllPayments } from '/@src/utils/api/payment';
 import { StatementContractData } from '/@src/utils/interfaces';
+import VerifyPaymentModal from '../modal/VerifyPaymentModal.vue';
 
 const { t, locale } = useI18n()
 const route = useRoute()
-const currentId = (route.params?.id as string) ?? null
+const contractId = (route.params?.id as string) ?? null
 const mainStore = useMainStore()
 const notif = useNotyf()
 const contractData = ref<StatementContractData>()
@@ -42,27 +44,36 @@ const columns = {
     align: 'center',
   },
 } as const
+const isVerifyModalOpen = ref<boolean>(false)
 
 await fetchData()
 
 async function fetchData() {
-  const res = await fetchContractPayments(Number(currentId), locale.value)
+  const res = await fetchContractPayments(Number(contractId), locale.value)
   contractData.value = await res
 }
 
-async function onVerify(paymentId: number) {
+async function onOneVerify(paymentId: number) {
   selectedId.value = paymentId
+  isVerifyModalOpen.value = true
+}
+
+async function onAllVerify() {
   mainStore.$patch({ confirmModalState: true, confirmModalOkButtonColor: 'primary' })
 }
 
 async function onReject(paymentId: number) {
   selectedId.value = paymentId
   mainStore.$patch({ confirmModalState: true })
-
 }
 
-function handleCallbackAction() {
-  console.log('handleCallbackAction clicked');
+async function handleVerifyAction() {
+  await verifyAllPayments(contractId)
+  await fetchData()
+}
+
+function notify() {
+  notif.success(t('Updated_successfully'))
 }
 </script>
 
@@ -73,9 +84,9 @@ function handleCallbackAction() {
         <h1 class="is-size-3 mb-3">{{ $t('Payments') }}</h1>
       </VFlexItem>
       <VFlexItem class="ml-auto">
-        <VButton v-if="!contractData?.verified_at" rounded color="primary" icon="feather:check"
-          @click.prevent="onVerify">
-          {{ $t('Verify') }}
+        <VButton type="button" v-if="!contractData?.verified_at" rounded color="primary" icon="feather:check"
+          @click="onAllVerify">
+          {{ $t('Verify_all') }}
         </VButton>
       </VFlexItem>
     </VFlex>
@@ -97,10 +108,16 @@ function handleCallbackAction() {
               @change="clickOnRow" /> -->
 
             <template v-if="column.key === 'file'">
-              <a href="row.file" class="has-text-primary is-pushed-mobile">{{ row.file }}</a>
+              <a :href="row.file" class="has-text-primary is-pushed-mobile">
+                <span class="mr-3">{{ $t('Download') }}</span>
+                <VueIconify icon="feather:link" />
+              </a>
+            </template>
+            <template v-if="column.key === 'amount'">
+              {{ Number(value).toLocaleString() }}
             </template>
             <template v-if="column.key === 'status' && value">
-              <StatusTag :color="value.color" :status="value.name" />
+              <StatusTag :status="value" />
             </template>
             <template v-if="column.key === 'created_at' && value">
               {{ $h.formatDate(value, 'DD.MM.YYYY HH:mm') }}
@@ -109,8 +126,10 @@ function handleCallbackAction() {
               {{ $h.formatDate(value, 'DD.MM.YYYY HH:mm') }}
             </template>
             <template v-if="column.key === 'actions'">
-              <VButtons v-if="row.status !== 'completed'">
-                <VButton class="is-primary is-outlined px-3" @click="onVerify">{{ $t('Verify') }}</VButton>
+              <VButtons v-if="row.status?.color === 'warning'">
+                <VButton class="is-primary is-outlined px-3" @click="onOneVerify(row.id)">{{
+                    $t('Verify')
+                }}</VButton>
                 <VButton class="is-danger is-outlined px-3" @click="onReject">{{ $t('Cancel') }}</VButton>
               </VButtons>
             </template>
@@ -120,6 +139,8 @@ function handleCallbackAction() {
           :total-items="wrapperState.total" :max-links-displayed="5" no-router />
       </template>
     </VFlexTableWrapper>
-    <ConfirmActionModal @confirm-action="handleCallbackAction" />
+    <VerifyPaymentModal v-model="isVerifyModalOpen" :payment-id="Number(selectedId)"
+      @update:list="() => { fetchData(); notify(); }" />
+    <ConfirmActionModal @confirm-action="handleVerifyAction" />
   </div>
 </template>

@@ -33,7 +33,7 @@ function onSubmit(event: Event) {
   <VModal size="big" :open="modelValue" actions="center" :title="$t('Download_contract_template')"
     @close="$emit('update:modelValue', false)">
     <template #content>
-      <form id="submit-form" class="modal-form" @submit="onSubmit">
+      <form id="contract-template-form" class="modal-form" @submit="onSubmit">
         <div class="columns is-multiline">
           <div class="column is-12">
             <VField :label="$t('Template_title')" required>
@@ -55,7 +55,7 @@ function onSubmit(event: Event) {
       </form>
     </template>
     <template #action="{ close }">
-      <VButton type="submit" form="submit-form" color="primary" outlined>{{ $t('Save_changes') }}</VButton>
+      <VButton type="submit" form="contract-template-form" color="primary" outlined>{{ $t('Save_changes') }}</VButton>
     </template>
   </VModal>
 </template>

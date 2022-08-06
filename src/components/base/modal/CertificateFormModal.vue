@@ -107,7 +107,7 @@ function onFileRemove() {
 <template>
   <VModal :open="modelValue" size="large" :title="title" actions="right" @close="onClose">
     <template #content>
-      <form id="submit-form" class="modal-form" @submit.prevent="onSubmit">
+      <form id="certificate-form" class="modal-form" @submit.prevent="onSubmit">
         <div class="columns is-multiline">
           <div class="column is-12">
             <VField :label="$t('Certificate_number')" required>
@@ -155,7 +155,7 @@ function onFileRemove() {
       </form>
     </template>
     <template #action="{ close }">
-      <VButton color="primary" outlined type="submit" form="submit-form">{{ $t('Save') }}</VButton>
+      <VButton color="primary" outlined type="submit" form="certificate-form">{{ $t('Save') }}</VButton>
     </template>
   </VModal>
 </template>

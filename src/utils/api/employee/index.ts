@@ -33,23 +33,24 @@ export async function fetchById(id: number) {
   }
 }
 
-export async function create(payload: any) {
+export async function create(payload: FormData) {
   try {
     const { data } = await api({
       url: `/api/admin/employee`,
       method: 'POST',
       data: payload,
     })
+    return data.data
   } catch (error) {
     throw error
   }
 }
 
-export async function updateById(id: number, payload: any) {
+export async function updateById(id: number, payload: FormData) {
   try {
     const { data } = await api({
       url: `/api/admin/employee/${id}`,
-      method: 'PUT',
+      method: 'POST',
       data: payload,
     })
   } catch (error) {
@@ -60,7 +61,7 @@ export async function updateById(id: number, payload: any) {
 export async function updatePassword(id: number, payload: any) {
   try {
     const { data } = await api({
-      url: `/api/admin/employee/${id}`,
+      url: `/api/admin/employee/${id}/pass`,
       method: 'PUT',
       data: payload,
     })

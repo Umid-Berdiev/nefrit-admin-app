@@ -37,7 +37,7 @@ function onFileUpload(event: Event) {
 <template>
   <VModal :title="$t('Upload')" :open="modelValue" actions="right" @close="emits('update:modelValue', false)">
     <template #content>
-      <form class="modal-form" id="submit-form" @submit.prevent="onSubmit">
+      <form id="contract-edit-form" class="modal-form" @submit.prevent="onSubmit">
         <div class="columns is-multiline">
           <div class="column is-12">
             <VField grouped class="mt-3 mr-5">
@@ -77,7 +77,7 @@ function onFileUpload(event: Event) {
       </form>
     </template>
     <template #action="{ close }">
-      <VButton type="submit" color="primary" outlined form="submit-form">{{ $t('Save_changes') }}</VButton>
+      <VButton type="submit" color="primary" outlined form="contract-edit-form">{{ $t('Save_changes') }}</VButton>
     </template>
   </VModal>
 </template>

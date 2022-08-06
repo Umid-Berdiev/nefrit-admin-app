@@ -176,6 +176,7 @@ onMounted(async () => {
   setTimeout(() => {
     Object.assign(donutChartSeries, Array(5).fill(null).map((_, i) => Math.round(Math.random() * (50 - 10) + 10)))
     Object.assign(donutChartOptions.labels, donutChartSeries.map((item, index) => `Status${index}: ${item}`))
+
     barChartOptions.series = [{
       name: 'Inflation2',
       data: Array(12).fill(0).map((_, i) => Math.random().toFixed(2) * 1)

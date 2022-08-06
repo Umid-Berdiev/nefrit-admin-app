@@ -53,7 +53,7 @@ function clearErrors(event: Event) {
 <template>
   <VModal :open="modelValue" size="large" :title="title" actions="right" @close="onClose">
     <template #content>
-      <form id="submit-form" class="modal-form" @submit.prevent="onSubmit">
+      <form id="block-applicant-form" class="modal-form" @submit.prevent="onSubmit">
         <div class="columns is-multiline">
           <div class="column is-12">
             <VField :label="$t('block_reason')" required>
@@ -68,7 +68,7 @@ function clearErrors(event: Event) {
       </form>
     </template>
     <template #action="{ close }">
-      <VButton color="danger" outlined type="submit" form="submit-form">{{ $t('Block') }}</VButton>
+      <VButton color="danger" outlined type="submit" form="block-applicant-form">{{ $t('Block') }}</VButton>
     </template>
   </VModal>
 </template>

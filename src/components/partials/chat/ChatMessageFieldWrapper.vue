@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { isEmpty } from 'lodash';
 import { ref } from 'vue'
-import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
-import { Icon } from "@iconify/vue";
+import { useI18n } from 'vue-i18n';
+import { isEmpty } from 'lodash';
+
 import { useDropdown } from '/@src/composable/useDropdown'
 import { useMainStore } from '/@src/stores/index';
 import { createChatMessage } from "/@src/utils/api/statement";
@@ -71,7 +71,7 @@ async function handleFileInput(e: Event) {
     <div class="control">
       <div class="add-file-content">
         <VButton class="is-relative m-2">
-          <Icon icon="feather:paperclip" class="mt-2" />
+          <VueIconify icon="feather:paperclip" class="mt-2" />
           <input class="is-absolute" type="file" @change="handleFileInput">
         </VButton>
       </div>

@@ -82,7 +82,7 @@ function clearErrors(event: Event) {
 <template>
   <VModal :open="modelValue" size="large" :title="title" actions="right" @close="onClose">
     <template #content>
-      <form id="submit-form" class="modal-form" @submit.prevent="onSubmit">
+      <form id="feedback-form" class="modal-form" @submit.prevent="onSubmit">
         <div class="columns is-multiline">
           <div class="column is-12 is-flex is-justify-content-center">
             <!-- <h1>{{ $t('Your_vote') }}: {{ selectedAnswer }}</h1> -->
@@ -112,7 +112,7 @@ function clearErrors(event: Event) {
       </form>
     </template>
     <template #action="{ close }">
-      <VButton color="primary" outlined type="submit" form="submit-form">{{ $t('Save') }}</VButton>
+      <VButton color="primary" outlined type="submit" form="feedback-form">{{ $t('Save') }}</VButton>
     </template>
   </VModal>
 </template>

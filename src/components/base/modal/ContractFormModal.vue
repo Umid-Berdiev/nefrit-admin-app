@@ -141,7 +141,7 @@ function onFileRemove(id: number) {
 <template>
   <VModal :open="modelValue" size="large" :title="title" actions="right" @close="onClose">
     <template #content>
-      <form id="submit-form" class="modal-form" @submit.prevent="onSubmit">
+      <form id="contract-form" class="modal-form" @submit.prevent="onSubmit">
         <div class="columns is-multiline">
           <div class="column is-12">
             <VField :label="$t('Contract_name')" required>
@@ -160,7 +160,7 @@ function onFileRemove(id: number) {
               <VControl>
                 <Multiselect v-model="contractObj.legal_entity_id" :attrs="{ id }" :searchable="true"
                   :options="applicantsList" :placeholder="$t('Select_applicant')" valueProp="id" label="name"
-                  :disabled="itemId" />
+                  :disabled="Boolean(itemId)" />
               </VControl>
             </VField>
             <p class="help has-text-danger">{{ errors.legal_entity_id[0] }}</p>
@@ -168,20 +168,9 @@ function onFileRemove(id: number) {
           <div class="column is-12">
             <VField v-slot="{ id }">
               <VControl>
-                <Multiselect v-model="contractObjStatementIds" :attrs="{ id }" :searchable="true"
+                <Multiselect v-model="contractObjStatementIds" :attrs="{ id }" :searchable="false"
                   :options="statementsList" :placeholder="$t('Select_statements')" valueProp="id" label="code"
-                  mode="multiple" :close-on-select="false" :disabled="!contractObj.legal_entity_id">
-                  <template v-slot:multiplelabel="{ values }">
-                    <div v-if="values.length > 6" class="multiselect-multiple-label">
-                      {{ values.length + ' ' + $t('item_selected') }}
-                    </div>
-                    <div v-else-if="values.length === statementsList.length" class="multiselect-multiple-label">
-                      {{ $t('All_selected') }}
-                    </div>
-                    <div v-else class="multiselect-multiple-label">
-                      <VTag class="mr-3" v-for="val in values" :label="val.code" />
-                    </div>
-                  </template>
+                  mode="tags" :close-on-select="false" :disabled="!contractObj.legal_entity_id">
                 </Multiselect>
               </VControl>
             </VField>
@@ -195,7 +184,7 @@ function onFileRemove(id: number) {
       </form>
     </template>
     <template #action="{ close }">
-      <VButton color="primary" outlined type="submit" form="submit-form">{{ $t('Save') }}</VButton>
+      <VButton color="primary" outlined type="submit" form="contract-form">{{ $t('Save') }}</VButton>
     </template>
   </VModal>
 </template>

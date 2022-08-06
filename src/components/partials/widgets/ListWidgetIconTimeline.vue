@@ -12,9 +12,6 @@ const props = withDefaults(
   }
 )
 
-function formatDate(date: string) {
-  return date ? moment(date).format('DD.MM.YYYY') : ''
-}
 </script>
 
 <template>
@@ -28,7 +25,7 @@ function formatDate(date: string) {
           {{ item.stage_number }}
         </div>
         <div class="timeline-content">
-          <span>{{ formatDate(item.date) }}</span>
+          <span>{{ item.date && $h.formatDate(item.date, 'DD.MM.YYYY') }}</span>
           <p class="heading">{{ item.stage }}</p>
           <p class="">{{ item.message }}</p>
         </div>
@@ -37,7 +34,7 @@ function formatDate(date: string) {
         <div class="timeline-marker has-text-dark" :class="[item.date && 'is-primary has-text-white']">
         </div>
         <div class="timeline-content">
-          <span>{{ formatDate(item.date) }}</span>
+          <span>{{ item.date && $h.formatDate(item.date, 'DD.MM.YYYY') }}</span>
           <p class="heading">{{ item.department }}</p>
           <p class="">{{ item.message }}</p>
         </div>

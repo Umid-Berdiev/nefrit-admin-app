@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { StatementDocumentData } from '/@src/utils/interfaces.js'
-import { Icon } from "@iconify/vue";
 
 export interface VCollapseProps {
   items: StatementDocumentData[]
@@ -70,7 +69,7 @@ const toggle = (key: number) => {
             <ul v-if="item.files.length">
               <li v-for="file in item.files">
                 <a :href="file.file" class="has-text-primary">
-                  <Icon icon="feather:file" height="1rem" />
+                  <VueIconify icon="feather:file" height="1rem" />
                   <span class="ml-3">{{ file.name }}</span>
                 </a>
               </li>

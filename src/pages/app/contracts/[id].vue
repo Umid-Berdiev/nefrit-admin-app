@@ -8,7 +8,6 @@ import { useRoute } from 'vue-router'
 import { fetchChronologies, fetchStatementDocuments } from '/@src/utils/api/statement'
 import { useViewWrapper } from '/@src/stores/viewWrapper'
 import { StatementDocumentData, StatementChronologyData } from '/@src/utils/interfaces.js'
-import StatementDocumentCollapse from '/@src/components/base/accordion/StatementDocumentCollapse.vue'
 import PaymentStatusTable from '/@src/components/base/table/PaymentStatusTable.vue'
 
 const { t, locale } = useI18n()

@@ -1,3 +1,4 @@
+import { useStorage } from '@vueuse/core'
 import axios, { AxiosInstance } from 'axios'
 import { useUserSession } from '/@src/stores/userSession'
 
@@ -18,6 +19,7 @@ export function createApi() {
       config.headers = {
         ...config.headers,
         Authorization: `Bearer ${userSession.token}`,
+        Language: useStorage('locale', 'uz').value,
       }
     }
 

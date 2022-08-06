@@ -331,9 +331,7 @@ export async function createStatementCertificate(
   }
 }
 
-/*
- * votes_api
- */
+// votes_api
 export async function fetchStatementVotes(
   id: number,
   locale: string

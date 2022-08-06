@@ -312,7 +312,13 @@
   "No_legal_file": "No legal file",
   "No_completed_file": "No completed file",
   "Statement_code": "Statement code",
+  "Contract_card": "Contract card",
   "File_upload_field_required": "File upload field required",
   "Change_password": "Change password",
-  "Employees": "Employees"
+  "Employees": "Employees",
+  "Add_file": "Add file",
+  "Verify_payment": "Verify payment",
+  "Verify_all": "Verify all",
+  "Welcome_back": "Welcome back",
+  "Reject_statement_status": "Reject statement status"
 }

@@ -123,7 +123,7 @@ function onRemoteFileRemove(id: number) {
 <template>
   <VModal :open="modelValue" size="large" :title="title" actions="right" @close="onClose">
     <template #content>
-      <form id="submit-form" class="modal-form" @submit.prevent="onSubmit">
+      <form id="conclusion-form" class="modal-form" @submit.prevent="onSubmit">
         <div class="columns is-multiline">
           <div class="column is-12">
             <VField :label="$t('conclusion_in_details')" required>
@@ -146,7 +146,7 @@ function onRemoteFileRemove(id: number) {
       </form>
     </template>
     <template #action="{ close }">
-      <VButton color="primary" outlined type="submit" form="submit-form">{{ $t('Save') }}</VButton>
+      <VButton color="primary" outlined type="submit" form="conclusion-form">{{ $t('Save') }}</VButton>
     </template>
   </VModal>
 </template>

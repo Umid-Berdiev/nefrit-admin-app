@@ -140,10 +140,6 @@ function confirmAction() {
   mainStore.$patch({ confirmModalState: true })
 }
 
-function formatDate(date: string) {
-  return date ? moment(date).format('HH:mm DD.MM.YYYY') : ''
-}
-
 async function fetchData(page: number = 1) {
   const res = await fetchList(page, locale.value)
   Object.assign(data, res)
@@ -238,7 +234,7 @@ async function fetchData(page: number = 1) {
               <span>{{ value?.name }}</span>
             </template>
             <template v-else-if="column.key === 'date'">
-              <span>{{ formatDate(value) }}</span>
+              <span>{{ $h.formatDate(value, 'HH:mm DD.MM.YYYY') }}</span>
             </template>
             <template v-else-if="column.key === 'status'">
               <StatusTag :status="value" />

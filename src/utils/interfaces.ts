@@ -135,11 +135,12 @@ export interface DepartmentNameData {
 
 export interface DepartmentData {
   id?: number
-  names: {
+  names?: {
     uz: string
     ru: string
     en: string
   }
+  name: string
 }
 
 export interface RoleData {
@@ -250,11 +251,11 @@ export interface StatementContractData {
 export interface EmployeeData {
   department_id: number | null
   email: string
-  name: string
   password: string
   role_id: number | null
   username: string
-  avatar?: string
+  name?: string
+  avatar?: File | string
   department?: DepartmentData
   firstname?: string
   id?: number
@@ -262,4 +263,5 @@ export interface EmployeeData {
   lastname?: string
   locale?: string
   role?: RoleData
+  password_confirmation?: string
 }

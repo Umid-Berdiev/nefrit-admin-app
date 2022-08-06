@@ -63,7 +63,7 @@ function onClose() {
 <template>
   <VModal :open="modelValue" size="large" :title="title" actions="right" @close="onClose()">
     <template #content>
-      <form class="modal-form" id="submit-form" @submit.prevent="onSubmit">
+      <form id="department-form" class="modal-form" @submit.prevent="onSubmit">
         <div class="columns is-multiline">
           <div class="column is-12">
             <VField :label="$t('Name_in_uzbek')" required>
@@ -86,7 +86,7 @@ function onClose() {
       </form>
     </template>
     <template #action="{ close }">
-      <VButton type="submit" color="primary" outlined form="submit-form">{{ $t('Save') }}</VButton>
+      <VButton type="submit" color="primary" outlined form="department-form">{{ $t('Save') }}</VButton>
     </template>
   </VModal>
 </template>
