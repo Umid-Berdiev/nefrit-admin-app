@@ -101,7 +101,7 @@ function clearErrors(event: Event) {
         <div class="columns is-multiline">
           <div class="column is-12">
             <VField :label="$t('Notice_message')" required>
-              <VControl :has-error="errors.message[0]">
+              <VControl>
                 <VInput name="message" v-model="message" @input="clearErrors" />
                 <p class="help has-text-danger">{{ errors.message[0] }}</p>
               </VControl>
@@ -109,7 +109,7 @@ function clearErrors(event: Event) {
           </div>
           <div class="column is-12">
             <VField :label="$t('Notice_details')" required>
-              <VControl :has-error="errors.text[0]">
+              <VControl>
                 <VTextarea name="text" :placeholder="$t('Add_text')" v-model="text" @input="clearErrors" />
                 <p class="help has-text-danger">{{ errors.text[0] }}</p>
               </VControl>

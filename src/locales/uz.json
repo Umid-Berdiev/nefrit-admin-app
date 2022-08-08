@@ -320,5 +320,9 @@
   "Verify_payment": "To'lovni tasdiqlash",
   "Verify_all": "Barchasini tasdiqlash",
   "Welcome_back": "Xush kelibsiz",
-  "Reject_statement_status": "Bekor qilish"
+  "Reject_statement_status": "Bekor qilish",
+  "Employees_List": "Xodimlar ro'yhati",
+  "Confirm_password": "Parolni tasdiqlang",
+  "Update_password": "Parolni yangilash",
+  "Success": "Muvoffaqiyatli"
 }

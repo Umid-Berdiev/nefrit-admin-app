@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, reactive } from 'vue'
+import { ref, computed, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useHead } from '@vueuse/head'
-import moment from 'moment'
 
 import type {
   VFlexTableWrapperSortFunction,
@@ -12,6 +11,7 @@ import type {
 import { useViewWrapper } from '/@src/stores/viewWrapper'
 import { useMainStore } from "/@src/stores";
 import { fetchList } from '/@src/utils/api/statement'
+import { useNotyf } from '/@src/composable/useNotyf'
 
 const { t, locale } = useI18n()
 
@@ -19,6 +19,7 @@ useHead({
   title: t('Statements') + ' - Nefrit',
 })
 
+const notif = useNotyf()
 const mainStore = useMainStore()
 const viewWrapper = useViewWrapper()
 viewWrapper.setPageTitle(t('Statements'))
@@ -144,6 +145,10 @@ async function fetchData(page: number = 1) {
   const res = await fetchList(page, locale.value)
   Object.assign(data, res)
 }
+
+function successNotify() {
+  notif.success(t('Success'))
+}
 </script>
 
 <template>
@@ -260,9 +265,9 @@ async function fetchData(page: number = 1) {
           :total-items="data.pagination.total" />
       </template>
     </VFlexTableWrapper>
-    <ConclusionFormModal v-model="isConclusionFormModalOpen" :parent-id="Number(selectedRowId)" @update:list="fetchData"
-      @close="selectedRowId = undefined" />
-    <NoticeFormModal v-model="isNoticeFormModalOpen" :parent-id="Number(selectedRowId)" @update:list="fetchData"
-      @close="selectedRowId = null" />
+    <ConclusionFormModal v-model="isConclusionFormModalOpen" :parent-id="Number(selectedRowId)"
+      @update:list="() => { fetchData(); successNotify(); }" @close="selectedRowId = undefined" />
+    <NoticeFormModal v-model="isNoticeFormModalOpen" :parent-id="Number(selectedRowId)"
+      @update:list="() => { fetchData(); successNotify(); }" @close="selectedRowId = undefined" />
   </div>
 </template>

@@ -178,7 +178,7 @@ function clearEmployeeData() {
             </VField>
           </div>
           <div class="column is-6">
-            <VField :label="$t('Firstname')" required>
+            <VField :label="$t('First_name')" required>
               <VControl>
                 <VInput type="text" v-model="employeeData.firstname" />
                 <p class="help has-text-danger">{{ errors.firstname[0] }}</p>
@@ -186,7 +186,7 @@ function clearEmployeeData() {
             </VField>
           </div>
           <div class="column is-6">
-            <VField :label="$t('Lastname')">
+            <VField :label="$t('Last_name')">
               <VControl>
                 <VInput type="text" v-model="employeeData.lastname" />
                 <p class="help has-text-danger">{{ errors.lastname[0] }}</p>

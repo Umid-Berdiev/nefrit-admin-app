@@ -1,14 +1,21 @@
 <script setup lang="ts">
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { logout } from '/@src/api';
 import { useNotyf } from '/@src/composable/useNotyf';
 import { useUserSession } from '/@src/stores/userSession';
 
-const { user, token, logoutUser, setLoading } = useUserSession()
+const { user, logoutUser, setLoading } = useUserSession()
 const notif = useNotyf()
 const router = useRouter()
+const openConfirmModal = ref(false)
 
-async function onLogout() {
+function onLogout() {
+  console.log('in onLogout func');
+
+  openConfirmModal.value = true
+}
+
+async function confirmAction() {
   try {
     setLoading(true)
     await logoutUser()
@@ -62,4 +69,15 @@ async function onLogout() {
 
     </template>
   </VDropdown>
+  <VModal :open="openConfirmModal" actions="center" :title="$t('Confirm_action')" :noclose="true"
+    @close="openConfirmModal = false" :cancel-label="$t('No')">
+    <template #content>
+      <VPlaceholderSection :title="$t('Are_you_sure')" />
+    </template>
+    <template #action>
+      <VButton type="button" class="is-justify-content-center" color="primary" outlined @click="confirmAction">
+        {{ $t('Yes') }}
+      </VButton>
+    </template>
+  </VModal>
 </template>

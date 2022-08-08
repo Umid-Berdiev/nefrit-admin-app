@@ -33,7 +33,8 @@ const columns = {
 </script>
 
 <template>
-  <VModal :open="modelValue" :title="$t('Drug_details')" actions="right" @close="emit('update:modelValue', false)">
+  <VModal :open="modelValue" :title="$t('Drug_details')" actions="right" @close="emit('update:modelValue', false)"
+    :cancel-label="$t('Close')">
     <template #content>
       <table class="table is-hoverable is-bordered is-fullwidth">
         <tbody>
@@ -51,7 +52,7 @@ const columns = {
           </tr>
           <tr>
             <td class="has-text-weight-bold">{{ columns.drugForm }}</td>
-            <td>{{ drugData?.structure }}</td>
+            <td>{{ drugData?.drug_figure }}</td>
           </tr>
           <tr>
             <td class="has-text-weight-bold">{{ columns.patentNumber }}</td>

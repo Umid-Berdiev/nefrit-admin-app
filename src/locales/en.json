@@ -320,5 +320,9 @@
   "Verify_payment": "Verify payment",
   "Verify_all": "Verify all",
   "Welcome_back": "Welcome back",
-  "Reject_statement_status": "Reject statement status"
+  "Reject_statement_status": "Reject statement status",
+  "Employees_List": "Employees list",
+  "Confirm_password": "Confirm password",
+  "Update_password": "Update password",
+  "Success": "Success"
 }

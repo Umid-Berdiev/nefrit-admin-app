@@ -220,6 +220,6 @@ async function onChangePassword(id: number) {
     <EmployeeFormModal v-model="isFormModalOpen" :employee-id="Number(selectedId)"
       @update:list="() => { fetchData(); selectedId = null; }" @close="selectedId = null" />
     <ConfirmActionModal @confirm-action="handleRemoveAction" />
-    <EmployeePasswordFormModal v-model="isPasswordModalOpen" @employee-id="Number(selectedId)" />
+    <EmployeePasswordFormModal v-model="isPasswordModalOpen" :employee-id="Number(selectedId)" />
   </div>
 </template>

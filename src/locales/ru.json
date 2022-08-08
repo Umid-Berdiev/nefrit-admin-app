@@ -313,5 +313,16 @@
   "No_completed_file": "Нет конечнее файла",
   "Statement_code": "Номер заявлений",
   "Contract_card": "Карточка контракт",
-  "File_upload_field_required": "Поля файла обязательная"
+  "File_upload_field_required": "Поля файла обязательная",
+  "Change_password": "Изменить пароль",
+  "Employees": "Сотрудники",
+  "Add_file": "Добавить файл",
+  "Verify_payment": "Подтвердить платеж",
+  "Verify_all": "Подтвердить все",
+  "Welcome_back": "С возвращением",
+  "Reject_statement_status": "Отклонить статус заявления",
+  "Employees_List": "Список сотрудников",
+  "Confirm_password": "Подтвердите пароль",
+  "Update_password": "Обновить пароль",
+  "Success": "Успешно"
 }

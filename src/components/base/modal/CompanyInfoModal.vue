@@ -35,7 +35,8 @@ const columns = {
 </script>
 
 <template>
-  <VModal :open="modelValue" :title="$t('Company_info')" actions="right" @close="emit('update:modelValue', false)">
+  <VModal :open="modelValue" :title="$t('Company_info')" actions="right" @close="emit('update:modelValue', false)"
+    :cancel-label="$t('Close')">
     <template #content>
       <table class="table is-hoverable is-fullwidth is-bordered">
         <tbody>
