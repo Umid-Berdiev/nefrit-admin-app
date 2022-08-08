@@ -6,7 +6,7 @@ const { locale } = useI18n()
 
 export async function loginUser(): Promise<{ user: UserData; token: string }> {
   const { data } = await api({
-    url: `/api/login`,
+    url: `/api/admin/login`,
     headers: {
       Language: locale.value,
     },

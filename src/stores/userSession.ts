@@ -30,7 +30,7 @@ export const useUserSession = defineStore('userSession', () => {
   async function loginUser(payload: any) {
     try {
       const { data } = await api({
-        url: `/api/login`,
+        url: `/api/admin/login`,
         method: 'post',
         headers: {
           Language: 'uz',

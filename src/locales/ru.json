@@ -107,7 +107,7 @@
   "Type_email": "Введите адрес электронной почты",
   "Select_department": "Выберите отдел",
   "Select_role": "Выберите роль",
-  "Stage": "Этапы",
+  "Stage": "Этап",
   "Feedback": "Отзывы",
   "feedback_in_details": "Отзывы в деталях",
   "Add_feedback": "Добавить отзыв",
@@ -324,5 +324,7 @@
   "Employees_List": "Список сотрудников",
   "Confirm_password": "Подтвердите пароль",
   "Update_password": "Обновить пароль",
-  "Success": "Успешно"
+  "Success": "Успешно",
+  "Stages": "Этапы",
+  "Select_stages": "Выберите этапы"
 }

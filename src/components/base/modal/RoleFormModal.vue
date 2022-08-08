@@ -5,7 +5,7 @@ import { create, updateById, fetchById } from '/@src/utils/api/role';
 
 const props = defineProps({
   modelValue: Boolean,
-  item: {
+  roleId: {
     type: Number,
     default: null
   }
@@ -18,7 +18,8 @@ const emits = defineEmits<{
 
 const { t } = useI18n()
 const title = ref(t('Add'))
-const names = reactive({
+const isLoading = ref(false)
+const name = reactive({
   uz: '',
   ru: '',
   en: ''
@@ -28,28 +29,22 @@ const description = reactive({
   ru: '',
   en: ''
 })
+const errors = reactive({
+  "name.uz": [],
+  "name.en": [],
+  "name.ru": [],
+  "description.uz": [],
+  "description.en": [],
+  "description.ru": []
+})
 
 watch(
-  () => props.item,
+  () => props.roleId,
   async (newVal) => {
-    // const isEmptyObj = Object.values(newVal).every(x => x === null || x === '');
-
-    if (!newVal) {
-      title.value = t('Add')
-      Object.assign(names, {
-        uz: '',
-        ru: '',
-        en: ''
-      })
-      Object.assign(description, {
-        uz: '',
-        ru: '',
-        en: ''
-      })
-    } else {
+    if (newVal) {
       title.value = t('Edit')
-      const res = await fetchById(Number(props.item))
-      Object.assign(names, res.name)
+      const res = await fetchById(Number(props.roleId))
+      Object.assign(name, res.name)
       Object.assign(description, res.description)
     }
   },
@@ -58,16 +53,27 @@ watch(
 
 async function onSubmit(event: Event) {
   try {
-    props.item ? await updateById(props.item, { name: names, description }) : await create({ name: names, description })
+    isLoading.value = true
+    props.roleId ? await updateById(props.roleId, { name, description }) : await create({ name, description })
     emits('update:list')
     onClose()
-  } catch (error) {
-    throw error
+  } catch (error: any) {
+    Object.assign(errors, error.response?.data?.errors)
+    // throw error
+  } finally {
+    isLoading.value = false
   }
 }
 
 function onClose() {
-  Object.assign(names, {
+  title.value = t('Add')
+  clearFields()
+  clearErrors()
+  emits('update:modelValue', false)
+}
+
+function clearFields() {
+  Object.assign(name, {
     uz: '',
     ru: '',
     en: ''
@@ -77,7 +83,17 @@ function onClose() {
     ru: '',
     en: ''
   })
-  emits('update:modelValue', false)
+}
+
+function clearErrors() {
+  Object.assign(errors, {
+    "name.uz": [],
+    "name.en": [],
+    "name.ru": [],
+    "description.uz": [],
+    "description.en": [],
+    "description.ru": []
+  })
 }
 </script>
 
@@ -95,13 +111,14 @@ function onClose() {
               <div class="column is-12">
                 <VField :label="$t('Name_uz')" required>
                   <VControl>
-                    <VInput name="name_uz" type="text" :placeholder="t('Type_name_uz')" v-model="names.uz" required />
+                    <VInput name="name_uz" type="text" :placeholder="t('Type_name_uz')" v-model="name.uz" />
+                    <p class="help has-text-danger">{{ errors["name.uz"][0] }}</p>
                   </VControl>
                 </VField>
                 <VField :label="$t('Description_uz')" required>
                   <VControl>
-                    <VTextarea name="description_uz" :placeholder="t('Add_description_uz')" v-model="description.uz"
-                      required />
+                    <VTextarea name="description_uz" :placeholder="t('Add_description_uz')" v-model="description.uz" />
+                    <p class="help has-text-danger">{{ errors["description.uz"][0] }}</p>
                   </VControl>
                 </VField>
               </div>
@@ -110,7 +127,7 @@ function onClose() {
               <div class="column is-12">
                 <VField :label="$t('Name_ru')">
                   <VControl>
-                    <VInput name="name_ru" type="text" :placeholder="t('Type_name_ru')" v-model="names.ru" />
+                    <VInput name="name_ru" type="text" :placeholder="t('Type_name_ru')" v-model="name.ru" />
                   </VControl>
                 </VField>
                 <VField :label="$t('Description_ru')">
@@ -124,7 +141,7 @@ function onClose() {
               <div class="column is-12">
                 <VField :label="$t('Name_en')">
                   <VControl>
-                    <VInput name="name_en" type="text" :placeholder="t('Type_name_en')" v-model="names.en" />
+                    <VInput name="name_en" type="text" :placeholder="t('Type_name_en')" v-model="name.en" />
                   </VControl>
                 </VField>
                 <VField :label="$t('Description_en')">
@@ -139,7 +156,9 @@ function onClose() {
       </form>
     </template>
     <template #action="{ close }">
-      <VButton type="submit" color="primary" outlined form="role-form">{{ $t('Save') }}</VButton>
+      <VButton :loading="isLoading" color="primary" outlined type="submit" form="role-form" :disabled="isLoading">
+        {{ $t('Save') }}
+      </VButton>
     </template>
   </VModal>
 </template>

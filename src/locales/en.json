@@ -324,5 +324,7 @@
   "Employees_List": "Employees list",
   "Confirm_password": "Confirm password",
   "Update_password": "Update password",
-  "Success": "Success"
+  "Success": "Success",
+  "Stages": "Stages",
+  "Select_stages": "Select stages"
 }

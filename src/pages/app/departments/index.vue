@@ -11,6 +11,7 @@ import type {
 import { useViewWrapper } from '/@src/stores/viewWrapper'
 import { useMainStore } from '/@src/stores'
 import { fetchList, removeById } from '/@src/utils/api/department';
+import { useNotyf } from '/@src/composable/useNotyf'
 
 const { t, locale } = useI18n()
 
@@ -18,6 +19,7 @@ useHead({
   title: t('Departments') + ' - Nefrit',
 })
 
+const notif = useNotyf()
 const mainStore = useMainStore()
 const viewWrapper = useViewWrapper()
 viewWrapper.setPageTitle(t('Departments_List'))
@@ -33,7 +35,7 @@ const data = reactive({
 const isFormModalOpen = ref(false)
 const selectedRowIds = ref<number[]>([])
 const isAllSelected = computed(() => data.result.length === selectedRowIds.value.length)
-const selectedId = ref()
+const selectedId = ref<number>()
 const currentPage = computed({
   get: () => {
     return data.pagination.current_page
@@ -129,12 +131,17 @@ async function onRemove(id: number) {
 
 async function handleRemoveAction() {
   await removeById(selectedId.value)
-  fetchData()
+  await fetchData()
+  successNotify()
 }
 
 async function fetchData(page: number = 1) {
   const res = await fetchList(page, locale.value)
   Object.assign(data, res)
+}
+
+function successNotify() {
+  notif.success(t('Success'))
 }
 </script>
 
@@ -192,7 +199,8 @@ async function fetchData(page: number = 1) {
           :total-items="data.pagination.total" />
       </template>
     </VFlexTableWrapper>
-    <DepartmentFormModal v-model="isFormModalOpen" :item="selectedId" @update:list="fetchData" />
+    <DepartmentFormModal v-model="isFormModalOpen" :department-id="selectedId"
+      @update:list="() => { fetchData(); successNotify(); selectedId = undefined; }" @close="selectedId = undefined" />
     <ConfirmActionModal @confirm-action="handleRemoveAction" />
   </div>
 </template>

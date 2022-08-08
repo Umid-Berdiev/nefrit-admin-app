@@ -135,12 +135,14 @@ export interface DepartmentNameData {
 
 export interface DepartmentData {
   id?: number
-  names?: {
-    uz: string
-    ru: string
-    en: string
-  }
-  name: string
+  name?:
+    | {
+        uz: string
+        ru: string
+        en: string
+      }
+    | string
+  stages: StageData[]
 }
 
 export interface RoleData {

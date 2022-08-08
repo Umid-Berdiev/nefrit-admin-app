@@ -324,5 +324,7 @@
   "Employees_List": "Xodimlar ro'yhati",
   "Confirm_password": "Parolni tasdiqlang",
   "Update_password": "Parolni yangilash",
-  "Success": "Muvoffaqiyatli"
+  "Success": "Muvoffaqiyatli",
+  "Stages": "Bosqichlar",
+  "Select_stages": "Bosqichlarni tanlang"
 }

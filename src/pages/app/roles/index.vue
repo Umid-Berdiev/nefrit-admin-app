@@ -11,7 +11,9 @@ import { useViewWrapper } from '/@src/stores/viewWrapper'
 import { useMainStore } from '/@src/stores'
 import { useHead } from '@vueuse/head'
 import { fetchList, removeById, searchList, sortList } from '/@src/utils/api/role';
+import { useNotyf } from '/@src/composable/useNotyf'
 
+const notif = useNotyf()
 const route = useRoute()
 const router = useRouter()
 const { t, locale } = useI18n()
@@ -27,7 +29,7 @@ const data = reactive({
 const isFormModalOpen = ref(false)
 const selectedRowIds = ref<number[]>([])
 const isAllSelected = computed(() => data.result.length === selectedRowIds.value.length && selectedRowIds.value.length !== 0)
-const selectedId = ref<number | null>(null)
+const selectedId = ref<number>()
 const searchInput = computed({
   get(): string {
     return ''
@@ -40,22 +42,9 @@ const defaultSort = ref('')
 const sort = computed({
   get: () => {
     let sortQuery: string = defaultSort.value
-
-    // read "sort" from the query params
-    // if (Array.isArray(route?.query?.sort)) {
-    //   sortQuery = route.query.sort?.[0] ?? defaultSort
-    // } else {
-    //   sortQuery = route.query.sort ?? defaultSort
-    // }
-
     return sortQuery
   },
   async set(value) {
-    // router.push({
-    //   query: {
-    //     sort: value === defaultSort ? undefined : value,
-    //   },
-    // })
     defaultSort.value = value ?? ''
     console.log({ value });
     await onSort(value)
@@ -135,7 +124,8 @@ function gotoPermissions(id: number) {
 
 async function handleRemoveAction() {
   await removeById(selectedId.value)
-  fetchData()
+  await fetchData()
+  successNotify()
 }
 
 async function fetchData(page = 1) {
@@ -153,16 +143,8 @@ async function onSort(val: string) {
   Object.assign(data, res)
 }
 
-async function filter({ searchTerm, row }) {
-  if (!searchTerm) {
-    return true
-  }
-
-  // search either in the name or the bio
-  return (
-    row.name.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase()) ||
-    row.bio.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase())
-  )
+function successNotify() {
+  notif.success(t('Success'))
 }
 </script>
 
@@ -221,7 +203,8 @@ async function filter({ searchTerm, row }) {
           :item-per-page="data.pagination.per_page" :total-items="data.pagination.total" />
       </template>
     </VFlexTableWrapper>
-    <RoleFormModal v-model="isFormModalOpen" :item="selectedId" @update:list="fetchData" @close="selectedId = null" />
+    <RoleFormModal v-model="isFormModalOpen" :role-id="selectedId"
+      @update:list="() => { fetchData(); successNotify(); selectedId = undefined; }" @close="selectedId = undefined" />
     <ConfirmActionModal @confirm-action="handleRemoveAction" />
   </div>
 </template>

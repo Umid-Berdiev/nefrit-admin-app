@@ -1,3 +1,4 @@
+import { StageData } from '../../interfaces'
 import { useApi } from '/@src/composable/useApi'
 
 const api = useApi()
@@ -71,6 +72,18 @@ export async function removeById(id: number) {
       url: `/api/admin/department/${id}`,
       method: 'DELETE',
     })
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function fetchStages(): Promise<StageData[]> {
+  try {
+    const { data } = await api({
+      url: `/api/admin/stage`,
+    })
+
+    return data.data
   } catch (error) {
     throw error
   }
