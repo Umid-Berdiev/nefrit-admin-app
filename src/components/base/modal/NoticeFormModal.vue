@@ -28,6 +28,7 @@ const emits = defineEmits<{
 
 const { t } = useI18n()
 let title = ref(t('Add'))
+const isLoading = ref(false)
 const message = ref('')
 const text = ref('')
 const statusId = ref()
@@ -59,6 +60,7 @@ watch(
 
 async function onSubmit(event: Event) {
   try {
+    isLoading.value = true
     const noticeData: NoticeData = {
       message: message.value,
       text: text.value,
@@ -74,6 +76,8 @@ async function onSubmit(event: Event) {
   } catch (error: any) {
     Object.assign(errors, error.response?.data?.errors)
     // throw error
+  } finally {
+    isLoading.value = false
   }
 }
 
@@ -124,7 +128,9 @@ function clearErrors(event: Event) {
       </form>
     </template>
     <template #action="{ close }">
-      <VButton color="primary" outlined type="submit" form="notice-form">{{ $t('Save') }}</VButton>
+      <VButton :loading="isLoading" color="primary" outlined type="submit" form="notice-form" :disabled="isLoading">
+        {{ $t('Save') }}
+      </VButton>
     </template>
   </VModal>
 </template>

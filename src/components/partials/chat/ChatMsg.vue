@@ -19,7 +19,7 @@ const props = defineProps<{
       </div>
       <div class="msg">
         <div class="msg-inner">
-          <p>{{ message.message }}</p>
+          <p style="overflow-wrap: break-word;">{{ message.message }}</p>
         </div>
 
         <time>

@@ -28,6 +28,7 @@ const emits = defineEmits<{
 
 const { t } = useI18n()
 let title = ref(t('Add'))
+const isLoading = ref(false)
 const text = ref('')
 const statusId = ref()
 const files = ref<File[]>([]);
@@ -55,6 +56,7 @@ watch(
 
 async function onSubmit(event: Event) {
   try {
+    isLoading.value = true
     const conclusionData: ConclusionData = {
       text: text.value,
       application_id: props.parentId,
@@ -82,6 +84,8 @@ async function onSubmit(event: Event) {
   } catch (error: any) {
     Object.assign(errors, error.response?.data?.errors)
     // throw error
+  } finally {
+    isLoading.value = false
   }
 }
 
@@ -146,7 +150,9 @@ function onRemoteFileRemove(id: number) {
       </form>
     </template>
     <template #action="{ close }">
-      <VButton color="primary" outlined type="submit" form="conclusion-form">{{ $t('Save') }}</VButton>
+      <VButton :loading="isLoading" color="primary" outlined type="submit" form="conclusion-form" :disabled="isLoading">
+        {{ $t('Save') }}
+      </VButton>
     </template>
   </VModal>
 </template>
