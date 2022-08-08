@@ -44,14 +44,11 @@ export async function verifyAllPayments(contractId: number) {
   }
 }
 
-export async function fetchNotVerifiedStatements(contractId: number, locale: string) {
+export async function fetchNotVerifiedStatements(contractId: number) {
   try {
     const { data } = await api({
       url: `/api/admin/appcontract/${contractId}/application/not-verified`,
       method: 'GET',
-      headers: {
-        Language: locale,
-      },
     })
 
     return data.data

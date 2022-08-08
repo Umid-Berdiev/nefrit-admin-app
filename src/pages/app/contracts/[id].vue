@@ -30,8 +30,8 @@ useHead({
 })
 
 onMounted(async () => {
-  const res = await fetchChronologies(Number(currentId), locale.value)
-  const res2 = await fetchStatementDocuments(Number(currentId), locale.value)
+  const res = await fetchChronologies(Number(currentId))
+  const res2 = await fetchStatementDocuments(Number(currentId))
   chronologyData.value = res
   docsData.value = res2
   docIndexList.value = res2.map((_, index) => index)

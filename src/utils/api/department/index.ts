@@ -15,13 +15,10 @@ export async function fetchDepartments() {
   }
 }
 
-export async function fetchList(page: number, locale: string) {
+export async function fetchList(page: number) {
   try {
     const { data } = await api({
       url: `/api/admin/department?page=${page}`,
-      headers: {
-        Language: locale,
-      },
     })
 
     return data.data

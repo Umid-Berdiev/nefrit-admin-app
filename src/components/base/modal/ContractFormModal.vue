@@ -56,7 +56,7 @@ watch(
   async (newVal, oldVal) => {
     if (newVal) {
       title.value = t('Edit')
-      const res = await fetchStatementContractById(Number(props.itemId), locale.value)
+      const res = await fetchStatementContractById(Number(props.itemId))
       Object.assign(contractObj, res)
       contractObjStatementIds.value = res.applications.map((item: StatementData) => item.id)
     }
@@ -69,7 +69,7 @@ watch(
   async (newVal, oldVal) => {
     contractObj.applications = []
     if (newVal) {
-      const res = await fetchApplicantStatementsList(Number(newVal), locale.value)
+      const res = await fetchApplicantStatementsList(Number(newVal))
       statementsList.value = res
     }
   },

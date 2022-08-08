@@ -4,13 +4,10 @@ import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useHead } from '@vueuse/head'
 
-import type {
-  VFlexTableWrapperSortFunction,
-  VFlexTableWrapperFilterFunction,
-} from '/@src/components/base/table/VFlexTableWrapper.vue'
 import { useViewWrapper } from '/@src/stores/viewWrapper'
-import { blockApplicant, fetchList } from '/@src/utils/api/applicant';
+import { fetchList } from '/@src/utils/api/applicant';
 import { useMainStore } from '/@src/stores'
+import { UserFilterForm } from '/@src/utils/interfaces.js'
 
 const { t, locale } = useI18n()
 
@@ -49,30 +46,6 @@ const currentPage = computed({
   }
 })
 
-// this is a sample for custom sort function
-const locationSorter: VFlexTableWrapperSortFunction<User> = ({ order, a, b }) => {
-  if (order === 'asc') {
-    return a.location.localeCompare(b.location)
-  } else if (order === 'desc') {
-    return b.location.localeCompare(a.location)
-  }
-
-  return 0
-}
-
-// this is a sample for custom filter function
-const userFilter: VFlexTableWrapperFilterFunction<User> = ({ searchTerm, row }) => {
-  if (!searchTerm) {
-    return true
-  }
-
-  // search either in the name or the bio
-  return (
-    row.name.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase()) ||
-    row.bio.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase())
-  )
-}
-
 const columns = {
   orderNumber: {
     // label: '#',
@@ -87,7 +60,7 @@ const columns = {
   },
   boss_name: {
     label: t('Boss_name'),
-    grow: true,
+    // grow: true,
     searchable: true,
   },
   phone: {
@@ -137,7 +110,7 @@ function onView(rowId: string | number) {
 }
 
 async function fetchData(page: number = 1) {
-  const res = await fetchList(page, locale.value)
+  const res = await fetchList(page)
   Object.assign(data, res)
 }
 
@@ -151,10 +124,6 @@ async function onBlock(id: number) {
   mainStore.$patch({ confirmModalState: true })
 }
 
-async function handleBlockAction() {
-  await blockApplicant(selectedId.value)
-  fetchData()
-}
 </script>
 
 <template>
@@ -228,6 +197,7 @@ async function handleBlockAction() {
         <VFlexTable rounded>
           <template #header-column="{ column }">
             <span v-if="column.key === 'orderNumber'" class="is-flex-grow-0" v-text="'#'" />
+            <!-- <span v-if="column.key === 'name'" style="overflow-wrap: break-word;" v-text="column.label" /> -->
           </template>
           <template #body>
             <!-- This is the empty state -->
@@ -239,6 +209,9 @@ async function handleBlockAction() {
 
           <!-- Custom "name" cell content -->
           <template #body-cell="{ row, column, value, index }">
+            <template v-if="column.key === 'name'">
+              <p style="overflow-wrap: break-word;">{{ value }}</p>
+            </template>
             <template v-if="column.key === 'status' && value">
               <StatusTag :status="value" />
             </template>

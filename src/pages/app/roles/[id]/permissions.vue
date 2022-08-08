@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, reactive } from 'vue'
 import { useRoute } from 'vue-router'
 import { useHead } from '@vueuse/head'
 
 // we import our useApi helper
 import { useViewWrapper } from '/@src/stores/viewWrapper'
 import { useI18n } from 'vue-i18n'
+import { fetchPermissionByRoleId } from "/@src/utils/api/role";
 
 const { t } = useI18n()
 const viewWrapper = useViewWrapper()
@@ -36,13 +37,19 @@ const permissionTabs = ref([
     value: 'statements',
   },
 ]);
+const permissionsList = reactive({})
 
 // here we setup our page meta with our permissions data
 useHead({
-  title: computed(() => t('Role_permissions')),
+  title: computed(() => t('Role_permissions'))
 })
 
+await fetchPermissions()
 
+async function fetchPermissions() {
+  const res = await fetchPermissionByRoleId(Number(currentId))
+  Object.assign(permissionsList, res)
+}
 </script>
 
 <template>

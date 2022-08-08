@@ -3,16 +3,10 @@ import { useApi } from '/@src/composable/useApi'
 
 const api = useApi()
 
-export async function fetchList(
-  page: number,
-  locale: string
-): Promise<{ data: ApplicantData[] }> {
+export async function fetchList(page: number): Promise<{ data: ApplicantData[] }> {
   try {
     const { data } = await api({
       url: `/api/admin/legal-entity?page=${page}`,
-      headers: {
-        Language: locale,
-      },
     })
 
     return data.data
@@ -21,13 +15,10 @@ export async function fetchList(
   }
 }
 
-export async function fetchApplicants(locale: string): Promise<ApplicantData[]> {
+export async function fetchApplicants(): Promise<ApplicantData[]> {
   try {
     const { data } = await api({
       url: `/api/admin/legal/entities`,
-      headers: {
-        Language: locale,
-      },
     })
 
     return data.data
@@ -36,13 +27,10 @@ export async function fetchApplicants(locale: string): Promise<ApplicantData[]> 
   }
 }
 
-export async function fetchApplicantStatuses(locale: string) {
+export async function fetchApplicantStatuses() {
   try {
     const { data } = await api({
       url: `/api/admin/legal-entity/status`,
-      headers: {
-        Language: locale,
-      },
     })
 
     return data.data
@@ -51,13 +39,10 @@ export async function fetchApplicantStatuses(locale: string) {
   }
 }
 
-export async function fetchApplicantStatementsList(id: number, locale: string) {
+export async function fetchApplicantStatementsList(id: number) {
   try {
     const { data } = await api({
       url: `/api/admin/legal/entities/${id}/applications`,
-      headers: {
-        Language: locale,
-      },
     })
 
     return data.data

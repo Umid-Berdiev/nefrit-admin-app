@@ -15,16 +15,10 @@ import { useApi } from '/@src/composable/useApi'
 
 const api = useApi()
 
-export async function fetchList(
-  page: number,
-  locale: string
-): Promise<{ data: StatementData[] }> {
+export async function fetchList(page: number): Promise<{ data: StatementData[] }> {
   try {
     const { data } = await api({
       url: `/api/admin/application?page=${page}`,
-      headers: {
-        Language: locale,
-      },
     })
 
     return data.data
@@ -33,13 +27,10 @@ export async function fetchList(
   }
 }
 
-export async function fetchById(id: number, locale: string): Promise<StatementData> {
+export async function fetchById(id: number): Promise<StatementData> {
   try {
     const { data } = await api({
       url: `/api/admin/application/${id}`,
-      headers: {
-        Language: locale,
-      },
     })
 
     return data.data
@@ -52,7 +43,33 @@ export async function fetchById(id: number, locale: string): Promise<StatementDa
 export async function fetchStages(id: number) {
   try {
     const { data } = await api({
-      url: `/api/admin/application/${id}/stage`,
+      url: `/api/admin/stage/${id}/accessable`,
+    })
+
+    return data.data
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function canChangeStage(statementId: number) {
+  try {
+    const { data } = await api({
+      url: `/api/admin/application/${statementId}/check/stage`,
+    })
+
+    return data.data
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function updateStatementStage(statement_id: number, payload: any) {
+  try {
+    const { data } = await api({
+      url: `/api/admin/application/${statement_id}/stage`,
+      method: 'PUT',
+      data: payload,
     })
 
     return data.data
@@ -62,16 +79,10 @@ export async function fetchStages(id: number) {
 }
 
 // chronologies api
-export async function fetchChronologies(
-  id: number,
-  locale: string
-): Promise<StatementChronologyData[]> {
+export async function fetchChronologies(id: number): Promise<StatementChronologyData[]> {
   try {
     const { data } = await api({
       url: `/api/admin/application/${id}/chronologies`,
-      headers: {
-        Language: locale,
-      },
     })
 
     return data.data
@@ -333,15 +344,11 @@ export async function createStatementCertificate(
 
 // votes_api
 export async function fetchStatementVotes(
-  id: number,
-  locale: string
+  id: number
 ): Promise<{ user: UserData; vote: StatementVoteData; is_me: boolean }[]> {
   try {
     const { data } = await api({
       url: `/api/admin/application/${id}/vote`,
-      headers: {
-        Language: locale,
-      },
     })
 
     return data.data
@@ -412,16 +419,12 @@ export async function createStatementVote(
 
 // statement docs api
 export async function fetchStatementDocuments(
-  id: number,
-  locale: string
+  id: number
 ): Promise<StatementDocumentData[]> {
   try {
     const { data } = await api({
       // url: `/api/admin/document?application_id=${id}`,
       url: `/api/admin/application/${id}/document`,
-      headers: {
-        Language: locale,
-      },
     })
 
     return data.data
@@ -445,14 +448,11 @@ export async function fetchStatementDocumentById(
 }
 
 // statement chat api
-export async function fetchStatementChatMessages(id: number, locale: string) {
+export async function fetchStatementChatMessages(id: number) {
   try {
     const { data } = await api({
       // url: `/api/admin/document?application_id=${id}`,
       url: `/api/admin/chat?application_id=${id}`,
-      headers: {
-        Language: locale,
-      },
     })
 
     return data.data
@@ -478,14 +478,11 @@ export async function createChatMessage(
 }
 
 // statement contracts api
-export async function fetchStatementContracts(page: number, locale: string) {
+export async function fetchStatementContracts(page: number) {
   try {
     const { data } = await api({
       // url: `/api/admin/document?application_id=${id}`,
       url: `/api/admin/appcontract?page=${page}`,
-      headers: {
-        Language: locale,
-      },
     })
 
     return data.data
@@ -494,13 +491,10 @@ export async function fetchStatementContracts(page: number, locale: string) {
   }
 }
 
-export async function fetchStatementContractById(id: number, locale: string) {
+export async function fetchStatementContractById(id: number) {
   try {
     const { data } = await api({
       url: `/api/admin/appcontract/${id}`,
-      headers: {
-        Language: locale,
-      },
     })
 
     return data.data
@@ -509,13 +503,10 @@ export async function fetchStatementContractById(id: number, locale: string) {
   }
 }
 
-export async function fetchContractPayments(id: number, locale: string) {
+export async function fetchContractPayments(id: number) {
   try {
     const { data } = await api({
       url: `/api/admin/appcontract/${id}/payments`,
-      headers: {
-        Language: locale,
-      },
     })
 
     return data.data
@@ -555,14 +546,11 @@ export async function updateContractById(
   }
 }
 
-export async function removeContractById(id: number, locale: string) {
+export async function removeContractById(id: number) {
   try {
     const { data } = await api({
       url: `/api/admin/appcontract/${id}`,
       method: 'DELETE',
-      headers: {
-        Language: locale,
-      },
     })
 
     return data.data

@@ -34,7 +34,7 @@ watch(
 )
 
 async function fetchChatMessages() {
-  const res = await fetchStatementChatMessages(Number(currentId), locale.value)
+  const res = await fetchStatementChatMessages(Number(currentId))
   Object.assign(messages, res)
 }
 

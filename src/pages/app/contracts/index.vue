@@ -93,7 +93,7 @@ async function onRemove(id: number) {
 
 async function handleRemoveAction() {
   try {
-    await removeContractById(Number(selectedId.value), locale.value)
+    await removeContractById(Number(selectedId.value))
     fetchData()
     notif.success(t('Removed_successfully'))
   } catch (error: any) {
@@ -102,7 +102,7 @@ async function handleRemoveAction() {
 }
 
 async function fetchData(page = 1) {
-  const res = await fetchStatementContracts(page, locale.value)
+  const res = await fetchStatementContracts(page)
   Object.assign(data, res)
 }
 

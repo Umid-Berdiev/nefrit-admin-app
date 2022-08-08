@@ -23,12 +23,12 @@ function onGivingFeedback(val: string | number) {
 }
 
 async function fetchList() {
-  const res = await fetchStatementVotes(Number(currentStatementId), locale.value)
+  const res = await fetchStatementVotes(Number(currentStatementId))
   voteList.value = res
 }
 
 async function fetchStatistics() {
-  const res = await fetchStatementVoteStatistics(Number(currentStatementId), locale.value)
+  const res = await fetchStatementVoteStatistics(Number(currentStatementId))
   voteStatistics.value = res
 }
 

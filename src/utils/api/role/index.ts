@@ -14,13 +14,10 @@ export async function fetchRoles() {
   }
 }
 
-export async function fetchList(page: number, locale: string) {
+export async function fetchList(page: number) {
   try {
     const { data } = await api({
       url: `/api/admin/role?page=${page}`,
-      headers: {
-        Language: locale,
-      },
     })
 
     return data.data
@@ -29,13 +26,10 @@ export async function fetchList(page: number, locale: string) {
   }
 }
 
-export async function searchList(search: string, locale: string) {
+export async function searchList(search: string) {
   try {
     const { data } = await api({
       url: `/api/admin/role?search=${search}`,
-      headers: {
-        Language: locale,
-      },
     })
 
     return data.data
@@ -44,13 +38,10 @@ export async function searchList(search: string, locale: string) {
   }
 }
 
-export async function sortList(sort: string, locale: string) {
+export async function sortList(sort: string) {
   try {
     const { data } = await api({
       url: `/api/admin/role?sort=${sort}`,
-      headers: {
-        Language: locale,
-      },
     })
 
     return data.data
@@ -113,6 +104,18 @@ export async function removeMulti(ids: number[]) {
       method: 'DELETE',
       data: { ids },
     })
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function fetchPermissionByRoleId(roleId: number) {
+  try {
+    const { data } = await api({
+      url: `/api/admin/permission/role/${roleId}`,
+    })
+
+    return data.data
   } catch (error) {
     throw error
   }

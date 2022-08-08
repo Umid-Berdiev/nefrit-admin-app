@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { StatementDocumentData } from '/@src/utils/interfaces.js'
+import { onMounted, ref } from 'vue'
+import { useRoute } from 'vue-router'
+import { fetchStatementDocuments } from '/@src/utils/api/statement'
+import { StatementDocumentData } from '/@src/utils/interfaces'
 
 export interface VCollapseProps {
   items: StatementDocumentData[]
@@ -10,34 +12,21 @@ export interface VCollapseProps {
   exclusive?: boolean
 }
 
-const props = withDefaults(defineProps<VCollapseProps>(), {
-  items: () => [],
-  itemOpen: undefined,
-  openItems: () => [],
-})
-
-const internalItemOpen = ref<number | undefined>(props.itemOpen)
-const internalOpenItems = ref(props.openItems)
-// const toggle = (key: number) => {
-//   if (internalItemOpen.value === key) {
-//     internalItemOpen.value = undefined
-//     return
-//   }
-
-//   internalItemOpen.value = key
-// }
+const route = useRoute()
+const currentId = (route.params?.id as string) ?? null
+const internalOpenItems = ref<number[]>([])
 const toggle = (key: number) => {
   const wasOpen = internalOpenItems.value.includes(key)
 
-  if (props.exclusive) {
-    internalOpenItems.value.splice(0, internalOpenItems.value.length)
+  // if (props.exclusive) {
+  //   internalOpenItems.value.splice(0, internalOpenItems.value.length)
 
-    if (!wasOpen) {
-      internalOpenItems.value.push(key)
-    }
+  //   if (!wasOpen) {
+  //     internalOpenItems.value.push(key)
+  //   }
 
-    return
-  }
+  //   return
+  // }
 
   if (wasOpen) {
     internalOpenItems.value.splice(internalOpenItems.value.indexOf(key), 1)
@@ -45,11 +34,18 @@ const toggle = (key: number) => {
     internalOpenItems.value.push(key)
   }
 }
+const docsData = ref<StatementDocumentData[]>()
+
+onMounted(async () => {
+  const res2 = await fetchStatementDocuments(Number(currentId))
+  docsData.value = res2
+  internalOpenItems.value = res2.map((_, index) => index)
+})
 </script>
 
 <template>
-  <details v-for="(item, key) in items" :key="key" :class="[withChevron && 'has-chevron', !withChevron && 'has-plus']"
-    :open="internalOpenItems?.includes(key) ?? undefined" class="collapse">
+  <details v-for="(item, key) in docsData" :key="key" class="has-chevron collapse"
+    :open="internalOpenItems?.includes(key) ?? undefined">
     <slot name="collapse-item" :item="item" :index="key" :toggle="toggle">
       <summary class="collapse-header" tabindex="0" @keydown.space.prevent="() => toggle(key)"
         @click.prevent="() => toggle(key)">
@@ -59,8 +55,7 @@ const toggle = (key: number) => {
           </slot>
         </h3>
         <div class="collapse-icon">
-          <VIcon v-if="withChevron" icon="feather:chevron-down" />
-          <VIcon v-else-if="!withChevron" icon="feather:plus" />
+          <VIcon icon="feather:chevron-down" />
         </div>
       </summary>
       <div class="collapse-content">

@@ -129,17 +129,17 @@ async function handleRemoveAction() {
 }
 
 async function fetchData(page = 1) {
-  const res = await fetchList(page, locale.value)
+  const res = await fetchList(page)
   Object.assign(data, res)
 }
 
 async function onSearch(val: string) {
-  const res = await searchList(val, locale.value)
+  const res = await searchList(val)
   Object.assign(data, res)
 }
 
 async function onSort(val: string) {
-  const res = await sortList(val, locale.value)
+  const res = await sortList(val)
   Object.assign(data, res)
 }
 

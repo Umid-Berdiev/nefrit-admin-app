@@ -97,7 +97,7 @@ function onView(rowId: string | number) {
 }
 
 async function fetchData(page: number = 1) {
-  const res = await fetchList(page, locale.value)
+  const res = await fetchList(page)
   Object.assign(data, res)
 }
 

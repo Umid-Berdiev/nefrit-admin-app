@@ -12,55 +12,25 @@ const props = defineProps<{
     message.is_me && 'self',
     !message.is_me && 'other',
   ]">
-    <!-- Text messages -->
-    <template v-if="message.message">
-      <div class="avatar">
-        <img v-if="message.user?.avatar" :src="message.user.avatar" draggable="false" alt="" />
+    <div class="avatar">
+      <img v-if="message.user?.avatar" :src="message.user.avatar" draggable="false" alt="" />
+    </div>
+    <div v-if="message.message" class="msg">
+      <div class="msg-inner">
+        <p style="overflow-wrap: break-word;">{{ message.message }}</p>
       </div>
-      <div class="msg">
-        <div class="msg-inner">
-          <p style="overflow-wrap: break-word;">{{ message.message }}</p>
-        </div>
 
-        <time>
-          {{ $h.formatDate(message.created_at, 'DD.MM.YYYY HH:mm') }}
-        </time>
+      <time>
+        {{ $h.formatDate(message.created_at, 'DD.MM.YYYY HH:mm') }}
+      </time>
+    </div>
+    <div v-if="message.file" class="msg is-image">
+      <div class="image-container">
+        <figure class="image is-128x128">
+          <img :src="message.file">
+        </figure>
       </div>
-    </template>
-
-    <!-- Image messages -->
-    <template v-if="message.file">
-      <div class="avatar is-online">
-        <img v-if="message.user.avatar" :src="message.user.avatar" draggable="false" alt="" />
-      </div>
-      <div class="msg is-image">
-        <div class="image-container">
-          <figure class="image is-128x128">
-            <img :src="message.file">
-          </figure>
-          <!-- <VPhotosSwipe v-if="message.file" :items="[
-            {
-              src: message.file,
-              thumbnail: message.file,
-              w: 300,
-              h: 200,
-              alt: 'optional alt attribute for thumbnail image',
-            },
-          ]" thumbnail-radius="full" /> -->
-          <!-- <div class="image-overlay"></div> -->
-          <!-- <div class="image-actions">
-            <div class="actions-inner">
-              <div class="action download">
-                <span class="iconify" data-icon="feather:download"> </span>
-              </div>
-              <a :href="message.file" class="action messaging-popup" aria-label="Maximize">
-                <span class="iconify" data-icon="feather:maximize"> </span>
-              </a>
-            </div>
-          </div> -->
-        </div>
-      </div>
-    </template>
+    </div>
   </li>
 </template>
 

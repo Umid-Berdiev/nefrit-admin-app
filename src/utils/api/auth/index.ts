@@ -1,4 +1,5 @@
 import { useI18n } from 'vue-i18n'
+import { UserData } from '../../interfaces'
 import { useApi } from '/@src/composable/useApi'
 
 const api = useApi()

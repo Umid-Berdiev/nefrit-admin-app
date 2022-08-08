@@ -32,7 +32,7 @@ await fetchStatementsList()
 
 async function fetchStatementsList() {
   try {
-    const res = await fetchNotVerifiedStatements(Number(contractId), locale.value)
+    const res = await fetchNotVerifiedStatements(Number(contractId))
     statementsList.value = res
   } catch (error) {
     console.log(error);

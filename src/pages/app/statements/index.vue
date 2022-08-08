@@ -12,6 +12,7 @@ import { useViewWrapper } from '/@src/stores/viewWrapper'
 import { useMainStore } from "/@src/stores";
 import { fetchList } from '/@src/utils/api/statement'
 import { useNotyf } from '/@src/composable/useNotyf'
+import VTag from '/@src/components/base/tags/VTag.vue'
 
 const { t, locale } = useI18n()
 
@@ -93,6 +94,10 @@ const columns = {
     label: t('Stage'),
     grow: true,
   },
+  is_paid: {
+    label: t('Payment_status'),
+    grow: true,
+  },
   date: {
     label: t('applied_at'),
     searchable: true,
@@ -142,7 +147,7 @@ function confirmAction() {
 }
 
 async function fetchData(page: number = 1) {
-  const res = await fetchList(page, locale.value)
+  const res = await fetchList(page)
   Object.assign(data, res)
 }
 
@@ -238,7 +243,7 @@ function successNotify() {
             <template v-else-if="column.key === 'drug'">
               <span>{{ value?.name }}</span>
             </template>
-            <template v-else-if="column.key === 'date'">
+            <template v-else-if="column.key === 'date' && value">
               <span>{{ $h.formatDate(value, 'HH:mm DD.MM.YYYY') }}</span>
             </template>
             <template v-else-if="column.key === 'status'">
@@ -249,6 +254,10 @@ function successNotify() {
                 style="white-space: break-spaces;">
                 {{ value.name }}
               </button>
+            </template>
+            <template v-else-if="column.key === 'is_paid'">
+              <VTag class="is-size-6" :color="value ? 'primary' : 'warning'" rounded
+                :label="value ? $t('Paid') : $t('Not_Paid')" />
             </template>
             <template v-else-if="column.key === 'actions'">
               <!-- <ActionButtons @edit="isFormModalOpen = true" /> -->

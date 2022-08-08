@@ -110,6 +110,7 @@ declare module '@vue/runtime-core' {
     StatementNoticeTable: typeof import('./src/components/base/table/StatementNoticeTable.vue')['default']
     StatementsFlexTableDropdown: typeof import('./src/components/partials/dropdowns/StatementsFlexTableDropdown.vue')['default']
     StatementsMobileSubsidebar: typeof import('./src/layouts/mobile-subsidebars/StatementsMobileSubsidebar.vue')['default']
+    StatementStageFormModal: typeof import('./src/components/base/modal/StatementStageFormModal.vue')['default']
     StatusSelect: typeof import('./src/components/forms/selects/StatusSelect.vue')['default']
     StatusTag: typeof import('./src/components/base/tags/StatusTag.vue')['default']
     TableActionsBlock: typeof import('./src/components/base/block/TableActionsBlock.vue')['default']

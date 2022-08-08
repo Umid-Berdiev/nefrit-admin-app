@@ -326,5 +326,7 @@
   "Update_password": "Update password",
   "Success": "Success",
   "Stages": "Stages",
-  "Select_stages": "Select stages"
+  "Select_stages": "Select stages",
+  "Change_statement_stage": "Change statement's stage",
+  "Change_stage": "Change stage"
 }

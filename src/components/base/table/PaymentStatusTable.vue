@@ -49,7 +49,7 @@ const isVerifyModalOpen = ref<boolean>(false)
 await fetchData()
 
 async function fetchData() {
-  const res = await fetchContractPayments(Number(contractId), locale.value)
+  const res = await fetchContractPayments(Number(contractId))
   contractData.value = await res
 }
 

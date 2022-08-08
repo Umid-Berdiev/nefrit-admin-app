@@ -326,5 +326,7 @@
   "Update_password": "Обновить пароль",
   "Success": "Успешно",
   "Stages": "Этапы",
-  "Select_stages": "Выберите этапы"
+  "Select_stages": "Выберите этапы",
+  "Change_statement_stage": "Изменить этап заявления",
+  "Change_stage": "Изменить этап"
 }

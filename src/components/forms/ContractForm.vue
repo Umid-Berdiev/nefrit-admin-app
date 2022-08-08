@@ -50,7 +50,7 @@ const notif = useNotyf()
 await fetchData()
 
 async function fetchData() {
-  const res = await fetchStatementContractById(Number(currentId), locale.value)
+  const res = await fetchStatementContractById(Number(currentId))
   contractData.value = await res
   contractStatements.value = contractData.value?.applications
 }

@@ -326,5 +326,7 @@
   "Update_password": "Parolni yangilash",
   "Success": "Muvoffaqiyatli",
   "Stages": "Bosqichlar",
-  "Select_stages": "Bosqichlarni tanlang"
+  "Select_stages": "Bosqichlarni tanlang",
+  "Change_statement_stage": "Ariza bosqichini o'zgartirish",
+  "Change_stage": "Bosqichni o'zgartirish"
 }
