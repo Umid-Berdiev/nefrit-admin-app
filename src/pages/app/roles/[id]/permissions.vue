@@ -3,20 +3,21 @@ import { ref, computed, reactive } from 'vue'
 import { useRoute } from 'vue-router'
 import { useHead } from '@vueuse/head'
 import { useI18n } from 'vue-i18n'
+import { isEmpty } from 'lodash'
 
 // we import our useApi helper
 import { useViewWrapper } from '/@src/stores/viewWrapper'
-import { fetchPermissionByRoleId, updatePermissionMethodById } from "/@src/utils/api/role";
-import { PermissionData } from "/@src/utils/interfaces";
+import { fetchById, fetchPermissionByRoleId, updatePermissionMethodById } from "/@src/utils/api/role";
+import { PermissionData, RoleData } from "/@src/utils/interfaces";
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 const viewWrapper = useViewWrapper()
-viewWrapper.setPageTitle(t('Role_permissions'))
 
 // We want to retrieve the post from the API where the id matches the current id
 const route = useRoute()
 const currentId = (route.params?.id as string) ?? ''
-const permissionTabs = ref<PermissionData[]>();
+const currentRole = ref<RoleData>()
+const permissionTabs = ref<PermissionData[]>([]);
 const selectedTab = ref<PermissionData>()
 
 // here we setup our page meta with our permissions data
@@ -24,41 +25,62 @@ useHead({
   title: computed(() => t('Role_permissions'))
 })
 
+await fetchCurrentRole()
 await fetchPermissions()
+viewWrapper.setPageTitle(`${t('Role_permissions')}: ${currentRole.value?.name[locale.value]}`)
+
+async function fetchCurrentRole() {
+  const res = await fetchById(Number(currentId))
+  currentRole.value = await res
+}
 
 async function fetchPermissions() {
   const res = await fetchPermissionByRoleId(Number(currentId))
   permissionTabs.value = await res
-  selectedTab.value = permissionTabs.value?.length && permissionTabs.value[0]
+  if (!isEmpty(permissionTabs.value)) selectedTab.value = permissionTabs.value[0]
 }
 
 function setSelectedTab(val: string) {
   selectedTab.value = permissionTabs.value?.find(item => item.value === val) || permissionTabs.value[0]
 }
 
-async function updatePermissionMethod(event: Event) {
-  const target = event.target as HTMLInputElement
-  console.log({ target });
+async function updatePermissionMethod(methodValue: boolean, methodId: number) {
+  // const target = event.target as HTMLInputElement
+  console.log({ methodValue });
+  console.log({ methodId });
 
-  const res = await updatePermissionMethodById(Number(target.name), Number(target.checked))
+  const res1 = await updatePermissionMethodById(methodId, Number(methodValue))
+  if (res1.status === 200) {
+    const res2 = await fetchPermissionByRoleId(Number(currentId))
+    permissionTabs.value = await res2
+  }
 }
+
+// async function updatePermissionMethod(event: Event) {
+//   const target = event.target as HTMLInputElement
+//   console.log({ target });
+
+//   const res = await updatePermissionMethodById(Number(target.name), Number(target.checked))
+// }
 </script>
 
 <template>
   <div class="permissions-detail-wrapper">
+    <!-- <ListWidgetSingle :title="currentRole?.name[locale]" straight class="list-widget-v3"> -->
     <VTabs :selected="selectedTab?.value" :tabs="permissionTabs" type="boxed" class="boxed_tabs"
       @update:selected="setSelectedTab">
       <template #tab="{ activeValue }">
         <div class="active_tab_content p-5">
+          <h1 class="is-size-5 mb-5">{{ $t('Methods') }}: {{ selectedTab?.label }}</h1>
           <table class="table is-striped is-fullwidth">
             <tbody>
               <tr v-for="method in selectedTab.methods">
-                <td>{{ $t(method.method) }}</td>
+                <td>{{ method.method }}</td>
                 <td>
                   <VField>
                     <VControl>
-                      <VSwitchBlock :name="method.id" color="primary" :true-value="1" :false-value="0"
-                        :checked="method.value" @change="updatePermissionMethod" />
+                      <VSwitchBlock :name="method.id" color="primary" :checked="method.value === 1 ? true : false"
+                        @update:modelValue="(val: boolean) => updatePermissionMethod(val, method.id)" />
                     </VControl>
                   </VField>
                 </td>
@@ -68,6 +90,7 @@ async function updatePermissionMethod(event: Event) {
         </div>
       </template>
     </VTabs>
+    <!-- </ListWidgetSingle> -->
   </div>
 </template>
 

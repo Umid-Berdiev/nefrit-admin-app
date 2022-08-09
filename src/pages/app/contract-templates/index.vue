@@ -3,18 +3,11 @@ import { ref, computed, onMounted, h } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 
-import type {
-  VFlexTableWrapperSortFunction,
-  VFlexTableWrapperFilterFunction,
-} from '/@src/components/base/table/VFlexTableWrapper.vue'
-import { templates } from '/@src/stores/contractTemplateMockData'
 import { useViewWrapper } from '/@src/stores/viewWrapper'
-import TableActionsBlock from '/@src/components/base/block/TableActionsBlock.vue'
 import { useMainStore } from '/@src/stores'
-import UserFormModal from '/@src/components/base/modal/UserFormModal.vue'
 import { useHead } from '@vueuse/head'
-import ContractDownloadModal from '/@src/components/base/modal/ContractDownloadModal.vue'
 import ContractTemplateFormModal from '/@src/components/base/modal/ContractTemplateFormModal.vue'
+import { fetchList } from '/@src/utils/api/contract-templates'
 
 const { t } = useI18n()
 
@@ -26,21 +19,12 @@ const mainStore = useMainStore()
 const viewWrapper = useViewWrapper()
 viewWrapper.setPageTitle(t('Contract_templates'))
 
-type User = typeof templates[0]
-
-// duplicate user data to grow the array
-const data: User[] = templates
-// for (let i = 0; i < 100; i++) {
-//   data.push(...templates)
-// }
-const filterForm = ref({})
-
 const isFormModalOpen = ref(false)
-const displayFilterForm = ref(false)
 const selectedRowIds = ref<number[]>([])
 const isAllSelected = computed(() => data.length === selectedRowIds.value.length)
 const router = useRouter()
 const selectedTemplate = ref()
+const templatesList = ref([])
 
 const columns = {
   orderNumber: {
@@ -94,12 +78,17 @@ function confirmAction() {
   else alert(t('No_row_selected'))
 }
 
-async function onRemoveUser() {
+async function onRemove(templateId: number) {
   mainStore.$patch({ confirmModalState: true })
   if (mainStore.confirmState) {
     console.log('User deleted!');
     mainStore.$patch({ confirmState: false })
   }
+}
+
+async function fetchTemplatesList(page: number = 1) {
+  const res = await fetchList(page)
+  templatesList.value = res
 }
 </script>
 
@@ -113,7 +102,7 @@ async function onRemoveUser() {
         }}
       </VButton>
     </VFlex>
-    <VFlexTableWrapper :columns="columns" :data="data">
+    <VFlexTableWrapper :columns="columns" :data="data.result">
       <!--
         Here we retrieve the internal wrapperState.
         Note that we can not destructure it
@@ -125,7 +114,7 @@ async function onRemoveUser() {
           </template>
           <template #body-cell="{ row, column, value, index }">
             <template v-if="column.key === 'actions'">
-              <UsersFlexTableDropdown @remove="onRemoveUser" />
+              <UsersFlexTableDropdown @remove="onRemove(row.id)" />
             </template>
           </template>
         </VFlexTable>

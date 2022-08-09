@@ -21,12 +21,13 @@ const props = withDefaults(
     </header>
     <div v-for="item, index in props.items" :key="item.id" class="timeline-item">
       <template v-if="item.key === 'stages'">
-        <div class="timeline-marker is-icon has-text-dark" :class="[item.date && 'is-primary has-text-white']">
+        <div class="timeline-marker is-icon" :class="[item.date && 'is-primary has-text-white']">
           {{ item.stage_number }}
         </div>
         <div class="timeline-content">
           <span>{{ item.date && $h.formatDate(item.date, 'DD.MM.YYYY') }}</span>
-          <p class="heading">{{ item.stage }}</p>
+          <p class="has-text-primary has-text-bold is-size-5">{{ item.stage }}</p>
+          <p class="heading">{{ item.department }}</p>
           <p class="">{{ item.message }}</p>
         </div>
       </template>
@@ -35,6 +36,7 @@ const props = withDefaults(
         </div>
         <div class="timeline-content">
           <span>{{ item.date && $h.formatDate(item.date, 'DD.MM.YYYY') }}</span>
+          <p class="has-text-primary has-text-bold is-size-5">{{ $t(item.key) }}</p>
           <p class="heading">{{ item.department }}</p>
           <p class="">{{ item.message }}</p>
         </div>

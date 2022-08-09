@@ -15,7 +15,7 @@ const props = defineProps({
   },
 })
 const emits = defineEmits<{
-  (e: 'update:modelValue', modelValue: boolean): void
+  (e: 'update:modelValue', value: boolean): void
   (e: 'update:list'): void
 }>()
 const { t, locale } = useI18n()

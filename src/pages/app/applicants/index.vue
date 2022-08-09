@@ -7,7 +7,7 @@ import { useHead } from '@vueuse/head'
 import { useViewWrapper } from '/@src/stores/viewWrapper'
 import { fetchList } from '/@src/utils/api/applicant';
 import { useMainStore } from '/@src/stores'
-import { UserFilterForm } from '/@src/utils/interfaces.js'
+import { UserFilterForm } from '/@src/utils/interfaces'
 
 const { t, locale } = useI18n()
 

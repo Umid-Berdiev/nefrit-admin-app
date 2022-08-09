@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Message } from '/@src/utils/api/chat/messages'
-import { StatementChatMessageData } from '/@src/utils/interfaces.js';
+import { StatementChatMessageData } from '/@src/utils/interfaces';
 
 const props = defineProps<{
   message: StatementChatMessageData

@@ -152,7 +152,7 @@
   "Applied_legal_entity": "Заявитель юридическое лицо",
   "Are_you_sure": "Вы уверены?",
   "Roles": "Роли",
-  "Role_permissions": "Разрешения исполнителей роли",
+  "Role_permissions": "Права доступа",
   "Save_changes": "Сохранить изменения",
   "View": "Просмотреть",
   "Edit": "Редактировать",
@@ -328,5 +328,7 @@
   "Stages": "Этапы",
   "Select_stages": "Выберите этапы",
   "Change_statement_stage": "Изменить этап заявления",
-  "Change_stage": "Изменить этап"
+  "Change_stage": "Изменить этап",
+  "Methods": "Функции",
+  "Payment_sum": "Сумма платежей"
 }

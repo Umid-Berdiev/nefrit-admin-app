@@ -6,9 +6,8 @@ import { useNotyf } from '/@src/composable/useNotyf';
 
 import { useMainStore } from '/@src/stores'
 import { fetchContractPayments } from '/@src/utils/api/statement';
-import { verifyAllPayments } from '/@src/utils/api/payment';
+import { verifyAllPayments, cancelPayment } from '/@src/utils/api/payment';
 import { StatementContractData } from '/@src/utils/interfaces';
-import VerifyPaymentModal from '../modal/VerifyPaymentModal.vue';
 
 const { t, locale } = useI18n()
 const route = useRoute()
@@ -16,7 +15,7 @@ const contractId = (route.params?.id as string) ?? null
 const mainStore = useMainStore()
 const notif = useNotyf()
 const contractData = ref<StatementContractData>()
-const selectedId = ref<number | null>(null)
+const selectedId = ref<number>()
 const columns = {
   orderNumber: {
     format: (value, row, index) => `${index + 1}`,
@@ -44,7 +43,8 @@ const columns = {
     align: 'center',
   },
 } as const
-const isVerifyModalOpen = ref<boolean>(false)
+const isVerifyModalOpen = ref(false)
+const isVerifyAllModalOpen = ref(false)
 
 await fetchData()
 
@@ -59,7 +59,8 @@ async function onOneVerify(paymentId: number) {
 }
 
 async function onAllVerify() {
-  mainStore.$patch({ confirmModalState: true, confirmModalOkButtonColor: 'primary' })
+  isVerifyAllModalOpen.value = true
+  // mainStore.$patch({ confirmModalState: true, confirmModalOkButtonColor: 'primary' })
 }
 
 async function onReject(paymentId: number) {
@@ -69,6 +70,11 @@ async function onReject(paymentId: number) {
 
 async function handleVerifyAction() {
   await verifyAllPayments(contractId)
+  await fetchData()
+}
+
+async function handleCancelAction() {
+  await cancelPayment(selectedId.value)
   await fetchData()
 }
 
@@ -86,7 +92,7 @@ function notify() {
       <VFlexItem class="ml-auto">
         <VButton type="button" v-if="!contractData?.verified_at" rounded color="primary" icon="feather:check"
           @click="onAllVerify">
-          {{ $t('Verify_all') }}
+          {{ $t('Verify_contract') }}
         </VButton>
       </VFlexItem>
     </VFlex>
@@ -130,17 +136,16 @@ function notify() {
                 <VButton class="is-primary is-outlined px-3" @click="onOneVerify(row.id)">{{
                     $t('Verify')
                 }}</VButton>
-                <VButton class="is-danger is-outlined px-3" @click="onReject">{{ $t('Cancel') }}</VButton>
+                <VButton class="is-danger is-outlined px-3" @click="onReject(row.id)">{{ $t('Cancel') }}</VButton>
               </VButtons>
             </template>
           </template>
         </VFlexTable>
-        <VFlexPagination v-model:current-page="wrapperState.page" class="mt-6" :item-per-page="wrapperState.limit"
-          :total-items="wrapperState.total" :max-links-displayed="5" no-router />
       </template>
     </VFlexTableWrapper>
     <VerifyPaymentModal v-model="isVerifyModalOpen" :payment-id="Number(selectedId)"
       @update:list="() => { fetchData(); notify(); }" />
-    <ConfirmActionModal @confirm-action="handleVerifyAction" />
+    <ContractVerifyModal v-model="isVerifyAllModalOpen" :contract="contractData" @confirm-action="handleVerifyAction" />
+    <ConfirmActionModal @confirm-action="handleCancelAction" />
   </div>
 </template>

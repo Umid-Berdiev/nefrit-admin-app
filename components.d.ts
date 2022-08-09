@@ -44,6 +44,7 @@ declare module '@vue/runtime-core' {
     ContractFormModal: typeof import('./src/components/base/modal/ContractFormModal.vue')['default']
     ContractInfoTable: typeof import('./src/components/base/table/ContractInfoTable.vue')['default']
     ContractTemplateFormModal: typeof import('./src/components/base/modal/ContractTemplateFormModal.vue')['default']
+    ContractVerifyModal: typeof import('./src/components/base/modal/ContractVerifyModal.vue')['default']
     CountrySelect: typeof import('./src/components/forms/selects/CountrySelect.vue')['default']
     DashboardsMobileSubsidebar: typeof import('./src/layouts/mobile-subsidebars/DashboardsMobileSubsidebar.vue')['default']
     DashboardsSubsidebar: typeof import('./src/layouts/sidebar-subsidebar/DashboardsSubsidebar.vue')['default']

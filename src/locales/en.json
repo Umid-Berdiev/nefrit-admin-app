@@ -75,12 +75,12 @@
   "pending": "Pending",
   "Rejected": "Rejected",
   "completed": "Completed",
-  "applied_legal_entity": "Applicant is a legal entity",
-  "applied_at": "Date of application",
+  "applied_legal_entity": "Applied legal entity",
+  "applied_at": "Applied at",
   "stage": "Stage",
   "edit": "Edit",
   "Search": "Search",
-  "drug_name": "Name of the drug",
+  "drug_name": "Drug name",
   "Dashboard": "Dashboard",
   "Delete_selected": "Delete selected",
   "isNational": "Local company",
@@ -328,5 +328,7 @@
   "Stages": "Stages",
   "Select_stages": "Select stages",
   "Change_statement_stage": "Change statement's stage",
-  "Change_stage": "Change stage"
+  "Change_stage": "Change stage",
+  "Methods": "Methods",
+  "Payment_sum": "Amount of payments"
 }

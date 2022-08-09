@@ -88,6 +88,10 @@ async function fetchStatistics() {
                   </span>
                   <!-- <span>{{ $t('Reject') }}</span> -->
                 </VButton>
+                <VCollapse class="mt-5" :items="[{
+                  title: $t('Description'),
+                  content: item.vote.description,
+                },]" with-chevron />
               </template>
               <template v-else>
                 <VButton color="success" style="width: 45%;" class="is-justify-content-center mr-3"
@@ -116,6 +120,10 @@ async function fetchStatistics() {
                   </span>
                   <span>{{ item.vote.value === 1 ? $t('Accepted') : $t('Rejected') }}</span>
                 </VButton>
+                <VCollapse :items="[{
+                  title: $t('Description'),
+                  content: item.vote.description,
+                },]" with-chevron />
               </div>
               <div v-else class="is-grouped mt-5">
                 <VButton class="is-fullwidth is-justify-content-center" static>
@@ -272,5 +280,24 @@ async function fetchStatistics() {
 
 .is-active {
   border-color: var(--primary) !important;
+}
+
+.collapse {
+  margin-top: 1.5rem;
+  margin-bottom: 0 !important;
+  padding: 0 !important;
+
+  .collapse-header {
+    height: auto;
+  }
+
+  .collapse-content {
+    text-align: left;
+  }
+
+  .collapse-icon {
+    border: 0 !important;
+    box-shadow: none !important;
+  }
 }
 </style>

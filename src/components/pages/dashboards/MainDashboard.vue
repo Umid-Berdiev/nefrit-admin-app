@@ -1,9 +1,15 @@
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue'
+import { computed, onMounted, reactive, ref } from 'vue'
 import ApexChart from 'vue3-apexcharts'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
-import { users } from '/@src/stores/usersMockData'
+import {
+  fetchStatementStatusStatistics,
+  fetchStatementPaymentStatistics,
+  fetchStatementStageStatistics,
+  fetchLatestStatementsStatistics
+} from '/@src/utils/api/statement'
+import VInput from '/@src/components/base/form/VInput.vue'
 
 const { t, locale } = useI18n()
 const router = useRouter()
@@ -17,13 +23,14 @@ const datePickerModelConfig = reactive({
   type: 'string',
   mask: 'MM-YYYY', // Uses 'iso' if missing
 })
-
+const thisYear = ref((new Date()).getFullYear())
+const selectedYear = ref<number>(thisYear.value)
 const columns = {
-  orderNumber: {
-    label: 'Ariza qabul raqami',
+  code: {
+    label: t('statement_code'),
     // cellClass: 'is-flex-grow-0',
   },
-  company: {
+  applicant: {
     label: t('applied_legal_entity'),
   },
   drug: {
@@ -34,12 +41,27 @@ const columns = {
   },
   actions: {
     label: t('Actions'),
-    // align: 'center',
+    align: 'end',
   },
 } as const
-
-const donutChartSeries = reactive([])
-const donutChartOptions = reactive({
+const latestStatementsList = reactive({
+  pagination: {
+    current_page: 1,
+    per_page: 10,
+    total: 10,
+  },
+  result: []
+})
+const currentPage = computed({
+  get: () => {
+    return latestStatementsList.pagination.current_page
+  },
+  set: async (page) => {
+    await fetchLatestStatements(page)
+  }
+})
+const statusChartSeries = reactive([])
+const statusChartOptions = reactive({
   title: {
     text: '',
   },
@@ -90,7 +112,59 @@ const donutChartOptions = reactive({
   },
 })
 
-const barChartOptions = reactive({
+const stageChartSeries = reactive([])
+const stageChartOptions = reactive({
+  title: {
+    text: '',
+  },
+  chart: {
+    height: 290,
+    type: 'donut',
+  },
+  labels: [],
+  responsive: [
+    {
+      breakpoint: 480,
+      options: {
+        chart: {
+          width: 280,
+          toolbar: {
+            show: false,
+          },
+        },
+        legend: {
+          position: 'top',
+        },
+      },
+    },
+  ],
+  legend: {
+    position: 'right',
+    horizontalAlign: 'center',
+  },
+  plotOptions: {
+    pie: {
+      donut: {
+        labels: {
+          show: true,
+          name: {
+            show: true,
+          },
+          value: {
+            show: true,
+          },
+          total: {
+            show: true,
+            showAlways: true,
+            label: t('Total_statements'),
+          },
+        },
+      },
+    },
+  },
+})
+
+const paymentChartOptions = reactive({
   series: [],
   chart: {
     height: 280,
@@ -108,7 +182,7 @@ const barChartOptions = reactive({
   },
   dataLabels: {
     enabled: true,
-    // formatter: formatters.asPercent,
+    formatter: (val: string) => val.toLocaleString(),
     offsetY: -20,
     style: {
       fontSize: '12px',
@@ -170,24 +244,50 @@ const barChartOptions = reactive({
     text: '',
     align: 'left',
   },
+  tooltip: {
+    y: {
+      formatter: function (val: string) {
+        return val.toLocaleString()
+      }
+    }
+  }
 })
 
 onMounted(async () => {
-  setTimeout(() => {
-    Object.assign(donutChartSeries, Array(5).fill(null).map((_, i) => Math.round(Math.random() * (50 - 10) + 10)))
-    Object.assign(donutChartOptions.labels, donutChartSeries.map((item, index) => `Status${index}: ${item}`))
-
-    barChartOptions.series = [{
-      name: 'Inflation2',
-      data: Array(12).fill(0).map((_, i) => Math.random().toFixed(2) * 1)
-    }]
-  }, 1000)
-
+  await fetchStatusStatistics()
+  await fetchPaymentStatistics()
+  await fetchStageStatistics()
+  await fetchLatestStatements()
 })
 
 function gotoView(rowId: number) {
   console.log({ rowId });
-  router.push('/app/statement/' + rowId)
+  router.push('/app/statements/' + rowId)
+}
+
+async function fetchStatusStatistics() {
+  const res = await fetchStatementStatusStatistics()
+  Object.assign(statusChartSeries, res.map(item => item.applications))
+  Object.assign(statusChartOptions.labels, res.map(item => `${item.name}: ${item.applications}`))
+}
+
+async function fetchPaymentStatistics() {
+  const res = await fetchStatementPaymentStatistics()
+  paymentChartOptions.series = [{
+    name: t('Payment_sum'),
+    data: res.map(item => item.amount)
+  }]
+}
+
+async function fetchStageStatistics() {
+  const res = await fetchStatementStageStatistics()
+  Object.assign(stageChartSeries, res.map(item => item.applications))
+  Object.assign(stageChartOptions.labels, res.map(item => `${item.name}: ${item.applications}`))
+}
+
+async function fetchLatestStatements(page: number = 1) {
+  const res = await fetchLatestStatementsStatistics(page)
+  Object.assign(latestStatementsList, res)
 }
 </script>
 
@@ -218,8 +318,8 @@ function gotoView(rowId: number) {
             </VDatePicker>
           </div>
           <div class="my-auto">
-            <ApexChart id="apex-chart-18" type="donut" :height="400" :series="donutChartSeries"
-              :options="donutChartOptions">
+            <ApexChart id="apex-chart-18" type="donut" :height="400" :series="statusChartSeries"
+              :options="statusChartOptions">
             </ApexChart>
           </div>
         </div>
@@ -228,27 +328,15 @@ function gotoView(rowId: number) {
         <div class="dashboard-card is-base-chart">
           <div class="content-box is-flex">
             <h1 class="is-size-4">{{ $t('Statement_payments') }}</h1>
-            <VDatePicker :locale="locale" class="ml-auto" v-model="range" is-range color="green" trim-weeks>
-              <template v-slot="{ inputValue, inputEvents }">
-                <VField addons>
-                  <VControl expanded icon="feather:corner-down-right">
-                    <VInput :value="inputValue.start" v-on="inputEvents.start" />
-                  </VControl>
-                  <VControl>
-                    <VButton static>
-                      <i class="fas fa-angle-double-right" aria-hidden="true"></i>
-                    </VButton>
-                  </VControl>
-                  <VControl expanded icon="feather:corner-right-up" subcontrol>
-                    <VInput :value="inputValue.end" v-on="inputEvents.end" />
-                  </VControl>
-                </VField>
-              </template>
-            </VDatePicker>
+            <VField class="ml-auto">
+              <VControl>
+                <VInput type="number" :min="thisYear - 10" :max="thisYear" v-model="selectedYear" />
+              </VControl>
+            </VField>
           </div>
           <div class="my-auto">
-            <ApexChart id="apex-chart-8" :height="400" :type="barChartOptions.chart.type"
-              :series="barChartOptions.series" :options="barChartOptions">
+            <ApexChart id="apex-chart-8" :height="400" :type="paymentChartOptions.chart.type"
+              :series="paymentChartOptions.series" :options="paymentChartOptions">
             </ApexChart>
           </div>
         </div>
@@ -277,8 +365,8 @@ function gotoView(rowId: number) {
             </VDatePicker>
           </div>
           <div class="my-auto">
-            <ApexChart id="apex-chart-18" type="donut" :height="400" :series="donutChartSeries"
-              :options="donutChartOptions">
+            <ApexChart id="apex-chart-18" type="donut" :height="400" :series="stageChartSeries"
+              :options="stageChartOptions">
             </ApexChart>
           </div>
         </div>
@@ -289,15 +377,15 @@ function gotoView(rowId: number) {
             <h1 class="is-size-4">{{ $t('Statement_latest') }}</h1>
           </div>
           <div class="my-auto p-5">
-            <VFlexTableWrapper :columns="columns" :data="users">
+            <VFlexTableWrapper :columns="columns" :data="latestStatementsList.result">
               <template #default="wrapperState">
                 <VFlexTable rounded>
                   <!-- Custom "name" cell content -->
                   <template #body-cell="{ row, column, value, index }">
-                    <template v-if="column.key === 'orderNumber'">
-                      {{ '00000' + (row.id + 1) }}
+                    <template v-if="column.key === 'date' && value">
+                      <span>{{ $h.formatDate(value, 'HH:mm DD.MM.YYYY') }}</span>
                     </template>
-                    <template v-else-if="column.key === 'actions'">
+                    <template v-if="column.key === 'actions'">
                       <VIconButton class="ml-auto p-4" outlined circle color="info" icon="feather:eye"
                         @click.prevent="gotoView(row.id)">
                         {{ $t('View') }}
@@ -306,10 +394,9 @@ function gotoView(rowId: number) {
                   </template>
                 </VFlexTable>
 
-                <!-- Table Pagination with data.page binded-->
-                <VFlexPagination v-model:current-page="wrapperState.page" class="mt-6"
-                  :item-per-page="wrapperState.limit" :total-items="wrapperState.total" :max-links-displayed="5"
-                  no-router />
+                <VFlexPagination v-model:current-page="currentPage" class="mt-6"
+                  :item-per-page="latestStatementsList.pagination.per_page"
+                  :total-items="latestStatementsList.pagination.total" />
               </template>
             </VFlexTableWrapper>
           </div>

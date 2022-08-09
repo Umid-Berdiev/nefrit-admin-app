@@ -124,13 +124,13 @@ export async function fetchPermissionByRoleId(roleId: number) {
 
 export async function updatePermissionMethodById(methodId: number, value: 1 | 0) {
   try {
-    const { data } = await api({
+    const res = await api({
       url: `/api/admin/permission/method/${methodId}`,
       method: 'PUT',
       data: { value },
     })
 
-    return data.data
+    return res
   } catch (error) {
     throw error
   }

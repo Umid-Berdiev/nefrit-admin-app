@@ -31,6 +31,19 @@ export async function verifyPayment(paymentId: number, statementIds: number[]) {
   }
 }
 
+export async function cancelPayment(paymentId: number) {
+  try {
+    const { data } = await api({
+      url: `/api/admin/payment/${paymentId}/cancel`,
+      method: 'PUT',
+    })
+
+    return data.data
+  } catch (error) {
+    throw error
+  }
+}
+
 export async function verifyAllPayments(contractId: number) {
   try {
     const { data } = await api({

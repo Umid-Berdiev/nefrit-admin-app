@@ -35,27 +35,27 @@ watch(
 
 <template>
   <div :class="[
-    props.label && 'switch-block',
-    props.thin && props.label && 'thin-switch-block',
+    label && 'switch-block',
+    thin && label && 'thin-switch-block',
   ]">
-    <template v-if="props.thin">
-      <VLabel raw class="thin-switch" tabindex="0" :class="[props.color && `is-${props.color}`]"
-        @keydown.space.prevent="() => emit('update:modelValue', !props.modelValue)">
+    <template v-if="thin">
+      <VLabel raw class="thin-switch" tabindex="0" :class="[color && `is-${color}`]"
+        @keydown.space.prevent="() => emit('update:modelValue', $event.target.checked)">
         <VInput v-model="value" type="checkbox" v-bind="attrs" />
         <div class="slider"></div>
       </VLabel>
     </template>
     <template v-else>
-      <VLabel raw class="form-switch" :class="[props.color && `is-${props.color}`]">
-        <VInput raw :checked="props.modelValue" type="checkbox" class="is-switch" v-bind="$attrs"
-          @change="emit('update:modelValue', !props.modelValue)" />
+      <VLabel raw class="form-switch" :class="[color && `is-${color}`]">
+        <VInput raw :checked="modelValue" type="checkbox" class="is-switch" v-bind="$attrs"
+          @change="emit('update:modelValue', $event.target.checked)" />
         <i aria-hidden="true"></i>
       </VLabel>
     </template>
 
-    <div v-if="props.label" class="text">
+    <div v-if="label" class="text">
       <VLabel raw>
-        <span>{{ props.label }}</span>
+        <span>{{ label }}</span>
       </VLabel>
     </div>
   </div>

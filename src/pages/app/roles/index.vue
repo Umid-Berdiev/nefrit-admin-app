@@ -2,19 +2,14 @@
 import { ref, computed, onMounted, h, reactive } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import { useHead } from '@vueuse/head'
 
-import type {
-  VFlexTableWrapperSortFunction,
-  VFlexTableWrapperFilterFunction,
-} from '/@src/components/base/table/VFlexTableWrapper.vue'
+import { useNotyf } from '/@src/composable/useNotyf'
 import { useViewWrapper } from '/@src/stores/viewWrapper'
 import { useMainStore } from '/@src/stores'
-import { useHead } from '@vueuse/head'
 import { fetchList, removeById, searchList, sortList } from '/@src/utils/api/role';
-import { useNotyf } from '/@src/composable/useNotyf'
 
 const notif = useNotyf()
-const route = useRoute()
 const router = useRouter()
 const { t, locale } = useI18n()
 const mainStore = useMainStore()

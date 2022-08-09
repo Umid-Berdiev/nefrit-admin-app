@@ -585,3 +585,52 @@ export async function addContractFile(id: number, formData: FormData) {
     throw error
   }
 }
+
+// statement statistics
+export async function fetchStatementStatusStatistics() {
+  try {
+    const { data } = await api({
+      url: `/api/admin/statistics/application/status`,
+    })
+
+    return data.data
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function fetchStatementPaymentStatistics() {
+  try {
+    const { data } = await api({
+      url: `/api/admin/statistics/payment`,
+    })
+
+    return data.data
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function fetchStatementStageStatistics() {
+  try {
+    const { data } = await api({
+      url: `/api/admin/statistics/application/stage`,
+    })
+
+    return data.data
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function fetchLatestStatementsStatistics(page: number) {
+  try {
+    const { data } = await api({
+      url: `/api/admin/statistics/application/new?page=${page}`,
+    })
+
+    return data.data
+  } catch (error) {
+    throw error
+  }
+}

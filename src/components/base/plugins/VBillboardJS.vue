@@ -139,8 +139,8 @@ watchEffect(() => {
       border-color: var(--dark-sidebar-light-10) !important;
       color: var(--light-text) !important;
 
-      > span,
-      > svg {
+      >span,
+      >svg {
         border-color: var(--dark-sidebar-light-10) !important;
         fill: var(--white) !important;
         color: var(--white) !important;
@@ -152,6 +152,7 @@ watchEffect(() => {
     }
 
     .bb-tooltip-detail {
+
       .bb-tooltip-name,
       .bb-tooltip-value {
         color: #fffdfd !important;

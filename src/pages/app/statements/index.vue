@@ -27,9 +27,9 @@ viewWrapper.setPageTitle(t('Statements'))
 
 const data = reactive({
   pagination: {
-    current_page: null,
-    per_page: null,
-    total: null,
+    current_page: 1,
+    per_page: 10,
+    total: 10,
   },
   result: []
 })
@@ -40,8 +40,6 @@ const isConclusionFormModalOpen = ref(false)
 const isNoticeFormModalOpen = ref(false)
 const displayFilterForm = ref(false)
 const selectedRowId = ref<number>()
-const selectedRowsId = ref<number[]>([])
-const isAllSelected = computed(() => data.result.length === selectedRowsId.value.length)
 const router = useRouter()
 const currentPage = computed({
   get: () => {
@@ -51,30 +49,6 @@ const currentPage = computed({
     await fetchData(page)
   }
 })
-
-// this is a sample for custom sort function
-const locationSorter: VFlexTableWrapperSortFunction<User> = ({ order, a, b }) => {
-  if (order === 'asc') {
-    return a.location.localeCompare(b.location)
-  } else if (order === 'desc') {
-    return b.location.localeCompare(a.location)
-  }
-
-  return 0
-}
-
-// this is a sample for custom filter function
-const userFilter: VFlexTableWrapperFilterFunction<User> = ({ searchTerm, row }) => {
-  if (!searchTerm) {
-    return true
-  }
-
-  // search either in the name or the bio
-  return (
-    row.name.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase()) ||
-    row.bio.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase())
-  )
-}
 
 const columns = {
   code: {
@@ -110,26 +84,6 @@ const columns = {
 
 await fetchData()
 
-// the select all checkbox click handler
-function toggleSelection() {
-  // console.log('data:', data)
-
-  if (isAllSelected.value) {
-    selectedRowsId.value = []
-  } else {
-    selectedRowsId.value = data.result.map((row: any) => row.id)
-  }
-}
-
-// this it the row click handler (enabled with clickable props)
-function clickOnRow(row: any) {
-  if (selectedRowsId.value.includes(row.id)) {
-    selectedRowsId.value = selectedRowsId.value.filter((i) => i !== row.id)
-  } else {
-    selectedRowsId.value = [...selectedRowsId.value, row.id]
-  }
-}
-
 function onActionTriggered(rowId: number) {
   router.push('/app/statements/' + rowId)
 }
@@ -140,10 +94,6 @@ function gotoConclusionList(statementId: number) {
 
 function gotoNoticeList(statementId: number) {
   router.push(`/app/statements/${statementId}#notices`)
-}
-
-function confirmAction() {
-  mainStore.$patch({ confirmModalState: true })
 }
 
 async function fetchData(page: number = 1) {
@@ -250,10 +200,12 @@ function successNotify() {
               <StatusTag :status="value" />
             </template>
             <template v-else-if="column.key === 'stage'">
-              <button class="ml-auto button is-size-6 has-background-info is-rounded has-text-white p-5" rounded
+              <!-- <button class="button is-size-6 has-background-info is-rounded has-text-white" rounded
                 style="white-space: break-spaces;">
                 {{ value.name }}
-              </button>
+              </button> -->
+              <VTag class="is-size-6" color="info" rounded :label="value.name"
+                style="white-space: break-spaces; height: fit-content;" />
             </template>
             <template v-else-if="column.key === 'is_paid'">
               <VTag class="is-size-6" :color="value ? 'primary' : 'warning'" rounded
