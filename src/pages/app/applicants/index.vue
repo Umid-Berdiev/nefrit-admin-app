@@ -74,7 +74,7 @@ const columns = {
     searchable: true,
   },
   country: {
-    label: t('Location'),
+    label: t('Country'),
     // grow: true,
   },
   actions: {

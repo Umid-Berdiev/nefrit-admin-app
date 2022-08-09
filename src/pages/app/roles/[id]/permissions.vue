@@ -2,11 +2,12 @@
 import { ref, computed, reactive } from 'vue'
 import { useRoute } from 'vue-router'
 import { useHead } from '@vueuse/head'
+import { useI18n } from 'vue-i18n'
 
 // we import our useApi helper
 import { useViewWrapper } from '/@src/stores/viewWrapper'
-import { useI18n } from 'vue-i18n'
-import { fetchPermissionByRoleId } from "/@src/utils/api/role";
+import { fetchPermissionByRoleId, updatePermissionMethodById } from "/@src/utils/api/role";
+import { PermissionData } from "/@src/utils/interfaces";
 
 const { t } = useI18n()
 const viewWrapper = useViewWrapper()
@@ -15,29 +16,8 @@ viewWrapper.setPageTitle(t('Role_permissions'))
 // We want to retrieve the post from the API where the id matches the current id
 const route = useRoute()
 const currentId = (route.params?.id as string) ?? ''
-const permissionTabs = ref([
-  {
-    label: t('Users'),
-    value: 'users',
-  },
-  {
-    label: t('Roles'),
-    value: 'roles',
-  },
-  {
-    label: t('Reports'),
-    value: 'reports',
-  },
-  {
-    label: t('Applicants'),
-    value: 'applicants',
-  },
-  {
-    label: t('Statements'),
-    value: 'statements',
-  },
-]);
-const permissionsList = reactive({})
+const permissionTabs = ref<PermissionData[]>();
+const selectedTab = ref<PermissionData>()
 
 // here we setup our page meta with our permissions data
 useHead({
@@ -48,207 +28,37 @@ await fetchPermissions()
 
 async function fetchPermissions() {
   const res = await fetchPermissionByRoleId(Number(currentId))
-  Object.assign(permissionsList, res)
+  permissionTabs.value = await res
+  selectedTab.value = permissionTabs.value?.length && permissionTabs.value[0]
+}
+
+function setSelectedTab(val: string) {
+  selectedTab.value = permissionTabs.value?.find(item => item.value === val) || permissionTabs.value[0]
+}
+
+async function updatePermissionMethod(event: Event) {
+  const target = event.target as HTMLInputElement
+  console.log({ target });
+
+  const res = await updatePermissionMethodById(Number(target.name), Number(target.checked))
 }
 </script>
 
 <template>
   <div class="permissions-detail-wrapper">
-    <VTabs selected="users" :tabs="permissionTabs" type="boxed" class="boxed_tabs">
+    <VTabs :selected="selectedTab?.value" :tabs="permissionTabs" type="boxed" class="boxed_tabs"
+      @update:selected="setSelectedTab">
       <template #tab="{ activeValue }">
-        <div v-if="activeValue === 'users'" class="active_tab_content p-5">
+        <div class="active_tab_content p-5">
           <table class="table is-striped is-fullwidth">
             <tbody>
-              <tr>
-                <td>{{ $t('View_users_list') }}</td>
+              <tr v-for="method in selectedTab.methods">
+                <td>{{ $t(method.method) }}</td>
                 <td>
                   <VField>
                     <VControl>
-                      <VSwitchBlock color="primary" :checked="true" />
-                    </VControl>
-                  </VField>
-                </td>
-              </tr>
-              <tr>
-                <td>{{ $t('View_user') }}</td>
-                <td>
-                  <VField>
-                    <VControl>
-                      <VSwitchBlock color="primary" :checked="true" />
-                    </VControl>
-                  </VField>
-                </td>
-              </tr>
-              <tr>
-                <td>{{ $t('Edit_user') }}</td>
-                <td>
-                  <VField>
-                    <VControl>
-                      <VSwitchBlock color="primary" :checked="true" />
-                    </VControl>
-                  </VField>
-                </td>
-              </tr>
-              <tr>
-                <td>{{ $t('Remove_user') }}</td>
-                <td>
-                  <VField>
-                    <VControl>
-                      <VSwitchBlock color="primary" :checked="true" />
-                    </VControl>
-                  </VField>
-                </td>
-              </tr>
-              <tr>
-                <td>{{ $t('Edit_self_data') }}</td>
-                <td>
-                  <VField>
-                    <VControl>
-                      <VSwitchBlock color="primary" :checked="true" />
-                    </VControl>
-                  </VField>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div v-else-if="activeValue === 'roles'" class="active_tab_content p-5">
-          <table class="table is-striped is-fullwidth">
-            <tbody>
-              <tr>
-                <td>{{ $t('View_roles_list') }}</td>
-                <td>
-                  <VField>
-                    <VControl>
-                      <VSwitchBlock color="primary" :checked="true" />
-                    </VControl>
-                  </VField>
-                </td>
-              </tr>
-              <tr>
-                <td>{{ $t('View_role') }}</td>
-                <td>
-                  <VField>
-                    <VControl>
-                      <VSwitchBlock color="primary" :checked="true" />
-                    </VControl>
-                  </VField>
-                </td>
-              </tr>
-              <tr>
-                <td>{{ $t('Edit_role') }}</td>
-                <td>
-                  <VField>
-                    <VControl>
-                      <VSwitchBlock color="primary" :checked="true" />
-                    </VControl>
-                  </VField>
-                </td>
-              </tr>
-              <tr>
-                <td>{{ $t('Remove_role') }}</td>
-                <td>
-                  <VField>
-                    <VControl>
-                      <VSwitchBlock color="primary" :checked="true" />
-                    </VControl>
-                  </VField>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div v-else-if="activeValue === 'reports'" class="active_tab_content p-5">
-          <table class="table is-striped is-fullwidth">
-            <tbody>
-              <tr>
-                <td>{{ $t('View_report') }}</td>
-                <td>
-                  <VField>
-                    <VControl>
-                      <VSwitchBlock color="primary" :checked="true" />
-                    </VControl>
-                  </VField>
-                </td>
-              </tr>
-              <tr>
-                <td>{{ $t('Print_report') }}</td>
-                <td>
-                  <VField>
-                    <VControl>
-                      <VSwitchBlock color="primary" :checked="true" />
-                    </VControl>
-                  </VField>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div v-else-if="activeValue === 'applicants'" class="active_tab_content p-5">
-          <table class="table is-striped is-fullwidth">
-            <tbody>
-              <tr>
-                <td>{{ $t('View_applicant') }}</td>
-                <td>
-                  <VField>
-                    <VControl>
-                      <VSwitchBlock color="primary" :checked="true" />
-                    </VControl>
-                  </VField>
-                </td>
-              </tr>
-              <tr>
-                <td>{{ $t('Edit_applicant') }}</td>
-                <td>
-                  <VField>
-                    <VControl>
-                      <VSwitchBlock color="primary" :checked="true" />
-                    </VControl>
-                  </VField>
-                </td>
-              </tr>
-              <tr>
-                <td>{{ $t('Remove_applicant') }}</td>
-                <td>
-                  <VField>
-                    <VControl>
-                      <VSwitchBlock color="primary" :checked="true" />
-                    </VControl>
-                  </VField>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div v-else-if="activeValue === 'statements'" class="active_tab_content p-5">
-          <table class="table is-striped is-fullwidth">
-            <tbody>
-              <tr>
-                <td>{{ $t('View_statement') }}</td>
-                <td>
-                  <VField>
-                    <VControl>
-                      <VSwitchBlock color="primary" :checked="true" />
-                    </VControl>
-                  </VField>
-                </td>
-              </tr>
-              <tr>
-                <td>{{ $t('Edit_statement') }}</td>
-                <td>
-                  <VField>
-                    <VControl>
-                      <VSwitchBlock color="primary" :checked="true" />
-                    </VControl>
-                  </VField>
-                </td>
-              </tr>
-              <tr>
-                <td>{{ $t('Remove_statement') }}</td>
-                <td>
-                  <VField>
-                    <VControl>
-                      <VSwitchBlock color="primary" :checked="true" />
+                      <VSwitchBlock :name="method.id" color="primary" :true-value="1" :false-value="0"
+                        :checked="method.value" @change="updatePermissionMethod" />
                     </VControl>
                   </VField>
                 </td>

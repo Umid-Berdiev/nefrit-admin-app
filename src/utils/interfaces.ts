@@ -267,3 +267,15 @@ export interface EmployeeData {
   role?: RoleData
   password_confirmation?: string
 }
+
+export interface PermissionMethod {
+  id: number
+  method: string
+  value: number
+}
+
+export interface PermissionData {
+  label: string
+  value: string | number
+  methods?: PermissionMethod[]
+}

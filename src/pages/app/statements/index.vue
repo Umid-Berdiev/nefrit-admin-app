@@ -250,7 +250,7 @@ function successNotify() {
               <StatusTag :status="value" />
             </template>
             <template v-else-if="column.key === 'stage'">
-              <button class="button is-size-6 has-background-info is-rounded has-text-white p-5" rounded
+              <button class="ml-auto button is-size-6 has-background-info is-rounded has-text-white p-5" rounded
                 style="white-space: break-spaces;">
                 {{ value.name }}
               </button>

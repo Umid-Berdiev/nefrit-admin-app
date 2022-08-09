@@ -109,10 +109,25 @@ export async function removeMulti(ids: number[]) {
   }
 }
 
+// role permissions api
 export async function fetchPermissionByRoleId(roleId: number) {
   try {
     const { data } = await api({
       url: `/api/admin/permission/role/${roleId}`,
+    })
+
+    return data.data
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function updatePermissionMethodById(methodId: number, value: 1 | 0) {
+  try {
+    const { data } = await api({
+      url: `/api/admin/permission/method/${methodId}`,
+      method: 'PUT',
+      data: { value },
     })
 
     return data.data

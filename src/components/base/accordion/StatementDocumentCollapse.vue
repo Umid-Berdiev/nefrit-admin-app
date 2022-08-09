@@ -83,7 +83,7 @@ onMounted(async () => {
 .collapse {
   @include vuero-s-card;
 
-  padding: 0;
+  padding: 1rem 0;
   margin-bottom: 1.5rem;
 
   &.has-plus {
@@ -125,7 +125,7 @@ onMounted(async () => {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 60px;
+    // height: 60px;
     padding: 0 20px;
     cursor: pointer;
 

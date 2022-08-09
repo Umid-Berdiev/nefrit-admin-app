@@ -121,7 +121,7 @@ function clearErrors() {
             </VField>
           </div>
           <div class="column is-12">
-            <VField :label="$t('Stages')">
+            <VField :label="$t('Stages')" required>
               <VControl>
                 <Multiselect v-model="departmentData.stages" :searchable="false" :options="stagesList"
                   :placeholder="$t('Select_stages')" valueProp="id" label="name" mode="tags" :close-on-select="false" />
