@@ -1,3 +1,4 @@
+
 export type ColorFn =
   | 'rgba'
   | 'adjusthue'

@@ -1,0 +1,1 @@
+import{K as e,p as n,x as t,t as l,A as r}from"./index.f060b7c6.js";const i=e({props:{align:{default:void 0},addons:{type:Boolean}},setup(a){const s=a;return(o,d)=>(n(),t("div",{class:r(["buttons",[s.addons&&"has-addons",s.align&&`is-${s.align}`]])},[l(o.$slots,"default")],2))}});export{i as _};
