@@ -1,1 +1,0 @@
-import{r as u,bH as v,a4 as o,m as c}from"./index.f060b7c6.js";function f(s){const e=u(!1);v(s,()=>{e.value=!1});const a=()=>{e.value=!0},l=()=>{e.value=!1},t=()=>{e.value=!e.value};return o(()=>{!s.value||(e.value?s.value.classList.add("is-active"):s.value.classList.remove("is-active"))}),c({isOpen:e,open:a,close:l,toggle:t})}export{f as u};
