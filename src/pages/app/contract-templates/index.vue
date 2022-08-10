@@ -7,7 +7,8 @@ import { useViewWrapper } from '/@src/stores/viewWrapper'
 import { useMainStore } from '/@src/stores'
 import { useHead } from '@vueuse/head'
 import ContractTemplateFormModal from '/@src/components/base/modal/ContractTemplateFormModal.vue'
-import { fetchList } from '/@src/utils/api/contract-templates'
+import { fetchList, removeById } from '/@src/utils/api/contract-templates'
+import { useNotyf } from '/@src/composable/useNotyf'
 
 const { t } = useI18n()
 
@@ -15,13 +16,14 @@ useHead({
   title: t('Contract_templates') + ' - Nefrit',
 })
 
+const notif = useNotyf()
 const mainStore = useMainStore()
 const viewWrapper = useViewWrapper()
 viewWrapper.setPageTitle(t('Contract_templates'))
 
 const isFormModalOpen = ref(false)
 const selectedRowIds = ref<number[]>([])
-const isAllSelected = computed(() => data.length === selectedRowIds.value.length)
+const isAllSelected = computed(() => data.result.length === selectedRowIds.value.length)
 const router = useRouter()
 const selectedId = ref()
 const templatesList = ref([])
@@ -61,52 +63,29 @@ const currentPage = computed({
 
 await fetchTemplatesList()
 
-// the select all checkbox click handler
-function toggleSelection() {
-  // console.log('data:', data)
-
-  if (isAllSelected.value) {
-    selectedRowIds.value = []
-  } else {
-    selectedRowIds.value = data.map((row: any) => row.id)
-  }
-}
-
-// this it the row click handler (enabled with clickable props)
-function clickOnRow(row: any) {
-  if (selectedRowIds.value.includes(row.id)) {
-    selectedRowIds.value = selectedRowIds.value.filter((i) => i !== row.id)
-  } else {
-    selectedRowIds.value = [...selectedRowIds.value, row.id]
-  }
-}
-
-function onActionTriggered(rowId: number) {
-  router.push('/app/applicant/' + rowId)
-}
-
 function onEdit(rowId: Object) {
   isFormModalOpen.value = true
   selectedId.value = rowId
 }
 
-function confirmAction() {
-  if (selectedRowIds.value.length > 0)
-    mainStore.$patch({ confirmModalState: true })
-  else alert(t('No_row_selected'))
+async function onRemove(id: number) {
+  selectedId.value = id
+  mainStore.$patch({ confirmModalState: true })
 }
 
-async function onRemove(templateId: number) {
-  mainStore.$patch({ confirmModalState: true })
-  if (mainStore.confirmState) {
-    console.log('User deleted!');
-    mainStore.$patch({ confirmState: false })
-  }
+async function handleRemoveAction() {
+  await removeById(selectedId.value)
+  await fetchTemplatesList()
+  successNotify()
 }
 
 async function fetchTemplatesList(page: number = 1) {
   const res = await fetchList(page)
   Object.assign(data, res)
+}
+
+function successNotify() {
+  notif.success(t('Success'))
 }
 </script>
 
@@ -131,9 +110,18 @@ async function fetchTemplatesList(page: number = 1) {
           <template #header-column="{ column }">
             <span v-if="column.key === 'orderNumber'" class="is-flex-grow-0" v-text="'#'" />
           </template>
+
+          <template #body>
+            <!-- This is the empty state -->
+            <div v-if="data.result.length === 0" class="flex-list-inner">
+              <VPlaceholderSection :title="$t('No_data')" :subtitle="$t('There_is_no_data_that_match_your_query')"
+                class="my-6" />
+            </div>
+          </template>
+
           <template #body-cell="{ row, column, value, index }">
             <template v-if="column.key === 'actions'">
-              <UsersFlexTableDropdown @remove="onRemove(row.id)" />
+              <DepartmentFlexTableDropdown @edit="onEdit(row.id)" @remove="onRemove(row.id)" />
             </template>
           </template>
         </VFlexTable>
@@ -144,7 +132,8 @@ async function fetchTemplatesList(page: number = 1) {
       </template>
     </VFlexTableWrapper>
     <ContractTemplateFormModal v-model="isFormModalOpen" :template-id="selectedId"
-      @update:list="() => { fetchData(); successNotify(); selectedId = undefined; }" @close="selectedId = undefined" />
+      @update:list="() => { fetchTemplatesList(); successNotify(); selectedId = undefined; }"
+      @close="selectedId = undefined" />
     <ConfirmActionModal @confirm-action="handleRemoveAction" />
   </div>
 </template>
