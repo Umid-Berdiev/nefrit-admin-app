@@ -194,7 +194,7 @@ function successNotify() {
         </VFlexTable>
 
         <!-- Table Pagination with wrapperState.page binded-->
-        <VFlexPagination v-model:current-page="data.pagination.current_page" class="mt-6"
+        <VFlexPagination v-if="data.result.length" v-model:current-page="data.pagination.current_page" class="mt-6"
           :item-per-page="data.pagination.per_page" :total-items="data.pagination.total" />
       </template>
     </VFlexTableWrapper>

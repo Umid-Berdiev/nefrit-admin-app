@@ -104,8 +104,6 @@ function clearErrors() {
               <p class="help has-text-danger">{{ errors.payment_amount[0] }}</p>
             </VControl>
           </VField> -->
-        </div>
-        <div class="column is-12">
           <VField :label="$t('Body')" required>
             <CKEditor v-model="templateData.body" :editor="ClassicEditor" :config="editorConfig">
             </CKEditor>
@@ -121,3 +119,10 @@ function clearErrors() {
     </template>
   </VModal>
 </template>
+
+<style lang="scss">
+.ck-editor__editable[role="textbox"] {
+  /* editing area */
+  min-height: 25vh !important;
+}
+</style>

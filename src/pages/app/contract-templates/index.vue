@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, h, reactive } from 'vue'
-import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 
 import { useViewWrapper } from '/@src/stores/viewWrapper'
@@ -21,11 +20,8 @@ const viewWrapper = useViewWrapper()
 viewWrapper.setPageTitle(t('Contract_templates'))
 
 const isFormModalOpen = ref(false)
-const selectedRowIds = ref<number[]>([])
-const isAllSelected = computed(() => data.result.length === selectedRowIds.value.length)
-const router = useRouter()
-const selectedId = ref()
-const templatesList = ref([])
+
+const selectedId = ref<number>()
 const data = reactive({
   pagination: {
     current_page: 1,
@@ -92,7 +88,7 @@ function successNotify() {
   <div class="applicant-list-wrapper">
     <!-- table -->
     <VFlex justify-content="end" class="mb-4">
-      <VButton outlined rounded color="info" icon="feather:plus" @click.prevent="onEdit(null)">
+      <VButton outlined rounded color="info" icon="feather:plus" @click.prevent="onEdit(undefined)">
         {{
             $t('Add')
         }}
@@ -126,8 +122,8 @@ function successNotify() {
         </VFlexTable>
 
         <!-- Table Pagination with wrapperState.page binded-->
-        <VFlexPagination v-model:current-page="currentPage" class="mt-6" :item-per-page="data.pagination.per_page"
-          :total-items="data.pagination.total" />
+        <VFlexPagination v-if="data.result.length" v-model:current-page="currentPage" class="mt-6"
+          :item-per-page="data.pagination.per_page" :total-items="data.pagination.total" />
       </template>
     </VFlexTableWrapper>
     <ContractTemplateFormModal v-model="isFormModalOpen" :template-id="selectedId"
