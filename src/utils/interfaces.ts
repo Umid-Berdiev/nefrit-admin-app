@@ -281,9 +281,8 @@ export interface PermissionData {
 }
 
 export interface ContractTemplateData {
+  id?: number
   name: string
   body: string
   payment_amount?: number
 }
-
-

@@ -169,6 +169,13 @@ zh-CN:
   // padding: 0;
   vertical-align: sub;
   border-color: var(--border);
+
+  &.is-current {
+    background: var(--primary) !important;
+    color: var(--smoke-white) !important;
+    border-color: var(--primary) !important;
+    box-shadow: var(--primary-box-shadow) !important;
+  }
 }
 
 .pagination-previous,

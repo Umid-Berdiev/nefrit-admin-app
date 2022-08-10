@@ -1,0 +1,1 @@
+import{A as e,o as n,j as t,i as l,l as r}from"./index.433ccf37.js";const p=e({props:{align:{default:void 0},addons:{type:Boolean}},setup(o){const s=o;return(a,d)=>(n(),t("div",{class:r(["buttons",[s.addons&&"has-addons",s.align&&`is-${s.align}`]])},[l(a.$slots,"default")],2))}});export{p as _};
