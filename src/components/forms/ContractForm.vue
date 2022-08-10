@@ -1,14 +1,16 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { fetchStatementContractById } from '/@src/utils/api/statement'
+import { fetchStatementContractById, cancelStatementPayment } from '/@src/utils/api/statement'
 import { useRoute, useRouter } from 'vue-router';
 import { StatementContractData, StatementData } from '/@src/utils/interfaces';
 import VButton from '../base/button/VButton.vue';
 import { useNotyf } from '/@src/composable/useNotyf';
 import VFlexItem from '../base/flex/VFlexItem.vue';
+import { useMainStore } from '/@src/stores';
 
 const { t, locale } = useI18n()
+const mainStore = useMainStore()
 const columns = computed(() => ({
   name: {
     label: t('Name'),
@@ -38,6 +40,7 @@ const columns = computed(() => ({
     label: t('Date'),
   }
 }))
+const notif = useNotyf()
 const isFileUploadModalOpen = ref(false)
 const route = useRoute()
 const currentId = (route.params?.id as string) ?? null
@@ -45,7 +48,7 @@ const contractData = ref<StatementContractData>()
 const contractStatements = ref<StatementData[]>()
 const filePropName = ref<string>('')
 const isFormModalOpen = ref<boolean>(false)
-const notif = useNotyf()
+const statementId = ref<number>()
 
 await fetchData()
 
@@ -64,8 +67,28 @@ function onEdit() {
   isFormModalOpen.value = true
 }
 
+async function onReject(rowId: number) {
+  statementId.value = rowId
+  mainStore.$patch({ confirmModalState: true })
+}
+
 function notify() {
   notif.success(t('Updated_successfully'))
+}
+
+async function rejectStatementStatus() {
+  const res =
+    notif.success(t('Updated_successfully'))
+}
+
+async function handleRejectAction() {
+  await cancelStatementPayment(Number(currentId), statementId.value)
+  await fetchData()
+  successNotify()
+}
+
+function successNotify() {
+  notif.success(t('Success'))
 }
 </script>
 
@@ -194,7 +217,8 @@ function notify() {
                         :label="item.is_paid ? $t('Paid') : $t('Not_Paid')" />
                     </VFlexItem>
                     <VFlexItem v-if="item.is_paid && !contractData?.verified_at">
-                      <VButton color="warning" rounded v-text="$t('Reject_statement_status')"></VButton>
+                      <VButton color="warning" rounded v-text="$t('Reject_statement_status')"
+                        @click="onReject(item.id)" />
                     </VFlexItem>
                   </VFlex>
                 </td>
@@ -207,7 +231,8 @@ function notify() {
     <ContractFormModal v-model="isFormModalOpen" :item-id="Number(currentId)"
       @update:list="() => { fetchData(); notify(); currentId = ''; }" />
     <FileUploadModal v-model="isFileUploadModalOpen" :contract-id="currentId" @close="fetchData"
-      :file-prop-name="filePropName" @update:data="fetchData" />
+      :file-prop-name="filePropName" @update:data="() => { fetchData(); successNotify(); }" />
+    <ConfirmActionModal @confirm-action="handleRejectAction" />
   </div>
 </template>
 

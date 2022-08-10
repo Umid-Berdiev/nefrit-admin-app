@@ -20,11 +20,13 @@ const emits = defineEmits<{
 const { t, locale } = useI18n()
 const files = ref<File[]>([]);
 const errorMessage = ref<string>('')
+const isLoading = ref(false)
 
 let title = ref(t('Add_file'))
 
 async function onSubmit(event: Event) {
   try {
+    isLoading.value = true
     if (files.value.length) {
       const formData = new FormData()
       formData.append(props.filePropName, files.value[0] ?? '')
@@ -34,7 +36,9 @@ async function onSubmit(event: Event) {
       onClose()
     } else errorMessage.value = t('File_upload_field_required');
   } catch (error: any) {
-    Object.assign(errors, error.response?.data?.errors)
+    throw error
+  } finally {
+    isLoading.value = false
   }
 }
 
@@ -46,7 +50,7 @@ function onClose() {
 
 function onFileUpload(event: Event) {
   const target = event.target as HTMLInputElement
-  files.value = target.files && [target.files[0]];
+  files.value = target.files?.length && [target.files[0]];
   errorMessage.value = ''
 }
 
@@ -58,7 +62,7 @@ function onFileRemove() {
 <template>
   <VModal :open="modelValue" size="large" :title="title" actions="right" @close="onClose">
     <template #content>
-      <form id="submit-form2" class="modal-form" @submit.prevent="onSubmit">
+      <form id="file-upload-form" class="modal-form" @submit.prevent="onSubmit">
         <div class="columns is-multiline">
           <div class="column is-12">
             <VFileInput :files="files" @file-upload="onFileUpload" @file-remove="onFileRemove"
@@ -68,7 +72,11 @@ function onFileRemove() {
       </form>
     </template>
     <template #action="{ close }">
-      <VButton color="primary" outlined type="submit" form="submit-form2">{{ $t('Save') }}</VButton>
+      <!-- <VButton color="primary" outlined type="submit" form="file-upload-form">{{ $t('Save') }}</VButton> -->
+      <VButton color="primary" outlined type="submit" form="file-upload-form" :loading="isLoading"
+        :disabled="isLoading">
+        {{ $t('Save') }}
+      </VButton>
     </template>
   </VModal>
 </template>

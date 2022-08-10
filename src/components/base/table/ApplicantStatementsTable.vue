@@ -73,51 +73,55 @@ function onView(statementId: number) {
 
 <template>
   <div>
-    <!-- <h1 class="is-size-3 mb-3">{{ $t('Statements') }}</h1> -->
-    <VFlexTable class="pt-5" rounded :data="data.result" :columns="columns">
-      <template #body>
-        <!-- This is the empty state -->
-        <div v-if="data.result.length === 0" class="flex-list-inner">
-          <VPlaceholderSection :title="$t('No_data')" :subtitle="$t('There_is_no_data_that_match_your_query')"
-            class="my-6" />
-        </div>
-      </template>
+    <VFlexTableWrapper :columns="columns" :data="data.result" :limit="data.pagination.per_page"
+      :total="data.pagination.total">
+      <template #default="wrapperState">
+        <VFlexTable rounded>
+          <template #body>
+            <!-- This is the empty state -->
+            <div v-if="data.result.length === 0" class="flex-list-inner">
+              <VPlaceholderSection :title="$t('No_data')" :subtitle="$t('There_is_no_data_that_match_your_query')"
+                class="my-6" />
+            </div>
+          </template>
 
-      <!-- Custom "name" cell content -->
-      <template #body-cell="{ row, column, value, index }">
-        <!-- <VCheckbox v-if="column.key === 'select'" v-model="selectedRowsId" :value="row.id" name="selection"
+          <!-- Custom "name" cell content -->
+          <template #body-cell="{ row, column, value, index }">
+            <!-- <VCheckbox v-if="column.key === 'select'" v-model="selectedRowsId" :value="row.id" name="selection"
         @change="clickOnRow" /> -->
 
-        <template v-if="column.key === 'legal_entity'">
-          <span>{{ value.name }}</span>
-        </template>
-        <template v-else-if="column.key === 'drug'">
-          <span>{{ value.name }}</span>
-        </template>
-        <template v-else-if="column.key === 'date'">
-          <span>{{ value }}</span>
-        </template>
-        <template v-else-if="column.key === 'status'">
-          <StatusTag :status="value" />
-        </template>
-        <template v-else-if="column.key === 'stage'">
-          <VTag class="is-size-6" rounded color="info">
-            {{ value.name }}
-          </VTag>
-        </template>
-        <template v-else-if="column.key === 'actions'">
-          <!-- <ActionButtons @edit="isFormModalOpen = true" /> -->
-          <!-- <StatementsFlexTableDropdown @view="onActionTriggered(row.id)" @conclusion="gotoConclusionList(row.id)"
+            <template v-if="column.key === 'legal_entity'">
+              <span>{{ value.name }}</span>
+            </template>
+            <template v-else-if="column.key === 'drug'">
+              <span>{{ value.name }}</span>
+            </template>
+            <template v-else-if="column.key === 'date'">
+              <span>{{ value }}</span>
+            </template>
+            <template v-else-if="column.key === 'status'">
+              <StatusTag :status="value" />
+            </template>
+            <template v-else-if="column.key === 'stage'">
+              <VTag class="is-size-6" rounded color="info">
+                {{ value.name }}
+              </VTag>
+            </template>
+            <template v-else-if="column.key === 'actions'">
+              <!-- <ActionButtons @edit="isFormModalOpen = true" /> -->
+              <!-- <StatementsFlexTableDropdown @view="onActionTriggered(row.id)" @conclusion="gotoConclusionList(row.id)"
             @remove="confirmAction" @feedback="isFeedbackModalOpen = true" /> -->
-          <a href="javascript:;" @click="onView(row.id)">
-            <VueIconify icon="feather:eye" class="has-text-primary" height="1.5rem" />
-          </a>
-        </template>
-      </template>
-    </VFlexTable>
+              <a href="javascript:;" @click="onView(row.id)">
+                <VueIconify icon="feather:eye" class="has-text-primary" height="1.5rem" />
+              </a>
+            </template>
+          </template>
+        </VFlexTable>
 
-    <!-- Table Pagination with wrapperState.page binded-->
-    <VFlexPagination v-if="data.result?.length" class="mt-6" v-model:current-page="currentPage"
-      :item-per-page="data.pagination.per_page" :total-items="data.pagination.total" />
+        <!-- Table Pagination with wrapperState.page binded-->
+        <VFlexPagination v-if="data.result?.length" class="mt-6" v-model:current-page="currentPage"
+          :item-per-page="data.pagination.per_page" :total-items="data.pagination.total" />
+      </template>
+    </VFlexTableWrapper>
   </div>
 </template>

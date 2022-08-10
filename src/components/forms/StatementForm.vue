@@ -178,7 +178,7 @@ function successNotify() {
     <DrugInfoModal v-model="isDrugInfoModalOpen" :drug-data="currentStatementData?.drug" />
     <CertificateFormModal v-model="isCertificateFormModalOpen" :statement-id="currentId" @close="fetchData" />
     <StatementStageFormModal v-model="isStatementStageFormModalOpen" :statement-id="Number(currentId)"
-      :statement-stage="currentState" @update:data="() => { fetchData(); successNotify(); }" />
+      :statement-stage="Number(currentState)" @update:data="() => { fetchData(); successNotify(); }" />
   </div>
 </template>
 

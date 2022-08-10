@@ -333,5 +333,7 @@
   "Payment_sum": "Amount of payments",
   "Add_contract_template": "Add contract template",
   "Payment_amount": "Payment amount",
-  "Body": "Body"
+  "Body": "Body",
+  "application_contracts": "Application contracts",
+  "application_notices": "Application notices"
 }

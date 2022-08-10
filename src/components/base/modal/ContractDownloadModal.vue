@@ -7,9 +7,11 @@ import { useMainStore } from "/@src/stores";
 import { editorData, editorConfig } from '/@src/data/ck-editor/editor-data'
 import { ContractTemplateData } from "/@src/utils/interfaces";
 import { fetchContractTemplates } from "/@src/utils/api/contract-templates";
+import VOption from "../form/VOption.vue";
 
 const mainStore = useMainStore()
 const CKEditor = CKE.component
+const isLoading = ref(false)
 
 const state = computed(() => mainStore.contractDownloadModalState)
 const templateList = ref<ContractTemplateData[]>([])
@@ -33,10 +35,14 @@ watch(
 )
 
 async function onClose() {
+  selectedTemplateId.value = undefined
+  fileName.value = ''
   mainStore.$patch({ contractDownloadModalState: false })
 }
 
 function downloadCKEditorData() {
+  isLoading.value = true
+
   let preHtml = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Export HTML To Doc</title></head><body>";
   let postHtml = "</body></html>";
   let html = preHtml + selectedTemplate.value?.body + postHtml;
@@ -62,6 +68,9 @@ function downloadCKEditorData() {
   downloadLink.click();
 
   document.body.removeChild(downloadLink);
+
+  isLoading.value = false
+
 }
 
 </script>
@@ -75,6 +84,7 @@ function downloadCKEditorData() {
           <VField :label="$t('Select_template')">
             <VControl>
               <VSelect v-model="selectedTemplateId">
+                <VOption hidden value="">{{ $t('Select_template') }}</VOption>
                 <VOption v-for="template, index in templateList" :value="template.id" v-text="template.name" />
               </VSelect>
             </VControl>
@@ -91,7 +101,17 @@ function downloadCKEditorData() {
       </div>
     </template>
     <template #action="{ close }">
-      <VButton color="primary" outlined @click="downloadCKEditorData">{{ $t('Download') }}</VButton>
+      <!-- <VButton color="primary" outlined @click="downloadCKEditorData">{{ $t('Download') }}</VButton> -->
+      <VButton :loading="isLoading" color="primary" outlined :disabled="isLoading" @click="downloadCKEditorData">
+        {{ $t('Download') }}
+      </VButton>
     </template>
   </VModal>
 </template>
+
+<style lang="scss">
+.ck-editor__editable[role="textbox"] {
+  /* editing area */
+  min-height: 25vh !important;
+}
+</style>

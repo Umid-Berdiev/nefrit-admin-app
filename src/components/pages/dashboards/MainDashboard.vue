@@ -66,7 +66,7 @@ const statusChartOptions = reactive({
     text: '',
   },
   chart: {
-    height: 290,
+    height: 200,
     type: 'donut',
   },
   labels: [],
@@ -89,6 +89,9 @@ const statusChartOptions = reactive({
   legend: {
     position: 'right',
     horizontalAlign: 'center',
+    formatter: (val, opt) => {
+      return `<span style="overflow-wrap: break-word;">${val}</span>`
+    }
   },
   plotOptions: {
     pie: {
@@ -118,7 +121,7 @@ const stageChartOptions = reactive({
     text: '',
   },
   chart: {
-    height: 290,
+    height: 200,
     type: 'donut',
   },
   labels: [],
@@ -141,6 +144,9 @@ const stageChartOptions = reactive({
   legend: {
     position: 'right',
     horizontalAlign: 'center',
+    formatter: (val, opt) => {
+      return `<span style="overflow-wrap: break-word;">${val}</span>`
+    }
   },
   plotOptions: {
     pie: {
@@ -318,9 +324,8 @@ async function fetchLatestStatements(page: number = 1) {
             </VDatePicker>
           </div>
           <div class="my-auto">
-            <ApexChart id="apex-chart-18" type="donut" :height="400" :series="statusChartSeries"
-              :options="statusChartOptions">
-            </ApexChart>
+            <ApexChart :type="statusChartOptions.chart.type" :height="400" :series="statusChartSeries"
+              :options="statusChartOptions" />
           </div>
         </div>
       </div>
@@ -335,9 +340,8 @@ async function fetchLatestStatements(page: number = 1) {
             </VField>
           </div>
           <div class="my-auto">
-            <ApexChart id="apex-chart-8" :height="400" :type="paymentChartOptions.chart.type"
-              :series="paymentChartOptions.series" :options="paymentChartOptions">
-            </ApexChart>
+            <ApexChart :type="paymentChartOptions.chart.type" :height="400" :series="paymentChartOptions.series"
+              :options="paymentChartOptions" />
           </div>
         </div>
       </div>
@@ -365,9 +369,8 @@ async function fetchLatestStatements(page: number = 1) {
             </VDatePicker>
           </div>
           <div class="my-auto">
-            <ApexChart id="apex-chart-18" type="donut" :height="400" :series="stageChartSeries"
-              :options="stageChartOptions">
-            </ApexChart>
+            <ApexChart :type="stageChartOptions.chart.type" :height="400" :series="stageChartSeries"
+              :options="stageChartOptions" />
           </div>
         </div>
       </div>

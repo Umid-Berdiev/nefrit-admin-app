@@ -216,7 +216,8 @@ async function onBlock(id: number) {
               <StatusTag :status="value" />
             </template>
             <template v-if="column.key === 'actions'">
-              <ApplicantFlexTableDropdown @view="onView(row.id)" @edit="onEdit(row.id)" @block="onBlock(row.id)" />
+              <ApplicantFlexTableDropdown @view="onView(row.id)" />
+              <!-- <ApplicantFlexTableDropdown @view="onView(row.id)" @edit="onEdit(row.id)" @block="onBlock(row.id)" /> -->
             </template>
           </template>
         </VFlexTable>

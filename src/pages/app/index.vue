@@ -14,35 +14,30 @@ const { user } = useUserSession()
 const viewWrapper = useViewWrapper()
 viewWrapper.setPageTitle(t('Dashboard'))
 
-const dashboard = computed(() => {
-  switch (user?.role_id) {
-    case 1:
-    case 2:
-    case 3: return MainDashboard
-    case 4:
-    case 5:
-    case 6: return OtherDashboard
-    case 7: return AccountantDashboard
-    // default: return OtherDashboard
-  }
-})
+const currentDashboard = ref('OtherDashboard')
 
-// watch(
-//   () => user?.role_id,
-//   (newVal) => {
-//     switch (newVal) {
-//       case 1:
-//       case 2:
-//       case 3: return MainDashboard
-//       case 4:
-//       case 5:
-//       case 6: return OtherDashboard
-//       case 7: return AccountantDashboard
-//       default: return OtherDashboard
-//     }
-//   },
-//   { deep: true, immediate: true }
-// )
+const dashboards = {
+  MainDashboard,
+  AccountantDashboard,
+  OtherDashboard
+}
+
+watch(
+  () => user?.role_id,
+  (newVal) => {
+    switch (newVal) {
+      case 1:
+      case 2:
+      case 3: currentDashboard.value = 'MainDashboard'; break;
+      case 4:
+      case 5:
+      case 6: currentDashboard.value = 'OtherDashboard'; break;
+      case 7: currentDashboard.value = 'AccountantDashboard'; break;
+      default: currentDashboard.value = 'OtherDashboard';
+    }
+  },
+  { deep: true, immediate: true }
+)
 
 useHead({
   title: t('Dashboard') + ' - Nefrit',
@@ -51,6 +46,6 @@ useHead({
 
 <template>
   <div class="page-content-inner">
-    <component :is="dashboard" />
+    <component :is="dashboards[currentDashboard]" />
   </div>
 </template>

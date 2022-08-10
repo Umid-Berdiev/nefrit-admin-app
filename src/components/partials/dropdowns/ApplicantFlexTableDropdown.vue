@@ -25,7 +25,7 @@ const emits = defineEmits<{
         </div>
       </a>
 
-      <a role="menuitem" href="#" class="dropdown-item is-media" @click.prevent="
+      <!-- <a role="menuitem" href="#" class="dropdown-item is-media" @click.prevent="
         () => {
           emits('edit')
           close()
@@ -55,7 +55,7 @@ const emits = defineEmits<{
           <span>{{ $t('Block') }}</span>
           <span>{{ $t('Block_applicant') }}</span>
         </div>
-      </a>
+      </a> -->
     </template>
   </VDropdown>
 </template>

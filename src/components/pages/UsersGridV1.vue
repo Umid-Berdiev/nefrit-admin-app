@@ -300,4 +300,8 @@ async function fetchStatistics() {
     box-shadow: none !important;
   }
 }
+
+.is-dark .collapse[open] .collapse-header .collapse-icon {
+  background: unset !important;
+}
 </style>

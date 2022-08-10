@@ -572,6 +572,19 @@ export async function verifyContractById(id: number) {
   }
 }
 
+export async function cancelStatementPayment(contractId: number, statementId: number) {
+  try {
+    const { data } = await api({
+      url: `/api/admin/appcontract/${contractId}/application/${statementId}/cancel`,
+      method: 'PUT',
+    })
+
+    return data.data
+  } catch (error) {
+    throw error
+  }
+}
+
 export async function addContractFile(id: number, formData: FormData) {
   try {
     const { data } = await api({

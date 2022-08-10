@@ -333,5 +333,7 @@
   "Payment_sum": "To'lovlar summasi",
   "Add_contract_template": "Shartnoma shablonini qo'shish",
   "Payment_amount": "To'lov summasi",
-  "Body": "Shartnoma matni"
+  "Body": "Shartnoma matni",
+  "application_contracts": "Ariza shartnomalari",
+  "application_notices": "Ariza bildirishnomalari"
 }
