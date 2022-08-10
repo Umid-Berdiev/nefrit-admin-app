@@ -6,7 +6,6 @@ import { useI18n } from 'vue-i18n'
 import { useViewWrapper } from '/@src/stores/viewWrapper'
 import { useMainStore } from '/@src/stores'
 import { useHead } from '@vueuse/head'
-import ContractTemplateFormModal from '/@src/components/base/modal/ContractTemplateFormModal.vue'
 import { fetchList, removeById } from '/@src/utils/api/contract-templates'
 import { useNotyf } from '/@src/composable/useNotyf'
 
@@ -44,9 +43,9 @@ const columns = {
   name: {
     label: t('Template_title'),
   },
-  amount: {
-    label: t('Amount'),
-  },
+  // amount: {
+  //   label: t('Amount'),
+  // },
   actions: {
     label: t('Actions'),
     align: 'center',
@@ -63,13 +62,13 @@ const currentPage = computed({
 
 await fetchTemplatesList()
 
-function onEdit(rowId: Object) {
-  isFormModalOpen.value = true
+function onEdit(rowId: number) {
   selectedId.value = rowId
+  isFormModalOpen.value = true
 }
 
-async function onRemove(id: number) {
-  selectedId.value = id
+async function onRemove(rowId: number) {
+  selectedId.value = rowId
   mainStore.$patch({ confirmModalState: true })
 }
 
@@ -93,7 +92,7 @@ function successNotify() {
   <div class="applicant-list-wrapper">
     <!-- table -->
     <VFlex justify-content="end" class="mb-4">
-      <VButton outlined rounded color="info" icon="feather:plus" @click.prevent="onEdit({})">
+      <VButton outlined rounded color="info" icon="feather:plus" @click.prevent="onEdit(null)">
         {{
             $t('Add')
         }}
@@ -121,7 +120,7 @@ function successNotify() {
 
           <template #body-cell="{ row, column, value, index }">
             <template v-if="column.key === 'actions'">
-              <DepartmentFlexTableDropdown @edit="onEdit(row.id)" @remove="onRemove(row.id)" />
+              <ContractTemplateFlexTableDropdown @edit="onEdit(row.id)" @remove="onRemove(row.id)" />
             </template>
           </template>
         </VFlexTable>

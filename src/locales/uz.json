@@ -330,5 +330,8 @@
   "Change_statement_stage": "Ariza bosqichini o'zgartirish",
   "Change_stage": "Bosqichni o'zgartirish",
   "Methods": "Funksiyalar",
-  "Payment_sum": "To'lovlar summasi"
+  "Payment_sum": "To'lovlar summasi",
+  "Add_contract_template": "Shartnoma shablonini qo'shish",
+  "Payment_amount": "To'lov summasi",
+  "Body": "Shartnoma matni"
 }

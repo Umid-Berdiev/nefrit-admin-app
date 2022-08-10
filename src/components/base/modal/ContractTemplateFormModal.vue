@@ -90,7 +90,6 @@ function clearErrors() {
 <template>
   <VModal :open="modelValue" size="big" actions="right" :title="$t('Add_contract_template')" @close="onClose">
     <template #content>
-      <!-- <form id="contract-template-form" class="modal-form" @submit.prevent="onSubmit"> -->
       <div class="columns is-multiline">
         <div class="column is-12">
           <VField :label="$t('Template_title')" required>
@@ -99,22 +98,21 @@ function clearErrors() {
               <p class="help has-text-danger">{{ errors.name[0] }}</p>
             </VControl>
           </VField>
-          <VField :label="$t('Payment_amount')">
+          <!-- <VField :label="$t('Payment_amount')">
             <VControl>
               <VInput type="text" :placeholder="$t('Payment_amount')" v-model="templateData.payment_amount" />
               <p class="help has-text-danger">{{ errors.payment_amount[0] }}</p>
             </VControl>
-          </VField>
+          </VField> -->
         </div>
         <div class="column is-12">
-          <!-- <VField :label="$t('Body')" required> -->
-          <CKEditor v-model="templateData.body" :editor="ClassicEditor" :config="editorConfig">
-          </CKEditor>
-          <p class="help has-text-danger">{{ errors.body[0] }}</p>
-          <!-- </VField> -->
+          <VField :label="$t('Body')" required>
+            <CKEditor v-model="templateData.body" :editor="ClassicEditor" :config="editorConfig">
+            </CKEditor>
+            <p class="help has-text-danger">{{ errors.body[0] }}</p>
+          </VField>
         </div>
       </div>
-      <!-- </form> -->
     </template>
     <template #action="{ close }">
       <VButton :loading="isLoading" color="primary" outlined type="button" :disabled="isLoading" @click="onSubmit">

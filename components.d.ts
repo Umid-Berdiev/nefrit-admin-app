@@ -43,6 +43,7 @@ declare module '@vue/runtime-core' {
     ContractForm: typeof import('./src/components/forms/ContractForm.vue')['default']
     ContractFormModal: typeof import('./src/components/base/modal/ContractFormModal.vue')['default']
     ContractInfoTable: typeof import('./src/components/base/table/ContractInfoTable.vue')['default']
+    ContractTemplateFlexTableDropdown: typeof import('./src/components/partials/dropdowns/ContractTemplateFlexTableDropdown.vue')['default']
     ContractTemplateFormModal: typeof import('./src/components/base/modal/ContractTemplateFormModal.vue')['default']
     ContractVerifyModal: typeof import('./src/components/base/modal/ContractVerifyModal.vue')['default']
     CountrySelect: typeof import('./src/components/forms/selects/CountrySelect.vue')['default']
