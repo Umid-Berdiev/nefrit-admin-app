@@ -23,7 +23,7 @@ const isFormModalOpen = ref(false)
 const selectedRowIds = ref<number[]>([])
 const isAllSelected = computed(() => data.length === selectedRowIds.value.length)
 const router = useRouter()
-const selectedTemplate = ref()
+const selectedId = ref()
 const templatesList = ref([])
 const data = reactive({
   pagination: {
@@ -87,7 +87,7 @@ function onActionTriggered(rowId: number) {
 
 function onEdit(rowId: Object) {
   isFormModalOpen.value = true
-  selectedTemplate.value = rowId
+  selectedId.value = rowId
 }
 
 function confirmAction() {
@@ -143,6 +143,8 @@ async function fetchTemplatesList(page: number = 1) {
           :total-items="data.pagination.total" />
       </template>
     </VFlexTableWrapper>
-    <ContractTemplateFormModal v-model="isFormModalOpen" :item="selectedTemplate" />
+    <ContractTemplateFormModal v-model="isFormModalOpen" :template-id="selectedId"
+      @update:list="() => { fetchData(); successNotify(); selectedId = undefined; }" @close="selectedId = undefined" />
+    <ConfirmActionModal @confirm-action="handleRemoveAction" />
   </div>
 </template>

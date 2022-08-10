@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n';
 import { onMounted, reactive, ref, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
+
 import { create, updateById, fetchById, fetchStages } from '/@src/utils/api/department';
 import { DepartmentData, StageData } from '/@src/utils/interfaces.js';
-import VField from '../form/VField.vue';
 
 const props = defineProps({
   modelValue: Boolean,
@@ -98,7 +98,7 @@ function clearErrors() {
 </script>
 
 <template>
-  <VModal :open="modelValue" size="large" :title="title" actions="right" @close="onClose()">
+  <VModal :open="modelValue" size="large" actions="right" :title="title" @close="onClose()">
     <template #content>
       <form id="department-form" class="modal-form" @submit.prevent="onSubmit">
         <div class="columns is-multiline">

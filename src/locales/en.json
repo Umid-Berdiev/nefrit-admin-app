@@ -330,5 +330,7 @@
   "Change_statement_stage": "Change statement's stage",
   "Change_stage": "Change stage",
   "Methods": "Methods",
-  "Payment_sum": "Amount of payments"
+  "Payment_sum": "Amount of payments",
+  "Add_contract_template": "Add contract template",
+  "Payment_amount": "Payment amount "
 }
