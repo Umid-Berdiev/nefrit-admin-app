@@ -279,3 +279,11 @@ export interface PermissionData {
   value: string | number
   methods?: PermissionMethod[]
 }
+
+export interface ContractTemplateData {
+  name: string
+  body: string
+  payment_amount?: number
+}
+
+

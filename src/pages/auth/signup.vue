@@ -105,7 +105,7 @@ useHead({
                 <div class="auth-content">
                   <h2>{{ t('auth.title') }}</h2>
                   <p>{{ t('auth.subtitle') }}</p>
-                  <RouterLink :to="{ name: 'auth-login' }">
+                  <RouterLink to="/">
                     {{ t('auth.action.login') }}
                   </RouterLink>
                 </div>

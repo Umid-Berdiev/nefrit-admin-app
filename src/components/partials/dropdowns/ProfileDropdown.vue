@@ -19,7 +19,7 @@ async function confirmAction() {
   try {
     setLoading(true)
     await logoutUser()
-    router.push('/auth/login')
+    router.push('/')
   } catch (error: any) {
     notif.error(error.message)
   } finally {

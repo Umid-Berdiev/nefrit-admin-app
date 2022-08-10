@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, h } from 'vue'
+import { ref, computed, onMounted, h, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 
@@ -25,6 +25,14 @@ const isAllSelected = computed(() => data.length === selectedRowIds.value.length
 const router = useRouter()
 const selectedTemplate = ref()
 const templatesList = ref([])
+const data = reactive({
+  pagination: {
+    current_page: 1,
+    per_page: 10,
+    total: 10,
+  },
+  result: []
+})
 
 const columns = {
   orderNumber: {
@@ -42,6 +50,16 @@ const columns = {
     align: 'center',
   },
 } as const
+const currentPage = computed({
+  get: () => {
+    return data.pagination.current_page
+  },
+  set: async (page) => {
+    await fetchTemplatesList(page)
+  }
+})
+
+await fetchTemplatesList()
 
 // the select all checkbox click handler
 function toggleSelection() {
@@ -88,7 +106,7 @@ async function onRemove(templateId: number) {
 
 async function fetchTemplatesList(page: number = 1) {
   const res = await fetchList(page)
-  templatesList.value = res
+  Object.assign(data, res)
 }
 </script>
 
@@ -102,7 +120,8 @@ async function fetchTemplatesList(page: number = 1) {
         }}
       </VButton>
     </VFlex>
-    <VFlexTableWrapper :columns="columns" :data="data.result">
+    <VFlexTableWrapper :columns="columns" :data="data.result" :limit="data.pagination.per_page"
+      :total="data.pagination.total">
       <!--
         Here we retrieve the internal wrapperState.
         Note that we can not destructure it
@@ -118,6 +137,10 @@ async function fetchTemplatesList(page: number = 1) {
             </template>
           </template>
         </VFlexTable>
+
+        <!-- Table Pagination with wrapperState.page binded-->
+        <VFlexPagination v-model:current-page="currentPage" class="mt-6" :item-per-page="data.pagination.per_page"
+          :total-items="data.pagination.total" />
       </template>
     </VFlexTableWrapper>
     <ContractTemplateFormModal v-model="isFormModalOpen" :item="selectedTemplate" />
