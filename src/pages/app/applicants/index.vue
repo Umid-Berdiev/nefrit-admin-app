@@ -85,26 +85,6 @@ const columns = {
 
 await fetchData()
 
-// the select all checkbox click handler
-function toggleSelection() {
-  // console.log('data:', data)
-
-  if (isAllSelected.value) {
-    selectedRowsId.value = []
-  } else {
-    selectedRowsId.value = data.result.map((row: any) => row.id)
-  }
-}
-
-// this it the row click handler (enabled with clickable props)
-function clickOnRow(row: any) {
-  if (selectedRowsId.value.includes(row.id)) {
-    selectedRowsId.value = selectedRowsId.value.filter((i) => i !== row.id)
-  } else {
-    selectedRowsId.value = [...selectedRowsId.value, row.id]
-  }
-}
-
 function onView(rowId: string | number) {
   router.push('/app/applicants/' + rowId)
 }
@@ -112,16 +92,6 @@ function onView(rowId: string | number) {
 async function fetchData(page: number = 1) {
   const res = await fetchList(page)
   Object.assign(data, res)
-}
-
-function onEdit(rowId: number) {
-  selectedId.value = rowId;
-  isFormModalOpen.value = true
-}
-
-async function onBlock(id: number) {
-  selectedId.value = id
-  mainStore.$patch({ confirmModalState: true })
 }
 
 </script>
@@ -227,6 +197,5 @@ async function onBlock(id: number) {
           :total-items="data.pagination.total" />
       </template>
     </VFlexTableWrapper>
-    <ApplicantFormModal v-model="isFormModalOpen" :applicant-id="selectedId" @update:list="fetchData" />
   </div>
 </template>

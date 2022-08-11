@@ -22,10 +22,13 @@ const emits = defineEmits<{
 const { t } = useI18n()
 const uploadedFileName = ref(null);
 const ContractAmount = ref(0);
+const isLoading = ref(false)
 
 function onSubmit(event: Event) {
+  isLoading.value = true
   const values = Object.fromEntries(new FormData(event.target))
   alert(JSON.stringify(values, null, 2));
+  isLoading.value = false
 }
 
 function onFileUpload(event: Event) {
@@ -77,7 +80,8 @@ function onFileUpload(event: Event) {
       </form>
     </template>
     <template #action="{ close }">
-      <VButton type="submit" color="primary" outlined form="contract-edit-form">{{ $t('Save_changes') }}</VButton>
+      <VButton type="submit" color="primary" outlined form="contract-edit-form" :disabled="isLoading"
+        :loading="isLoading">{{ $t('Save_changes') }}</VButton>
     </template>
   </VModal>
 </template>

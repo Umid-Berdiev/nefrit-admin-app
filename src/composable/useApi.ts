@@ -1,5 +1,6 @@
-import { useStorage } from '@vueuse/core'
 import axios, { AxiosInstance } from 'axios'
+import nProgress from 'nprogress'
+import { useStorage } from '@vueuse/core'
 import { useUserSession } from '/@src/stores/userSession'
 
 let api: AxiosInstance
@@ -14,7 +15,7 @@ export function createApi() {
   // include Bearer token to the request if user is logged in
   api.interceptors.request.use((config) => {
     const userSession = useUserSession()
-
+    nProgress.start()
     if (userSession.isLoggedIn) {
       config.headers = {
         ...config.headers,
@@ -32,6 +33,7 @@ export function createApi() {
     function (response) {
       // Any status code that lie within the range of 2xx cause this function to trigger
       // Do something with response data
+      nProgress.done()
       return response
     },
     function (error) {

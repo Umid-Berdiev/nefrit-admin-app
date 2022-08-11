@@ -335,5 +335,11 @@
   "Payment_amount": "To'lov summasi",
   "Body": "Shartnoma matni",
   "application_contracts": "Ariza shartnomalari",
-  "application_notices": "Ariza bildirishnomalari"
+  "application_notices": "Ariza bildirishnomalari",
+  "About": "Biz haqimizda",
+  "Contacts": "Aloqalar",
+  "News": "Yangiliklar",
+  "Faq": "Savol-javob",
+  "Regulation": "Nizomlar",
+  "Doc_categories": "Hujjat kategoriyalari"
 }

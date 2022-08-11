@@ -1,58 +1,24 @@
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue'
+import { computed, onMounted, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
-import { users } from '/@src/stores/usersMockData'
+import {
+  fetchLatestStatementsStatistics,
+  fetchStatementsGeneralStatistics
+} from '/@src/utils/api/statement';
 
 const { t } = useI18n()
 const router = useRouter()
 const statementStatuses = reactive({
-  total: 102,
-  color: "primary",
-  data: [
-    {
-      "id": 1,
-      "name": "yaratilgan",
-      "description": "Bu yaratilgan holat",
-      "amount": 23,
-      "color": "info"
-    },
-    {
-      "id": 2,
-      "name": "jarayonda",
-      "description": "Bu jarayon holati",
-      "amount": 21,
-      "color": "warning"
-    },
-    {
-      "id": 3,
-      "name": "bekor qilingan",
-      "description": "Bu bekor qilingan holati",
-      "amount": 18,
-      "color": "secondary"
-    },
-    {
-      "id": 4,
-      "name": "noto'g'ri",
-      "description": "Bu noto'g'ri holati",
-      "amount": 35,
-      "color": "danger"
-    },
-    {
-      "id": 5,
-      "name": "yakunlandi",
-      "description": "Bu yakunlandi holati",
-      "amount": 5,
-      "color": "success"
-    }
-  ]
+  total: null,
+  result: []
 });
-const columns = {
-  orderNumber: {
+const columns1 = {
+  code: {
     label: 'Ariza qabul raqami',
     // cellClass: 'is-flex-grow-0',
   },
-  company: {
+  applicant: {
     label: t('applied_legal_entity'),
   },
   drug: {
@@ -66,16 +32,47 @@ const columns = {
     align: 'center',
   },
 } as const
+const latestStatementsList = reactive({
+  pagination: {
+    current_page: 1,
+    per_page: 5,
+    total: 5,
+  },
+  result: []
+})
+const currentPage1 = computed({
+  get: () => {
+    return latestStatementsList.pagination.current_page
+  },
+  set: async (page) => {
+    await fetchLatestStatements(page)
+  }
+})
+
+onMounted(async () => {
+  await fetchStatementsGeneralStats()
+  await fetchLatestStatements()
+})
 
 function gotoView(rowId: number) {
-  console.log({ rowId });
-  router.push('/app/statement/' + rowId)
+  router.push('/app/statements/' + rowId)
+}
+
+async function fetchLatestStatements(page: number = 1) {
+  const res = await fetchLatestStatementsStatistics(page)
+  Object.assign(latestStatementsList, res)
+}
+
+async function fetchStatementsGeneralStats() {
+  const res = await fetchStatementsGeneralStatistics()
+
+  Object.assign(statementStatuses, res)
 }
 </script>
 
 <template>
   <div class="business-dashboard company-dashboard">
-    <div class="columns">
+    <div class="columns" v-if="statementStatuses.result.length">
       <div class="column">
         <VCard radius="small" class="has-text-centered">
           <i class="iconify" data-icon="feather:activity" data-height="32" aria-hidden="true" size="5"></i>
@@ -85,12 +82,12 @@ function gotoView(rowId: number) {
           </h3>
         </VCard>
       </div>
-      <div class="column" v-for="status in statementStatuses.data">
-        <VCard radius="small" class="has-text-centered">
+      <div class="column" v-for="status in statementStatuses.result">
+        <VCard radius="small" class="has-text-centered" :color="status.color">
           <i class="iconify" data-icon="feather:activity" data-height="32" aria-hidden="true" size="5"></i>
-          <h1 class="is-size-1">{{ status.amount }}</h1>
+          <h1 class="is-size-1">{{ status.applications }}</h1>
           <h3 class="title is-5 mb-2">
-            {{ $t(status.name) }}
+            {{ status.name }}
           </h3>
         </VCard>
       </div>
@@ -100,19 +97,20 @@ function gotoView(rowId: number) {
       <div class="column is-12">
         <div class="dashboard-card is-base-chart">
           <div class="content-box is-flex">
-            <h1 class="is-size-4">{{ $t('Statement_latest') }}</h1>
+            <h1 class="is-size-4">{{ $t('Statements') }}</h1>
           </div>
-          <div class="my-auto p-5">
-            <VFlexTableWrapper :columns="columns" :data="users">
+          <div class="p-5">
+            <VFlexTableWrapper :columns="columns1" :data="latestStatementsList.result"
+              :limit="latestStatementsList.pagination.per_page" :total="latestStatementsList.pagination.total">
               <template #default="wrapperState">
                 <VFlexTable rounded>
                   <!-- Custom "name" cell content -->
                   <template #body-cell="{ row, column, value, index }">
-                    <template v-if="column.key === 'orderNumber'">
-                      {{ '00000' + (row.id + 1) }}
+                    <template v-if="column.key === 'date' && value">
+                      <span>{{ $h.formatDate(value, 'HH:mm DD.MM.YYYY') }}</span>
                     </template>
-                    <template v-else-if="column.key === 'actions'">
-                      <VIconButton class="mr-2 p-4" outlined circle color="info" icon="feather:eye"
+                    <template v-if="column.key === 'actions'">
+                      <VIconButton class="p-4" outlined circle color="info" icon="feather:eye"
                         @click.prevent="gotoView(row.id)">
                         {{ $t('View') }}
                       </VIconButton>
@@ -120,10 +118,9 @@ function gotoView(rowId: number) {
                   </template>
                 </VFlexTable>
 
-                <!-- Table Pagination with data.page binded-->
-                <VFlexPagination v-model:current-page="wrapperState.page" class="mt-6"
-                  :item-per-page="wrapperState.limit" :total-items="wrapperState.total" :max-links-displayed="5"
-                  no-router />
+                <VFlexPagination v-model:current-page="currentPage1" class="mt-6"
+                  :item-per-page="latestStatementsList.pagination.per_page"
+                  :total-items="latestStatementsList.pagination.total" />
               </template>
             </VFlexTableWrapper>
           </div>

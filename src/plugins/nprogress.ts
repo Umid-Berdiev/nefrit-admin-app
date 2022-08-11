@@ -6,11 +6,12 @@ export default definePlugin(({ router }) => {
     return
   }
 
-  NProgress.configure({ showSpinner: false })
-  router.beforeEach(() => {
-    NProgress.start()
-  })
-  router.afterEach(() => {
-    NProgress.done()
-  })
+  // NProgress.configure({ showSpinner: true })
+
+  // router.beforeEach(() => {
+  //   NProgress.start()
+  // })
+  // router.afterEach(() => {
+  //   NProgress.done()
+  // })
 })

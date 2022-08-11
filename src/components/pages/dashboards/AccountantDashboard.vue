@@ -1,9 +1,15 @@
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue'
+import { computed, onMounted, reactive, ref } from 'vue'
 import ApexChart from 'vue3-apexcharts'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { users } from '/@src/stores/usersMockData'
+import {
+  fetchLatestStatementsStatistics,
+  fetchStatementPaymentStatistics,
+  fetchStatementStatusStatistics,
+  fetchShouldPaidStatementsStatistics
+} from '/@src/utils/api/statement'
 
 const { t, locale } = useI18n()
 const router = useRouter()
@@ -17,13 +23,14 @@ const datePickerModelConfig = reactive({
   type: 'string',
   mask: 'MM-YYYY', // Uses 'iso' if missing
 })
-
-const columns = {
-  orderNumber: {
+const thisYear = ref((new Date()).getFullYear())
+const selectedYear = ref<number>(thisYear.value)
+const columns1 = {
+  code: {
     label: 'Ariza qabul raqami',
     // cellClass: 'is-flex-grow-0',
   },
-  company: {
+  applicant: {
     label: t('applied_legal_entity'),
   },
   drug: {
@@ -37,14 +44,65 @@ const columns = {
     align: 'center',
   },
 } as const
+const columns2 = {
+  code: {
+    label: 'Ariza qabul raqami',
+    // cellClass: 'is-flex-grow-0',
+  },
+  applicant: {
+    label: t('applied_legal_entity'),
+  },
+  drug: {
+    label: t('drug_name'),
+  },
+  date: {
+    label: t('applied_at'),
+  },
+  actions: {
+    label: t('Actions'),
+    align: 'center',
+  },
+} as const
+const latestStatementsList = reactive({
+  pagination: {
+    current_page: 1,
+    per_page: 5,
+    total: 5,
+  },
+  result: []
+})
+const shouldPaidStatementsList = reactive({
+  pagination: {
+    current_page: 1,
+    per_page: 5,
+    total: 5,
+  },
+  result: []
+})
+const currentPage1 = computed({
+  get: () => {
+    return latestStatementsList.pagination.current_page
+  },
+  set: async (page) => {
+    await fetchLatestStatements(page)
+  }
+})
+const currentPage2 = computed({
+  get: () => {
+    return shouldPaidStatementsList.pagination.current_page
+  },
+  set: async (page) => {
+    await fetchShouldPaidStatements(page)
+  }
+})
 
-const donutChartSeries = reactive([])
-const donutChartOptions = reactive({
+const statusChartSeries = reactive([])
+const statusChartOptions = reactive({
   title: {
     text: '',
   },
   chart: {
-    height: 290,
+    height: 200,
     type: 'donut',
   },
   labels: [],
@@ -53,7 +111,6 @@ const donutChartOptions = reactive({
       breakpoint: 480,
       options: {
         chart: {
-          width: 280,
           toolbar: {
             show: false,
           },
@@ -67,6 +124,9 @@ const donutChartOptions = reactive({
   legend: {
     position: 'right',
     horizontalAlign: 'center',
+    formatter: (val, opt) => {
+      return `<span style="overflow-wrap: break-word;">${val}</span>`
+    }
   },
   plotOptions: {
     pie: {
@@ -90,10 +150,9 @@ const donutChartOptions = reactive({
   },
 })
 
-const barChartOptions = reactive({
+const paymentChartOptions = reactive({
   series: [],
   chart: {
-    height: 280,
     type: 'bar',
     toolbar: {
       show: false,
@@ -108,7 +167,7 @@ const barChartOptions = reactive({
   },
   dataLabels: {
     enabled: true,
-    // formatter: formatters.asPercent,
+    formatter: (val: string) => val.toLocaleString(),
     offsetY: -20,
     style: {
       fontSize: '12px',
@@ -170,23 +229,48 @@ const barChartOptions = reactive({
     text: '',
     align: 'left',
   },
+  tooltip: {
+    y: {
+      formatter: function (val: string) {
+        return val.toLocaleString()
+      }
+    }
+  }
 })
 
 onMounted(async () => {
-  setTimeout(() => {
-    Object.assign(donutChartSeries, Array(5).fill(null).map((_, i) => Math.round(Math.random() * (50 - 10) + 10)))
-    Object.assign(donutChartOptions.labels, donutChartSeries.map((item, index) => `Status${index}: ${item}`))
-    barChartOptions.series = [{
-      name: 'Inflation2',
-      data: Array(12).fill(0).map((_, i) => Math.random().toFixed(2) * 1)
-    }]
-  }, 1000)
-
+  await fetchStatusStatistics()
+  await fetchPaymentStatistics()
+  await fetchLatestStatements()
+  await fetchShouldPaidStatements()
 })
 
 function gotoView(rowId: number) {
-  console.log({ rowId });
-  router.push('/app/statement/' + rowId)
+  router.push('/app/statements/' + rowId)
+}
+
+async function fetchStatusStatistics() {
+  const res = await fetchStatementStatusStatistics()
+  Object.assign(statusChartSeries, res.map(item => item.applications))
+  Object.assign(statusChartOptions.labels, res.map(item => `${item.name}: ${item.applications}`))
+}
+
+async function fetchPaymentStatistics() {
+  const res = await fetchStatementPaymentStatistics()
+  paymentChartOptions.series = [{
+    name: t('Payment_sum'),
+    data: res.map(item => item.amount)
+  }]
+}
+
+async function fetchLatestStatements(page: number = 1) {
+  const res = await fetchLatestStatementsStatistics(page)
+  Object.assign(latestStatementsList, res)
+}
+
+async function fetchShouldPaidStatements(page: number = 1) {
+  const res = await fetchShouldPaidStatementsStatistics(page)
+  Object.assign(shouldPaidStatementsList, res)
 }
 </script>
 
@@ -216,10 +300,9 @@ function gotoView(rowId: number) {
               </template>
             </VDatePicker>
           </div>
-          <div class="my-auto">
-            <ApexChart id="apex-chart-18" type="donut" :height="400" :series="donutChartSeries"
-              :options="donutChartOptions">
-            </ApexChart>
+          <div class="p-5">
+            <ApexChart :type="statusChartOptions.chart.type" :height="400" :series="statusChartSeries"
+              :options="statusChartOptions" />
           </div>
         </div>
       </div>
@@ -227,28 +310,15 @@ function gotoView(rowId: number) {
         <div class="dashboard-card is-base-chart">
           <div class="content-box is-flex">
             <h1 class="is-size-4">{{ $t('Statement_payments') }}</h1>
-            <VDatePicker :locale="locale" class="ml-auto" v-model="range" is-range color="green" trim-weeks>
-              <template v-slot="{ inputValue, inputEvents }">
-                <VField addons>
-                  <VControl expanded icon="feather:corner-down-right">
-                    <VInput :value="inputValue.start" v-on="inputEvents.start" />
-                  </VControl>
-                  <VControl>
-                    <VButton static>
-                      <i class="fas fa-angle-double-right" aria-hidden="true"></i>
-                    </VButton>
-                  </VControl>
-                  <VControl expanded icon="feather:corner-right-up" subcontrol>
-                    <VInput :value="inputValue.end" v-on="inputEvents.end" />
-                  </VControl>
-                </VField>
-              </template>
-            </VDatePicker>
+            <VField class="ml-auto">
+              <VControl>
+                <VInput type="number" :min="thisYear - 10" :max="thisYear" v-model="selectedYear" />
+              </VControl>
+            </VField>
           </div>
-          <div class="my-auto">
-            <ApexChart id="apex-chart-8" :height="400" :type="barChartOptions.chart.type"
-              :series="barChartOptions.series" :options="barChartOptions">
-            </ApexChart>
+          <div class="p-5">
+            <ApexChart :type="paymentChartOptions.chart.type" :height="400" :series="paymentChartOptions.series"
+              :options="paymentChartOptions" />
           </div>
         </div>
       </div>
@@ -258,17 +328,18 @@ function gotoView(rowId: number) {
           <div class="content-box is-flex">
             <h1 class="is-size-4">{{ $t('Statement_latest') }}</h1>
           </div>
-          <div class="my-auto p-5">
-            <VFlexTableWrapper :columns="columns" :data="users">
+          <div class="p-5">
+            <VFlexTableWrapper :columns="columns1" :data="latestStatementsList.result"
+              :limit="latestStatementsList.pagination.per_page" :total="latestStatementsList.pagination.total">
               <template #default="wrapperState">
                 <VFlexTable rounded>
                   <!-- Custom "name" cell content -->
                   <template #body-cell="{ row, column, value, index }">
-                    <template v-if="column.key === 'orderNumber'">
-                      {{ '00000' + (row.id + 1) }}
+                    <template v-if="column.key === 'date' && value">
+                      <span>{{ $h.formatDate(value, 'HH:mm DD.MM.YYYY') }}</span>
                     </template>
-                    <template v-else-if="column.key === 'actions'">
-                      <VIconButton class="mr-2 p-4" outlined circle color="info" icon="feather:eye"
+                    <template v-if="column.key === 'actions'">
+                      <VIconButton class="p-4" outlined circle color="info" icon="feather:eye"
                         @click.prevent="gotoView(row.id)">
                         {{ $t('View') }}
                       </VIconButton>
@@ -276,10 +347,9 @@ function gotoView(rowId: number) {
                   </template>
                 </VFlexTable>
 
-                <!-- Table Pagination with data.page binded-->
-                <VFlexPagination v-model:current-page="wrapperState.page" class="mt-6"
-                  :item-per-page="wrapperState.limit" :total-items="wrapperState.total" :max-links-displayed="5"
-                  no-router />
+                <VFlexPagination v-model:current-page="currentPage1" class="mt-6"
+                  :item-per-page="latestStatementsList.pagination.per_page"
+                  :total-items="latestStatementsList.pagination.total" />
               </template>
             </VFlexTableWrapper>
           </div>
@@ -290,17 +360,18 @@ function gotoView(rowId: number) {
           <div class="content-box is-flex">
             <h1 class="is-size-4">{{ $t('Statement_should_paid') }}</h1>
           </div>
-          <div class="my-auto p-5">
-            <VFlexTableWrapper :columns="columns" :data="users">
+          <div class="p-5">
+            <VFlexTableWrapper :columns="columns2" :data="shouldPaidStatementsList.result"
+              :limit="shouldPaidStatementsList.pagination.per_page" :total="shouldPaidStatementsList.pagination.total">
               <template #default="wrapperState">
                 <VFlexTable rounded>
                   <!-- Custom "name" cell content -->
                   <template #body-cell="{ row, column, value, index }">
-                    <template v-if="column.key === 'orderNumber'">
-                      {{ '00000' + (row.id + 1) }}
+                    <template v-if="column.key === 'date' && value">
+                      <span>{{ $h.formatDate(value, 'HH:mm DD.MM.YYYY') }}</span>
                     </template>
-                    <template v-else-if="column.key === 'actions'">
-                      <VIconButton class="mr-2 p-4" outlined circle color="info" icon="feather:eye"
+                    <template v-if="column.key === 'actions'">
+                      <VIconButton class="p-4" outlined circle color="info" icon="feather:eye"
                         @click.prevent="gotoView(row.id)">
                         {{ $t('View') }}
                       </VIconButton>
@@ -308,10 +379,9 @@ function gotoView(rowId: number) {
                   </template>
                 </VFlexTable>
 
-                <!-- Table Pagination with data.page binded-->
-                <VFlexPagination v-model:current-page="wrapperState.page" class="mt-6"
-                  :item-per-page="wrapperState.limit" :total-items="wrapperState.total" :max-links-displayed="5"
-                  no-router />
+                <VFlexPagination v-model:current-page="currentPage2" class="mt-6"
+                  :item-per-page="shouldPaidStatementsList.pagination.per_page"
+                  :total-items="shouldPaidStatementsList.pagination.total" />
               </template>
             </VFlexTableWrapper>
           </div>

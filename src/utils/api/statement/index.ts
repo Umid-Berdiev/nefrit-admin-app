@@ -636,10 +636,37 @@ export async function fetchStatementStageStatistics() {
   }
 }
 
-export async function fetchLatestStatementsStatistics(page: number) {
+export async function fetchLatestStatementsStatistics(page: number, limit: number = 5) {
   try {
     const { data } = await api({
-      url: `/api/admin/statistics/application/new?page=${page}`,
+      url: `/api/admin/statistics/application/new?page=${page}&per_page=${limit}`,
+    })
+
+    return data.data
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function fetchShouldPaidStatementsStatistics(
+  page: number,
+  limit: number = 5
+) {
+  try {
+    const { data } = await api({
+      url: `/api/admin/statistics/application/must-pay?page=${page}&per_page=${limit}`,
+    })
+
+    return data.data
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function fetchStatementsGeneralStatistics() {
+  try {
+    const { data } = await api({
+      url: `/api/admin/statistics/application/general`,
     })
 
     return data.data

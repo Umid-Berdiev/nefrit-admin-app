@@ -45,6 +45,7 @@ const errors = reactive({
   legal_entity_id: '',
   applications: '',
 })
+const isLoading = ref(false)
 
 onMounted(async () => {
   const res = await fetchApplicants(locale.value)
@@ -78,6 +79,7 @@ watch(
 
 async function onSubmit(event: Event) {
   try {
+    isLoading.value = true
     const formData = new FormData()
     formData.append('name', contractObj.name)
     formData.append('payment_amount', contractObj.payment_amount)
@@ -96,6 +98,8 @@ async function onSubmit(event: Event) {
   } catch (error: any) {
     Object.assign(errors, error.response?.data?.errors)
     // throw error
+  } finally {
+    isLoading.value = false
   }
 }
 
@@ -184,7 +188,9 @@ function onFileRemove(id: number) {
       </form>
     </template>
     <template #action="{ close }">
-      <VButton color="primary" outlined type="submit" form="contract-form">{{ $t('Save') }}</VButton>
+      <VButton :loading="isLoading" color="primary" outlined type="submit" form="contract-form" :disabled="isLoading">
+        {{ $t('Save') }}
+      </VButton>
     </template>
   </VModal>
 </template>

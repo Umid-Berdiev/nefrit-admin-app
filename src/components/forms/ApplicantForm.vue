@@ -185,7 +185,7 @@ async function onUnblockAction() {
                 </div>
                 <div class="column is-12 is-flex">
                   <VButton :loading="isLoading" v-if="isFirstBlockEditable" class="ml-auto" outlined color="success"
-                    icon="fas fa-save" type="submit" form="first-block-form">
+                    icon="fas fa-save" type="submit" form="first-block-form" :disabled="isLoading">
                     {{ $t('Save') }}
                   </VButton>
                 </div>
@@ -260,7 +260,7 @@ async function onUnblockAction() {
                 </div>
                 <div class="column is-12 is-flex">
                   <VButton :loading="isLoading" v-if="isSecondBlockEditable" class="ml-auto" outlined color="success"
-                    icon="fas fa-save" type="submit" form="second-block-form">
+                    icon="fas fa-save" type="submit" form="second-block-form" :disabled="isLoading">
                     {{ $t('Save') }}
                   </VButton>
                 </div>

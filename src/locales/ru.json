@@ -335,5 +335,11 @@
   "Payment_amount": "Сумма контракта",
   "Body": "Текст договора",
   "application_contracts": "Договора заявки",
-  "application_notices": "Уведомления заявки"
+  "application_notices": "Уведомления заявки",
+  "About": "О нас",
+  "Contacts": "Контакты",
+  "News": "Новости",
+  "Faq": "Вопросы-Ответы",
+  "Regulation": "Положения",
+  "Doc_categories": "Категории документов"
 }

@@ -32,7 +32,7 @@ const certificateStatuses = await fetchStatementCertificateStatuses()
 const masks = ref({
   input: 'DD.MM.YYYY',
 })
-
+const isLoading = ref(false)
 const errors = reactive({
   status_id: '',
   file: '',
@@ -46,6 +46,7 @@ let title = ref(t('Add_certificate'))
 
 async function onSubmit(event: Event) {
   try {
+    isLoading.value = true
     const certificateData: StatementCertificateData = {
       application_id: props.statementId,
       file: typeof (files.value[0]) === 'object' ? files.value[0] : '',
@@ -68,6 +69,8 @@ async function onSubmit(event: Event) {
   } catch (error: any) {
     Object.assign(errors, error.response?.data?.errors)
     // throw error
+  } finally {
+    isLoading.value = false
   }
 }
 
@@ -155,7 +158,10 @@ function onFileRemove() {
       </form>
     </template>
     <template #action="{ close }">
-      <VButton color="primary" outlined type="submit" form="certificate-form">{{ $t('Save') }}</VButton>
+      <VButton :loading="isLoading" color="primary" outlined type="submit" form="certificate-form"
+        :disabled="isLoading">
+        {{ $t('Save') }}
+      </VButton>
     </template>
   </VModal>
 </template>

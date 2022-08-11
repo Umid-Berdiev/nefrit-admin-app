@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue';
+import { computed, ref, watch, watchEffect } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useHead } from '@vueuse/head'
 
@@ -10,22 +10,23 @@ import AccountantDashboard from '/@src/components/pages/dashboards/AccountantDas
 import OtherDashboard from '/@src/components/pages/dashboards/OtherDashboard.vue';
 
 const { t } = useI18n()
-const { user } = useUserSession()
+const userSession = useUserSession()
 const viewWrapper = useViewWrapper()
 viewWrapper.setPageTitle(t('Dashboard'))
 
 const currentDashboard = ref('OtherDashboard')
-
-const dashboards = {
+const currentRoleId = computed(() => userSession.user?.role_id)
+const dashboards: { [key: string]: any } = {
   MainDashboard,
   AccountantDashboard,
   OtherDashboard
 }
 
-watch(
-  () => user?.role_id,
-  (newVal) => {
-    switch (newVal) {
+watchEffect(
+  async () => {
+    console.log('role id: ', currentRoleId.value);
+
+    switch (currentRoleId.value) {
       case 1:
       case 2:
       case 3: currentDashboard.value = 'MainDashboard'; break;
@@ -35,8 +36,7 @@ watch(
       case 7: currentDashboard.value = 'AccountantDashboard'; break;
       default: currentDashboard.value = 'OtherDashboard';
     }
-  },
-  { deep: true, immediate: true }
+  }
 )
 
 useHead({

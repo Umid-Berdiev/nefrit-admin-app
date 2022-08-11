@@ -202,7 +202,7 @@ async function onChangePassword(id: number) {
               <span class="is-capitalized" v-if="row.firstname">{{ row.firstname }}&nbsp;</span>
               <span class="is-capitalized" v-if="row.lastname">{{ row.lastname }}</span>
             </template>
-            <template v-if="column.key === 'role'">
+            <template v-if="column.key === 'role' && value">
               <span>{{ value.name }}</span>
             </template>
             <template v-if="column.key === 'actions'">

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { useMainStore } from "/@src/stores";
 
 const emits = defineEmits<{
@@ -9,6 +9,7 @@ const emits = defineEmits<{
 const mainStore = useMainStore()
 const state = computed(() => mainStore.confirmModalState)
 const color = computed(() => mainStore.confirmModalOkButtonColor)
+const isLoading = ref(false)
 
 async function onClose() {
   mainStore.$patch({ confirmModalState: false })
@@ -16,9 +17,11 @@ async function onClose() {
 }
 
 async function onConfirm() {
+  isLoading.value = true
   mainStore.$patch({ confirmState: true })
   await onClose()
   emits('confirmAction')
+  isLoading.value = false
 }
 </script>
 
@@ -29,8 +32,10 @@ async function onConfirm() {
       <VPlaceholderSection :title="$t('Are_you_sure')" />
     </template>
     <template #action>
-      <VButton type="button" class="is-justify-content-center" :color="color" outlined @click="onConfirm">{{ $t('Yes')
-      }}</VButton>
+      <VButton type="button" class="is-justify-content-center" :color="color" outlined @click="onConfirm"
+        :disabled="isLoading" :loading="isLoading">
+        {{ $t('Yes') }}
+      </VButton>
     </template>
   </VModal>
 </template>

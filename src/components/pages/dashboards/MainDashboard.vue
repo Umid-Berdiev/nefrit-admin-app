@@ -323,7 +323,7 @@ async function fetchLatestStatements(page: number = 1) {
               </template>
             </VDatePicker>
           </div>
-          <div class="my-auto">
+          <div class="p-5">
             <ApexChart :type="statusChartOptions.chart.type" :height="400" :series="statusChartSeries"
               :options="statusChartOptions" />
           </div>
@@ -339,7 +339,7 @@ async function fetchLatestStatements(page: number = 1) {
               </VControl>
             </VField>
           </div>
-          <div class="my-auto">
+          <div class="p-5">
             <ApexChart :type="paymentChartOptions.chart.type" :height="400" :series="paymentChartOptions.series"
               :options="paymentChartOptions" />
           </div>
@@ -368,7 +368,7 @@ async function fetchLatestStatements(page: number = 1) {
               </template>
             </VDatePicker>
           </div>
-          <div class="my-auto">
+          <div>
             <ApexChart :type="stageChartOptions.chart.type" :height="400" :series="stageChartSeries"
               :options="stageChartOptions" />
           </div>
@@ -379,7 +379,7 @@ async function fetchLatestStatements(page: number = 1) {
           <div class="content-box is-flex">
             <h1 class="is-size-4">{{ $t('Statement_latest') }}</h1>
           </div>
-          <div class="my-auto p-5">
+          <div class="p-5">
             <VFlexTableWrapper :columns="columns" :data="latestStatementsList.result">
               <template #default="wrapperState">
                 <VFlexTable rounded>

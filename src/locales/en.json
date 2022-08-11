@@ -335,5 +335,11 @@
   "Payment_amount": "Payment amount",
   "Body": "Body",
   "application_contracts": "Application contracts",
-  "application_notices": "Application notices"
+  "application_notices": "Application notices",
+  "About": "About",
+  "Contacts": "Contacts",
+  "News": "News",
+  "Faq": "Faq",
+  "Regulation": "Regulations",
+  "Doc_categories": "Document categories"
 }
