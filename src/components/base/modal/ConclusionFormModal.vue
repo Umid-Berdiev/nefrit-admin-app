@@ -66,12 +66,14 @@ async function onSubmit(event: Event) {
     }
 
     const formData = new FormData()
+
     formData.append('text', conclusionData.text)
     formData.append('application_id', conclusionData.application_id)
     formData.append('status_id', conclusionData.status_id)
     files.value.forEach(file => {
       formData.append('files[]', file)
     })
+
     removedFileIds.value.forEach(file => {
       formData.append('removes[]', file)
     })
@@ -82,6 +84,8 @@ async function onSubmit(event: Event) {
     emits('update:list')
     onClose()
   } catch (error: any) {
+    console.log({ error });
+
     Object.assign(errors, error.response?.data?.errors)
     // throw error
   } finally {
@@ -131,7 +135,7 @@ function onRemoteFileRemove(id: number) {
         <div class="columns is-multiline">
           <div class="column is-12">
             <VField :label="$t('conclusion_in_details')" required>
-              <VControl :has-error="errors.text[0]">
+              <VControl>
                 <VTextarea name="text" :placeholder="$t('Add_text')" v-model="text" @input="clearErrors" />
                 <p class="help has-text-danger">{{ errors.text[0] }}</p>
               </VControl>

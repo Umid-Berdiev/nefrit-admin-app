@@ -74,6 +74,7 @@ async function onSubmit(event: Event) {
     emits('update:list')
     onClose()
   } catch (error: any) {
+    console.log({ error });
     Object.assign(errors, error.response?.data?.errors)
     // throw error
   } finally {

@@ -600,10 +600,11 @@ export async function addContractFile(id: number, formData: FormData) {
 }
 
 // statement statistics
-export async function fetchStatementStatusStatistics() {
+export async function fetchStatementStatusStatistics(range: any) {
   try {
     const { data } = await api({
       url: `/api/admin/statistics/application/status`,
+      params: range,
     })
 
     return data.data
@@ -612,10 +613,10 @@ export async function fetchStatementStatusStatistics() {
   }
 }
 
-export async function fetchStatementPaymentStatistics() {
+export async function fetchStatementPaymentStatistics(year: number) {
   try {
     const { data } = await api({
-      url: `/api/admin/statistics/payment`,
+      url: `/api/admin/statistics/payment?year=${year}`,
     })
 
     return data.data
@@ -624,10 +625,11 @@ export async function fetchStatementPaymentStatistics() {
   }
 }
 
-export async function fetchStatementStageStatistics() {
+export async function fetchStatementStageStatistics(range: any) {
   try {
     const { data } = await api({
       url: `/api/admin/statistics/application/stage`,
+      params: range,
     })
 
     return data.data

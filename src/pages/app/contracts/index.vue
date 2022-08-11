@@ -161,6 +161,9 @@ function notify() {
                 <li v-for="item in value">{{ item.code }}</li>
               </ul>
             </template>
+            <template v-if="column.key === 'payment_amount'">
+              <span>{{ Number(value).toLocaleString() }}</span>
+            </template>
             <template v-if="column.key === 'verified_at'">
               <VTag class="is-size-6" :color="value ? 'primary' : 'warning'" rounded
                 :label="value ? $t('Paid') : $t('Not_Paid')" />

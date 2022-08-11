@@ -150,6 +150,7 @@ function notify() {
     </VFlexTableWrapper>
     <ConclusionFormModal v-model="isConclusionModalOpen" :item-id="selectedId" :parent-id="Number(currentStatementId)"
       @update:list="() => { fetchData(); notify(); onModalClose() }" @close="onModalClose" />
+
     <ConfirmActionModal @confirm-action="handleRemoveAction" />
   </div>
 </template>

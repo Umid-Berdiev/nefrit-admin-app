@@ -147,8 +147,11 @@ function successNotify() {
 
 <template>
   <div class="applicant-list-wrapper">
-    <TableActionsBlock center title="" @add="onEdit(null)" :filter-disabled="true" @remove="confirmAction" />
-
+    <VFlex justify-content="end" class="mb-4">
+      <VButton outlined rounded color="info" icon="feather:plus" @click.prevent="onEdit(undefined)">
+        {{ $t('Add') }}
+      </VButton>
+    </VFlex>
     <!-- table -->
     <VFlexTableWrapper :columns="columns" :data="data.result" :limit="data.pagination.per_page"
       :total="data.pagination.total">

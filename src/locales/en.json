@@ -341,5 +341,7 @@
   "News": "News",
   "Faq": "Faq",
   "Regulation": "Regulations",
-  "Doc_categories": "Document categories"
+  "Doc_categories": "Document categories",
+  "auth_login_nefrit": "Auth Login - Nefrit",
+  "Verify_contract": "Verify contract"
 }

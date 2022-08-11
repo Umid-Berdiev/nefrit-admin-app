@@ -1,19 +1,19 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useMainStore } from '/@src/stores';
+import { useUserSession } from '/@src/stores/userSession';
 
 const route = useRoute()
 const mainStore = useMainStore()
-const isHandbookMenuOpen = ref(false)
+const userSession = useUserSession()
+const roleCan = ref(false)
+const currentRoleId = computed(() => userSession.user?.role_id)
 
 function openContractDownloadModal() {
   mainStore.$patch({ contractDownloadModalState: true })
 }
 
-function toggleHandbookMenu() {
-  isHandbookMenuOpen.value = !isHandbookMenuOpen.value
-}
 </script>
 
 <template>
@@ -26,7 +26,7 @@ function toggleHandbookMenu() {
         {{ $t('Dashboard') }}
       </RouterLink>
     </li>
-    <li>
+    <li v-if="[1, 2, 3].includes(currentRoleId)">
       <RouterLink class="is-size-6" :class="{ 'router-link-exact-active': route.path.startsWith('/app/applicant') }"
         :to="{ name: 'app-applicants' }">
         <span class="fa-li">
@@ -44,7 +44,7 @@ function toggleHandbookMenu() {
         {{ $t('Statements') }}
       </RouterLink>
     </li>
-    <li>
+    <li v-if="[1, 2].includes(currentRoleId)">
       <RouterLink class="is-size-6" :class="{ 'router-link-exact-active': route.path.startsWith('/app/employees') }"
         :to="{ name: 'app-employees' }">
         <span class="fa-li">
@@ -53,7 +53,7 @@ function toggleHandbookMenu() {
         {{ $t('Employees') }}
       </RouterLink>
     </li>
-    <li>
+    <li v-if="[1, 2].includes(currentRoleId)">
       <RouterLink class="is-size-6" :class="{ 'router-link-exact-active': route.path.startsWith('/app/roles') }"
         :to="{ name: 'app-roles' }">
         <span class="fa-li">
@@ -62,17 +62,15 @@ function toggleHandbookMenu() {
         {{ $t('Roles') }}
       </RouterLink>
     </li>
-    <li>
+    <!-- <li>
       <RouterLink class="is-size-6" :class="{ 'router-link-exact-active': route.path.startsWith('/app/reports') }"
         :to="{ name: 'app-reports' }">
-        <!-- <i aria-hidden="true" class="lnil lnil-sales-report"></i> -->
-        <!-- <i class="lnir lnir-analytics-alt-1" aria-hidden="true"></i> -->
         <span class="fa-li">
           <i class="fas fa-chart-line" aria-hidden="true"></i>
         </span>
         {{ $t('Reports') }}
       </RouterLink>
-    </li>
+    </li> -->
     <!-- <li>
       <RouterLink class="is-size-6" :class="{ 'router-link-exact-active': route.path.startsWith('/app/handbooks') }"
         :to="{ name: 'app-handbooks' }">
@@ -82,7 +80,7 @@ function toggleHandbookMenu() {
         {{ $t('Handbook') }}
       </RouterLink>
     </li> -->
-    <li>
+    <li v-if="[1].includes(currentRoleId)">
       <RouterLink class="is-size-6" :class="{ 'router-link-exact-active': route.path.startsWith('/app/departments') }"
         :to="{ name: 'app-departments' }">
         <!-- <i aria-hidden="true" class="lnil lnil-database"></i> -->
@@ -92,7 +90,7 @@ function toggleHandbookMenu() {
         {{ $t('Departments') }}
       </RouterLink>
     </li>
-    <li>
+    <li v-if="[1, 2, 3, 7].includes(currentRoleId)">
       <RouterLink class="is-size-6" :class="{ 'router-link-exact-active': route.path.startsWith('/app/contracts') }"
         :to="{ name: 'app-contracts' }">
         <!-- <i aria-hidden="true" class="lnil lnil-database"></i> -->
@@ -102,7 +100,7 @@ function toggleHandbookMenu() {
         {{ $t('Contracts') }}
       </RouterLink>
     </li>
-    <li>
+    <li v-if="[1, 2, 7].includes(currentRoleId)">
       <RouterLink class="is-size-6"
         :class="{ 'router-link-exact-active': route.path.startsWith('/app/contract_templates') }"
         :to="{ name: 'app-contract-templates' }">
@@ -113,44 +111,76 @@ function toggleHandbookMenu() {
         {{ $t('Contract_templates') }}
       </RouterLink>
     </li>
-    <VCollapseLinks>
+    <VCollapseLinks v-if="[1, 2, 3, 5, 7].includes(currentRoleId)">
       <template #header>
         <!-- <span class="fa-li">
-          <VueIconify icon="feather:check" />
+          <i class="fas fa-chart-line" aria-hidden="true"></i>
         </span> -->
+        <span class="is-size-6">
+          {{ $t('Reports') }}
+        </span>
+        <VueIconify icon="feather:chevron-right" />
+      </template>
+
+      <RouterLink v-if="[1, 2, 3, 5, 7].includes(currentRoleId)" :to="{ name: 'app-reports-payments' }"
+        class="is-submenu is-size-6">
+        <VueIconify icon="feather:circle" />
+        {{ $t('Payments') }}
+      </RouterLink>
+      <RouterLink v-if="[1, 2, 3, 5].includes(currentRoleId)" :to="{ name: 'app-reports-applicants' }"
+        class="is-submenu is-size-6">
+        <VueIconify icon="feather:circle" />
+        {{ $t('Contacts') }}
+      </RouterLink>
+      <RouterLink v-if="[1, 2, 3, 5].includes(currentRoleId)" :to="{ name: 'app-reports-statements' }"
+        class="is-submenu is-size-6">
+        <VueIconify icon="feather:circle" />
+        {{ $t('News') }}
+      </RouterLink>
+      <RouterLink v-if="[1, 2, 3, 5].includes(currentRoleId)" :to="{ name: 'app-reports-certificates' }"
+        class="is-submenu is-size-6">
+        <VueIconify icon="feather:circle" />
+        {{ $t('Faq') }}
+      </RouterLink>
+    </VCollapseLinks>
+    <VCollapseLinks v-if="[1, 2].includes(currentRoleId)">
+      <template #header>
+        <!-- <span class="fa-li">
+          <i class="fas fa-database" aria-hidden="true"></i>
+          </span> -->
         <span class="is-size-6">
           {{ $t('Handbook') }}
         </span>
-        <i aria-hidden="true" class="iconify" data-icon="feather:chevron-right" />
+        <VueIconify icon="feather:chevron-right" />
       </template>
 
       <RouterLink :to="{ name: 'app-handbooks-about' }" class="is-submenu is-size-6">
-        <i aria-hidden="true" class="iconify" data-icon="feather:circle"></i>
+        <VueIconify icon="feather:circle" />
         {{ $t('About') }}
       </RouterLink>
       <RouterLink :to="{ name: 'app-handbooks-contacts' }" class="is-submenu is-size-6">
-        <i aria-hidden="true" class="iconify" data-icon="feather:circle"></i>
+        <VueIconify icon="feather:circle" />
         {{ $t('Contacts') }}
       </RouterLink>
       <RouterLink :to="{ name: 'app-handbooks-news' }" class="is-submenu is-size-6">
-        <i aria-hidden="true" class="iconify" data-icon="feather:circle"></i>
+        <VueIconify icon="feather:circle" />
         {{ $t('News') }}
       </RouterLink>
       <RouterLink :to="{ name: 'app-handbooks-faq' }" class="is-submenu is-size-6">
-        <i aria-hidden="true" class="iconify" data-icon="feather:circle"></i>
+        <VueIconify icon="feather:circle" />
         {{ $t('Faq') }}
       </RouterLink>
       <RouterLink :to="{ name: 'app-handbooks-regulation' }" class="is-submenu is-size-6">
-        <i aria-hidden="true" class="iconify" data-icon="feather:circle"></i>
+        <VueIconify icon="feather:circle" />
         {{ $t('Regulation') }}
       </RouterLink>
       <RouterLink :to="{ name: 'app-handbooks-doc-categories' }" class="is-submenu is-size-6">
-        <i aria-hidden="true" class="iconify" data-icon="feather:circle"></i>
+        <VueIconify icon="feather:circle" />
         {{ $t('Doc_categories') }}
       </RouterLink>
     </VCollapseLinks>
     <div class="is-divider" />
-    <li>
+    <li v-if="[1, 2, 7].includes(currentRoleId)">
       <!-- <i aria-hidden="true" class="lnil lnil-database"></i> -->
       <span class="fa-li ml-3">
         <VButton color="primary" outlined class="is-size-6" @click="openContractDownloadModal">

@@ -226,9 +226,9 @@ function successNotify() {
           :total-items="data.pagination.total" />
       </template>
     </VFlexTableWrapper>
-    <ConclusionFormModal v-model="isConclusionFormModalOpen" :parent-id="Number(selectedRowId)"
+    <ConclusionFormModal v-model="isConclusionFormModalOpen" :item-id="undefined" :parent-id="Number(selectedRowId)"
       @update:list="() => { fetchData(); successNotify(); }" @close="selectedRowId = undefined" />
-    <NoticeFormModal v-model="isNoticeFormModalOpen" :parent-id="Number(selectedRowId)"
+    <NoticeFormModal v-model="isNoticeFormModalOpen" :item-id="undefined" :parent-id="Number(selectedRowId)"
       @update:list="() => { fetchData(); successNotify(); }" @close="selectedRowId = undefined" />
   </div>
 </template>

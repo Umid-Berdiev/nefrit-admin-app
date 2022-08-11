@@ -341,5 +341,7 @@
   "News": "Yangiliklar",
   "Faq": "Savol-javob",
   "Regulation": "Nizomlar",
-  "Doc_categories": "Hujjat kategoriyalari"
+  "Doc_categories": "Hujjat kategoriyalari",
+  "auth_login_nefrit": "Tizim Kirish - Nefrit",
+  "Verify_contract": "Shartnomani tasdiqlang"
 }

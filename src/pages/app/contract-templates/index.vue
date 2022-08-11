@@ -89,9 +89,7 @@ function successNotify() {
     <!-- table -->
     <VFlex justify-content="end" class="mb-4">
       <VButton outlined rounded color="info" icon="feather:plus" @click.prevent="onEdit(undefined)">
-        {{
-            $t('Add')
-        }}
+        {{ $t('Add') }}
       </VButton>
     </VFlex>
     <VFlexTableWrapper :columns="columns" :data="data.result" :limit="data.pagination.per_page"

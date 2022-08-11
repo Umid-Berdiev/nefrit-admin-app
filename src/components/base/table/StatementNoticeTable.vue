@@ -22,7 +22,7 @@ const data = reactive({
   result: []
 })
 const isNoticeFormModalOpen = ref(false)
-const selectedId = ref()
+const selectedId = ref<number>()
 const currentPage = computed({
   get: () => {
     return data.pagination.current_page

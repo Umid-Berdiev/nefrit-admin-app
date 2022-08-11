@@ -22,21 +22,24 @@ const dashboards: { [key: string]: any } = {
   OtherDashboard
 }
 
-watchEffect(
+watch(
+  currentRoleId,
   async () => {
     console.log('role id: ', currentRoleId.value);
 
-    switch (currentRoleId.value) {
-      case 1:
-      case 2:
-      case 3: currentDashboard.value = 'MainDashboard'; break;
-      case 4:
-      case 5:
-      case 6: currentDashboard.value = 'OtherDashboard'; break;
-      case 7: currentDashboard.value = 'AccountantDashboard'; break;
-      default: currentDashboard.value = 'OtherDashboard';
-    }
-  }
+    if (currentRoleId.value)
+      switch (currentRoleId.value) {
+        case 1:
+        case 2:
+        case 3: currentDashboard.value = 'MainDashboard'; break;
+        case 4:
+        case 5:
+        case 6: currentDashboard.value = 'OtherDashboard'; break;
+        case 7: currentDashboard.value = 'AccountantDashboard'; break;
+        default: currentDashboard.value = 'OtherDashboard';
+      }
+  },
+  { deep: true, immediate: true }
 )
 
 useHead({

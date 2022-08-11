@@ -3,28 +3,62 @@ import { computed, onMounted, reactive, ref } from 'vue'
 import ApexChart from 'vue3-apexcharts'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
+import { isEmpty } from 'lodash'
+import moment from 'moment'
+
 import {
   fetchStatementStatusStatistics,
   fetchStatementPaymentStatistics,
   fetchStatementStageStatistics,
   fetchLatestStatementsStatistics
 } from '/@src/utils/api/statement'
-import VInput from '/@src/components/base/form/VInput.vue'
 
 const { t, locale } = useI18n()
 const router = useRouter()
 
-const range = reactive({
-  start: new Date(),
-  end: new Date(),
+const range1 = computed({
+  get: () => ({
+    start: moment().subtract(1, 'month').format('YYYY-MM-DD'),
+    end: moment().format('YYYY-MM-DD')
+  }),
+  set: async (val: any) => {
+    console.log({ val });
+
+    if (!isEmpty(val)) await fetchStatusStatistics({
+      date_start: val.start,
+      date_end: val.end
+    })
+  }
+})
+
+const range2 = computed({
+  get: () => ({
+    start: moment().subtract(1, 'month').format('YYYY-MM-DD'),
+    end: moment().format('YYYY-MM-DD')
+  }),
+  set: async (val: any) => {
+    console.log({ val });
+
+    if (!isEmpty(val)) await fetchStageStatistics({
+      date_start: val.start,
+      date_end: val.end
+    })
+  }
 })
 
 const datePickerModelConfig = reactive({
   type: 'string',
-  mask: 'MM-YYYY', // Uses 'iso' if missing
+  mask: 'YYYY-MM-DD', // Uses 'iso' if missing
 })
 const thisYear = ref((new Date()).getFullYear())
-const selectedYear = ref<number>(thisYear.value)
+const selectedYear = computed({
+  get(): number {
+    return thisYear.value
+  },
+  async set(v: number) {
+    await fetchPaymentStatistics(v)
+  }
+})
 const columns = {
   code: {
     label: t('statement_code'),
@@ -173,7 +207,6 @@ const stageChartOptions = reactive({
 const paymentChartOptions = reactive({
   series: [],
   chart: {
-    height: 280,
     type: 'bar',
     toolbar: {
       show: false,
@@ -260,9 +293,9 @@ const paymentChartOptions = reactive({
 })
 
 onMounted(async () => {
-  await fetchStatusStatistics()
+  await fetchStatusStatistics(range1.value)
   await fetchPaymentStatistics()
-  await fetchStageStatistics()
+  await fetchStageStatistics(range2.value)
   await fetchLatestStatements()
 })
 
@@ -271,22 +304,31 @@ function gotoView(rowId: number) {
   router.push('/app/statements/' + rowId)
 }
 
-async function fetchStatusStatistics() {
-  const res = await fetchStatementStatusStatistics()
+async function fetchStatusStatistics(range: any = {
+  date_start: '',
+  date_end: '',
+}) {
+  const res = await fetchStatementStatusStatistics(range)
   Object.assign(statusChartSeries, res.map(item => item.applications))
   Object.assign(statusChartOptions.labels, res.map(item => `${item.name}: ${item.applications}`))
 }
 
-async function fetchPaymentStatistics() {
-  const res = await fetchStatementPaymentStatistics()
-  paymentChartOptions.series = [{
-    name: t('Payment_sum'),
-    data: res.map(item => item.amount)
-  }]
+async function fetchPaymentStatistics(year = thisYear.value) {
+  const res = await fetchStatementPaymentStatistics(year)
+  Object.assign(paymentChartOptions, {
+    ...paymentChartOptions,
+    series: [{
+      name: t('Payment_sum'),
+      data: res.map(item => item.amount)
+    }]
+  })
 }
 
-async function fetchStageStatistics() {
-  const res = await fetchStatementStageStatistics()
+async function fetchStageStatistics(range: any = {
+  date_start: '',
+  date_end: '',
+}) {
+  const res = await fetchStatementStageStatistics(range)
   Object.assign(stageChartSeries, res.map(item => item.applications))
   Object.assign(stageChartOptions.labels, res.map(item => `${item.name}: ${item.applications}`))
 }
@@ -304,7 +346,7 @@ async function fetchLatestStatements(page: number = 1) {
         <div class="dashboard-card is-base-chart">
           <div class="content-box is-flex">
             <h1 class="is-size-4">{{ $t('Statement_statuses') }}</h1>
-            <VDatePicker :locale="locale" class="ml-auto" v-model="range" is-range color="green" trim-weeks
+            <VDatePicker :locale="locale" class="ml-auto" v-model="range1" is-range color="green" trim-weeks
               :model-config="datePickerModelConfig">
               <template v-slot="{ inputValue, inputEvents }">
                 <VField addons>
@@ -350,7 +392,8 @@ async function fetchLatestStatements(page: number = 1) {
         <div class="dashboard-card is-base-chart">
           <div class="content-box is-flex">
             <h1 class="is-size-4">{{ $t('Statement_stages') }}</h1>
-            <VDatePicker :locale="locale" class="ml-auto" v-model="range" is-range color="green" trim-weeks>
+            <VDatePicker :locale="locale" class="ml-auto" v-model="range2" is-range color="green" trim-weeks
+              :model-config="datePickerModelConfig">
               <template v-slot="{ inputValue, inputEvents }">
                 <VField addons>
                   <VControl expanded icon="feather:corner-down-right">

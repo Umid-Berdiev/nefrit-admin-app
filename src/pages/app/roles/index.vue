@@ -47,10 +47,6 @@ const sort = computed({
 })
 
 const columns = computed(() => ({
-  select: {
-    label: '',
-    cellClass: 'is-flex-grow-0',
-  },
   orderNumber: {
     format: (value, row, index) => `${index + 1}`,
     cellClass: 'is-flex-grow-0',
@@ -145,9 +141,11 @@ function successNotify() {
 
 <template>
   <div class="applicant-list-wrapper">
-    <TableActionsBlock center title="" @add="onEdit(null)" :filter-disabled="true" :print-disabled="true"
-      @remove="confirmAction" />
-
+    <VFlex justify-content="end" class="mb-4">
+      <VButton outlined rounded color="info" icon="feather:plus" @click.prevent="onEdit(undefined)">
+        {{ $t('Add') }}
+      </VButton>
+    </VFlex>
     <!-- table -->
     <VFlexTableWrapper :columns="columns" :data="data.result" :limit="data.pagination.per_page"
       :total="data.pagination.total" v-model:sort="sort">
@@ -170,8 +168,6 @@ function successNotify() {
 
         <VFlexTable rounded>
           <template #header-column="{ column }">
-            <VCheckbox v-if="column.key === 'select'" class="ml-2 mr-3" :checked="isAllSelected" name="all_selected"
-              color="primary" @click="toggleSelection" />
             <span v-if="column.key === 'orderNumber'" class="is-flex-grow-0" v-text="'#'" />
           </template>
           <template #body>
@@ -183,9 +179,6 @@ function successNotify() {
           </template>
 
           <template #body-cell="{ row, column, value, index }">
-            <VCheckbox v-if="column.key === 'select'" v-model="selectedRowIds" :value="row.id" name="selection"
-              @change="clickOnRow" />
-
             <template v-if="column.key === 'actions'">
               <RolesFlexTableDropdown @edit="onEdit(row.id)" @remove="onRemove(row.id)"
                 @permissions="gotoPermissions(row.id)" />

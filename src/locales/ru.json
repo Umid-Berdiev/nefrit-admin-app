@@ -341,5 +341,7 @@
   "News": "Новости",
   "Faq": "Вопросы-Ответы",
   "Regulation": "Положения",
-  "Doc_categories": "Категории документов"
+  "Doc_categories": "Категории документов",
+  "auth_login_nefrit": "Вход в систему - Nefrit",
+  "Verify_contract": "Подтвердить контракт"
 }

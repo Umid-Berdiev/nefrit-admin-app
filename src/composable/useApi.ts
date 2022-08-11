@@ -16,6 +16,7 @@ export function createApi() {
   api.interceptors.request.use((config) => {
     const userSession = useUserSession()
     nProgress.start()
+
     if (userSession.isLoggedIn) {
       config.headers = {
         ...config.headers,
@@ -38,6 +39,8 @@ export function createApi() {
     },
     function (error) {
       const userSession = useUserSession()
+      nProgress.done()
+
       if (error) {
         if (error.response?.status === 401 /* && !originalRequest._retry */) {
           userSession.setToken(undefined)
