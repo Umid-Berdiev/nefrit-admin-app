@@ -1,0 +1,1 @@
+import{ad as c}from"./index.38c372dc.js";const e=c();async function o(t,a){try{const{data:r}=await e({url:`/api/admin/report/application?page=${t}`,params:a});return r.data}catch(r){throw r}}async function n(t){try{const{data:a}=await e({url:"/api/admin/report/certificate",params:t});return a.data}catch(a){throw a}}export{o as a,n as f};

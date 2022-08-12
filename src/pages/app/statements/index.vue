@@ -4,10 +4,6 @@ import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useHead } from '@vueuse/head'
 
-import type {
-  VFlexTableWrapperSortFunction,
-  VFlexTableWrapperFilterFunction,
-} from '/@src/components/base/table/VFlexTableWrapper.vue'
 import { useViewWrapper } from '/@src/stores/viewWrapper'
 import { useMainStore } from "/@src/stores";
 import { fetchList } from '/@src/utils/api/statement'

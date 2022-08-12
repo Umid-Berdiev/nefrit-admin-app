@@ -13,7 +13,6 @@ import {
   fetchLatestStatementsStatistics
 } from '/@src/utils/api/statement'
 
-const router = useRouter()
 const { t, locale } = useI18n()
 
 const datePickerModelConfig = reactive({
