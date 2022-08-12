@@ -113,9 +113,9 @@ function openContractDownloadModal() {
     </li>
     <VCollapseLinks v-if="[1, 2, 3, 5, 7].includes(currentRoleId)">
       <template #header>
-        <!-- <span class="fa-li">
-          <i class="fas fa-chart-line" aria-hidden="true"></i>
-        </span> -->
+        <span class="fa-li">
+          <i class="fas fa-file-invoice" aria-hidden="true"></i>
+        </span>
         <span class="is-size-6">
           {{ $t('Reports') }}
         </span>
@@ -130,24 +130,24 @@ function openContractDownloadModal() {
       <RouterLink v-if="[1, 2, 3, 5].includes(currentRoleId)" :to="{ name: 'app-reports-applicants' }"
         class="is-submenu is-size-6">
         <VueIconify icon="feather:circle" />
-        {{ $t('Contacts') }}
+        {{ $t('Applicants') }}
       </RouterLink>
       <RouterLink v-if="[1, 2, 3, 5].includes(currentRoleId)" :to="{ name: 'app-reports-statements' }"
         class="is-submenu is-size-6">
         <VueIconify icon="feather:circle" />
-        {{ $t('News') }}
+        {{ $t('Statements') }}
       </RouterLink>
       <RouterLink v-if="[1, 2, 3, 5].includes(currentRoleId)" :to="{ name: 'app-reports-certificates' }"
         class="is-submenu is-size-6">
         <VueIconify icon="feather:circle" />
-        {{ $t('Faq') }}
+        {{ $t('Certificates') }}
       </RouterLink>
     </VCollapseLinks>
     <VCollapseLinks v-if="[1, 2].includes(currentRoleId)">
       <template #header>
-        <!-- <span class="fa-li">
-          <i class="fas fa-database" aria-hidden="true"></i>
-          </span> -->
+        <span class="fa-li">
+          <i class="fas fa-book-open" aria-hidden="true"></i>
+        </span>
         <span class="is-size-6">
           {{ $t('Handbook') }}
         </span>

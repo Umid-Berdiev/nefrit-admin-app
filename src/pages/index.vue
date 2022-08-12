@@ -7,6 +7,7 @@ import { useDarkmode } from '/@src/stores/darkmode'
 import { useUserSession } from '/@src/stores/userSession'
 import { useNotyf } from '/@src/composable/useNotyf'
 import LocalesDropdown from '/@src/components/partials/dropdowns/LocalesDropdown.vue'
+import AppLogo from '../components/svg/AppLogo.vue'
 
 const { t } = useI18n()
 const isLoading = ref(false)
@@ -69,9 +70,9 @@ function clearErrors(event: Event) {
         <div class="auth-nav">
           <div class="left"></div>
           <div class="center">
-            <!-- <RouterLink :to="{ name: 'index' }" class="header-item">
-              <AnimatedLogo width="38px" height="38px" />
-            </RouterLink> -->
+            <RouterLink :to="{ name: 'index' }" class="header-item">
+              <AppLogo width="38px" height="38px" />
+            </RouterLink>
           </div>
           <div class="right">
             <label class="dark-mode ml-auto" tabindex="0"

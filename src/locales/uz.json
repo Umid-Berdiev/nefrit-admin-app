@@ -85,7 +85,7 @@
   "Delete_selected": "Belgilanganlarni o'chirish",
   "isNational": "Mahalliy tashkilot",
   "Users": "Foydalanuvchilar",
-  "Handbook": "Yo'riqnoma",
+  "Handbook": "Portal sozlamalari",
   "Reports": "Hisobotlar",
   "Confirm_action": "Amalni tasdiqlash",
   "Confirm": "Tasdiqlash",
@@ -283,7 +283,7 @@
   "No_data": "Ma'lumot yo'q",
   "Statement_card": "Ariza kartasi",
   "Reports_page": "Hisobotlar sahifasi",
-  "Handbook_page": "Yo'riqnoma sahifasi",
+  "Handbook_page": "Portal sozlamalari sahifasi",
   "Not_voted_yet": "Hali ovoz berilmagan",
   "Add_vote": "Ovoz qo'shish",
   "Comment": "Izoh",
@@ -343,5 +343,6 @@
   "Regulation": "Nizomlar",
   "Doc_categories": "Hujjat kategoriyalari",
   "auth_login_nefrit": "Tizim Kirish - Nefrit",
-  "Verify_contract": "Shartnomani tasdiqlang"
+  "Verify_contract": "Shartnomani tasdiqlang",
+  "Certificates": "Sertifikatlar"
 }

@@ -343,5 +343,6 @@
   "Regulation": "Regulations",
   "Doc_categories": "Document categories",
   "auth_login_nefrit": "Auth Login - Nefrit",
-  "Verify_contract": "Verify contract"
+  "Verify_contract": "Verify contract",
+  "Certificates": "Certificates"
 }

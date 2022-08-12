@@ -1,0 +1,1 @@
+import{_ as s}from"./VTag.30f95b80.js";import{z as a,o as e,f as c,w as n,m as r,t as i}from"./index.f3c4af7c.js";const p=a({props:{status:null},setup(t){return(l,m)=>{const o=s;return e(),c(o,{class:"is-size-6",rounded:"",color:t.status.color},{default:n(()=>[r(i(t.status.name),1)]),_:1},8,["color"])}}});export{p as _};

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router';
 import MainMenu from '/@src/components/navigation/MainMenu.vue';
+import AppLogo from '/@src/components/svg/AppLogo.vue';
 
 const emit = defineEmits(['close'])
 
@@ -14,7 +15,7 @@ const route = useRoute()
     <div class="subpanel-header mb-2">
       <RouterLink :to="{ name: 'index' }">
         <div class="sidebar-brand is-flex is-align-items-start">
-          <AnimatedLogo width="36px" class="mr-3" />
+          <AppLogo width="36px" class="mr-3" />
           <span class="is-size-3 has-text-primary">
             Nefrit
           </span>

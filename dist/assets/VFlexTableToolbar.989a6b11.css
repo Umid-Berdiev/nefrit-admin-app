@@ -1,0 +1,1 @@
+.flex-table-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:40px}@media (max-width: 767px){.flex-table-toolbar{margin-bottom:10px}.flex-table-toolbar .left{flex-grow:2}.flex-table-toolbar .right{display:none}}

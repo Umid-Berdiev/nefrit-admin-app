@@ -1,1 +1,0 @@
-import{z as t,V as o,bP as s,e as p,o as r,i as n,t as i}from"./index.7d56daf3.js";import{u as c}from"./viewWrapper.780c4a53.js";const g=t({setup(l){const{t:e,locale:u}=o();return c().setPageTitle(e("Handbook_page")),s({title:p(()=>e("Handbook_page"))}),(a,_)=>(r(),n("div",null,i(a.$t("About_page")),1))}});export{g as default};

@@ -85,7 +85,7 @@
   "Delete_selected": "Удалить выбранное",
   "isNational": "Местная организация",
   "Users": "Пользователи",
-  "Handbook": "Справочник",
+  "Handbook": "Справочники",
   "Reports": "Отчеты",
   "Confirm_action": "Подтвердить действие",
   "Confirm": "Подтверждаю",
@@ -283,7 +283,7 @@
   "No_data": "Нет данных",
   "Statement_card": "Карточка заявки",
   "Reports_page": "Страница отчетов",
-  "Handbook_page": "Страница Справочник",
+  "Handbook_page": "Страница Справочники",
   "Not_voted_yet": "Ещё не проголосовал(а)",
   "Add_vote": "Добавить голос",
   "Comment": "Комментарий",
@@ -343,5 +343,6 @@
   "Regulation": "Положения",
   "Doc_categories": "Категории документов",
   "auth_login_nefrit": "Вход в систему - Nefrit",
-  "Verify_contract": "Подтвердить контракт"
+  "Verify_contract": "Подтвердить контракт",
+  "Certificates": "Сертификаты"
 }
