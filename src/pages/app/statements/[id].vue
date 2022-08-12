@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useHead } from '@vueuse/head'
 
 // we import our useApi helper
@@ -11,12 +11,13 @@ import StatementDocumentCollapse from '/@src/components/base/accordion/Statement
 const { t } = useI18n()
 const route = useRoute()
 const router = useRouter()
-const selectedTab = computed({
-  get: () => route.hash.slice(1) || 'details',
-  set: (val) => {
-    router.push({ hash: `#${val}` })
-  }
-})
+const selectedTab = ref('details')
+// const selectedTab = computed({
+//   get: () => route.hash.slice(1) || 'details',
+//   set: (val) => {
+//     router.push({ path: `/app/statements/${route.params.id}`, hash: `#${val}` })
+//   }
+// })
 const tabs = ref([
   { label: t('Statement_details'), value: 'details', icon: 'lnil lnil-tap' },
   // { label: t('Payment'), value: 'payment', icon: 'fas fa-tree' },
@@ -47,6 +48,11 @@ useHead({
   title: computed(() => t('Statement_card')),
 })
 
+onMounted(() => {
+  if (route.hash) {
+    selectedTab.value = route.hash.slice(1)
+  }
+})
 </script>
 
 <template>

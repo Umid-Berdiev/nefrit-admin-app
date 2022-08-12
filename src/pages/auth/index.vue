@@ -1,4 +1,4 @@
 <route lang="yaml">
 redirect:
-  name: auth-login
+  path: /
 </route>

@@ -45,6 +45,7 @@ export function createApi() {
         if (error.response?.status === 401 /* && !originalRequest._retry */) {
           userSession.setToken(undefined)
           userSession.setUser(undefined)
+          location.href = '/'
         }
 
         throw error

@@ -2,24 +2,14 @@
 import { computed, onMounted, reactive, ref } from 'vue'
 import ApexChart from 'vue3-apexcharts'
 import { useI18n } from 'vue-i18n'
-import { useRouter } from 'vue-router'
 import { isEmpty } from 'lodash'
 import moment from 'moment'
 
 import {
-  fetchStatementStatusStatistics,
-  fetchStatementPaymentStatistics,
-  fetchStatementStageStatistics,
-  fetchLatestStatementsStatistics
+  fetchStatementStageStatistics
 } from '/@src/utils/api/statement'
 
-const router = useRouter()
 const { t, locale } = useI18n()
-
-const datePickerModelConfig = reactive({
-  type: 'string',
-  mask: 'YYYY-MM-DD', // Uses 'iso' if missing
-})
 
 const range = computed({
   get: () => ({
@@ -29,15 +19,20 @@ const range = computed({
   set: async (val: any) => {
     console.log({ val });
 
-    if (!isEmpty(val)) await fetchStatusStatistics({
+    if (!isEmpty(val)) await fetchStageStatistics({
       date_start: val.start,
       date_end: val.end
     })
   }
 })
 
-const statusChartSeries = reactive([])
-const statusChartOptions = reactive({
+const datePickerModelConfig = reactive({
+  type: 'string',
+  mask: 'YYYY-MM-DD', // Uses 'iso' if missing
+})
+
+const stageChartSeries = reactive([])
+const stageChartOptions = reactive({
   title: {
     text: '',
   },
@@ -92,28 +87,27 @@ const statusChartOptions = reactive({
 })
 
 onMounted(async () => {
-  await fetchStatusStatistics({
+  await fetchStageStatistics({
     date_start: range.value.start,
     date_end: range.value.end
   })
 })
 
-async function fetchStatusStatistics(range: any = {
+async function fetchStageStatistics(range: any = {
   date_start: '',
   date_end: '',
 }) {
-  const res = await fetchStatementStatusStatistics(range)
-  Object.assign(statusChartSeries, res.map(item => item.applications))
-  Object.assign(statusChartOptions.labels, res.map(item => `${item.name}: ${item.applications}`))
+  const res = await fetchStatementStageStatistics(range)
+  Object.assign(stageChartSeries, res.map(item => item.applications))
+  Object.assign(stageChartOptions.labels, res.map(item => `${item.name}: ${item.applications}`))
 }
-
 
 </script>
 
 <template>
   <div class="dashboard-card is-base-chart">
     <div class="content-box is-flex">
-      <h1 class="is-size-4">{{ $t('Statement_statuses') }}</h1>
+      <h1 class="is-size-4">{{ $t('Statement_stages') }}</h1>
       <VDatePicker :locale="locale" class="ml-auto" v-model="range" is-range color="green" trim-weeks
         :model-config="datePickerModelConfig">
         <template v-slot="{ inputValue, inputEvents }">
@@ -133,9 +127,9 @@ async function fetchStatusStatistics(range: any = {
         </template>
       </VDatePicker>
     </div>
-    <div class="p-5">
-      <ApexChart :type="statusChartOptions.chart.type" :height="400" :series="statusChartSeries"
-        :options="statusChartOptions" />
+    <div>
+      <ApexChart :type="stageChartOptions.chart.type" :height="400" :series="stageChartSeries"
+        :options="stageChartOptions" />
     </div>
   </div>
 </template>
