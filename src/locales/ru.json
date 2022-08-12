@@ -344,5 +344,18 @@
   "Doc_categories": "Категории документов",
   "auth_login_nefrit": "Вход в систему - Nefrit",
   "Verify_contract": "Подтвердить контракт",
-  "Certificates": "Сертификаты"
+  "Certificates": "Сертификаты",
+  "Statement": "Заявление",
+  "Validity_date": "Срок годности",
+  "Drug_country": "Страна лекарства",
+  "Certificate_report": "Отчет сертификатов",
+  "Applicant_report": "Отчет заявителей",
+  "Statement_report": "Отчет заявлений",
+  "Payment_report": "Отчет платежей",
+  "Contract_sum": "Сумма контракта",
+  "Payment_total_sum": "Всего оплачено",
+  "Contract_sum_more": "Сумма контракта больше",
+  "Contract_sum_less": "Сумма контракта меньше",
+  "Application_contract": "Контракт заявления",
+  "Unblock": "Разблокировать"
 }

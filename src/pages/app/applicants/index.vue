@@ -1,21 +1,20 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, h, reactive } from 'vue'
+import { ref, computed, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useHead } from '@vueuse/head'
 
 import { useViewWrapper } from '/@src/stores/viewWrapper'
 import { fetchList } from '/@src/utils/api/applicant';
-import { useMainStore } from '/@src/stores'
 import { UserFilterForm } from '/@src/utils/interfaces'
 
-const { t, locale } = useI18n()
+const { t } = useI18n()
+const router = useRouter()
 
 useHead({
   title: t('Applicants') + ' - Nefrit',
 })
 
-const mainStore = useMainStore()
 const viewWrapper = useViewWrapper()
 viewWrapper.setPageTitle(t('Applicants_List'))
 
@@ -31,12 +30,7 @@ const filterForm = ref<UserFilterForm>({
   applicantUser: 'Abdullaev Baxrom',
 })
 
-const isFormModalOpen = ref(false)
 const displayFilterForm = ref(false)
-const selectedRowsId = ref<number[]>([])
-const isAllSelected = computed(() => data.result.length === selectedRowsId.value.length)
-const router = useRouter()
-const selectedId = ref()
 const currentPage = computed({
   get: () => {
     return data.pagination.current_page
@@ -98,7 +92,7 @@ async function fetchData(page: number = 1) {
 
 <template>
   <div class="applicant-list-wrapper">
-    <TableActionsBlock center title="" :add-disabled="true" :remove-disabled="true"
+    <TableActionsBlock center title="" add-disabled remove-disabled print-disabled
       @filter="displayFilterForm = !displayFilterForm" />
     <div v-show="displayFilterForm" class="mb-5">
       <VCard radius="small">
@@ -184,6 +178,9 @@ async function fetchData(page: number = 1) {
             </template>
             <template v-if="column.key === 'status' && value">
               <StatusTag :status="value" />
+            </template>
+            <template v-if="column.key === 'country' && value">
+              <span>{{ value.name }}</span>
             </template>
             <template v-if="column.key === 'actions'">
               <ApplicantFlexTableDropdown @view="onView(row.id)" />

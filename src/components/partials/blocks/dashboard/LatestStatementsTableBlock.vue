@@ -29,7 +29,8 @@ const columns = {
     align: 'end',
   },
 } as const
-const latestStatementsList = reactive({
+
+const statementData = reactive({
   pagination: {
     current_page: 1,
     per_page: 10,
@@ -39,7 +40,7 @@ const latestStatementsList = reactive({
 })
 const currentPage = computed({
   get: () => {
-    return latestStatementsList.pagination.current_page
+    return statementData.pagination.current_page
   },
   set: async (page) => {
     await fetchLatestStatements(page)
@@ -57,7 +58,7 @@ function gotoView(rowId: number) {
 
 async function fetchLatestStatements(page: number = 1) {
   const res = await fetchLatestStatementsStatistics(page)
-  Object.assign(latestStatementsList, res)
+  Object.assign(statementData, res)
 }
 </script>
 
@@ -67,7 +68,7 @@ async function fetchLatestStatements(page: number = 1) {
       <h1 class="is-size-4">{{ $t('Statement_latest') }}</h1>
     </div>
     <div class="p-5">
-      <VFlexTableWrapper :columns="columns" :data="latestStatementsList.result">
+      <VFlexTableWrapper :columns="columns" :data="statementData.result">
         <template #default="wrapperState">
           <VFlexTable rounded>
             <!-- Custom "name" cell content -->
@@ -84,9 +85,8 @@ async function fetchLatestStatements(page: number = 1) {
             </template>
           </VFlexTable>
 
-          <VFlexPagination v-model:current-page="currentPage" class="mt-6"
-            :item-per-page="latestStatementsList.pagination.per_page"
-            :total-items="latestStatementsList.pagination.total" />
+          <VFlexPagination v-if="statementData.result.length" v-model:current-page="currentPage" class="mt-6"
+            :item-per-page="statementData.pagination.per_page" :total-items="statementData.pagination.total" />
         </template>
       </VFlexTableWrapper>
     </div>

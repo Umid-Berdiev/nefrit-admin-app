@@ -230,7 +230,7 @@ async function onUnblockAction() {
                   </VField>
                 </div>
                 <div class="column is-6 mb-3">
-                  <CountrySelect :disabled="!isSecondBlockEditable" v-model="applicantData.country" required />
+                  <CountrySelect :disabled="!isSecondBlockEditable" v-model="applicantData.country_id" required />
                 </div>
                 <div class="column is-6 mb-3">
                   <VField :label="$t('stir')">

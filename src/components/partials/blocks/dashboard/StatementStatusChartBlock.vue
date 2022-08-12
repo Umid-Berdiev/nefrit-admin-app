@@ -2,15 +2,11 @@
 import { computed, onMounted, reactive, ref } from 'vue'
 import ApexChart from 'vue3-apexcharts'
 import { useI18n } from 'vue-i18n'
-import { useRouter } from 'vue-router'
 import { isEmpty } from 'lodash'
 import moment from 'moment'
 
 import {
   fetchStatementStatusStatistics,
-  fetchStatementPaymentStatistics,
-  fetchStatementStageStatistics,
-  fetchLatestStatementsStatistics
 } from '/@src/utils/api/statement'
 
 const { t, locale } = useI18n()
@@ -105,7 +101,6 @@ async function fetchStatusStatistics(range: any = {
   Object.assign(statusChartSeries, res.map(item => item.applications))
   Object.assign(statusChartOptions.labels, res.map(item => `${item.name}: ${item.applications}`))
 }
-
 
 </script>
 

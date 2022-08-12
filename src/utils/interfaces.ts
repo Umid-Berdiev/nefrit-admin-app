@@ -19,12 +19,19 @@ export interface UserData {
   username: string
 }
 
+export interface CountryData {
+  code: string
+  id: number
+  name: string
+}
+
 export interface ApplicantData {
   address?: string
   block_reason?: Text
   blocked_at?: string // block qilingan vaqt
   boss_name?: string //filterga+ cols +
-  country?: string //filterga +
+  country_id?: number //filterga +
+  country?: CountryData //filterga +
   eds?: string //elektron raqamli imzo
   fax?: string
   id?: number

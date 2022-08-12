@@ -344,5 +344,18 @@
   "Doc_categories": "Document categories",
   "auth_login_nefrit": "Auth Login - Nefrit",
   "Verify_contract": "Verify contract",
-  "Certificates": "Certificates"
+  "Certificates": "Certificates",
+  "Statement": "Statement",
+  "Validity_date": "Validity date",
+  "Drug_country": "Drug country",
+  "Certificate_report": "Certificate report",
+  "Applicant_report": "Applicant report",
+  "Statement_report": "Statement report",
+  "Payment_report": "Payment report",
+  "Contract_sum": "Contract sum",
+  "Payment_total_sum": "Payment total sum",
+  "Contract_sum_more": "Contract sum is more",
+  "Contract_sum_less": "Contract sum is less",
+  "Application_contract": "Application contract",
+  "Unblock": "Unblock"
 }

@@ -28,7 +28,7 @@ const columns2 = {
     align: 'center',
   },
 } as const
-const shouldPaidStatementsList = reactive({
+const statementData = reactive({
   pagination: {
     current_page: 1,
     per_page: 5,
@@ -39,7 +39,7 @@ const shouldPaidStatementsList = reactive({
 
 const currentPage2 = computed({
   get: () => {
-    return shouldPaidStatementsList.pagination.current_page
+    return statementData.pagination.current_page
   },
   set: async (page) => {
     await fetchShouldPaidStatements(page)
@@ -56,7 +56,7 @@ function gotoView(rowId: number) {
 
 async function fetchShouldPaidStatements(page: number = 1) {
   const res = await fetchShouldPaidStatementsStatistics(page)
-  Object.assign(shouldPaidStatementsList, res)
+  Object.assign(statementData, res)
 }
 </script>
 
@@ -79,8 +79,8 @@ async function fetchShouldPaidStatements(page: number = 1) {
             <h1 class="is-size-4">{{ $t('Statement_should_paid') }}</h1>
           </div>
           <div class="p-5">
-            <VFlexTableWrapper :columns="columns2" :data="shouldPaidStatementsList.result"
-              :limit="shouldPaidStatementsList.pagination.per_page" :total="shouldPaidStatementsList.pagination.total">
+            <VFlexTableWrapper :columns="columns2" :data="statementData.result"
+              :limit="statementData.pagination.per_page" :total="statementData.pagination.total">
               <template #default="wrapperState">
                 <VFlexTable rounded>
                   <!-- Custom "name" cell content -->
@@ -97,9 +97,8 @@ async function fetchShouldPaidStatements(page: number = 1) {
                   </template>
                 </VFlexTable>
 
-                <VFlexPagination v-model:current-page="currentPage2" class="mt-6"
-                  :item-per-page="shouldPaidStatementsList.pagination.per_page"
-                  :total-items="shouldPaidStatementsList.pagination.total" />
+                <VFlexPagination v-if="statementData.result.length" v-model:current-page="currentPage2" class="mt-6"
+                  :item-per-page="statementData.pagination.per_page" :total-items="statementData.pagination.total" />
               </template>
             </VFlexTableWrapper>
           </div>

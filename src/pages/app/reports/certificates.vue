@@ -11,11 +11,11 @@ import { useViewWrapper } from '/@src/stores/viewWrapper'
 const { t, locale } = useI18n()
 
 useHead({
-  title: t('Statements') + ' - Nefrit',
+  title: t('Certificate_report') + ' - Nefrit',
 })
 
 const viewWrapper = useViewWrapper()
-viewWrapper.setPageTitle(t('Statements'))
+viewWrapper.setPageTitle(t('Certificate_report'))
 
 const data = reactive({
   pagination: {
@@ -54,39 +54,23 @@ const range = computed({
 })
 const columns = {
   number: {
-    label: t('Sertificate_number'),
+    label: t('Certificate_number'),
   },
   application: {
     label: t('Statement'),
-    // grow: true,
   },
   drug: {
     label: t('drug_name'),
-    // grow: true,
   },
   drug_country: {
-    label: t('drug_country'),
-    // grow: true,
+    label: t('Drug_country'),
   },
-  // status: t('Status'),
-  // stage: {
-  //   label: t('Stage'),
-  //   // grow: true,
-  // },
-  // is_paid: {
-  //   label: t('Payment_status'),
-  //   // grow: true,
-  // },
   created_at: {
     label: t('Created_at'),
   },
   validity_date: {
     label: t('Validity_date'),
-  },
-  // actions: {
-  //   label: t('Actions'),
-  //   align: 'center',
-  // },
+  }
 } as const
 
 onMounted(async () => {
@@ -152,6 +136,12 @@ async function fetchData(page: number = 1, range: any = {
 
           <!-- Custom "name" cell content -->
           <template #body-cell="{ row, column, value, index }">
+            <template v-if="column.key === 'number'">
+              <a :href="row.file" class="has-text-primary is-pushed-mobile">
+                <span class="mr-3">{{ value }}</span>
+                <VueIconify icon="feather:link" />
+              </a>
+            </template>
             <template v-if="column.key === 'application'">
               <RouterLink :to="`/app/statements/${value.id}`">{{ value?.code }}</RouterLink>
             </template>
@@ -183,8 +173,8 @@ async function fetchData(page: number = 1, range: any = {
         </VFlexTable>
 
         <!-- Table Pagination with wrapperState.page binded-->
-        <VFlexPagination class="mt-6" v-model:current-page="currentPage" :item-per-page="data.pagination.per_page"
-          :total-items="data.pagination.total" />
+        <VFlexPagination v-if="data.result.length" class="mt-6" v-model:current-page="currentPage"
+          :item-per-page="data.pagination.per_page" :total-items="data.pagination.total" />
       </template>
     </VFlexTableWrapper>
   </div>

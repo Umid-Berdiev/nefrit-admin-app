@@ -97,7 +97,7 @@ function onView(statementId: number) {
               <span>{{ value.name }}</span>
             </template>
             <template v-else-if="column.key === 'date'">
-              <span>{{ value }}</span>
+              <span>{{ $h.formatDate(value, 'HH:mm DD.MM.YYYY') }}</span>
             </template>
             <template v-else-if="column.key === 'status'">
               <StatusTag :status="value" />

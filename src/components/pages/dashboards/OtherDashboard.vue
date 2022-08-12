@@ -1,67 +1,17 @@
 <script setup lang="ts">
-import { computed, onMounted, reactive, ref } from 'vue'
-import { useI18n } from 'vue-i18n'
-import { useRouter } from 'vue-router'
+import { onMounted, reactive, ref } from 'vue'
 import {
-  fetchLatestStatementsStatistics,
   fetchStatementsGeneralStatistics
 } from '/@src/utils/api/statement';
 
-const { t } = useI18n()
-const router = useRouter()
 const statementStatuses = reactive({
   total: null,
   result: []
 });
-const columns1 = {
-  code: {
-    label: 'Ariza qabul raqami',
-    // cellClass: 'is-flex-grow-0',
-  },
-  applicant: {
-    label: t('applied_legal_entity'),
-  },
-  drug: {
-    label: t('drug_name'),
-  },
-  date: {
-    label: t('applied_at'),
-  },
-  actions: {
-    label: t('Actions'),
-    align: 'center',
-  },
-} as const
-const latestStatementsList = reactive({
-  pagination: {
-    current_page: 1,
-    per_page: 5,
-    total: 5,
-  },
-  result: []
-})
-const currentPage1 = computed({
-  get: () => {
-    return latestStatementsList.pagination.current_page
-  },
-  set: async (page) => {
-    await fetchLatestStatements(page)
-  }
-})
 
 onMounted(async () => {
   await fetchStatementsGeneralStats()
-  await fetchLatestStatements()
 })
-
-function gotoView(rowId: number) {
-  router.push('/app/statements/' + rowId)
-}
-
-async function fetchLatestStatements(page: number = 1) {
-  const res = await fetchLatestStatementsStatistics(page)
-  Object.assign(latestStatementsList, res)
-}
 
 async function fetchStatementsGeneralStats() {
   const res = await fetchStatementsGeneralStatistics()
@@ -95,36 +45,7 @@ async function fetchStatementsGeneralStats() {
 
     <div class="columns is-multiline">
       <div class="column is-12">
-        <div class="dashboard-card is-base-chart">
-          <div class="content-box is-flex">
-            <h1 class="is-size-4">{{ $t('Statements') }}</h1>
-          </div>
-          <div class="p-5">
-            <VFlexTableWrapper :columns="columns1" :data="latestStatementsList.result"
-              :limit="latestStatementsList.pagination.per_page" :total="latestStatementsList.pagination.total">
-              <template #default="wrapperState">
-                <VFlexTable rounded>
-                  <!-- Custom "name" cell content -->
-                  <template #body-cell="{ row, column, value, index }">
-                    <template v-if="column.key === 'date' && value">
-                      <span>{{ $h.formatDate(value, 'HH:mm DD.MM.YYYY') }}</span>
-                    </template>
-                    <template v-if="column.key === 'actions'">
-                      <VIconButton class="p-4" outlined circle color="info" icon="feather:eye"
-                        @click.prevent="gotoView(row.id)">
-                        {{ $t('View') }}
-                      </VIconButton>
-                    </template>
-                  </template>
-                </VFlexTable>
-
-                <VFlexPagination v-model:current-page="currentPage1" class="mt-6"
-                  :item-per-page="latestStatementsList.pagination.per_page"
-                  :total-items="latestStatementsList.pagination.total" />
-              </template>
-            </VFlexTableWrapper>
-          </div>
-        </div>
+        <LatestStatementsTableBlock />
       </div>
     </div>
   </div>

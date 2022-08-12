@@ -1,1 +1,0 @@
-import{M as t,o as _,i as n,j as s,g as o}from"./index.38c372dc.js";const l={},a={class:"flex-table-toolbar"},c={class:"left"},r={class:"right"};function i(e,d){return _(),n("div",a,[s("div",c,[o(e.$slots,"left")]),s("div",r,[o(e.$slots,"right")])])}const p=t(l,[["render",i]]);export{p as _};

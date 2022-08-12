@@ -2,7 +2,7 @@
 import { computed, onMounted, reactive, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n';
 import { create, fetchById, updateById } from '/@src/utils/api/employee';
-import { DepartmentData, EmployeeData } from '/@src/utils/interfaces';
+import { EmployeeData } from '/@src/utils/interfaces';
 
 const props = defineProps({
   modelValue: Boolean,
@@ -60,6 +60,7 @@ watch(
 
 async function onSubmit(event: Event) {
   try {
+    clearErrors()
     isLoading.value = true
     const formData = new FormData()
     formData.append('avatar', avatarFile.value || '')
@@ -84,12 +85,8 @@ async function onSubmit(event: Event) {
 }
 
 const onAddFile = (event: Event) => {
-  // if (error) {
-  //   console.error(error)
-  //   return
-  // }
+  if (errors.avatar?.length) errors.avatar = []
   avatarFile.value = event.target.files[0]
-  // console.log('file added', file)
 }
 
 const onRemoveFile = (error: any, file: any) => {
@@ -97,14 +94,16 @@ const onRemoveFile = (error: any, file: any) => {
     console.error(error)
     return
   }
-  employeeData.avatar = undefined
+  avatarFile.value = undefined
+  employeeData.avatar = ''
   // console.log('file removed', file)
 }
 
 function onClose() {
   clearErrors()
   clearEmployeeData()
-  // employeeAvatar.value = "/images/avatars/svg/vuero-1.svg";
+  avatarFile.value = undefined
+  isUploading.value = false
   emits('update:modelValue', false)
 }
 

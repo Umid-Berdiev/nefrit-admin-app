@@ -108,7 +108,6 @@ function notify() {
             <span v-if="column.key === 'orderNumber'" class="is-flex-grow-0" v-text="'#'" />
           </template>
 
-          <!-- Custom "name" cell content -->
           <template #body-cell="{ row, column, value }">
             <!-- <VCheckbox v-if="column.key === 'select'" v-model="selectedRowsId" :value="row.id" name="selection"
               @change="clickOnRow" /> -->
