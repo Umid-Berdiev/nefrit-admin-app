@@ -357,5 +357,6 @@
   "Contract_sum_more": "Contract sum is more",
   "Contract_sum_less": "Contract sum is less",
   "Application_contract": "Application contract",
-  "Unblock": "Unblock"
+  "Unblock": "Unblock",
+  "Send": "Send"
 }

@@ -1,11 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRoute } from 'vue-router';
-import { useI18n } from 'vue-i18n';
 import { isEmpty } from 'lodash';
 
-import { useDropdown } from '/@src/composable/useDropdown'
-import { useMainStore } from '/@src/stores/index';
 import { createChatMessage } from "/@src/utils/api/statement";
 import { StatementChatMessageData } from '/@src/utils/interfaces';
 import VButton from '../../base/button/VButton.vue';
@@ -14,11 +11,7 @@ const emits = defineEmits<{
   (e: 'update:data'): void
 }>()
 const route = useRoute()
-const mainStore = useMainStore()
-const { t, locale } = useI18n()
 const currentStatementId = (route.params?.id as string) ?? null
-const dropdownElement = ref<HTMLElement>()
-const dropdown = useDropdown(dropdownElement)
 const textInput = ref('')
 const fileInput = ref<File>()
 const isMsgSending = ref(false);
@@ -78,8 +71,9 @@ async function handleFileInput(e: Event) {
       <input id="chat-input" class="input is-rounded" type="text" v-model="textInput" @keyup.enter="sendMessage"
         aria-label="Write a message" />
       <div class="send-message">
-        <button class="button v-button is-primary is-raised is-rounded" @click="sendMessage">{{ $t('Send') }}</button>
-        <!-- <VTextarea v-model="textInput" @keyup.enter="sendMessage" placeholder="Type your message..."></VTextarea> -->
+        <VButton :loading="isMsgSending" :disabled="isMsgSending" color="primary" raised rounded @click="sendMessage">
+          {{ $t('Send') }}
+        </VButton>
       </div>
     </div>
 

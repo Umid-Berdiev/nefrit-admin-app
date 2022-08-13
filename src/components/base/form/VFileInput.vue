@@ -1,9 +1,14 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n()
 const props = withDefaults(defineProps<{
   files: File[],
   remoteFiles: [],
+  placeholder: string,
   errorMessage: string
 }>(), {
+  placeholder: 'Choose_a_file',
   errorMessage: ''
 })
 
@@ -24,7 +29,7 @@ const emits = defineEmits<{
             <i class="fas fa-upload"></i>
           </span>
           <span class="file-label">
-            {{ $t('Choose_a_file') }}…
+            {{ $t(placeholder) }}
           </span>
         </span>
       </label>

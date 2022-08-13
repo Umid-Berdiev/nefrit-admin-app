@@ -127,7 +127,7 @@ async function onChangePassword(id: number) {
 
 <template>
   <div class="applicant-list-wrapper">
-    <TableActionsBlock center title="" :remove-disabled="true" @add="onEdit(null)"
+    <TableActionsBlock center title="" remove-disabled print-disabled @add="onEdit(null)"
       @filter="displayFilterForm = !displayFilterForm" />
     <div v-show="displayFilterForm" class="mb-5">
       <VCard radius="small">
@@ -151,7 +151,9 @@ async function onChangePassword(id: number) {
               <VInput v-model="filterForm.applicantStatus" type="text" placeholder="" />
             </VControl>
           </VField>
-          <CountrySelect v-model="filterForm.applicantsCountry" class="column" />
+          <div class="column">
+            <CountrySelect v-model="filterForm.applicantsCountry" />
+          </div>
         </div>
         <VFlex>
           <VFlexItem class="ml-auto">

@@ -53,23 +53,26 @@ const columns = {
   legal_entity: {
     label: t('applied_legal_entity'),
     searchable: true,
-    grow: true,
   },
   drug: {
     label: t('drug_name'),
     searchable: true,
   },
-  status: t('Status'),
+  status: {
+    label: t('Status'),
+    grow: true,
+  },
   stage: {
     label: t('Stage'),
     grow: true,
   },
   is_paid: {
     label: t('Payment_status'),
-    grow: true,
+    // grow: true,
   },
   date: {
     label: t('applied_at'),
+    // grow: true,
     searchable: true,
   },
   actions: {
@@ -105,7 +108,7 @@ function successNotify() {
 <template>
   <div class="applicant-list-wrapper">
     <TableActionsBlock center title="" @add="isFormModalOpen = true" @filter="displayFilterForm = !displayFilterForm"
-      :remove-disabled="true" :add-disabled="true" />
+      remove-disabled add-disabled print-disabled />
     <div v-show="displayFilterForm" class="mb-5">
       <VCard radius="small">
         <h3 class="title is-5 mb-2">{{ t('Filter_form') }}</h3>
@@ -142,11 +145,13 @@ function successNotify() {
               <VInput v-model="filterForm.applicantPhone" type="text" placeholder="" />
             </VControl>
           </VField>
-          <CountrySelect v-model="filterForm.applicantsCountry" class="column" />
+          <div class="column">
+            <CountrySelect v-model="filterForm.applicantsCountry" />
+          </div>
         </div>
         <VFlex>
           <VFlexItem class="ml-auto">
-            <VButton outlined color="warning" icon="feather:filter">{{ t('Filter') }}</VButton>
+            <VButton outlined color="success" icon="feather:filter">{{ t('Filter') }}</VButton>
           </VFlexItem>
         </VFlex>
       </VCard>

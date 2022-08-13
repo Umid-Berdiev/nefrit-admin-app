@@ -1,16 +1,3 @@
-import {
-  UserData,
-  ConclusionData,
-  NoticeData,
-  StatementCertificateData,
-  StatementVoteData,
-  StatementData,
-  VoteStatisticsData,
-  StatementDocumentData,
-  StatementChronologyData,
-  StatementChatMessageData,
-  StatementContractData,
-} from '../../interfaces'
 import { useApi } from '/@src/composable/useApi'
 
 const api = useApi()

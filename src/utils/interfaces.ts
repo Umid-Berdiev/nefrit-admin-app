@@ -293,3 +293,27 @@ export interface ContractTemplateData {
   body: string
   payment_amount?: number
 }
+
+export interface AboutPageData {
+  name: {
+    uz: string
+    ru: string
+    en: string
+  }
+  description: {
+    uz: string
+    ru: string
+    en: string
+  }
+  address: {
+    uz: string
+    ru: string
+    en: string
+  }
+  logo: File | null
+  logo_url?: string
+  image: File | null
+  image_url?: string
+  point_x: number | string
+  point_y: number | string
+}

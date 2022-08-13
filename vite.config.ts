@@ -5,7 +5,7 @@ import Pages from 'vite-plugin-pages'
 import Components from 'unplugin-vue-components/vite'
 import PurgeIcons from 'vite-plugin-purge-icons'
 import ImageMin from 'vite-plugin-imagemin'
-import { vueI18n } from '@intlify/vite-plugin-vue-i18n'
+import vueI18n from '@intlify/vite-plugin-vue-i18n'
 import purgecss from 'rollup-plugin-purgecss'
 
 const SILENT = Boolean(process.env.SILENT) ?? false

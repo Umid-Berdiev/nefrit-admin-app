@@ -357,5 +357,6 @@
   "Contract_sum_more": "Сумма контракта больше",
   "Contract_sum_less": "Сумма контракта меньше",
   "Application_contract": "Контракт заявления",
-  "Unblock": "Разблокировать"
+  "Unblock": "Разблокировать",
+  "Send": "Отправить"
 }

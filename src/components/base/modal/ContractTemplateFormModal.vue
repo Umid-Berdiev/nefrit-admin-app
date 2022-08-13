@@ -4,11 +4,9 @@ import { useI18n } from "vue-i18n";
 import CKE from '@ckeditor/ckeditor5-vue'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 
-import { editorData, editorConfig } from '/@src/data/ck-editor/editor-data'
+import { editorConfig } from '/@src/data/ck-editor/editor-data'
 import { ContractTemplateData } from "/@src/utils/interfaces";
 import { create, fetchById, updateById } from "/@src/utils/api/contract-templates";
-import VField from "../form/VField.vue";
-import VControl from "../form/VControl.vue";
 
 const props = defineProps({
   modelValue: Boolean,
@@ -105,8 +103,7 @@ function clearErrors() {
             </VControl>
           </VField> -->
           <VField :label="$t('Body')" required>
-            <CKEditor v-model="templateData.body" :editor="ClassicEditor" :config="editorConfig">
-            </CKEditor>
+            <CKEditor v-model="templateData.body" :editor="ClassicEditor" :config="editorConfig" />
             <p class="help has-text-danger">{{ errors.body[0] }}</p>
           </VField>
         </div>

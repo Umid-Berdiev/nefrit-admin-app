@@ -26,20 +26,16 @@ watch(locale, () => {
 const filteredLocales = computed(() => availableLocales.filter(item => item !== locale.value))
 
 const localFlagSrc = computed(() => {
-  switch (locale.value) {
-    case 'fr':
-      return '/images/icons/flags/france.svg'
-    case 'es':
-      return '/images/icons/flags/spain.svg'
-    case 'es-MX':
-      return '/images/icons/flags/mexico.svg'
-    case 'de':
-      return '/images/icons/flags/germany.svg'
-    case 'zh-CN':
-      return '/images/icons/flags/china.svg'
-    case 'en':
-    default:
-      return '/images/icons/flags/united-states-of-america.svg'
+  return (locale: string) => {
+    switch (locale) {
+      case 'en':
+        return '/images/logos/flag_en.svg'
+      case 'ru':
+        return '/images/logos/flag_ru.svg'
+      case 'uz':
+      default:
+        return '/images/logos/flag_uz.svg'
+    }
   }
 })
 
@@ -50,7 +46,7 @@ function changeLocale(loc: string) {
 </script>
 
 <template>
-  <VDropdown right>
+  <VDropdown right class="locale-dropdown">
     <template #button="{ open, toggle }">
       <VButton class="is-trigger has-text-primary px-4" style="border:none;" rounded outlined light @click="toggle">
         {{ locale.toUpperCase() }}
@@ -59,12 +55,18 @@ function changeLocale(loc: string) {
 
     <template #content="{ close }">
       <div @mouseleave="close" class="p-3">
-        <a href="javascript:;" class="dropdown-item is-size-6" v-for="lang in filteredLocales"
-          @click="changeLocale(lang)">
-          <!-- <img :src="localFlagSrc" alt="" /> -->
+        <a href="javascript:;" class="dropdown-item is-size-6 is-flex is-justify-content-flex-end"
+          v-for="lang in filteredLocales" @click="() => { changeLocale(lang); close(); }">
+          <img class="mr-3" :src="localFlagSrc(lang)" :alt="lang + 'flag'" />
           <span>{{ lang.toUpperCase() }}</span>
         </a>
       </div>
     </template>
   </VDropdown>
 </template>
+
+<style scoped lang="scss">
+.locale-dropdown .dropdown-menu {
+  min-width: none !important;
+}
+</style>

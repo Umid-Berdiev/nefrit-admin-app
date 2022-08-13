@@ -128,7 +128,9 @@ async function fetchData(page: number = 1) {
               <VInput v-model="filterForm.applicantPhone" type="text" placeholder="" />
             </VControl>
           </VField> -->
-          <CountrySelect v-model="filterForm.applicantsCountry" class="column" />
+          <div class="column">
+            <CountrySelect v-model="filterForm.applicantsCountry" />
+          </div>
         </div>
         <VFlex>
           <VFlexItem class="ml-auto">
