@@ -11,8 +11,6 @@ import { AboutPageData } from '/@src/utils/interfaces';
 import { editorConfig } from '/@src/data/ck-editor/editor-data'
 import { fetchAboutPageData, updateAboutPageContent } from "/@src/utils/api/handbook";
 import { useNotyf } from '/@src/composable/useNotyf';
-import VFlex from '/@src/components/base/flex/VFlex.vue';
-import VFlexItem from '/@src/components/base/flex/VFlexItem.vue';
 
 // leaflet styles
 import 'leaflet/dist/leaflet.css';
@@ -26,7 +24,6 @@ viewWrapper.setPageTitle(t('Handbook_page'))
 useHead({
   title: computed(() => t('Handbook_page')),
 })
-
 
 const openstreetMapUrl = ref(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
@@ -72,11 +69,8 @@ const errors = reactive({
 })
 const logoFiles = ref<File[]>([]);
 const imageFiles = ref<File[]>([]);
-const files = ref<File[]>([]);
 const logoUrl = ref('');
 const imageUrl = ref('');
-const remoteFiles = ref([]);
-const removedFileIds = ref<number[]>([]);
 const currentLocation = ref([
   41.2543754,
   69.1679692
@@ -258,9 +252,9 @@ function changeLatLng(e: Event) {
               </div>
             </template>
           </VTabs>
-          <hr>
+          <div class="is-divider" />
           <VFlex>
-            <VFlexItem class="is-fullwidth">
+            <VFlexItem style="width:100%;">
               <l-map id="map" v-model:zoom="zoomLevel" :center="currentLocation">
                 <l-tile-layer :url="openstreetMapUrl" layer-type="base" name="OpenStreetMap" />
                 <l-marker :lat-lng="currentLocation" draggable @moveend="changeLatLng" />
@@ -320,7 +314,7 @@ function changeLatLng(e: Event) {
 <style lang="scss">
 #map {
   width: 100%;
-  min-width: 70rem;
+  min-width: 200px;
   height: 20rem !important;
 }
 </style>
