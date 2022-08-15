@@ -1,8 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n';
-import { LegalEntityData } from '/@src/utils/interfaces';
-import VTag from '../tags/VTag.vue';
 
 const props = defineProps({
   modelValue: Boolean,
@@ -70,7 +67,7 @@ const columns = {
           </tr>
           <tr>
             <td class="has-text-weight-bold">{{ columns.country }}</td>
-            <td>{{ companyData?.country }}</td>
+            <td>{{ companyData?.country?.name }}</td>
           </tr>
         </tbody>
       </table>

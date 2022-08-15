@@ -358,5 +358,8 @@
   "Contract_sum_less": "Shartnoma qiymati kam",
   "Application_contract": "Ariza shartnomasi",
   "Unblock": "Blokdan chiqartish",
-  "Send": "Yuborish"
+  "Send": "Yuborish",
+  "Choose_a_logo": "Logo tanlang",
+  "Choose_an_image": "Rasm tanlang",
+  "Type_address": "Mansilni kiriting"
 }

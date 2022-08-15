@@ -358,5 +358,8 @@
   "Contract_sum_less": "Contract sum is less",
   "Application_contract": "Application contract",
   "Unblock": "Unblock",
-  "Send": "Send"
+  "Send": "Send",
+  "Choose_a_logo": "Choose a logo",
+  "Choose_an_image": "Choose a image",
+  "Type_address": "Type address"
 }

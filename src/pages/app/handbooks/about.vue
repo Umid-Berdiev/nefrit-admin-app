@@ -2,15 +2,20 @@
 import { computed, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n';
 import { useHead } from '@vueuse/head';
-import { useViewWrapper } from '/@src/stores/viewWrapper';
-import { AboutPageData } from '/@src/utils/interfaces';
+import { LMap, LMarker, LTileLayer } from '@vue-leaflet/vue-leaflet';
 import CKE from '@ckeditor/ckeditor5-vue'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
+
+import { useViewWrapper } from '/@src/stores/viewWrapper';
+import { AboutPageData } from '/@src/utils/interfaces';
 import { editorConfig } from '/@src/data/ck-editor/editor-data'
 import { fetchAboutPageData, updateAboutPageContent } from "/@src/utils/api/handbook";
 import { useNotyf } from '/@src/composable/useNotyf';
 import VFlex from '/@src/components/base/flex/VFlex.vue';
 import VFlexItem from '/@src/components/base/flex/VFlexItem.vue';
+
+// leaflet styles
+import 'leaflet/dist/leaflet.css';
 
 const { t } = useI18n()
 const notif = useNotyf()
@@ -22,6 +27,11 @@ useHead({
   title: computed(() => t('Handbook_page')),
 })
 
+
+const openstreetMapUrl = ref(
+  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+);
+const zoomLevel = ref(15);
 const CKEditor = CKE.component
 const isLoading = ref(false)
 const data: AboutPageData = reactive({
@@ -67,7 +77,10 @@ const logoUrl = ref('');
 const imageUrl = ref('');
 const remoteFiles = ref([]);
 const removedFileIds = ref<number[]>([]);
-
+const currentLocation = ref([
+  41.2543754,
+  69.1679692
+])
 await fetchData()
 
 function clearErrors() {
@@ -93,6 +106,12 @@ async function fetchData() {
   await Object.assign(data, res)
   logoUrl.value = res.logo
   imageUrl.value = res.image
+  if (res.point_y && res.point_y) {
+    currentLocation.value = [
+      res.point_x,
+      res.point_y
+    ]
+  }
 }
 
 async function onSubmit() {
@@ -111,6 +130,9 @@ async function onSubmit() {
     formData.append("address[ru]", data.address.ru)
     formData.append("address[en]", data.address.en)
     formData.append("logo", logoFiles.value.length ? logoFiles.value[0] : '')
+    formData.append("image", imageFiles.value.length ? imageFiles.value[0] : '')
+    formData.append("point_x", currentLocation.value[0])
+    formData.append("point_y", currentLocation.value[1])
     formData.append("image", imageFiles.value.length ? imageFiles.value[0] : '')
 
     const res = await updateAboutPageContent(formData)
@@ -134,7 +156,7 @@ function onLogoFileUpload(event: Event) {
     }
     reader.onerror = (error) => console.log(error)
 
-    logoFiles.value?.push(target.files[0]);
+    logoFiles.value = [target.files[0]];
   }
 }
 
@@ -148,10 +170,19 @@ function onImageFileUpload(event: Event) {
     }
     reader.onerror = (error) => console.log(error)
 
-    imageFiles.value?.push(target.files[0]);
+    imageFiles.value = [target.files[0]];
   }
 }
 
+function changeLatLng(e: Event) {
+  const targetLatLng = e.target.getLatLng();
+
+  console.log('lat: ', targetLatLng.lat);
+  console.log('lng: ', targetLatLng.lng);
+
+  currentLocation.value[0] = targetLatLng.lat;
+  currentLocation.value[1] = targetLatLng.lng;
+}
 </script>
 
 <template>
@@ -227,6 +258,15 @@ function onImageFileUpload(event: Event) {
               </div>
             </template>
           </VTabs>
+          <hr>
+          <VFlex>
+            <VFlexItem class="is-fullwidth">
+              <l-map id="map" v-model:zoom="zoomLevel" :center="currentLocation">
+                <l-tile-layer :url="openstreetMapUrl" layer-type="base" name="OpenStreetMap" />
+                <l-marker :lat-lng="currentLocation" draggable @moveend="changeLatLng" />
+              </l-map>
+            </VFlexItem>
+          </VFlex>
         </div>
         <div class="column is-4">
           <VFlex flex-direction="column">
@@ -259,7 +299,7 @@ function onImageFileUpload(event: Event) {
                         <span class="file-icon">
                           <i class="fas fa-cloud-upload-alt"></i>
                         </span>
-                        <span class="file-label"> {{ $t('Choose_a_image') }} </span>
+                        <span class="file-label"> {{ $t('Choose_an_image') }} </span>
                       </span>
                     </label>
                   </div>
@@ -276,3 +316,11 @@ function onImageFileUpload(event: Event) {
     </div>
   </form>
 </template>
+
+<style lang="scss">
+#map {
+  width: 100%;
+  min-width: 70rem;
+  height: 20rem !important;
+}
+</style>

@@ -342,7 +342,7 @@
   "Faq": "Вопросы-Ответы",
   "Regulation": "Положения",
   "Doc_categories": "Категории документов",
-  "auth_login_nefrit": "Вход в систему - Nefrit",
+  "auth_login_nefrit": "Вход в систему - NEFRIT",
   "Verify_contract": "Подтвердить контракт",
   "Certificates": "Сертификаты",
   "Statement": "Заявление",
@@ -358,5 +358,8 @@
   "Contract_sum_less": "Сумма контракта меньше",
   "Application_contract": "Контракт заявления",
   "Unblock": "Разблокировать",
-  "Send": "Отправить"
+  "Send": "Отправить",
+  "Choose_a_logo": "Выберите лого",
+  "Choose_an_image": "Выберите картинку",
+  "Type_address": "Введите адрес"
 }

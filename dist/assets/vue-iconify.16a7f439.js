@@ -1,1 +1,0 @@
-import{d as n,y as i,_ as s}from"./index.da6b4d71.js";const a=n(({app:e})=>{e.component("VueIconify",i({loader:()=>s(()=>import("./iconify.250c995f.js"),["assets/iconify.250c995f.js","assets/index.da6b4d71.js","assets/index.260b84d5.css"]).then(o=>o.Icon),delay:0,suspensible:!1}))});export{a as default};
