@@ -5,10 +5,8 @@ const { t } = useI18n()
 const props = withDefaults(defineProps<{
   files: File[],
   remoteFiles: [],
-  placeholder: string,
   errorMessage: string
 }>(), {
-  placeholder: 'Choose_a_file',
   errorMessage: ''
 })
 
@@ -29,7 +27,7 @@ const emits = defineEmits<{
             <i class="fas fa-upload"></i>
           </span>
           <span class="file-label">
-            {{ $t(placeholder) }}
+            {{ $t('Choose_a_file') }}
           </span>
         </span>
       </label>

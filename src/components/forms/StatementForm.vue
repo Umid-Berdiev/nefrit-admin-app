@@ -3,7 +3,7 @@ import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import CompanyInfoModal from '../base/modal/CompanyInfoModal.vue';
 import DrugInfoModal from '../base/modal/DrugInfoModal.vue';
-import { fetchById, fetchChronologies, canChangeStage } from '/@src/utils/api/statement'
+import { fetchById, fetchChronologies, canChangeStage, checkPermissionForCertificate } from '/@src/utils/api/statement'
 import { useRoute } from 'vue-router';
 import { StatementChronologyData, StatementData } from '/@src/utils/interfaces';
 import VButton from '../base/button/VButton.vue';
@@ -38,7 +38,6 @@ const columns = {
     label: t('Certificate')
   },
 } as const
-const isStatementEditModalOpen = ref(false)
 const selectedCompanyId = ref()
 const selectedDrugId = ref()
 const isCompanyInfoModalOpen = ref(false)
@@ -50,10 +49,12 @@ const currentStatementData = ref<StatementData>()
 const currentState = computed(() => currentStatementData.value?.stage.id as number)
 const chronologyData = ref<StatementChronologyData[]>()
 const canChange = ref(false)
+const canCertify = ref(false)
 
 onMounted(async () => {
   await fetchData()
   await checkUserForStageChange()
+  await checkStatementPermissionForCertificate()
 })
 
 function openCompanyInfoModal(id: number) {
@@ -79,6 +80,11 @@ async function checkUserForStageChange() {
 }
 function successNotify() {
   notif.success(t('Success'))
+}
+
+async function checkStatementPermissionForCertificate() {
+  const res = await checkPermissionForCertificate(currentId)
+  canCertify.value = res
 }
 </script>
 
@@ -159,9 +165,10 @@ function successNotify() {
                 <span v-else class="has-text-danger">
                   {{ $t('No_certificate') }}
                 </span>
-                <VButton class="ml-auto" color="primary" rounded icon="fas fa-plus"
+                <VButton v-if="canCertify" class="ml-auto" color="primary" rounded
+                  :icon="currentStatementData?.certificate ? 'fas fa-sync' : 'fas fa-plus'"
                   @click="isCertificateFormModalOpen = true">
-                  {{ $t('Upload') }}
+                  {{ currentStatementData?.certificate ? $t('Update') : $t('Upload') }}
                 </VButton>
               </td>
             </tr>

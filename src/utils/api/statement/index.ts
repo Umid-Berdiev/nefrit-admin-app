@@ -64,6 +64,18 @@ export async function canChangeStage(statementId: number) {
   }
 }
 
+export async function checkPermissionForCertificate(statementId: number) {
+  try {
+    const { data } = await api({
+      url: `/api/admin/certificate/${statementId}/application`,
+    })
+
+    return data.data
+  } catch (error) {
+    throw error
+  }
+}
+
 export async function updateStatementStage(statement_id: number, payload: any) {
   try {
     const { data } = await api({

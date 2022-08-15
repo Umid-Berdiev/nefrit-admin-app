@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useNotyf } from '/@src/composable/useNotyf';
 import { useUserSession } from '/@src/stores/userSession';
@@ -8,7 +8,7 @@ const { user, logoutUser, setLoading } = useUserSession()
 const notif = useNotyf()
 const router = useRouter()
 const openConfirmModal = ref(false)
-
+const currentUser = computed(() => user)
 function onLogout() {
   console.log('in onLogout func');
 
@@ -38,7 +38,7 @@ async function confirmAction() {
 
     <template #content>
       <h1 class="dropdown-item is-size-4">
-        {{ user?.username?.toUpperCase() }}
+        {{ currentUser?.username?.toUpperCase() }}
       </h1>
       <RouterLink to="/app/profile/profile-edit" class="dropdown-item is-media">
         <div class="icon">

@@ -207,7 +207,7 @@
   "Oct": "October",
   "Nov": "November",
   "Dec": "December",
-  "Total_voted": "Total voted",
+  "Total_voted": "Total voters",
   "Accepted": "Accepted",
   "Your_answer": "Your answer",
   "Price": "Price",
@@ -361,5 +361,7 @@
   "Send": "Send",
   "Choose_a_logo": "Choose a logo",
   "Choose_an_image": "Choose a image",
-  "Type_address": "Type address"
+  "Type_address": "Type address",
+  "conclusions": "conclusions",
+  "Update": "Update"
 }

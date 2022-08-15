@@ -1,0 +1,1 @@
+import{W as r,A as s}from"./index.0f3537e1.js";const l=r("viewWrapper",()=>{const t=s(!1),o=s(!1),u=s("Welcome");function a(e){t.value=e}function n(e){o.value=e}function i(e){u.value=e}return{isPushed:t,isPushedBlock:o,pageTitle:u,setPushed:a,setPushedBlock:n,setPageTitle:i}});export{l as u};

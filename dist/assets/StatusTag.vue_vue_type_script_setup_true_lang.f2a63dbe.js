@@ -1,1 +1,0 @@
-import{_ as s}from"./VTag.vue_vue_type_style_index_0_lang.5b9a1a54.js";import{z as a,o as e,f as c,w as n,m as r,t as i}from"./index.b7c23cfe.js";const p=a({props:{status:null},setup(t){return(l,m)=>{const o=s;return e(),c(o,{class:"is-size-6",rounded:"",color:t.status.color},{default:n(()=>[r(i(t.status.name),1)]),_:1},8,["color"])}}});export{p as _};

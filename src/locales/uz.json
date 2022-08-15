@@ -207,7 +207,7 @@
   "Oct": "Oktabr",
   "Nov": "Noyabr",
   "Dec": "Dekabr",
-  "Total_voted": "Jami ovoz berganlar",
+  "Total_voted": "Jami ovoz beradiganlar",
   "Accepted": "Qabul qilingan",
   "Your_answer": "Sizning javobingiz",
   "Price": "Summasi",
@@ -361,5 +361,7 @@
   "Send": "Yuborish",
   "Choose_a_logo": "Logo tanlang",
   "Choose_an_image": "Rasm tanlang",
-  "Type_address": "Mansilni kiriting"
+  "Type_address": "Mansilni kiriting",
+  "conclusions": "xulosalar",
+  "Update": "Yangilash"
 }

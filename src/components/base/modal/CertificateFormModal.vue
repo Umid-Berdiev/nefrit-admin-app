@@ -115,8 +115,8 @@ function onFileRemove() {
           <div class="column is-12">
             <VField :label="$t('Certificate_number')" required>
               <VControl :has-error="errors.number[0]">
-                <VInput type="number" :min="0" :max="100000000" name="number"
-                  :placeholder="$t('Add_certificate_number')" v-model="certificateNumber" @input="clearErrors" />
+                <VInput name="number" :placeholder="$t('Add_certificate_number')" v-model="certificateNumber"
+                  @input="clearErrors" />
                 <p class="help has-text-danger">{{ errors.number[0] }}</p>
               </VControl>
             </VField>
