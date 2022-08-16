@@ -375,5 +375,14 @@
   "Select_a_status": "Statusni tanlang",
   "Value": "Qiymati",
   "About_page_form": "\"Biz haqimizda\" sahifasini formasi",
-  "Type_value": "Qiymatini kiriting"
+  "Type_value": "Qiymatini kiriting",
+  "Author": "Muallif",
+  "Title": "Sarlavha",
+  "Image": "Rasm",
+  "Type_title_uz": "O'zbekcha sarlavhani kiriting",
+  "Type_title_ru": "Ruscha sarlavhani kiriting",
+  "Type_title_en": "Inglizcha sarlavhani kiriting",
+  "Text": "Matn",
+  "Added_successfully": "Muvoffaqiyatli qo'shildi",
+  "Articles": "Maqolalar"
 }

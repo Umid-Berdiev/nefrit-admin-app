@@ -108,7 +108,7 @@ async function onSubmit() {
     formData.append("text[en]", articleData.text.en)
 
     const res = await createArticle(formData)
-    notif.success(`${t('Added_successfully!')}`)
+    notif.success(`${t('Added_successfully')}!`)
     router.push(`/app/handbooks/articles/${res.id}`)
   } catch (error: any) {
     Object.assign(errors, error.response?.data?.errors)

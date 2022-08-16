@@ -264,7 +264,7 @@
   "No_matches": "No matches",
   "There_is_no_data_that_match_your_query": "There is no data that match your query",
   "Start": "Start",
-  "Start": "Start",
+  "End": "End",
   "No_contract": "No contract",
   "No_certificate": "No certificate",
   "Paid": "Paid",
@@ -383,5 +383,6 @@
   "Type_title_ru": "Type_title_ru",
   "Type_title_en": "Type_title_en",
   "Text": "Text",
+  "Added_successfully": "Added successfully",
   "Articles": "Articles"
 }

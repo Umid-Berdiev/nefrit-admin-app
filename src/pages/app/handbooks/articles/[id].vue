@@ -118,7 +118,7 @@ async function onSubmit() {
 
     const res = await updateArticle(currentID, formData)
     Object.assign(articleData, res)
-    notif.success(`${t('Updated_successfully!')}`)
+    notif.success(`${t('Updated_successfully')}!`)
   } catch (error: any) {
     Object.assign(errors, error.response?.data?.errors)
     notif.error(`Error while updating data: ${error.message}`)
