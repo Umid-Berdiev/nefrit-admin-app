@@ -14,19 +14,22 @@ import { useNotyf } from '/@src/composable/useNotyf';
 
 // leaflet styles
 import 'leaflet/dist/leaflet.css';
+import VFlex from '/@src/components/base/flex/VFlex.vue';
 
 const { t } = useI18n()
 const notif = useNotyf()
 const viewWrapper = useViewWrapper()
-viewWrapper.setPageTitle(t('Handbook_page'))
+viewWrapper.setPageTitle(t('About_page_form'))
 
 // here we setup our page meta with our statement data
 useHead({
-  title: computed(() => t('Handbook_page')),
+  title: computed(() => t('About_page_form')),
 })
 
-const openstreetMapUrl = ref(
+const tileLayerUrl = ref(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+  // 'http://www.google.com/maps/vt?lyrs=m@189&gl=uz&x={x}&y={y}&z={z}'
+  // 'http://www.google.com/maps/vt?lyrs=s,h@189&gl=uz&x={x}&y={y}&z={z}'
 );
 const zoomLevel = ref(15);
 const CKEditor = CKE.component
@@ -54,13 +57,13 @@ const data: AboutPageData = reactive({
 })
 const errors = reactive({
   ['name.uz']: [],
-  ['description.uz']: [],
-  ['address.uz']: [],
   ['name.ru']: [],
-  ['description.ru']: [],
-  ['address.ru']: [],
   ['name.en']: [],
+  ['description.uz']: [],
+  ['description.ru']: [],
   ['description.en']: [],
+  ['address.uz']: [],
+  ['address.ru']: [],
   ['address.en']: [],
   logo: [],
   image: [],
@@ -68,8 +71,8 @@ const errors = reactive({
   point_y: []
 })
 const logoFiles = ref<File[]>([]);
-const imageFiles = ref<File[]>([]);
 const logoUrl = ref('');
+const imageFiles = ref<File[]>([]);
 const imageUrl = ref('');
 const currentLocation = ref([
   41.2543754,
@@ -127,7 +130,6 @@ async function onSubmit() {
     formData.append("image", imageFiles.value.length ? imageFiles.value[0] : '')
     formData.append("point_x", currentLocation.value[0])
     formData.append("point_y", currentLocation.value[1])
-    formData.append("image", imageFiles.value.length ? imageFiles.value[0] : '')
 
     const res = await updateAboutPageContent(formData)
     Object.assign(data, res)
@@ -143,12 +145,13 @@ async function onSubmit() {
 function onLogoFileUpload(event: Event) {
   const target = event.target as HTMLInputElement
   if (target.files?.length) {
-    const reader = new FileReader()
-    reader.readAsDataURL(target.files[0])
-    reader.onload = () => {
-      logoUrl.value = reader.result?.toString() || ''
-    }
-    reader.onerror = (error) => console.log(error)
+    // const reader = new FileReader()
+    // reader.readAsDataURL(target.files[0])
+    // reader.onload = () => {
+    //   logoUrl.value = reader.result?.toString() || ''
+    // }
+    // reader.onerror = (error) => console.log(error)
+    logoUrl.value = URL.createObjectURL(target.files[0])
 
     logoFiles.value = [target.files[0]];
   }
@@ -157,12 +160,13 @@ function onLogoFileUpload(event: Event) {
 function onImageFileUpload(event: Event) {
   const target = event.target as HTMLInputElement
   if (target.files?.length) {
-    const reader = new FileReader()
-    reader.readAsDataURL(target.files[0])
-    reader.onload = () => {
-      imageUrl.value = reader.result?.toString() || ''
-    }
-    reader.onerror = (error) => console.log(error)
+    // const reader = new FileReader()
+    // reader.readAsDataURL(target.files[0])
+    // reader.onload = () => {
+    //   imageUrl.value = reader.result?.toString() || ''
+    // }
+    // reader.onerror = (error) => console.log(error)
+    imageUrl.value = URL.createObjectURL(target.files[0])
 
     imageFiles.value = [target.files[0]];
   }
@@ -256,7 +260,7 @@ function changeLatLng(e: Event) {
           <VFlex>
             <VFlexItem style="width:100%;">
               <l-map id="map" v-model:zoom="zoomLevel" :center="currentLocation">
-                <l-tile-layer :url="openstreetMapUrl" layer-type="base" name="OpenStreetMap" />
+                <l-tile-layer :url="tileLayerUrl" layer-type="base" name="OpenStreetMap" attribution="" />
                 <l-marker :lat-lng="currentLocation" draggable @moveend="changeLatLng" />
               </l-map>
             </VFlexItem>
@@ -269,7 +273,7 @@ function changeLatLng(e: Event) {
                 <VControl>
                   <div class="file">
                     <label class="file-label">
-                      <input class="file-input" type="file" name="resume" @change="onLogoFileUpload" />
+                      <input class="file-input" type="file" name="logo" @change="onLogoFileUpload" />
                       <span class="file-cta">
                         <span class="file-icon">
                           <i class="fas fa-cloud-upload-alt"></i>
@@ -288,7 +292,7 @@ function changeLatLng(e: Event) {
                 <VControl>
                   <div class="file">
                     <label class="file-label">
-                      <input class="file-input" type="file" name="resume" @change="onImageFileUpload" />
+                      <input class="file-input" type="file" name="image" @change="onImageFileUpload" />
                       <span class="file-cta">
                         <span class="file-icon">
                           <i class="fas fa-cloud-upload-alt"></i>
@@ -304,9 +308,12 @@ function changeLatLng(e: Event) {
           </VFlex>
         </div>
       </div>
-      <VButton :loading="isLoading" color="primary" outlined type="submit" :disabled="isLoading" @click="onSubmit">
-        {{ $t('Save') }}
-      </VButton>
+      <VFlex>
+        <VButton class="ml-auto" :loading="isLoading" color="primary" outlined type="submit" :disabled="isLoading"
+          @click="onSubmit">
+          {{ $t('Save') }}
+        </VButton>
+      </VFlex>
     </div>
   </form>
 </template>

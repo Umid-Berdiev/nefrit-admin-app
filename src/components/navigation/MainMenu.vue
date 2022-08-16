@@ -162,9 +162,9 @@ function openContractDownloadModal() {
         <VueIconify icon="feather:circle" />
         {{ $t('Contacts') }}
       </RouterLink>
-      <RouterLink :to="{ name: 'app-handbooks-news' }" class="is-submenu is-size-6">
+      <RouterLink :to="{ name: 'app-handbooks-articles' }" class="is-submenu is-size-6">
         <VueIconify icon="feather:circle" />
-        {{ $t('News') }}
+        {{ $t('Articles') }}
       </RouterLink>
       <RouterLink :to="{ name: 'app-handbooks-faq' }" class="is-submenu is-size-6">
         <VueIconify icon="feather:circle" />

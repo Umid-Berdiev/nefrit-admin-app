@@ -363,5 +363,17 @@
   "Choose_an_image": "Выберите картинку",
   "Type_address": "Введите адрес",
   "conclusions": "заключения",
-  "Update": "Обновить"
+  "Update": "Обновить",
+  "Contact_items": "Элементы контакта",
+  "Icon": "Иконка/Знак",
+  "Choose_an_icon": "Выберите иконку",
+  "active": "Активный",
+  "inactive": "Неактивный",
+  "Active": "Активный",
+  "Inactive": "Неактивный",
+  "Select_a_type": "Выберите тип",
+  "Select_a_status": "Выберите статус",
+  "Value": "Значение",
+  "About_page_form": "форма страницы \"О нас\"",
+  "Type_value": "Введите значение"
 }

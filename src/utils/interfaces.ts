@@ -317,3 +317,27 @@ export interface AboutPageData {
   point_x: number | string
   point_y: number | string
 }
+
+export interface ContactItemData {
+  icon?: File | string
+  name: string
+  status: 'active' | 'inactive'
+  type: 'url' | 'phone' | 'email'
+  value: number | string
+}
+
+export interface ArticleData {
+  author: string
+  date?: string
+  title: {
+    uz: string
+    ru: string
+    en: string
+  }
+  text: {
+    uz: string
+    ru: string
+    en: string
+  }
+  image?: File | string
+}

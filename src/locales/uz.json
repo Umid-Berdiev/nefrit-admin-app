@@ -363,5 +363,17 @@
   "Choose_an_image": "Rasm tanlang",
   "Type_address": "Mansilni kiriting",
   "conclusions": "xulosalar",
-  "Update": "Yangilash"
+  "Update": "Yangilash",
+  "Contact_items": "Aloqa elementlari",
+  "Icon": "Ikonka/Belgi",
+  "Choose_an_icon": "Ikonka tanlash",
+  "active": "Aktiv",
+  "inactive": "Noaktiv",
+  "Active": "Aktiv",
+  "Inactive": "Noaktiv",
+  "Select_a_type": "Turini tanlang",
+  "Select_a_status": "Statusni tanlang",
+  "Value": "Qiymati",
+  "About_page_form": "\"Biz haqimizda\" sahifasini formasi",
+  "Type_value": "Qiymatini kiriting"
 }
