@@ -8,8 +8,10 @@ import { useMainStore } from '/@src/stores'
 import { useHead } from '@vueuse/head'
 import { fetchStatementContracts, removeContractById } from '/@src/utils/api/statement';
 import { useNotyf } from '/@src/composable/useNotyf'
+import { useUserSession } from '/@src/stores/userSession'
 
 const router = useRouter()
+const { userRoleID } = useUserSession()
 const { t, locale } = useI18n()
 const mainStore = useMainStore()
 const notif = useNotyf()
@@ -117,8 +119,15 @@ function notify() {
 
 <template>
   <div class="applicant-list-wrapper">
-    <TableActionsBlock center title="" @add="onAdd" :filter-disabled="true" :print-disabled="true"
-      :remove-disabled="true" />
+    <!-- <TableActionsBlock center title="" @add="onAdd" :filter-disabled="true" :print-disabled="true"
+      :remove-disabled="true" /> -->
+
+    <VFlex justify-content="end" class="mb-4">
+      <VButton v-if="[1, 2, 7].includes(userRoleID)" outlined rounded color="info" icon="feather:plus"
+        @click.prevent="onAdd">
+        {{ $t('Add') }}
+      </VButton>
+    </VFlex>
 
     <!-- table -->
     <VFlexTableWrapper :columns="columns" :data="data.result" :limit="data.pagination.per_page"
@@ -172,7 +181,8 @@ function notify() {
               <span>{{ $h.formatDate(value, 'DD.MM.YYYY') }}</span>
             </template>
             <template v-if="column.key === 'actions'">
-              <ContractFlexTableDropdown @view="onEdit(row.id)" @remove="onRemove(row.id)" />
+              <ContractFlexTableDropdown @view="onEdit(row.id)" @remove="onRemove(row.id)"
+                :remove-btn="[1, 2, 7].includes(userRoleID)" />
             </template>
           </template>
         </VFlexTable>

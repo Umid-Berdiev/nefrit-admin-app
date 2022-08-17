@@ -63,6 +63,11 @@ const columns = {
     // inverted: true,
     // grow: true,
   },
+  read_at: { // description column
+    label: t('Read_at'),
+    // inverted: true,
+    // grow: true,
+  },
   status: {
     label: t('Status')
   }, // created_at column
@@ -139,6 +144,9 @@ function onModalClose() {
               <div style="white-space: break-spaces;">
                 {{ row.text }}
               </div>
+            </template>
+            <template v-else-if="column.key === 'read_at' && value">
+              {{ $h.formatDate(value, 'DD.MM.YYYY HH:mm') }}
             </template>
             <template v-else-if="column.key === 'status' && value">
               <StatusTag :status="value" />
