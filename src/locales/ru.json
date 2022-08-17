@@ -385,5 +385,11 @@
   "Text": "Текст",
   "Added_successfully": "Успешно добавлено",
   "Articles": "Статьи",
-  "Read_at": "Когда прочитано"
+  "Read_at": "Когда прочитано",
+  "Clear": "Очистит",
+  "Export_to_excel": "Экспорт в Excel",
+  "From": "От",
+  "To": "До",
+  "All": "Все",
+  "Contract_date": "Дата контракта"
 }

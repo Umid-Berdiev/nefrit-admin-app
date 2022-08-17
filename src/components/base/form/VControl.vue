@@ -103,12 +103,8 @@ const controlClasees = computed(() => {
     <VLabel v-if="isValid" class="validation-icon is-success">
       <i aria-hidden="true" data-icon="feather:check" class="iconify"></i>
     </VLabel>
-    <a
-      v-else-if="hasError"
-      class="validation-icon is-error"
-      @click.prevent="() => vFieldContext.field?.resetField?.()"
-      @keyup.enter.prevent="() => vFieldContext.field?.resetField?.()"
-    >
+    <a v-else-if="hasError" class="validation-icon is-error" @click.prevent="() => vFieldContext.field?.resetField?.()"
+      @keyup.enter.prevent="() => vFieldContext.field?.resetField?.()">
       <i aria-hidden="true" data-icon="feather:x" class="iconify"></i>
     </a>
 
@@ -123,5 +119,9 @@ const controlClasees = computed(() => {
 
 .is-fullwidth {
   width: 100%;
+}
+
+.form-icon {
+  color: var(--placeholder);
 }
 </style>

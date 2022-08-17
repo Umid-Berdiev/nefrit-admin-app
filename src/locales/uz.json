@@ -385,5 +385,11 @@
   "Text": "Matn",
   "Added_successfully": "Muvoffaqiyatli qo'shildi",
   "Articles": "Maqolalar",
-  "Read_at": "O'qilgan vaqti"
+  "Read_at": "O'qilgan vaqti",
+  "Clear": "Tozalash",
+  "Export_to_excel": "Excelga export qilish",
+  "From": "Sanadan",
+  "To": "Sanagacha",
+  "All": "Barchasi",
+  "Contract_date": "Shartnoma sanasi"
 }

@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import { isEmpty } from 'lodash';
 import { computed, onMounted, ref, watchEffect } from 'vue'
+import { string } from 'zod';
 import { useApi } from '/@src/composable/useApi'
 import { useNotyf } from '/@src/composable/useNotyf';
 import { CountryData } from '/@src/utils/interfaces';
 
 
-const props = defineProps({
-  modelValue: {
-    type: Number,
-    default: null
-  }
+const props = withDefaults(defineProps<{
+  modelValue: number | string
+}>(), {
+  modelValue: ''
 });
 
 const api = useApi()
@@ -51,7 +51,7 @@ const selectedCountry = computed({
 <template>
   <VField>
     <VLabel>{{ $t('Country') }}</VLabel>
-    <VControl class="has-icons-left" icon="fas fa-globe">
+    <VControl class="has-icons-left select-icon" icon="fas fa-globe">
       <VSelect v-model="selectedCountry" v-bind="$attrs">
         <VOption disabled hidden value="">{{ $t('Select') }}...</VOption>
         <VOption v-for="country in countries" :key="country.id" :value="country.id" v-text="country.name" />
@@ -60,3 +60,8 @@ const selectedCountry = computed({
   </VField>
 </template>
 
+<style>
+.is-dark .select-icon {
+  color: antiquewhite;
+}
+</style>

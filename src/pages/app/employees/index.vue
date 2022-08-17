@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, h, reactive } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, computed, reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useHead } from '@vueuse/head'
 
 import { useViewWrapper } from '/@src/stores/viewWrapper'
-import { fetchList, fetchById, create, updatePassword, removeById } from '/@src/utils/api/employee';
+import { fetchList, removeById } from '/@src/utils/api/employee';
 import { useMainStore } from '/@src/stores'
 
 const { t, locale } = useI18n()
@@ -26,16 +25,9 @@ const data = reactive({
   },
   result: []
 })
-const filterForm = ref<UserFilterForm>({
-  applicantUser: 'Abdullaev Baxrom',
-})
 
 const isFormModalOpen = ref(false)
 const isPasswordModalOpen = ref(false)
-const displayFilterForm = ref(false)
-const selectedRowsId = ref<number[]>([])
-const isAllSelected = computed(() => data.result.length === selectedRowsId.value.length)
-const router = useRouter()
 const selectedId = ref()
 const currentPage = computed({
   get: () => {
@@ -72,30 +64,6 @@ const columns = {
 
 await fetchData()
 
-// the select all checkbox click handler
-function toggleSelection() {
-  // console.log('data:', data)
-
-  if (isAllSelected.value) {
-    selectedRowsId.value = []
-  } else {
-    selectedRowsId.value = data.result.map((row: any) => row.id)
-  }
-}
-
-// this it the row click handler (enabled with clickable props)
-function clickOnRowCheckbox(row: any) {
-  if (selectedRowsId.value.includes(row.id)) {
-    selectedRowsId.value = selectedRowsId.value.filter((i) => i !== row.id)
-  } else {
-    selectedRowsId.value = [...selectedRowsId.value, row.id]
-  }
-}
-
-function onView(rowId: string | number) {
-  router.push('/app/applicants/' + rowId)
-}
-
 async function fetchData(page: number = 1) {
   const res = await fetchList(page)
   Object.assign(data, res)
@@ -117,52 +85,14 @@ async function handleRemoveAction() {
 }
 
 async function onChangePassword(id: number) {
-  console.log({ id });
-
   selectedId.value = id
   isPasswordModalOpen.value = true
-  // await updatePassword(selectedId.value, values)
 }
 </script>
 
 <template>
   <div class="applicant-list-wrapper">
-    <TableActionsBlock center title="" remove-disabled print-disabled @add="onEdit(null)"
-      @filter="displayFilterForm = !displayFilterForm" />
-    <div v-show="displayFilterForm" class="mb-5">
-      <VCard radius="small">
-        <h3 class="title is-5 mb-2">{{ t('Filter_form') }}</h3>
-        <div class="columns is-desktop">
-          <VField class="column">
-            <VLabel>{{ t('Boss_name') }}</VLabel>
-            <VControl>
-              <VInput v-model="filterForm.applicantBossName" type="text" placeholder="" />
-            </VControl>
-          </VField>
-          <VField class="column">
-            <VLabel>{{ t('Applicant_name') }}</VLabel>
-            <VControl>
-              <VInput v-model="filterForm.applicantName" type="text" placeholder="" />
-            </VControl>
-          </VField>
-          <VField class="column">
-            <VLabel>{{ t('Status') }}</VLabel>
-            <VControl>
-              <VInput v-model="filterForm.applicantStatus" type="text" placeholder="" />
-            </VControl>
-          </VField>
-          <div class="column">
-            <CountrySelect v-model="filterForm.applicantsCountry" />
-          </div>
-        </div>
-        <VFlex>
-          <VFlexItem class="ml-auto">
-            <VButton outlined color="warning" icon="feather:filter">{{ t('Filter') }}</VButton>
-          </VFlexItem>
-        </VFlex>
-      </VCard>
-    </div>
-
+    <TableActionsBlock center title="" remove-disabled export-disabled filter-disabled @add="onEdit(null)" />
     <!-- table -->
     <VFlexTableWrapper :columns="columns" :data="data.result" :limit="data.pagination.per_page"
       :total="data.pagination.total">
@@ -171,18 +101,6 @@ async function onChangePassword(id: number) {
         Note that we can not destructure it
       -->
       <template #default="wrapperState">
-        <!-- We can place any content inside the default slot-->
-        <VFlexTableToolbar>
-          <template #left>
-            <!-- We can bind wrapperState.searchInput to any input -->
-            <VField>
-              <VControl icon="feather:search">
-                <VInput v-model="wrapperState.searchInput" class="is-rounded" :placeholder="t('Search') + '...'" />
-              </VControl>
-            </VField>
-          </template>
-        </VFlexTableToolbar>
-
         <VFlexTable rounded>
           <template #header-column="{ column }">
             <span v-if="column.key === 'orderNumber'" class="is-flex-grow-0" v-text="'#'" />

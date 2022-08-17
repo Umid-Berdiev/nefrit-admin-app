@@ -9,10 +9,9 @@ import { StatementVoteData } from '/@src/utils/interfaces'
 const props = withDefaults(defineProps<{
   modelValue: boolean,
   item: StatementVoteData,
-  selectedAnswer: number,
   parentId: number
 }>(), {
-  selectedAnswer: 0,
+  modelValue: false,
 })
 
 const emits = defineEmits<{
@@ -30,14 +29,6 @@ const errors = reactive({
   description: '',
   vote: ''
 })
-
-watch(
-  () => props.selectedAnswer,
-  (newVal) => {
-    voteData.value = newVal
-  },
-  { deep: true, immediate: true }
-)
 
 watch(
   () => props.item,
@@ -85,7 +76,6 @@ function clearErrors(event: Event) {
       <form id="feedback-form" class="modal-form" @submit.prevent="onSubmit">
         <div class="columns is-multiline">
           <div class="column is-12 is-flex is-justify-content-center">
-            <!-- <h1>{{ $t('Your_vote') }}: {{ selectedAnswer }}</h1> -->
             <VField grouped>
               <VControl>
                 <VRadio v-model="voteData.value" :value="1" :label="$t('Accept')" name="outlined_radio"

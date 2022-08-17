@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { ref, computed, reactive } from 'vue'
+import { ref, computed, reactive, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useHead } from '@vueuse/head'
+import moment from 'moment'
 
-import { useViewWrapper } from '/@src/stores/viewWrapper'
-import { useMainStore } from "/@src/stores";
-import { fetchList } from '/@src/utils/api/statement'
 import { useNotyf } from '/@src/composable/useNotyf'
-import VTag from '/@src/components/base/tags/VTag.vue'
+import { useViewWrapper } from '/@src/stores/viewWrapper'
+import { exportStatementToExcel, fetchList, filterStatementList, fetchStatuses } from '/@src/utils/api/statement'
+import { StatusData } from '/@src/utils/interfaces'
 
 const { t, locale } = useI18n()
 
@@ -17,7 +17,6 @@ useHead({
 })
 
 const notif = useNotyf()
-const mainStore = useMainStore()
 const viewWrapper = useViewWrapper()
 viewWrapper.setPageTitle(t('Statements'))
 
@@ -29,14 +28,31 @@ const data = reactive({
   },
   result: []
 })
-const filterForm = ref({})
+const filterForm = reactive({
+  code: '',
+  applicant: '',
+  status_id: '',
+  stage_id: '',
+  country_id: '',
+  drug_name: '',
+  date_start: moment().subtract(1, 'month').format('YYYY-MM-DD'),
+  date_end: moment().format('YYYY-MM-DD')
+})
 
+const datePickerModelConfig = reactive({
+  type: 'string',
+  mask: 'YYYY-MM-DD', // Uses 'iso' if missing
+})
+const dateMasks = {
+  input: 'DD.MM.YYYY',
+}
+const router = useRouter()
+const isLoading = ref(false)
 const isFormModalOpen = ref(false)
 const isConclusionFormModalOpen = ref(false)
 const isNoticeFormModalOpen = ref(false)
 const displayFilterForm = ref(false)
 const selectedRowId = ref<number>()
-const router = useRouter()
 const currentPage = computed({
   get: () => {
     return data.pagination.current_page
@@ -45,7 +61,7 @@ const currentPage = computed({
     await fetchData(page)
   }
 })
-
+const statusList = ref<StatusData[]>([])
 const columns = {
   code: {
     label: t('statement_code'),
@@ -83,6 +99,11 @@ const columns = {
 
 await fetchData()
 
+onMounted(async () => {
+  const res = await fetchStatuses()
+  statusList.value = res
+})
+
 function onActionTriggered(rowId: number) {
   router.push('/app/statements/' + rowId)
 }
@@ -103,57 +124,127 @@ async function fetchData(page: number = 1) {
 function successNotify() {
   notif.success(t('Success'))
 }
+
+async function submitFilterForm() {
+  try {
+    isLoading.value = true
+    const res = await filterStatementList(filterForm)
+    Object.assign(data, res)
+  } catch (error: any) {
+    notif.error('Error while fetching filtered data: ', error.message)
+  } finally {
+    isLoading.value = false
+  }
+}
+
+async function clearFilterForm() {
+  isLoading.value = true
+  Object.assign(filterForm, {
+    code: '',
+    applicant: '',
+    status_id: '',
+    stage_id: '',
+    country_id: '',
+    drug_name: '',
+    date_start: moment().subtract(1, 'month').format('YYYY-MM-DD'),
+    date_end: moment().format('YYYY-MM-DD')
+  })
+  await fetchData()
+  isLoading.value = false
+}
+
+async function exportToExcel() {
+  try {
+    isLoading.value = true
+    const res = await exportStatementToExcel(filterForm)
+
+    const url = URL.createObjectURL(new Blob([res], {
+      type: 'application/vnd.ms-excel'
+    }))
+    const link = document.createElement('a')
+    link.href = url
+    link.setAttribute('download', `Worksheet_${Date.now()}.xlsx`)
+    document.body.appendChild(link)
+    link.click()
+  } catch (error) {
+    console.log({ error });
+  } finally {
+    isLoading.value = false
+  }
+}
 </script>
 
 <template>
   <div class="applicant-list-wrapper">
-    <TableActionsBlock center title="" @add="isFormModalOpen = true" @filter="displayFilterForm = !displayFilterForm"
-      remove-disabled add-disabled print-disabled />
+    <TableActionsBlock center title="" @filter="displayFilterForm = !displayFilterForm" remove-disabled add-disabled
+      @export="exportToExcel" />
     <div v-show="displayFilterForm" class="mb-5">
       <VCard radius="small">
         <h3 class="title is-5 mb-2">{{ t('Filter_form') }}</h3>
-        <div class="columns is-desktop">
-          <VField class="column">
-            <VLabel>{{ t('applied_legal_entity') }}</VLabel>
-            <VControl>
-              <VInput v-model="filterForm.applicantUser" type="text" placeholder="" />
-            </VControl>
-          </VField>
-          <VField class="column">
-            <VLabel>{{ t('Status') }}</VLabel>
-            <VControl>
-              <VInput v-model="filterForm.applicantStatus" type="text" placeholder="" />
-            </VControl>
-          </VField>
-          <VField class="column">
-            <VLabel>{{ t('applied_at') }}</VLabel>
-            <VControl>
-              <VInput v-model="filterForm.applicantBossName" type="text" placeholder="" />
-            </VControl>
-          </VField>
-          <!-- </div>
-              <div class="columns is-desktop"> -->
-          <VField class="column">
-            <VLabel>{{ t('stage') }}</VLabel>
-            <VControl>
-              <VInput v-model="filterForm.applicantName" type="text" placeholder="" />
-            </VControl>
-          </VField>
-          <VField class="column">
-            <VLabel>{{ t('Phone') }}</VLabel>
-            <VControl>
-              <VInput v-model="filterForm.applicantPhone" type="text" placeholder="" />
-            </VControl>
-          </VField>
-          <div class="column">
-            <CountrySelect v-model="filterForm.applicantsCountry" />
+        <form @submit.prevent="submitFilterForm">
+          <div class="columns is-desktop">
+            <div class="column">
+              <VField :label="$t('statement_code')">
+                <VControl>
+                  <VInput v-model="filterForm.code" type="text" />
+                </VControl>
+              </VField>
+            </div>
+            <div class="column">
+              <VField :label="$t('applied_legal_entity')">
+                <VControl>
+                  <VInput v-model="filterForm.applicant" type="text" />
+                </VControl>
+              </VField>
+            </div>
+            <div class="column">
+              <StatusSelect v-model="filterForm.status_id" :list="statusList" />
+            </div>
+            <div class="column">
+              <StageSelect v-model="filterForm.stage_id" />
+            </div>
+            <div class="column">
+              <CountrySelect v-model="filterForm.country_id" />
+            </div>
+            <div class="column">
+              <VDatePicker :locale="locale" v-model="filterForm.date_start" color="green" trim-weeks :masks="dateMasks"
+                :model-config="datePickerModelConfig">
+                <template #default="{ inputValue, inputEvents }">
+                  <VField :label="$t('From')">
+                    <VControl icon="feather:calendar">
+                      <VInput :value="inputValue" v-on="inputEvents" />
+                    </VControl>
+                  </VField>
+                </template>
+              </VDatePicker>
+            </div>
+            <div class="column">
+              <VDatePicker :locale="locale" v-model="filterForm.date_end" color="green" trim-weeks :masks="dateMasks"
+                :model-config="datePickerModelConfig">
+                <template #default="{ inputValue, inputEvents }">
+                  <VField :label="$t('To')">
+                    <VControl icon="feather:calendar">
+                      <VInput :value="inputValue" v-on="inputEvents" />
+                    </VControl>
+                  </VField>
+                </template>
+              </VDatePicker>
+            </div>
           </div>
-        </div>
-        <VFlex>
-          <VFlexItem class="ml-auto">
-            <VButton outlined color="success" icon="feather:filter">{{ t('Filter') }}</VButton>
-          </VFlexItem>
-        </VFlex>
+          <VFlex justify-content="end" column-gap="1rem">
+            <VFlexItem>
+              <VButton type="button" :disabled="isLoading" outlined color="warning" icon="feather:x"
+                @click="clearFilterForm">{{ t('Clear')
+                }}
+              </VButton>
+            </VFlexItem>
+            <VFlexItem>
+              <VButton type="submit" :disabled="isLoading" outlined color="success" icon="feather:filter">{{ t('Filter')
+              }}
+              </VButton>
+            </VFlexItem>
+          </VFlex>
+        </form>
       </VCard>
     </div>
 
@@ -166,16 +257,15 @@ function successNotify() {
       -->
       <template #default="wrapperState">
         <!-- We can place any content inside the default slot-->
-        <VFlexTableToolbar>
+        <!-- <VFlexTableToolbar>
           <template #left>
-            <!-- We can bind wrapperState.searchInput to any input -->
             <VField>
               <VControl icon="feather:search">
                 <VInput v-model="wrapperState.searchInput" class="is-rounded" :placeholder="t('Search') + '...'" />
               </VControl>
             </VField>
           </template>
-        </VFlexTableToolbar>
+        </VFlexTableToolbar> -->
 
         <VFlexTable rounded>
           <template #body>

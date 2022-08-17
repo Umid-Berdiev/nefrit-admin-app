@@ -110,6 +110,7 @@ declare module '@vue/runtime-core' {
     SettingsProfile: typeof import('./src/components/pages/profile/SettingsProfile.vue')['default']
     Sidebar: typeof import('./src/components/navigation/desktop/Sidebar.vue')['default']
     StackPopoverContent: typeof import('./src/components/partials/popover/StackPopoverContent.vue')['default']
+    StageSelect: typeof import('./src/components/forms/selects/StageSelect.vue')['default']
     StatementConclusionTable: typeof import('./src/components/base/table/StatementConclusionTable.vue')['default']
     StatementDocumentCollapse: typeof import('./src/components/base/accordion/StatementDocumentCollapse.vue')['default']
     StatementForm: typeof import('./src/components/forms/StatementForm.vue')['default']

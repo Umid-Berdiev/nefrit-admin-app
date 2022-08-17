@@ -136,8 +136,7 @@ async function fetchStatistics() {
       </TransitionGroup>
     </div>
     <FeedbackFormModal v-model="isFeedbackFormModalOpen" :item="voteList?.find(item => item.is_me)?.vote"
-      :selected-answer="selectedAnswer" :parent-id="Number(currentStatementId)"
-      @update:list="() => { fetchList(); fetchStatistics() }" />
+      :parent-id="Number(currentStatementId)" @update:list="() => { fetchList(); fetchStatistics() }" />
 
   </div>
 </template>

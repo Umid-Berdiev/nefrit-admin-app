@@ -27,10 +27,51 @@ export async function fetchList(page: number): Promise<{ data: StatementData[] }
   }
 }
 
+export async function filterStatementList(
+  payload: any
+): Promise<{ data: StatementData[] }> {
+  try {
+    const { data } = await api({
+      url: `/api/admin/application/filter`,
+      params: payload,
+    })
+
+    return data.data
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function exportStatementToExcel(payload: any) {
+  try {
+    const { data } = await api({
+      url: `/api/admin/excel-application`,
+      params: payload,
+      responseType: 'blob',
+    })
+
+    return data
+  } catch (error) {
+    throw error
+  }
+}
+
 export async function fetchById(id: number): Promise<StatementData> {
   try {
     const { data } = await api({
       url: `/api/admin/application/${id}`,
+    })
+
+    return data.data
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function checkPermissionForCertificate(statementId: number) {
+  try {
+    const { data } = await api({
+      url: `/api/admin/certificate/${statementId}/application`,
     })
 
     return data.data
@@ -52,10 +93,11 @@ export async function fetchStages(id: number) {
   }
 }
 
-export async function canChangeStage(statementId: number) {
+// status api
+export async function fetchStatuses() {
   try {
     const { data } = await api({
-      url: `/api/admin/application/${statementId}/check/stage`,
+      url: `/api/admin/status?type=applications`,
     })
 
     return data.data
@@ -64,10 +106,10 @@ export async function canChangeStage(statementId: number) {
   }
 }
 
-export async function checkPermissionForCertificate(statementId: number) {
+export async function canChangeStage(statementId: number) {
   try {
     const { data } = await api({
-      url: `/api/admin/certificate/${statementId}/application`,
+      url: `/api/admin/application/${statementId}/check/stage`,
     })
 
     return data.data
@@ -490,11 +532,12 @@ export async function createChatMessage(
 }
 
 // statement contracts api
-export async function fetchStatementContracts(page: number) {
+export async function fetchStatementContracts(payload: any) {
   try {
     const { data } = await api({
       // url: `/api/admin/document?application_id=${id}`,
-      url: `/api/admin/appcontract?page=${page}`,
+      url: `/api/admin/appcontract`,
+      params: payload,
     })
 
     return data.data

@@ -385,5 +385,11 @@
   "Text": "Text",
   "Added_successfully": "Added successfully",
   "Articles": "Articles",
-  "Read_at": "Read at"
+  "Read_at": "Read at",
+  "Clear": "Clear",
+  "Export_to_excel": "Export to excel",
+  "From": "From",
+  "To": "To",
+  "All": "All",
+  "Contract_date": "Contract_date"
 }
