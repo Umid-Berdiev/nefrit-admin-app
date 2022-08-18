@@ -60,7 +60,7 @@ const selectedCountry = computed({
   </VField>
 </template>
 
-<style>
+<style lang="scss">
 .is-dark .select-icon {
   color: antiquewhite;
 }

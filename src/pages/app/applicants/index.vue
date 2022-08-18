@@ -102,7 +102,7 @@ async function fetchData(page: number = 1) {
 async function submitFilterForm() {
   try {
     isLoading.value = true
-    const res = await filterApplicantList(filterForm)
+    const res = await fetchList({ page: 1, ...filterForm })
     Object.assign(data, res)
   } catch (error: any) {
     notif.error('Error while fetching filtered data: ', error.message)
