@@ -30,16 +30,17 @@ const onSave = async () => {
     <div class="form-head stuck-header" :class="[isScrolling && 'is-stuck']">
       <div class="form-head-inner">
         <div class="left">
-          <h3>Settings</h3>
-          <p>Edit your account prefs and settings</p>
+          <h3>{{ $t('Change_Password') }}</h3>
+          <!-- <h3>Settings</h3>
+          <p>Edit your account prefs and settings</p> -->
         </div>
         <div class="right">
           <div class="buttons">
-            <VButton :to="{ name: 'app' }" icon="lnir lnir-arrow-left rem-100" light dark-outlined>
-              Go Back
+            <VButton type="button" :to="{ name: 'app' }" icon="lnir lnir-arrow-left rem-100" light dark-outlined>
+              {{ $t('Go_Back') }}
             </VButton>
-            <VButton color="primary" raised :loading="isLoading" tabindex="0" @keydown.space.prevent="onSave"
-              @click="onSave">
+            <VButton type="submit" color="primary" raised :loading="isLoading" tabindex="0"
+              @keydown.space.prevent="onSave" @click="onSave">
               {{ $t('Save_changes') }}
             </VButton>
           </div>
@@ -47,11 +48,10 @@ const onSave = async () => {
       </div>
     </div>
     <form class="form-body" @submit.prevent="onSave">
-      <!--Fieldset-->
       <div class="fieldset">
         <div class="fieldset-heading">
-          <h4>Change Password</h4>
-          <p>For an improved account security</p>
+          <!--Fieldset-->
+          <!-- <p>For an improved account security</p> -->
         </div>
 
         <div class="columns is-multiline">
@@ -76,82 +76,6 @@ const onSave = async () => {
             <VField>
               <VControl icon="feather:lock">
                 <VInput type="password" placeholder="Repeat New Password" autocomplete="new-password" />
-              </VControl>
-            </VField>
-          </div>
-        </div>
-      </div>
-
-      <!--Fieldset-->
-      <div class="fieldset">
-        <div class="fieldset-heading">
-          <h4>2 Factor Auth</h4>
-          <p>Enable or disable 2 factor auth</p>
-        </div>
-
-        <div class="columns is-multiline">
-          <!--Field-->
-          <div class="column is-12">
-            <VField>
-              <VControl>
-                <VSwitchBlock v-model="twoFactor" label="Enable / disable 2 factor" color="primary" />
-              </VControl>
-            </VField>
-          </div>
-          <!--Field-->
-          <div v-if="twoFactor" class="column is-12">
-            <VField>
-              <VControl icon="feather:smartphone">
-                <VInput type="text" placeholder="Phone Number" autocomplete="tel" inputmode="tel" />
-              </VControl>
-            </VField>
-          </div>
-        </div>
-      </div>
-
-      <!--Fieldset-->
-      <div class="fieldset">
-        <div class="fieldset-heading">
-          <h4>Notifications</h4>
-          <p>Configure how you receive notifications</p>
-        </div>
-
-        <div class="columns is-multiline">
-          <!--Field-->
-          <div class="column is-12">
-            <VField>
-              <VControl>
-                <VSwitchBlock v-model="notifications" label="Disable all notifications" color="primary" />
-              </VControl>
-            </VField>
-
-            <VField>
-              <VControl>
-                <VSwitchBlock v-model="notificationsLow" label="Disable low priority notifications" color="primary" />
-              </VControl>
-            </VField>
-          </div>
-        </div>
-      </div>
-
-      <!--Fieldset-->
-      <div class="fieldset">
-        <div class="fieldset-heading">
-          <h4>Marketing</h4>
-          <p>Configure how you receive promotions</p>
-        </div>
-
-        <div class="columns is-multiline">
-          <!--Field-->
-          <div class="column is-12">
-            <VField>
-              <VControl>
-                <VSwitchBlock v-model="marketing" label="Enable marketing emails" color="primary" />
-              </VControl>
-            </VField>
-            <VField>
-              <VControl>
-                <VSwitchBlock v-model="partners" label="Enable partners emails" color="primary" />
               </VControl>
             </VField>
           </div>

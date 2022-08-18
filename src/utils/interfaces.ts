@@ -8,15 +8,15 @@ export interface StatusData {
 
 export interface UserData {
   avatar: string
-  department: string
   email: string
   firstname: string
-  id: number
-  is_employee: boolean
   lastname: string
-  name: string
-  role_id: number
   username: string
+  department?: string
+  id?: number
+  is_employee?: boolean
+  name?: string
+  role_id?: number
 }
 
 export interface CountryData {

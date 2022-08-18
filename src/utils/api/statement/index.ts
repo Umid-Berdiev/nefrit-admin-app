@@ -15,10 +15,11 @@ import { useApi } from '/@src/composable/useApi'
 
 const api = useApi()
 
-export async function fetchList(page: number): Promise<{ data: StatementData[] }> {
+export async function fetchList(payload: any) {
   try {
     const { data } = await api({
-      url: `/api/admin/application?page=${page}`,
+      url: `/api/admin/application`,
+      params: payload,
     })
 
     return data.data
@@ -27,9 +28,7 @@ export async function fetchList(page: number): Promise<{ data: StatementData[] }
   }
 }
 
-export async function filterStatementList(
-  payload: any
-): Promise<{ data: StatementData[] }> {
+export async function filterStatementList(payload: any) {
   try {
     const { data } = await api({
       url: `/api/admin/application/filter`,
@@ -535,7 +534,6 @@ export async function createChatMessage(
 export async function fetchStatementContracts(payload: any) {
   try {
     const { data } = await api({
-      // url: `/api/admin/document?application_id=${id}`,
       url: `/api/admin/appcontract`,
       params: payload,
     })

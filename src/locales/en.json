@@ -391,5 +391,6 @@
   "From": "From",
   "To": "To",
   "All": "All",
-  "Contract_date": "Contract_date"
+  "Contract_date": "Contract date",
+  "Type_author": "Type author"
 }

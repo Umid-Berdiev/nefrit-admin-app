@@ -33,7 +33,7 @@ const emits = defineEmits<{
         }
       ">
         <div class="icon">
-          <i aria-hidden="true" class="lnil lnil-briefcase"></i>
+          <VueIconify icon="feather:edit-2" />
         </div>
         <div class="meta">
           <span>{{ $t('Leave_feedback') }}</span>
@@ -47,7 +47,7 @@ const emits = defineEmits<{
         }
       ">
         <div class="icon">
-          <i aria-hidden="true" class="lnil lnil-briefcase"></i>
+          <VueIconify icon="feather:edit-2" />
         </div>
         <div class="meta">
           <span>{{ $t('Make_notice') }}</span>
@@ -61,7 +61,7 @@ const emits = defineEmits<{
         }
       ">
         <div class="icon">
-          <i aria-hidden="true" class="lnil lnil-briefcase"></i>
+          <VueIconify icon="feather:arrow-right" />
         </div>
         <div class="meta">
           <span>{{ $t('Go_to_conclusions') }}</span>
@@ -75,7 +75,7 @@ const emits = defineEmits<{
         }
       ">
         <div class="icon">
-          <i aria-hidden="true" class="lnil lnil-briefcase"></i>
+          <VueIconify icon="feather:arrow-right" />
         </div>
         <div class="meta">
           <span>{{ $t('Go_to_notices_list') }}</span>

@@ -68,11 +68,9 @@ const columns = {
   },
   legal_entity: {
     label: t('applied_legal_entity'),
-    searchable: true,
   },
   drug: {
     label: t('drug_name'),
-    searchable: true,
   },
   status: {
     label: t('Status'),
@@ -89,7 +87,6 @@ const columns = {
   date: {
     label: t('applied_at'),
     // grow: true,
-    searchable: true,
   },
   actions: {
     label: t('Actions'),
@@ -117,7 +114,7 @@ function gotoNoticeList(statementId: number) {
 }
 
 async function fetchData(page: number = 1) {
-  const res = await fetchList(page)
+  const res = await fetchList({ page, ...filterForm })
   Object.assign(data, res)
 }
 
@@ -128,7 +125,7 @@ function successNotify() {
 async function submitFilterForm() {
   try {
     isLoading.value = true
-    const res = await filterStatementList(filterForm)
+    const res = await fetchList({ page: 1, ...filterForm })
     Object.assign(data, res)
   } catch (error: any) {
     notif.error('Error while fetching filtered data: ', error.message)
@@ -291,11 +288,7 @@ async function exportToExcel() {
               <StatusTag :status="value" />
             </template>
             <template v-else-if="column.key === 'stage'">
-              <!-- <button class="button is-size-6 has-background-info is-rounded has-text-white" rounded
-                style="white-space: break-spaces;">
-                {{ value.name }}
-              </button> -->
-              <VTag class="is-size-6" color="info" rounded :label="value.name"
+              <VTag class="is-size-6 px-5" color="info" rounded :label="value.name"
                 style="white-space: break-spaces; height: fit-content;" />
             </template>
             <template v-else-if="column.key === 'is_paid'">

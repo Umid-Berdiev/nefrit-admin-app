@@ -127,7 +127,7 @@ async function handleRemoveAction() {
   }
 }
 
-async function fetchData(page = 1) {
+async function fetchData(page:number = 1) {
   const res = await fetchStatementContracts({ page, ...filterForm })
   Object.assign(data, res)
 }

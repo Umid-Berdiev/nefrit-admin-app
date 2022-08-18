@@ -3,10 +3,11 @@ import { useApi } from '/@src/composable/useApi'
 
 const api = useApi()
 
-export async function fetchList(page: number): Promise<{ data: ApplicantData[] }> {
+export async function fetchList(payload: any) {
   try {
     const { data } = await api({
-      url: `/api/admin/legal-entity?page=${page}`,
+      url: `/api/admin/legal-entity`,
+      params: payload,
     })
 
     return data.data

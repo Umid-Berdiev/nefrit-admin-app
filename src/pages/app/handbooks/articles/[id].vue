@@ -61,24 +61,6 @@ const datePickerModelConfig = reactive({
 
 await fetchData()
 
-function clearFields() {
-  Object.assign(articleData, {
-    author: '',
-    date: '',
-    image: '',
-    text: {
-      uz: '',
-      ru: '',
-      en: ''
-    },
-    title: {
-      uz: '',
-      ru: '',
-      en: ''
-    }
-  })
-}
-
 function clearErrors() {
   Object.assign(errors, {
     author: [],

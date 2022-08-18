@@ -85,7 +85,7 @@ const showLastLink = computed(() => lastPage.value > 1)
 // }
 
 const handleLinkClick = (e: Event, page = 1) => {
-  console.log('handleLinkClick: ', page);
+  // console.log('handleLinkClick: ', page);
   const _page = Math.max(1, Math.min(page, lastPage.value))
   emits('update:currentPage', _page)
 
@@ -97,21 +97,6 @@ const handleLinkClick = (e: Event, page = 1) => {
   }
 }
 </script>
-
-<!-- <i18n lang="yaml">
-de:
-  goto-page-title: 'Gehe zu Seite {page}'
-en:
-  goto-page-title: 'Goto page {page}'
-es-MX:
-  goto-page-title: 'Ir a la página {page}'
-es:
-  goto-page-title: 'Ir a la página {page}'
-fr-FR:
-  goto-page-title: 'Aller à la page {page}'
-zh-CN:
-  goto-page-title: '转到第{page}页'
-</i18n> -->
 
 <template>
   <VFlex role="navigation" class="flex-pagination pagination is-rounded" aria-label="pagination"
@@ -151,11 +136,11 @@ zh-CN:
     </ul>
 
     <slot name="before-navigation"></slot>
-    <VButton tabindex="0" class="pagination-previous has-chevron"
+    <VButton :disabled="currentPage === 1" tabindex="0" class="pagination-previous has-chevron"
       @click="(e: Event) => handleLinkClick(e, currentPage - 1)">
       <i aria-hidden="true" class="iconify" data-icon="feather:chevron-left"></i>
     </VButton>
-    <VButton tabindex="0" class="pagination-next has-chevron"
+    <VButton :disabled="currentPage === lastPage" tabindex="0" class="pagination-next has-chevron"
       @click="(e: Event) => handleLinkClick(e, currentPage + 1)">
       <i aria-hidden="true" class="iconify" data-icon="feather:chevron-right"></i>
     </VButton>

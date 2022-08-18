@@ -27,7 +27,7 @@ const CKEditor = CKE.component
 const isLoading = ref(false)
 const articleData: ArticleData = reactive({
   author: '',
-  date: '',
+  date: new Date(),
   image: '',
   text: {
     uz: '',

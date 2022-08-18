@@ -344,11 +344,11 @@
   "Doc_categories": "Hujjat kategoriyalari",
   "auth_login_nefrit": "Tizim Kirish - Nefrit",
   "Verify_contract": "Shartnomani tasdiqlang",
-  "Certificates": "Sertifikatlar",
+  "Certificates": "Guvohnomalar",
   "Statement": "Ariza",
   "Validity_date": "Amal qilish muddati",
   "Drug_country": "Dori davlati",
-  "Certificate_report": "Sertifikatlar hisoboti",
+  "Certificate_report": "Guvohnomalar hisoboti",
   "Applicant_report": "Arizachilar hisoboti",
   "Statement_report": "Arizalar hisoboti",
   "Payment_report": "To'lovlar hisoboti",
@@ -391,5 +391,6 @@
   "From": "Sanadan",
   "To": "Sanagacha",
   "All": "Barchasi",
-  "Contract_date": "Shartnoma sanasi"
+  "Contract_date": "Shartnoma sanasi",
+  "Type_author": "Muallifni kiriting"
 }

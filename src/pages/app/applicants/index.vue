@@ -5,7 +5,11 @@ import { useI18n } from 'vue-i18n'
 import { useHead } from '@vueuse/head'
 
 import { useViewWrapper } from '/@src/stores/viewWrapper'
-import { exportApplicantToExcel, fetchList, filterApplicantList, fetchApplicantStatuses } from '/@src/utils/api/applicant';
+import {
+  exportApplicantToExcel,
+  fetchList,
+  fetchApplicantStatuses
+} from '/@src/utils/api/applicant';
 import { useNotyf } from '/@src/composable/useNotyf'
 import { StatusData } from '/@src/utils/interfaces'
 
@@ -95,7 +99,7 @@ function onView(rowId: string | number) {
 }
 
 async function fetchData(page: number = 1) {
-  const res = await fetchList(page)
+  const res = await fetchList({ page, ...filterForm })
   Object.assign(data, res)
 }
 

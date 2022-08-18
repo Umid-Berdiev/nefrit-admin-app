@@ -1,53 +1,91 @@
 <script setup lang="ts">
 import { useWindowScroll } from '@vueuse/core'
-import { computed, ref } from 'vue'
+import { computed, onMounted, reactive, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 import { useNotyf } from '/@src/composable/useNotyf'
-import sleep from '/@src/utils/sleep'
+import { useUserSession } from '/@src/stores/userSession'
+import { UserData } from '/@src/utils/interfaces'
 import { onceImageErrored } from '/@src/utils/via-placeholder'
 
+const { t, locale } = useI18n()
+const { user, updateProfile } = useUserSession()
+const userData: UserData = reactive({
+  avatar: '',
+  email: '',
+  firstname: '',
+  lastname: '',
+  username: ''
+})
+const avatarFile = ref<File>()
 const isUploading = ref(false)
 const isLoading = ref(false)
-const experience = ref('')
-const firstJob = ref('')
-const flexibility = ref('')
-const remote = ref('')
-const skills = ref(['software', 'saas', 'engineering'])
-const skillsOptions = [
-  { value: 'software', label: 'Software' },
-  { value: 'saas', label: 'SaaS' },
-  { value: 'engineering', label: 'Engineering' },
-]
-
+const errors = reactive({
+  avatar: [],
+  email: [],
+  firstname: [],
+  lastname: [],
+  username: []
+})
+const userAvatar = computed(() => userData.avatar || "/images/avatars/svg/vuero-1.svg")
 const notyf = useNotyf()
 const { y } = useWindowScroll()
+
+onMounted(() => {
+  Object.assign(userData, user)
+})
 
 const isScrolling = computed(() => {
   return y.value > 30
 })
 
-const onAddFile = (error: any, file: any) => {
-  if (error) {
-    console.error(error)
-    return
-  }
+async function onSave() {
+  try {
+    clearErrors()
 
-  console.log('file added', file)
+    isLoading.value = true
+    const formData = new FormData()
+    formData.append('avatar', avatarFile.value || '')
+    formData.append('username', userData.username)
+    formData.append('email', userData.email)
+    formData.append('firstname', userData.firstname)
+    formData.append('lastname', userData.lastname)
+
+    await updateProfile(formData)
+    notyf.success(t('Updated_successfully'))
+  } catch (error: any) {
+    notyf.error(t('Error_while_updating_data'))
+    Object.assign(errors, error.response?.data?.errors)
+  } finally {
+    isLoading.value = false
+  }
 }
+
+const onAddFile = (event: Event) => {
+  if (errors.avatar?.length) errors.avatar = []
+  avatarFile.value = event.target.files[0]
+}
+
 const onRemoveFile = (error: any, file: any) => {
   if (error) {
     console.error(error)
     return
   }
+  avatarFile.value = undefined
+  userData.avatar = ''
+  // console.log('file removed', file)
+}
 
-  console.log('file removed', file)
+function clearErrors() {
+  Object.assign(errors, {
+    avatar: [],
+    email: [],
+    firstname: [],
+    lastname: [],
+    username: []
+  })
 }
-const onSave = async () => {
-  isLoading.value = true
-  await sleep()
-  notyf.success('Your changes have been successfully saved!')
-  isLoading.value = false
-}
+
 </script>
 
 <template>
@@ -55,33 +93,33 @@ const onSave = async () => {
     <div class="form-head stuck-header" :class="[isScrolling && 'is-stuck']">
       <div class="form-head-inner">
         <div class="left">
-          <h3>General Info</h3>
-          <p>Edit your account's general information</p>
+          <h3>{{ $t('Personal_Info') }}</h3>
+          <!-- <h3>{{ $t('General_Info') }}</h3>
+          <p>{{ $t('Edit_general_info') }}</p> -->
         </div>
         <div class="right">
           <div class="buttons">
             <VButton :to="{ name: 'app' }" icon="lnir lnir-arrow-left rem-100" light dark-outlined>
-              Go Back
+              {{ $t('Go_Back') }}
             </VButton>
-            <VButton color="primary" raised :loading="isLoading" tabindex="0" @keydown.space.prevent="onSave"
-              @click="onSave">
+            <VButton type="submit" color="primary" raised :loading="isLoading" tabindex="0" form="profile-update-form">
               {{ $t('Save_changes') }}
             </VButton>
           </div>
         </div>
       </div>
     </div>
-    <div class="form-body">
+    <form id="profile-update-form" class="form-body" @submit.prevent="onSave">
       <!--Fieldset-->
       <div class="fieldset">
         <div class="fieldset-heading">
-          <h4>Profile Picture</h4>
-          <p>This is how others will recognize you</p>
+          <h4>{{ $t('Profile_Picture') }}</h4>
+          <p>{{ $t('Update_profile_picture') }}</p>
         </div>
 
         <VAvatar size="xl" class="profile-v-avatar">
           <template #avatar>
-            <img v-if="!isUploading" class="avatar" src="/images/avatars/svg/vuero-1.svg" alt=""
+            <img v-if="!isUploading" class="avatar" :src="userAvatar" alt=""
               @error.once="(event) => onceImageErrored(event, '150x150')" />
             <VFilePond v-else class="profile-filepond" name="profile_filepond" :chunk-retry-delays="[500, 1000, 3000]"
               label-idle="<i class='lnil lnil-cloud-upload'></i>"
@@ -89,7 +127,7 @@ const onSave = async () => {
               :image-resize-target-width="140" :image-resize-target-height="140" image-crop-aspect-ratio="1:1"
               style-panel-layout="compact circle" style-load-indicator-position="center bottom"
               style-progress-indicator-position="right bottom" style-button-remove-item-position="left bottom"
-              style-button-process-item-position="right bottom" @addfile="onAddFile" @removefile="onRemoveFile" />
+              style-button-process-item-position="right bottom" @change="onAddFile" @removefile="onRemoveFile" />
             <VIconButton v-if="!isUploading" icon="feather:edit-2" class="edit-button is-edit" circle tabindex="0"
               @keydown.space.prevent="isUploading = true" @click="isUploading = true" />
             <VIconButton v-else icon="feather:arrow-left" class="edit-button is-back" circle tabindex="0"
@@ -101,8 +139,6 @@ const onSave = async () => {
       <!--Fieldset-->
       <div class="fieldset">
         <div class="fieldset-heading">
-          <h4>Personal Info</h4>
-          <p>Others diserve to know you more</p>
         </div>
 
         <div class="columns is-multiline">
@@ -110,7 +146,9 @@ const onSave = async () => {
           <div class="column is-6">
             <VField>
               <VControl icon="feather:user">
-                <VInput type="text" placeholder="First Name" autocomplete="given-name" />
+                <VInput type="text" :placeholder="$t('First_name')" autocomplete="given-name"
+                  v-model="userData.firstname" />
+                <p class="help has-text-danger">{{ errors.firstname[0] }}</p>
               </VControl>
             </VField>
           </div>
@@ -118,15 +156,9 @@ const onSave = async () => {
           <div class="column is-6">
             <VField>
               <VControl icon="feather:user">
-                <VInput type="text" placeholder="Last Name" autocomplete="family-name" />
-              </VControl>
-            </VField>
-          </div>
-          <!--Field-->
-          <div class="column is-12">
-            <VField>
-              <VControl icon="feather:briefcase">
-                <VInput type="text" placeholder="Job Title" autocomplete="organization-title" />
+                <VInput type="text" :placeholder="$t('Last_name')" autocomplete="family-name"
+                  v-model="userData.lastname" />
+                <p class="help has-text-danger">{{ errors.lastname[0] }}</p>
               </VControl>
             </VField>
           </div>
@@ -134,134 +166,42 @@ const onSave = async () => {
           <div class="column is-12">
             <VField>
               <VControl icon="feather:map-pin">
-                <VInput type="text" placeholder="Location" autocomplete="country-name" />
+                <VInput type="text" :placeholder="$t('Username')" autocomplete="country-name"
+                  v-model="userData.username" />
+                <p class="help has-text-danger">{{ errors.username[0] }}</p>
               </VControl>
             </VField>
           </div>
           <!--Field-->
           <div class="column is-12">
             <VField>
-              <VControl>
-                <VTextarea rows="4" placeholder="About / Bio" autocomplete="off" autocapitalize="off"
-                  spellcheck="true" />
+              <VControl icon="feather:mail">
+                <VInput type="text" :placeholder="$t('Email')" autocomplete="organization-title"
+                  v-model="userData.email" />
+                <p class="help has-text-danger">{{ errors.email[0] }}</p>
               </VControl>
             </VField>
           </div>
         </div>
       </div>
-
-      <!--Fieldset-->
-      <div class="fieldset">
-        <div class="fieldset-heading">
-          <h4>Professional Info</h4>
-          <p>This can help you to win some opportunities</p>
-        </div>
-        <div class="columns is-multiline">
-          <!--Field-->
-          <div class="column is-6">
-            <VField v-slot="{ id }">
-              <VControl>
-                <Multiselect v-model="experience" :attrs="{ id }" placeholder="Experience"
-                  :options="['0-2 years', '2-5 years', '5-10 years', '10+ years']" />
-              </VControl>
-            </VField>
-          </div>
-          <!--Field-->
-          <div class="column is-6">
-            <VField v-slot="{ id }">
-              <VControl>
-                <Multiselect v-model="firstJob" :attrs="{ id }" placeholder="Is this your first job?"
-                  :options="['Yes', 'No']" />
-              </VControl>
-            </VField>
-          </div>
-          <!--Field-->
-          <div class="column is-6">
-            <VField v-slot="{ id }">
-              <VControl>
-                <Multiselect v-model="flexibility" :attrs="{ id }" placeholder="Are you flexible?"
-                  :options="['Yes', 'No']" />
-              </VControl>
-            </VField>
-          </div>
-          <!--Field-->
-          <div class="column is-6">
-            <VField v-slot="{ id }">
-              <VControl>
-                <Multiselect v-model="remote" :attrs="{ id }" placeholder="Do you work remotely?"
-                  :options="['Yes', 'No']" />
-              </VControl>
-            </VField>
-          </div>
-          <!--Field-->
-          <div class="column is-12">
-            <VField v-slot="{ id }">
-              <VControl>
-                <Multiselect v-model="skills" :attrs="{ id }" mode="tags" :searchable="true" :create-tag="true"
-                  :options="skillsOptions" placeholder="Add tags" />
-              </VControl>
-            </VField>
-          </div>
-        </div>
-      </div>
-
-      <!--Fieldset-->
-      <div class="fieldset">
-        <div class="fieldset-heading">
-          <h4>Social Profiles</h4>
-          <p>This can help others finding you on social media</p>
-        </div>
-        <div class="columns is-multiline">
-          <!--Field-->
-          <div class="column is-6">
-            <VField>
-              <VControl icon="fab fa-facebook-f">
-                <VInput type="text" placeholder="Facebook URL" inputmode="url" />
-              </VControl>
-            </VField>
-          </div>
-          <!--Field-->
-          <div class="column is-6">
-            <VField>
-              <VControl icon="fab fa-twitter">
-                <VInput type="text" placeholder="Twitter URL" inputmode="url" />
-              </VControl>
-            </VField>
-          </div>
-          <!--Field-->
-          <div class="column is-6">
-            <VField>
-              <VControl icon="fab fa-dribbble">
-                <VInput type="text" placeholder="Dribbble URL" inputmode="url" />
-              </VControl>
-            </VField>
-          </div>
-          <!--Field-->
-          <div class="column is-6">
-            <VField>
-              <VControl icon="fab fa-instagram">
-                <VInput type="text" placeholder="Instagram URL" inputmode="url" />
-              </VControl>
-            </VField>
-          </div>
-          <!--Field-->
-          <div class="column is-6">
-            <VField>
-              <VControl icon="fab fa-github">
-                <VInput type="text" placeholder="Github URL" inputmode="url" />
-              </VControl>
-            </VField>
-          </div>
-          <!--Field-->
-          <div class="column is-6">
-            <VField>
-              <VControl icon="fab fa-gitlab">
-                <VInput type="text" placeholder="Gitlab URL" inputmode="url" />
-              </VControl>
-            </VField>
-          </div>
-        </div>
-      </div>
-    </div>
+    </form>
   </div>
 </template>
+
+<style scoped lang="scss">
+.profile-v-avatar {
+  position: relative;
+
+  .edit-button {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 1rem;
+  }
+}
+
+.filepond-profile-wrap,
+.filepond-square-wrap {
+  display: block;
+}
+</style>
