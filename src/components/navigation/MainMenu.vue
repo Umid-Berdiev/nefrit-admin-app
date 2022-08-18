@@ -8,7 +8,7 @@ const route = useRoute()
 const mainStore = useMainStore()
 const userSession = useUserSession()
 const roleCan = ref(false)
-const currentRoleId = computed(() => userSession.user?.role_id)
+const currentRoleId = computed(() => Number(userSession.user?.role_id))
 
 function openContractDownloadModal() {
   mainStore.$patch({ contractDownloadModalState: true })
@@ -27,8 +27,7 @@ function openContractDownloadModal() {
       </RouterLink>
     </li>
     <li v-if="[1, 2, 3].includes(currentRoleId)">
-      <RouterLink class="is-size-6" :class="{ 'router-link-exact-active': route.path.startsWith('/app/applicant') }"
-        :to="{ name: 'app-applicants' }">
+      <RouterLink class="is-size-6" :to="{ name: 'app-applicants' }">
         <span class="fa-li">
           <i class="fas fa-user-friends" aria-hidden="true"></i>
         </span>
@@ -36,8 +35,7 @@ function openContractDownloadModal() {
       </RouterLink>
     </li>
     <li>
-      <RouterLink class="is-size-6" :class="{ 'router-link-exact-active': route.path.startsWith('/app/statement') }"
-        :to="{ name: 'app-statements' }">
+      <RouterLink class="is-size-6" :to="{ name: 'app-statements' }">
         <span class="fa-li">
           <i class="fas fa-file-alt" aria-hidden="true"></i>
         </span>
@@ -45,8 +43,7 @@ function openContractDownloadModal() {
       </RouterLink>
     </li>
     <li v-if="[1, 2].includes(currentRoleId)">
-      <RouterLink class="is-size-6" :class="{ 'router-link-exact-active': route.path.startsWith('/app/employees') }"
-        :to="{ name: 'app-employees' }">
+      <RouterLink class="is-size-6" :to="{ name: 'app-employees' }">
         <span class="fa-li">
           <i class="fas fa-users" aria-hidden="true"></i>
         </span>
@@ -54,8 +51,7 @@ function openContractDownloadModal() {
       </RouterLink>
     </li>
     <li v-if="[1, 2].includes(currentRoleId)">
-      <RouterLink class="is-size-6" :class="{ 'router-link-exact-active': route.path.startsWith('/app/roles') }"
-        :to="{ name: 'app-roles' }">
+      <RouterLink class="is-size-6" :to="{ name: 'app-roles' }">
         <span class="fa-li">
           <i class="fas fa-user-shield" aria-hidden="true"></i>
         </span>
@@ -63,7 +59,7 @@ function openContractDownloadModal() {
       </RouterLink>
     </li>
     <!-- <li>
-      <RouterLink class="is-size-6" :class="{ 'router-link-exact-active': route.path.startsWith('/app/reports') }"
+      <RouterLink class="is-size-6"
         :to="{ name: 'app-reports' }">
         <span class="fa-li">
           <i class="fas fa-chart-line" aria-hidden="true"></i>
@@ -72,7 +68,7 @@ function openContractDownloadModal() {
       </RouterLink>
     </li> -->
     <!-- <li>
-      <RouterLink class="is-size-6" :class="{ 'router-link-exact-active': route.path.startsWith('/app/handbooks') }"
+      <RouterLink class="is-size-6"
         :to="{ name: 'app-handbooks' }">
         <span class="fa-li">
           <i class="fas fa-database" aria-hidden="true"></i>
@@ -81,8 +77,7 @@ function openContractDownloadModal() {
       </RouterLink>
     </li> -->
     <li v-if="[1].includes(currentRoleId)">
-      <RouterLink class="is-size-6" :class="{ 'router-link-exact-active': route.path.startsWith('/app/departments') }"
-        :to="{ name: 'app-departments' }">
+      <RouterLink class="is-size-6" :to="{ name: 'app-departments' }">
         <!-- <i aria-hidden="true" class="lnil lnil-database"></i> -->
         <span class="fa-li">
           <i class="lnir lnir-grid-alt" aria-hidden="true"></i>
@@ -91,8 +86,7 @@ function openContractDownloadModal() {
       </RouterLink>
     </li>
     <li v-if="[1, 2, 3, 7].includes(currentRoleId)">
-      <RouterLink class="is-size-6" :class="{ 'router-link-exact-active': route.path.startsWith('/app/contracts') }"
-        :to="{ name: 'app-contracts' }">
+      <RouterLink class="is-size-6" :to="{ name: 'app-contracts' }">
         <!-- <i aria-hidden="true" class="lnil lnil-database"></i> -->
         <span class="fa-li">
           <i class="lnir lnir-revenue" aria-hidden="true"></i>
@@ -101,9 +95,7 @@ function openContractDownloadModal() {
       </RouterLink>
     </li>
     <li v-if="[1, 2, 7].includes(currentRoleId)">
-      <RouterLink class="is-size-6"
-        :class="{ 'router-link-exact-active': route.path.startsWith('/app/contract_templates') }"
-        :to="{ name: 'app-contract-templates' }">
+      <RouterLink class="is-size-6" :to="{ name: 'app-contract-templates' }">
         <!-- <i aria-hidden="true" class="lnil lnil-database"></i> -->
         <span class="fa-li">
           <i class="lnil lnil-euro-down" aria-hidden="true"></i>
@@ -162,7 +154,8 @@ function openContractDownloadModal() {
         <VueIconify icon="feather:circle" />
         {{ $t('Contacts') }}
       </RouterLink>
-      <RouterLink :to="{ name: 'app-handbooks-articles' }" class="is-submenu is-size-6">
+      <RouterLink :to="{ name: 'app-handbooks-articles' }" class="is-submenu is-size-6"
+        :class="{ 'router-link-exact-active': route.path.startsWith('/app/handbooks/articles') }">
         <VueIconify icon="feather:circle" />
         {{ $t('Articles') }}
       </RouterLink>

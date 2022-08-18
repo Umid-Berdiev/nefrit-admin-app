@@ -137,7 +137,7 @@ function onImageFileUpload(event: Event) {
 </script>
 
 <template>
-  <form id="role-form" class="modal-form" @submit.prevent="onSubmit">
+  <form id="article-edit-form" class="modal-form" @submit.prevent="onSubmit">
     <div class="container is-fluid">
       <div class="columns">
         <div class="column is-8">
@@ -245,8 +245,7 @@ function onImageFileUpload(event: Event) {
         </div>
       </div>
       <VFlex>
-        <VButton class="ml-auto" :loading="isLoading" color="primary" outlined type="submit" :disabled="isLoading"
-          @click="onSubmit">
+        <VButton type="submit" class="ml-auto" color="primary" outlined :loading="isLoading" :disabled="isLoading">
           {{ $t('Save') }}
         </VButton>
       </VFlex>

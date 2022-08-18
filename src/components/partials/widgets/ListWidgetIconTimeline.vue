@@ -28,7 +28,7 @@ const props = withDefaults(
           <span>{{ item.date && $h.formatDate(item.date, 'DD.MM.YYYY') }}</span>
           <p class="has-text-primary has-text-bold is-size-5">{{ item.stage }}</p>
           <p class="heading">{{ item.department }}</p>
-          <p class="">{{ item.message }}</p>
+          <p class="truncated">{{ item.message }}</p>
         </div>
       </template>
       <template v-else>
@@ -38,7 +38,7 @@ const props = withDefaults(
           <span>{{ item.date && $h.formatDate(item.date, 'DD.MM.YYYY') }}</span>
           <p class="has-text-primary has-text-bold is-size-5">{{ $t(item.key) }}</p>
           <p class="heading">{{ item.department }}</p>
-          <p class="">{{ item.message }}</p>
+          <p class="truncated">{{ item.message }}</p>
         </div>
       </template>
 
@@ -48,3 +48,13 @@ const props = withDefaults(
     </header>
   </div>
 </template>
+
+<style scoped lang="scss">
+.truncated {
+  display: -webkit-box;
+  // max-width: 200px;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+</style>

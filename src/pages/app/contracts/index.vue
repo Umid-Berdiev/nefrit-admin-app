@@ -6,7 +6,7 @@ import { useI18n } from 'vue-i18n'
 import { useViewWrapper } from '/@src/stores/viewWrapper'
 import { useMainStore } from '/@src/stores'
 import { useHead } from '@vueuse/head'
-import { fetchStatementContracts, filterContractList, removeContractById } from '/@src/utils/api/statement';
+import { fetchStatementContracts, removeContractById } from '/@src/utils/api/statement';
 import { useNotyf } from '/@src/composable/useNotyf'
 import { useUserSession } from '/@src/stores/userSession'
 import moment from 'moment'
@@ -300,10 +300,10 @@ async function clearFilterForm() {
               <VTag class="is-size-6" :color="value ? 'primary' : 'warning'" rounded
                 :label="value ? $t('Paid') : $t('Not_Paid')" />
             </template>
-            <template v-if="column.key === 'contract_date'">
+            <template v-if="column.key === 'contract_date' && value">
               <span>{{ $h.formatDate(value, 'DD.MM.YYYY') }}</span>
             </template>
-            <template v-if="column.key === 'verified_at'">
+            <template v-if="column.key === 'verified_at' && value">
               <span>{{ $h.formatDate(value, 'DD.MM.YYYY') }}</span>
             </template>
             <template v-if="column.key === 'actions'">
