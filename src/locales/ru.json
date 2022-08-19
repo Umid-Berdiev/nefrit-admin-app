@@ -402,5 +402,7 @@
   "Repeat_New_Password": "Повторить новый пароль",
   "Personal_Picture": "Персональное фото",
   "Update_profile_picture": "Обновить фото профиля",
-  "Edit_profile": "Изменить данные профиля"
+  "Edit_profile": "Изменить данные профиля",
+  "Doc_Category_List": "Лист Категории Документов",
+  "Doc_Category": "Категории Документов"
 }

@@ -58,6 +58,14 @@ function openContractDownloadModal() {
         {{ $t('Roles') }}
       </RouterLink>
     </li>
+    <li v-if="[1, 2, 3].includes(currentRoleId)">
+      <RouterLink class="is-size-6" to="/app/doc-categories">
+        <span class="fa-li">
+          <VueIconify icon="feather:circle" />
+        </span>
+        {{ $t('Doc_categories') }}
+      </RouterLink>
+    </li>
     <!-- <li>
       <RouterLink class="is-size-6"
         :to="{ name: 'app-reports' }">
@@ -166,10 +174,6 @@ function openContractDownloadModal() {
       <RouterLink :to="{ name: 'app-handbooks-regulation' }" class="is-submenu is-size-6">
         <VueIconify icon="feather:circle" />
         {{ $t('Regulation') }}
-      </RouterLink>
-      <RouterLink :to="{ name: 'app-handbooks-doc-categories' }" class="is-submenu is-size-6">
-        <VueIconify icon="feather:circle" />
-        {{ $t('Doc_categories') }}
       </RouterLink>
     </VCollapseLinks>
     <div class="is-divider" />

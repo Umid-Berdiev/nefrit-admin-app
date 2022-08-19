@@ -55,6 +55,8 @@ declare module '@vue/runtime-core' {
     DepartmentFlexTableDropdown: typeof import('./src/components/partials/dropdowns/DepartmentFlexTableDropdown.vue')['default']
     DepartmentFormModal: typeof import('./src/components/base/modal/DepartmentFormModal.vue')['default']
     DepartmentSelect: typeof import('./src/components/forms/selects/DepartmentSelect.vue')['default']
+    DocCategoryFlexTableDropdown: typeof import('./src/components/partials/dropdowns/DocCategoryFlexTableDropdown.vue')['default']
+    DocCategoryFormModal: typeof import('./src/components/base/modal/DocCategoryFormModal.vue')['default']
     DrugInfoModal: typeof import('./src/components/base/modal/DrugInfoModal.vue')['default']
     EmployeeFlexTableDropdown: typeof import('./src/components/partials/dropdowns/EmployeeFlexTableDropdown.vue')['default']
     EmployeeFormModal: typeof import('./src/components/base/modal/EmployeeFormModal.vue')['default']
