@@ -8,9 +8,11 @@ import VButton from '../base/button/VButton.vue';
 import { useNotyf } from '/@src/composable/useNotyf';
 import VFlexItem from '../base/flex/VFlexItem.vue';
 import { useMainStore } from '/@src/stores';
+import { useUserSession } from '/@src/stores/userSession';
 
 const { t, locale } = useI18n()
 const mainStore = useMainStore()
+const { userRoleID } = useUserSession()
 const columns = computed(() => ({
   name: {
     label: t('Name'),
@@ -98,7 +100,7 @@ function successNotify() {
       <div class="column is-6">
         <ListWidgetSingle :title="$t('Contract_details')" straight class="list-widget-v3">
           <template #actions>
-            <a v-if="!contractData?.verified_at" href="javascript:;" @click="onEdit">
+            <a v-if="!contractData?.verified_at && [1, 2, 7].includes(userRoleID)" href="javascript:;" @click="onEdit">
               <VueIconify icon="feather:edit-2" />
             </a>
           </template>
@@ -155,8 +157,8 @@ function successNotify() {
                   <span v-else class="has-text-danger">
                     {{ $t('No_template_file') }}
                   </span>
-                  <VButton class="ml-auto" color="primary" rounded icon="fas fa-plus"
-                    @click="onUploadAction('template_file')">
+                  <VButton v-if="[1, 2, 7].includes(userRoleID)" class="ml-auto" color="primary" rounded
+                    icon="fas fa-plus" @click="onUploadAction('template_file')">
                     {{ $t('Upload') }}
                   </VButton>
                 </td>
@@ -183,7 +185,8 @@ function successNotify() {
                   <span v-else class="has-text-danger">
                     {{ $t('No_completed_file') }}
                   </span>
-                  <VButton class="ml-auto" color="primary" rounded icon="fas fa-plus" @click="onUploadAction('file')">
+                  <VButton v-if="[1, 2, 7].includes(userRoleID)" class="ml-auto" color="primary" rounded
+                    icon="fas fa-plus" @click="onUploadAction('file')">
                     {{ $t('Upload') }}
                   </VButton>
                 </td>
@@ -217,8 +220,8 @@ function successNotify() {
                         :label="item.is_paid ? $t('Paid') : $t('Not_Paid')" />
                     </VFlexItem>
                     <VFlexItem v-if="item.is_paid && !contractData?.verified_at">
-                      <VButton color="warning" rounded v-text="$t('Reject_statement_status')"
-                        @click="onReject(item.id)" />
+                      <VButton v-if="[1, 2, 7].includes(userRoleID)" color="warning" rounded
+                        v-text="$t('Reject_statement_status')" @click="onReject(item.id)" />
                     </VFlexItem>
                   </VFlex>
                 </td>

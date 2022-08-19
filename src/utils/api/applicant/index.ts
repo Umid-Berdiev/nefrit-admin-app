@@ -3,13 +3,41 @@ import { useApi } from '/@src/composable/useApi'
 
 const api = useApi()
 
-export async function fetchList(page: number): Promise<{ data: ApplicantData[] }> {
+export async function fetchList(payload: any) {
   try {
     const { data } = await api({
-      url: `/api/admin/legal-entity?page=${page}`,
+      url: `/api/admin/legal-entity`,
+      params: payload,
     })
 
     return data.data
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function filterApplicantList(payload: any) {
+  try {
+    const { data } = await api({
+      url: `/api/admin/legal-entity/filter`,
+      params: payload,
+    })
+
+    return data.data
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function exportApplicantToExcel(payload: any) {
+  try {
+    const { data } = await api({
+      url: `/api/admin/excel-legal-entity`,
+      params: payload,
+      responseType: 'blob',
+    })
+
+    return data
   } catch (error) {
     throw error
   }

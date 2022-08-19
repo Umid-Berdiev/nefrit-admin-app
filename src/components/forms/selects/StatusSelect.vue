@@ -12,7 +12,7 @@ export interface StatusData {
 
 export interface StatusSelectProps {
   modelValue: number | string,
-  isRequired: boolean,
+  isRequired?: boolean,
   list: StatusData[],
 }
 
@@ -35,7 +35,7 @@ const selectedStatus = computed({
 
 <template>
   <VField>
-    <VLabel>{{ t('Status') }} <span :class="{ 'has-text-danger': isRequired }">*</span></VLabel>
+    <VLabel>{{ t('Status') }} <span v-if="isRequired" class="has-text-danger">*</span></VLabel>
     <VControl>
       <VSelect v-model="selectedStatus">
         <VOption disabled hidden value="">{{ t('Select') }} ...</VOption>

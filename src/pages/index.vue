@@ -70,7 +70,7 @@ function clearErrors(event: Event) {
         <div class="auth-nav">
           <div class="left"></div>
           <div class="center">
-            <RouterLink :to="{ name: 'index' }" class="header-item">
+            <RouterLink :to="{ name: 'app' }" class="header-item">
               <AppLogo width="38px" height="38px" />
             </RouterLink>
           </div>

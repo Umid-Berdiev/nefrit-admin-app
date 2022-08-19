@@ -8,15 +8,16 @@ export interface StatusData {
 
 export interface UserData {
   avatar: string
-  department: string
   email: string
   firstname: string
-  id: number
-  is_employee: boolean
   lastname: string
-  name: string
-  role_id: number
   username: string
+  department?: string
+  id?: number
+  is_employee?: boolean
+  name?: string
+  role_id?: number
+  role?: RoleData
 }
 
 export interface CountryData {
@@ -316,4 +317,28 @@ export interface AboutPageData {
   image_url?: string
   point_x: number | string
   point_y: number | string
+}
+
+export interface ContactItemData {
+  icon?: File | string
+  name: string
+  status: 'active' | 'inactive'
+  type: 'url' | 'phone' | 'email'
+  value: number | string
+}
+
+export interface ArticleData {
+  author: string
+  date?: string
+  title: {
+    uz: string
+    ru: string
+    en: string
+  }
+  text: {
+    uz: string
+    ru: string
+    en: string
+  }
+  image?: File | string
 }

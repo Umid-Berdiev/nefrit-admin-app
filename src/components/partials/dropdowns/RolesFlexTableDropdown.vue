@@ -32,7 +32,7 @@ const emits = defineEmits<{
         }
       ">
         <div class="icon">
-          <i aria-hidden="true" class="lnil lnil-briefcase"></i>
+          <VueIconify icon="feather:edit-2" />
         </div>
         <div class="meta">
           <span>{{ $t('Edit') }}</span>
@@ -46,7 +46,7 @@ const emits = defineEmits<{
         }
       ">
         <div class="icon">
-          <i aria-hidden="true" class="lnil lnil-briefcase"></i>
+          <VueIconify icon="feather:shield" />
         </div>
         <div class="meta">
           <span>{{ $t('Role_permissions') }}</span>
@@ -62,7 +62,7 @@ const emits = defineEmits<{
         }
       ">
         <div class="icon">
-          <i aria-hidden="true" class="lnil lnil-trash-can-alt"></i>
+          <VueIconify icon="feather:trash" />
         </div>
         <div class="meta">
           <span>{{ $t('Remove') }}</span>

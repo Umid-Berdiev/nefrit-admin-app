@@ -19,7 +19,6 @@
     "allowJs": true,
     "types": [
       "vite/client",
-      "vite-plugin-pwa/client",
       "vite-plugin-pages/client",
       "@intlify/vite-plugin-vue-i18n/client"
     ],
@@ -34,8 +33,7 @@
     "src/**/*.ts",
     "src/**/*.d.ts",
     "src/**/*.tsx",
-    "src/**/*.vue",
-    "documentation/**/*.md"
+    "src/**/*.vue"
   ],
   "exclude": ["bulma-colors.ts"]
 }

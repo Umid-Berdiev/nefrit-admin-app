@@ -45,6 +45,7 @@ const errors = reactive({
   role_id: []
 })
 const employeeAvatar = computed(() => employeeData.avatar || "/images/avatars/svg/vuero-1.svg")
+
 watch(
   () => props.employeeId,
   async (newVal) => {
@@ -68,10 +69,13 @@ async function onSubmit(event: Event) {
     formData.append('email', employeeData.email)
     formData.append('firstname', employeeData.firstname)
     formData.append('lastname', employeeData.lastname)
-    formData.append('password', employeeData.password)
-    formData.append('password_confirmation', employeeData.password_confirmation)
     formData.append('department_id', employeeData.department_id)
     formData.append('role_id', employeeData.role_id)
+
+    if (!props.employeeId) {
+      formData.append('password', employeeData.password)
+      formData.append('password_confirmation', employeeData.password_confirmation)
+    }
 
     props.employeeId ? await updateById(props.employeeId, formData) : await create(formData)
     emits('update:list')

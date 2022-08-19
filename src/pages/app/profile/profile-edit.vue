@@ -1,3 +1,11 @@
+<script setup lang="ts">
+import { computed } from 'vue';
+import { useUserSession } from '/@src/stores/userSession';
+
+const userSession = useUserSession()
+const currentUser = computed(() => userSession.user)
+</script>
+
 <template>
   <div class="page-content-inner">
     <!--Edit Profile-->
@@ -6,38 +14,24 @@
         <!--Navigation-->
         <div class="column is-4">
           <div class="account-box is-navigation">
-            <VBlock title="Erik Kovalsky" subtitle="Product Manager" center>
+            <VBlock :title="currentUser?.firstname + ' ' + currentUser?.lastname" :subtitle="currentUser?.role?.name"
+              center>
               <template #icon>
-                <VAvatar size="large" picture="/images/avatars/svg/vuero-1.svg"
-                  badge="/images/icons/flags/united-states-of-america.svg" />
+                <VAvatar size="large" :picture="currentUser?.avatar" />
               </template>
             </VBlock>
 
             <div class="account-menu">
               <RouterLink :to="{ name: 'app-profile-profile-edit' }" class="account-menu-item">
                 <i aria-hidden="true" class="lnil lnil-user-alt"></i>
-                <span>General</span>
-                <span class="end">
-                  <i aria-hidden="true" class="fas fa-arrow-right"></i>
-                </span>
-              </RouterLink>
-              <RouterLink :to="{ name: 'app-profile-profile-edit-experience' }" class="account-menu-item">
-                <i aria-hidden="true" class="lnil lnil-crown-alt"></i>
-                <span>Experience</span>
-                <span class="end">
-                  <i aria-hidden="true" class="fas fa-arrow-right"></i>
-                </span>
-              </RouterLink>
-              <RouterLink :to="{ name: 'app-profile-profile-edit-skills' }" class="account-menu-item">
-                <i aria-hidden="true" class="lnil lnil-quill"></i>
-                <span>Skills</span>
+                <span>{{ $t('Update_profile') }}</span>
                 <span class="end">
                   <i aria-hidden="true" class="fas fa-arrow-right"></i>
                 </span>
               </RouterLink>
               <RouterLink :to="{ name: 'app-profile-profile-edit-settings' }" class="account-menu-item">
                 <i aria-hidden="true" class="lnil lnil-cog"></i>
-                <span>Settings</span>
+                <span>{{ $t('Update_password') }}</span>
                 <span class="end">
                   <i aria-hidden="true" class="fas fa-arrow-right"></i>
                 </span>
@@ -167,6 +161,7 @@
         &.is-stuck {
           background: var(--white);
           padding-right: 80px;
+          padding-left: 80px;
           border-left: 1px solid var(--fade-grey-dark-3);
         }
 

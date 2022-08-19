@@ -54,5 +54,6 @@ export async function createApp() {
   // use router after plugin registration, so we can register navigation guards
   app.use(vuero.router)
   utils(app)
+
   return vuero
 }

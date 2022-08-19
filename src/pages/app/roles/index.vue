@@ -41,7 +41,6 @@ const sort = computed({
   },
   async set(value) {
     defaultSort.value = value ?? ''
-    console.log({ value });
     await onSort(value)
   },
 })
@@ -155,16 +154,15 @@ function successNotify() {
       -->
       <template #default="wrapperState">
         <!-- We can place any content inside the default slot-->
-        <VFlexTableToolbar>
+        <!-- <VFlexTableToolbar>
           <template #left>
-            <!-- We can bind wrapperState.searchInput to any input -->
             <VField>
               <VControl icon="feather:search">
                 <VInput v-model="searchInput" class="is-rounded" :placeholder="t('Search') + '...'" />
               </VControl>
             </VField>
           </template>
-        </VFlexTableToolbar>
+        </VFlexTableToolbar> -->
 
         <VFlexTable rounded>
           <template #header-column="{ column }">

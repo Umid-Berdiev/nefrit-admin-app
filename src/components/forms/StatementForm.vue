@@ -6,7 +6,6 @@ import DrugInfoModal from '../base/modal/DrugInfoModal.vue';
 import { fetchById, fetchChronologies, canChangeStage, checkPermissionForCertificate } from '/@src/utils/api/statement'
 import { useRoute } from 'vue-router';
 import { StatementChronologyData, StatementData } from '/@src/utils/interfaces';
-import VButton from '../base/button/VButton.vue';
 import { useNotyf } from '/@src/composable/useNotyf';
 
 const route = useRoute()

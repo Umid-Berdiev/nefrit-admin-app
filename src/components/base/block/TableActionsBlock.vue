@@ -11,7 +11,7 @@ export interface VBlockProps {
   filterDisabled?: boolean
   removeDisabled?: boolean
   addDisabled?: boolean
-  printDisabled?: boolean
+  exportDisabled?: boolean
 }
 
 const props = withDefaults(defineProps<VBlockProps>(), {
@@ -20,16 +20,15 @@ const props = withDefaults(defineProps<VBlockProps>(), {
   filterDisabled: false,
   removeDisabled: false,
   addDisabled: false,
-  printDisabled: false,
+  exportDisabled: false,
 })
 
 const emits = defineEmits<{
   (e: 'add'): void
-  (e: 'print'): void
+  (e: 'export'): void
   (e: 'filter'): void
   (e: 'remove'): void
 }>()
-
 
 </script>
 
@@ -59,16 +58,15 @@ const emits = defineEmits<{
         </VButton>
         <VButton outlined rounded color="primary" icon="feather:printer" @click.prevent="
         () => {
-          emits('print')
-        }" v-if="!printDisabled">
-          {{ $t('Print') }}
+          emits('export')
+        }" v-if="!exportDisabled">
+          {{ $t('Export_to_excel') }}
         </VButton>
         <VButton outlined rounded color="warning" icon="feather:filter" @click.prevent="() => {
           emits('filter')
         }" v-if="!filterDisabled">
           {{ $t('Filter') }}
         </VButton>
-        <!-- <VButton outlined rounded color="info" icon="feather:eye"> View </VButton> -->
         <VButton outlined rounded color="danger" icon="feather:trash" @click.prevent="
         () => {
           emits('remove')

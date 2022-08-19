@@ -63,6 +63,11 @@ const columns = {
     // inverted: true,
     // grow: true,
   },
+  read_at: { // description column
+    label: t('Read_at'),
+    // inverted: true,
+    // grow: true,
+  },
   status: {
     label: t('Status')
   }, // created_at column
@@ -136,9 +141,12 @@ function onModalClose() {
           <!-- Custom "name" cell content -->
           <template #body-cell="{ row, column, value }">
             <template v-if="column.key === 'text'">
-              <div style="white-space: break-spaces;">
+              <div class="truncated">
                 {{ row.text }}
               </div>
+            </template>
+            <template v-else-if="column.key === 'read_at' && value">
+              {{ $h.formatDate(value, 'DD.MM.YYYY HH:mm') }}
             </template>
             <template v-else-if="column.key === 'status' && value">
               <StatusTag :status="value" />
@@ -159,3 +167,13 @@ function onModalClose() {
     <ConfirmActionModal @confirm-action="handleRemoveAction" />
   </div>
 </template>
+
+<style scoped lang="scss">
+.truncated {
+  display: -webkit-box;
+  // max-width: 200px;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+</style>

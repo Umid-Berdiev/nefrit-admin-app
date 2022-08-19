@@ -13,7 +13,7 @@ const route = useRoute()
 <template>
   <div class="sidebar-panel is-generic px-3">
     <div class="subpanel-header mb-2">
-      <RouterLink :to="{ name: 'index' }">
+      <RouterLink :to="{ name: 'app' }">
         <div class="sidebar-brand is-flex is-align-items-start">
           <AppLogo width="36px" class="mr-3" />
           <span class="is-size-3 has-text-primary">

@@ -8,8 +8,10 @@ import { useMainStore } from '/@src/stores'
 import { fetchContractPayments } from '/@src/utils/api/statement';
 import { verifyAllPayments, cancelPayment } from '/@src/utils/api/payment';
 import { StatementContractData } from '/@src/utils/interfaces';
+import { useUserSession } from '/@src/stores/userSession';
 
 const { t, locale } = useI18n()
+const { userRoleID } = useUserSession()
 const route = useRoute()
 const contractId = (route.params?.id as string) ?? null
 const mainStore = useMainStore()
@@ -90,8 +92,8 @@ function notify() {
         <h1 class="is-size-3 mb-3">{{ $t('Payments') }}</h1>
       </VFlexItem>
       <VFlexItem class="ml-auto">
-        <VButton type="button" v-if="!contractData?.verified_at" rounded color="primary" icon="feather:check"
-          @click="onAllVerify">
+        <VButton type="button" v-if="!contractData?.verified_at && [1, 2, 7].includes(userRoleID)" rounded
+          color="primary" icon="feather:check" @click="onAllVerify">
           {{ $t('Verify_contract') }}
         </VButton>
       </VFlexItem>
@@ -131,7 +133,7 @@ function notify() {
               {{ $h.formatDate(value, 'DD.MM.YYYY HH:mm') }}
             </template>
             <template v-if="column.key === 'actions'">
-              <VButtons v-if="row.status?.color === 'warning'">
+              <VButtons v-if="row.status?.color === 'warning' && [1, 2, 7].includes(userRoleID)">
                 <VButton class="is-primary is-outlined px-3" @click="onOneVerify(row.id)">{{
                     $t('Verify')
                 }}</VButton>

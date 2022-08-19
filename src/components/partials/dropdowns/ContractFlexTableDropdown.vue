@@ -1,5 +1,12 @@
 <script setup lang="ts">
 
+const props = defineProps({
+  removeBtn: {
+    type: Boolean,
+    default: false
+  }
+})
+
 const emits = defineEmits<{
   (e: 'view'): void
   // (e: 'edit'): void
@@ -24,37 +31,9 @@ const emits = defineEmits<{
         </div>
       </a>
 
-      <!-- <a role="menuitem" href="#" class="dropdown-item is-media" @click.prevent="
-        () => {
-          emits('edit')
-          close()
-        }
-      ">
-        <div class="icon">
-          <i aria-hidden="true" class="lnil lnil-briefcase"></i>
-        </div>
-        <div class="meta">
-          <span>{{ $t('Edit') }}</span>
-        </div>
-      </a>
-
-      <a role="menuitem" href="#" class="dropdown-item is-media" @click.prevent="
-        () => {
-          emits('permissions')
-          close()
-        }
-      ">
-        <div class="icon">
-          <i aria-hidden="true" class="lnil lnil-briefcase"></i>
-        </div>
-        <div class="meta">
-          <span>{{ $t('Role_permissions') }}</span>
-        </div>
-      </a> -->
-
       <hr class="dropdown-divider" />
 
-      <a role="menuitem" href="#" class="dropdown-item is-media" @click.prevent="
+      <a v-if="removeBtn" role="menuitem" href="#" class="dropdown-item is-media" @click.prevent="
         () => {
           emits('remove')
           close()
