@@ -55,7 +55,7 @@ export async function updateById(id: number, payload: FormData) {
 export async function updatePassword(id: number, payload: any) {
   try {
     const { data } = await api({
-      url: `/api/admin/employee/${id}/pass`,
+      url: `/api/admin/employee/${id}/password`,
       method: 'PUT',
       data: payload,
     })

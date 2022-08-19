@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import { computed } from 'vue';
 import { useUserSession } from '/@src/stores/userSession';
 
-const { user } = useUserSession()
+const userSession = useUserSession()
+const currentUser = computed(() => userSession.user)
 </script>
 
 <template>
@@ -12,9 +14,10 @@ const { user } = useUserSession()
         <!--Navigation-->
         <div class="column is-4">
           <div class="account-box is-navigation">
-            <VBlock title="Erik Kovalsky" subtitle="Product Manager" center>
+            <VBlock :title="currentUser?.firstname + ' ' + currentUser?.lastname" :subtitle="currentUser?.role?.name"
+              center>
               <template #icon>
-                <VAvatar size="large" :picture="user?.avatar" />
+                <VAvatar size="large" :picture="currentUser?.avatar" />
               </template>
             </VBlock>
 

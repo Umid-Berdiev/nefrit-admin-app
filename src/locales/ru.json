@@ -392,5 +392,15 @@
   "To": "До",
   "All": "Все",
   "Contract_date": "Дата контракта",
-  "Type_author": "Введите автора"
+  "Type_author": "Введите автора",
+  "Profile_Picture": "Фото профиля",
+  "Update_profile": "Обновить профиля",
+  "Personal_Info": "Личные данные",
+  "Edit_profile_pwd": "Изменить пароль профиля",
+  "Old_Password": "Старый пароль",
+  "New_Password": "Новый пароль",
+  "Repeat_New_Password": "Повторить новый пароль",
+  "Personal_Picture": "Персональное фото",
+  "Update_profile_picture": "Обновить фото профиля",
+  "Edit_profile": "Изменить данные профиля"
 }

@@ -392,5 +392,15 @@
   "To": "To",
   "All": "All",
   "Contract_date": "Contract date",
-  "Type_author": "Type author"
+  "Type_author": "Type author",
+  "Profile_Picture": "Profile Picture",
+  "Update_profile": "Update profile",
+  "Personal_Info": "Personal Info",
+  "Edit_profile_pwd": "Edit profile password",
+  "Old_Password": "Old Password",
+  "New_Password": "New Password",
+  "Repeat_New_Password": "Repeat New Password",
+  "Personal_Picture": "Personal Picture",
+  "Update_profile_picture": "Update Profile Picture",
+  "Edit_profile": "Edit profile"
 }

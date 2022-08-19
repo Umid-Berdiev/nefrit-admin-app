@@ -392,5 +392,15 @@
   "To": "Sanagacha",
   "All": "Barchasi",
   "Contract_date": "Shartnoma sanasi",
-  "Type_author": "Muallifni kiriting"
+  "Type_author": "Muallifni kiriting",
+  "Profile_Picture": "Profil rasmi",
+  "Update_profile": "Profil ma'lumotlarini yangilash",
+  "Personal_Info": "Shaxsiy ma'lumotlar",
+  "Edit_profile_pwd": "Profil parolini o'zgartirish",
+  "Old_Password": "Eski parol",
+  "New_Password": "Yangi parol",
+  "Repeat_New_Password": "Yangi parolni takror tering",
+  "Personal_Picture": "Shaxsiy rasm",
+  "Update_profile_picture": "Profil rasmini yangilash",
+  "Edit_profile": "Profil ma'lumotlarini o'zgartirish"
 }

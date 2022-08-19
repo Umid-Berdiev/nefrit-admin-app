@@ -1,15 +1,17 @@
 <script setup lang="ts">
 import { useHead } from '@vueuse/head'
+import { useI18n } from 'vue-i18n';
 import { useViewWrapper } from '/@src/stores/viewWrapper'
 
+const { t } = useI18n()
 const viewWrapper = useViewWrapper()
-viewWrapper.setPageTitle('Profile Edit 1')
+viewWrapper.setPageTitle(t('Edit_profile'))
 
 useHead({
-  title: 'Profile Edit 1 - Sidebar - Vuero',
+  title: `${t('Edit_profile')} - Nefrit`,
 })
 </script>
 
 <template>
-  <EditProfileGeneral />
+  <UpdateProfile />
 </template>

@@ -17,6 +17,7 @@ export interface UserData {
   is_employee?: boolean
   name?: string
   role_id?: number
+  role?: RoleData
 }
 
 export interface CountryData {

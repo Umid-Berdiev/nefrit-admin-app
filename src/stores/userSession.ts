@@ -84,6 +84,20 @@ export const useUserSession = defineStore('userSession', () => {
     }
   }
 
+  async function updateProfilePassword(payload: any) {
+    try {
+      const { data } = await api({
+        url: '/api/admin/profile/password',
+        method: 'PUT',
+        data: payload,
+      })
+
+      setUser(data.data)
+    } catch (error) {
+      throw error
+    }
+  }
+
   return {
     user,
     token,
@@ -94,6 +108,7 @@ export const useUserSession = defineStore('userSession', () => {
     logoutUser,
     fetchProfile,
     updateProfile,
+    updateProfilePassword,
     setUser,
     setToken,
     setLoading,
