@@ -404,5 +404,21 @@
   "Update_profile_picture": "Profil rasmini yangilash",
   "Edit_profile": "Profil ma'lumotlarini o'zgartirish",
   "Doc_Category_List": "Hujjatlar Kategoriyalari ro'yhati",
-  "Doc_Category": "Hujjatlar Kategoriyalari"
+  "Doc_Category": "Hujjatlar Kategoriyalari",
+  "Error_while_updating_data": "Yangilash davomida xatolik",
+  "Faq_List": "Savol-Javoblar ro'yxati",
+  "Question": "Savol",
+  "Answer": "Javob",
+  "Question_uz": "Savol O'zbekchada",
+  "Question_ru": "Savol Ruschada",
+  "Question_en": "Savol Inglizchada",
+  "Type_Question_uz": "Savolni O'zbekchada kiriting",
+  "Type_Question_ru": "Savolni Ruschada kiriting",
+  "Type_Question_en": "Savolni Inglizchada kiriting",
+  "Answer_uz": "Javob O'zbekchada",
+  "Answer_ru": "Javob Ruschada",
+  "Answer_en": "Javob Inglizchada",
+  "Add_Answer_uz": "Javobni O'zbekchada yozing",
+  "Add_Answer_ru": "Javobni Ruschada yozing",
+  "Add_Answer_en": "Javobni Inglizchada yozing"
 }

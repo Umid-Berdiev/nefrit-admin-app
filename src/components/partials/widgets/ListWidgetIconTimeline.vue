@@ -48,13 +48,3 @@ const props = withDefaults(
     </header>
   </div>
 </template>
-
-<style scoped lang="scss">
-.truncated {
-  display: -webkit-box;
-  // max-width: 200px;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-</style>

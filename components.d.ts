@@ -61,6 +61,8 @@ declare module '@vue/runtime-core' {
     EmployeeFlexTableDropdown: typeof import('./src/components/partials/dropdowns/EmployeeFlexTableDropdown.vue')['default']
     EmployeeFormModal: typeof import('./src/components/base/modal/EmployeeFormModal.vue')['default']
     EmployeePasswordFormModal: typeof import('./src/components/base/modal/EmployeePasswordFormModal.vue')['default']
+    FaqFlexTableDropdown: typeof import('./src/components/partials/dropdowns/FaqFlexTableDropdown.vue')['default']
+    FaqFormModal: typeof import('./src/components/base/modal/FaqFormModal.vue')['default']
     FeedbackFormModal: typeof import('./src/components/base/modal/FeedbackFormModal.vue')['default']
     FileUploadModal: typeof import('./src/components/base/modal/FileUploadModal.vue')['default']
     FlexTableDropdown: typeof import('./src/components/partials/dropdowns/FlexTableDropdown.vue')['default']
