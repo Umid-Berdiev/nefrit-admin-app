@@ -273,10 +273,6 @@ async function exportToExcel() {
             </div>
           </template>
 
-          <!-- <template #body-row="{ row }" v-for="slot in $slots">
-            <div :class="`has-background-${row.bg_row}`">
-            </div>
-          </template> -->
           <!-- Custom "name" cell content -->
           <template #body-cell="{ row, column, value, index }">
             <template v-if="column.key === 'legal_entity'">

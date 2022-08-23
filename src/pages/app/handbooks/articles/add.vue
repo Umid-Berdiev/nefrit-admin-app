@@ -192,7 +192,7 @@ function onImageFileUpload(event: Event) {
               </VField>
             </VFlexItem>
             <VFlexItem>
-              <VDatePicker v-model="articleData.date" mode="date" :model-config="datePickerModelConfig" is24hr
+              <VDatePicker v-model="articleData.date" mode="date" :model-config="datePickerModelConfig"
                 :masks='{ input: ["DD.MM.YYYY"] }'>
                 <template #default="{ inputValue, inputEvents }">
                   <VField :label="$t('Date')">

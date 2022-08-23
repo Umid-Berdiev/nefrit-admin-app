@@ -67,6 +67,20 @@ export async function fetchById(id: number): Promise<StatementData> {
   }
 }
 
+export async function cancelStatementById(id: number, payload: any) {
+  try {
+    const { data } = await api({
+      url: `/api/admin/application/${id}/cancel`,
+      method: 'POST',
+      data: payload,
+    })
+
+    return data.data
+  } catch (error) {
+    throw error
+  }
+}
+
 export async function checkPermissionForCertificate(statementId: number) {
   try {
     const { data } = await api({

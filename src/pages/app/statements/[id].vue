@@ -22,12 +22,12 @@ const tabs = ref([
   {
     label: t('Statement_conclusions'),
     value: 'conclusions',
-    icon: 'lnil lnil-euro-down',
+    icon: 'feather:git-branch',
   },
   {
     label: t('Statement_notices'),
     value: 'notices',
-    icon: 'lnil lnil-euro-down',
+    icon: 'feather:git-merge',
   },
   { label: t('ITK'), value: 'itk', icon: 'feather:activity' },
   { label: t('Chat'), value: 'chat', icon: 'fas fa-comments' },

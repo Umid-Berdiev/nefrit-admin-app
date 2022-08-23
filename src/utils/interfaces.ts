@@ -116,6 +116,7 @@ export interface StatementData {
   drug: DrugData
   id: number
   is_approved: boolean
+  is_canceled: boolean
   is_paid: null | boolean
   legal_entity: LegalEntityData
   stage: StageData
@@ -325,6 +326,16 @@ export interface ContactItemData {
   status: 'active' | 'inactive'
   type: 'url' | 'phone' | 'email'
   value: number | string
+}
+
+export interface RegulationData {
+  date?: Date | string
+  file: File | string
+  title: {
+    uz: string
+    ru: string
+    en: string
+  }
 }
 
 export interface ArticleData {

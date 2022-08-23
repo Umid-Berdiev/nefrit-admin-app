@@ -7,6 +7,8 @@ import { fetchById, fetchChronologies, canChangeStage, checkPermissionForCertifi
 import { useRoute } from 'vue-router';
 import { StatementChronologyData, StatementData } from '/@src/utils/interfaces';
 import { useNotyf } from '/@src/composable/useNotyf';
+import StatementCancelFormModal from '../base/modal/StatementCancelFormModal.vue';
+import { isNull } from 'lodash';
 
 const route = useRoute()
 const { t, locale } = useI18n()
@@ -43,6 +45,7 @@ const isCompanyInfoModalOpen = ref(false)
 const isDrugInfoModalOpen = ref(false)
 const isCertificateFormModalOpen = ref(false)
 const isStatementStageFormModalOpen = ref(false)
+const isStatementCancelModalOpen = ref(false)
 const currentId = (route.params?.id as string) ?? null
 const currentStatementData = ref<StatementData>()
 const currentState = computed(() => currentStatementData.value?.stage.id as number)
@@ -91,10 +94,12 @@ async function checkStatementPermissionForCertificate() {
   <div class="columns mt-5">
     <div class="column is-6">
       <ListWidgetSingle :title="$t('Statement_details')" straight class="list-widget-v3">
-        <!-- <template #actions>
-        <VIconButton class="px-4" color="success" icon="feather:edit" circle outlined
-          @click="isStatementEditModalOpen = true" />
-      </template> -->
+        <template #actions>
+          <VButton v-if="!currentStatementData?.is_canceled && isNull(currentStatementData?.certificate)" class="px-4"
+            color="danger" circle outlined @click="isStatementCancelModalOpen = true">
+            {{ $t('Cancel_statement') }}
+          </VButton>
+        </template>
         <table class="table is-hoverable is-bordered is-fullwidth">
           <tbody>
             <tr>
@@ -185,6 +190,7 @@ async function checkStatementPermissionForCertificate() {
     <CertificateFormModal v-model="isCertificateFormModalOpen" :statement-id="currentId" @close="fetchData" />
     <StatementStageFormModal v-model="isStatementStageFormModalOpen" :statement-id="Number(currentId)"
       :statement-stage="Number(currentState)" @update:data="() => { fetchData(); successNotify(); }" />
+    <StatementCancelFormModal v-model="isStatementCancelModalOpen" :statement-id="Number(currentId)" />
   </div>
 </template>
 

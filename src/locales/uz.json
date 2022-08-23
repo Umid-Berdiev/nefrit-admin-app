@@ -340,7 +340,7 @@
   "Contacts": "Aloqalar",
   "News": "Yangiliklar",
   "Faq": "Savol-javob",
-  "Regulation": "Nizomlar",
+  "Regulation": "Normativ hujjatlar",
   "Doc_categories": "Hujjat kategoriyalari",
   "auth_login_nefrit": "Tizim Kirish - Nefrit",
   "Verify_contract": "Shartnomani tasdiqlang",
@@ -420,5 +420,11 @@
   "Answer_en": "Javob Inglizchada",
   "Add_Answer_uz": "Javobni O'zbekchada yozing",
   "Add_Answer_ru": "Javobni Ruschada yozing",
-  "Add_Answer_en": "Javobni Inglizchada yozing"
+  "Add_Answer_en": "Javobni Inglizchada yozing",
+  "Statement_cancel_action": "Arizani bekor qilish jarayoni",
+  "Cancel_statement": "Arizani bekor qilish",
+  "Regulation_List": "Normativ hujjatlar ro'yhati",
+  "Title_uz": "Sarlavha O'zbekchada",
+  "Title_ru": "Sarlavha Ruschada",
+  "Title_en": "Sarlavha Inglizchada"
 }

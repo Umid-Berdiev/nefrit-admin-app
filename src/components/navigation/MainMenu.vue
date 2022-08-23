@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue';
+import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { useMainStore } from '/@src/stores';
 import { useUserSession } from '/@src/stores/userSession';
@@ -7,7 +7,6 @@ import { useUserSession } from '/@src/stores/userSession';
 const route = useRoute()
 const mainStore = useMainStore()
 const userSession = useUserSession()
-const roleCan = ref(false)
 const currentRoleId = computed(() => Number(userSession.user?.role_id))
 
 function openContractDownloadModal() {
@@ -61,29 +60,11 @@ function openContractDownloadModal() {
     <li v-if="[1, 2, 3].includes(currentRoleId)">
       <RouterLink class="is-size-6" to="/app/doc-categories">
         <span class="fa-li">
-          <VueIconify icon="feather:circle" />
+          <i class="fas fa-layer-group" aria-hidden="true"></i>
         </span>
         {{ $t('Doc_categories') }}
       </RouterLink>
     </li>
-    <!-- <li>
-      <RouterLink class="is-size-6"
-        :to="{ name: 'app-reports' }">
-        <span class="fa-li">
-          <i class="fas fa-chart-line" aria-hidden="true"></i>
-        </span>
-        {{ $t('Reports') }}
-      </RouterLink>
-    </li> -->
-    <!-- <li>
-      <RouterLink class="is-size-6"
-        :to="{ name: 'app-handbooks' }">
-        <span class="fa-li">
-          <i class="fas fa-database" aria-hidden="true"></i>
-          </span>
-        {{ $t('Handbook') }}
-      </RouterLink>
-    </li> -->
     <li v-if="[1].includes(currentRoleId)">
       <RouterLink class="is-size-6" :to="{ name: 'app-departments' }">
         <!-- <i aria-hidden="true" class="lnil lnil-database"></i> -->
@@ -97,7 +78,8 @@ function openContractDownloadModal() {
       <RouterLink class="is-size-6" :to="{ name: 'app-contracts' }">
         <!-- <i aria-hidden="true" class="lnil lnil-database"></i> -->
         <span class="fa-li">
-          <i class="lnir lnir-revenue" aria-hidden="true"></i>
+          <!-- <i class="lnir lnir-revenue" aria-hidden="true"></i> -->
+          <i class="fas fa-file-contract" aria-hidden="true"></i>
         </span>
         {{ $t('Contracts') }}
       </RouterLink>
@@ -106,7 +88,7 @@ function openContractDownloadModal() {
       <RouterLink class="is-size-6" :to="{ name: 'app-contract-templates' }">
         <!-- <i aria-hidden="true" class="lnil lnil-database"></i> -->
         <span class="fa-li">
-          <i class="lnil lnil-euro-down" aria-hidden="true"></i>
+          <i class="fas fa-briefcase" aria-hidden="true"></i>
         </span>
         {{ $t('Contract_templates') }}
       </RouterLink>
@@ -114,7 +96,8 @@ function openContractDownloadModal() {
     <VCollapseLinks v-if="[1, 2, 3, 5, 7].includes(currentRoleId)">
       <template #header>
         <span class="fa-li">
-          <i class="fas fa-file-invoice" aria-hidden="true"></i>
+          <!-- <i class="fas fa-file-invoice" aria-hidden="true"></i> -->
+          <i class="fas fa-chart-pie" aria-hidden="true"></i>
         </span>
         <span class="is-size-6">
           {{ $t('Reports') }}
@@ -192,5 +175,13 @@ function openContractDownloadModal() {
 <style lang="scss">
 .collapse-links a.parent-link {
   color: var(--dark-text) !important;
+}
+
+.has-children {
+  .fa-li {
+    left: 1.5rem;
+    z-index: 9999;
+    position: fixed;
+  }
 }
 </style>

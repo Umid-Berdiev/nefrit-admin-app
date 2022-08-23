@@ -5,7 +5,7 @@ const api = useApi()
 export async function fetchList(page: number) {
   try {
     const { data } = await api({
-      url: `/api/admin/faqs?page=${page}`,
+      url: `/api/admin/regulation?page=${page}`,
     })
 
     return data.data
@@ -17,7 +17,7 @@ export async function fetchList(page: number) {
 export async function fetchById(id: number) {
   try {
     const { data } = await api({
-      url: `/api/admin/faqs/${id}`,
+      url: `/api/admin/regulation/${id}`,
     })
 
     return data.data
@@ -26,10 +26,10 @@ export async function fetchById(id: number) {
   }
 }
 
-export async function create(payload: Object) {
+export async function create(payload: FormData) {
   try {
     const { data } = await api({
-      url: `/api/admin/faqs`,
+      url: `/api/admin/regulation`,
       method: 'POST',
       data: payload,
     })
@@ -40,11 +40,11 @@ export async function create(payload: Object) {
   }
 }
 
-export async function updateById(id: number, payload: Object) {
+export async function updateById(id: number, payload: FormData) {
   try {
     const { data } = await api({
-      url: `/api/admin/faqs/${id}`,
-      method: 'PUT',
+      url: `/api/admin/regulation/${id}`,
+      method: 'POST',
       data: payload,
     })
 
@@ -57,7 +57,7 @@ export async function updateById(id: number, payload: Object) {
 export async function removeById(id: number | undefined) {
   try {
     const { data } = await api({
-      url: `/api/admin/faqs/${id}`,
+      url: `/api/admin/regulation/${id}`,
       method: 'DELETE',
     })
 
