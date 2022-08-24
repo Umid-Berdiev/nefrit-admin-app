@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { computed } from 'vue';
-import { useRoute } from 'vue-router';
-import { useMainStore } from '/@src/stores';
-import { useUserSession } from '/@src/stores/userSession';
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+import { useMainStore } from '/@src/stores'
+import { useUserSession } from '/@src/stores/userSession'
 
 const route = useRoute()
 const mainStore = useMainStore()
@@ -12,7 +12,6 @@ const currentRoleId = computed(() => Number(userSession.user?.role_id))
 function openContractDownloadModal() {
   mainStore.$patch({ contractDownloadModalState: true })
 }
-
 </script>
 
 <template>
@@ -96,7 +95,6 @@ function openContractDownloadModal() {
     <VCollapseLinks v-if="[1, 2, 3, 5, 7].includes(currentRoleId)">
       <template #header>
         <span class="fa-li">
-          <!-- <i class="fas fa-file-invoice" aria-hidden="true"></i> -->
           <i class="fas fa-chart-pie" aria-hidden="true"></i>
         </span>
         <span class="is-size-6">
@@ -105,23 +103,35 @@ function openContractDownloadModal() {
         <VueIconify icon="feather:chevron-right" />
       </template>
 
-      <RouterLink v-if="[1, 2, 3, 5, 7].includes(currentRoleId)" :to="{ name: 'app-reports-payments' }"
-        class="is-submenu is-size-6">
+      <RouterLink
+        v-if="[1, 2, 3, 5, 7].includes(currentRoleId)"
+        :to="{ name: 'app-reports-payments' }"
+        class="is-submenu is-size-6"
+      >
         <VueIconify icon="feather:circle" />
         {{ $t('Payments') }}
       </RouterLink>
-      <RouterLink v-if="[1, 2, 3, 5].includes(currentRoleId)" :to="{ name: 'app-reports-applicants' }"
-        class="is-submenu is-size-6">
+      <RouterLink
+        v-if="[1, 2, 3, 5].includes(currentRoleId)"
+        :to="{ name: 'app-reports-applicants' }"
+        class="is-submenu is-size-6"
+      >
         <VueIconify icon="feather:circle" />
         {{ $t('Applicants') }}
       </RouterLink>
-      <RouterLink v-if="[1, 2, 3, 5].includes(currentRoleId)" :to="{ name: 'app-reports-statements' }"
-        class="is-submenu is-size-6">
+      <RouterLink
+        v-if="[1, 2, 3, 5].includes(currentRoleId)"
+        :to="{ name: 'app-reports-statements' }"
+        class="is-submenu is-size-6"
+      >
         <VueIconify icon="feather:circle" />
         {{ $t('Statements') }}
       </RouterLink>
-      <RouterLink v-if="[1, 2, 3, 5].includes(currentRoleId)" :to="{ name: 'app-reports-certificates' }"
-        class="is-submenu is-size-6">
+      <RouterLink
+        v-if="[1, 2, 3, 5].includes(currentRoleId)"
+        :to="{ name: 'app-reports-certificates' }"
+        class="is-submenu is-size-6"
+      >
         <VueIconify icon="feather:circle" />
         {{ $t('Certificates') }}
       </RouterLink>
@@ -145,8 +155,13 @@ function openContractDownloadModal() {
         <VueIconify icon="feather:circle" />
         {{ $t('Contacts') }}
       </RouterLink>
-      <RouterLink :to="{ name: 'app-handbooks-articles' }" class="is-submenu is-size-6"
-        :class="{ 'router-link-exact-active': route.path.startsWith('/app/handbooks/articles') }">
+      <RouterLink
+        :to="{ name: 'app-handbooks-articles' }"
+        class="is-submenu is-size-6"
+        :class="{
+          'router-link-exact-active': route.path.startsWith('/app/handbooks/articles'),
+        }"
+      >
         <VueIconify icon="feather:circle" />
         {{ $t('Articles') }}
       </RouterLink>
@@ -159,11 +174,25 @@ function openContractDownloadModal() {
         {{ $t('Regulation') }}
       </RouterLink>
     </VCollapseLinks>
+    <li>
+      <RouterLink class="is-size-6" :to="{ name: 'app-videos' }">
+        <!-- <i aria-hidden="true" class="lnil lnil-database"></i> -->
+        <span class="fa-li">
+          <i class="fas fa-exclamation" aria-hidden="true"></i>
+        </span>
+        {{ $t('Video_instructions') }}
+      </RouterLink>
+    </li>
     <div class="is-divider" />
     <li v-if="[1, 2, 7].includes(currentRoleId)">
       <!-- <i aria-hidden="true" class="lnil lnil-database"></i> -->
       <span class="fa-li ml-3">
-        <VButton color="primary" outlined class="is-size-6" @click="openContractDownloadModal">
+        <VButton
+          color="primary"
+          outlined
+          class="is-size-6"
+          @click="openContractDownloadModal"
+        >
           <i class="fas fa-download" aria-hidden="true"></i>
           {{ $t('Download_contract_template') }}
         </VButton>
@@ -180,7 +209,6 @@ function openContractDownloadModal() {
 .has-children {
   .fa-li {
     left: 1.5rem;
-    z-index: 9999;
     position: fixed;
   }
 }
