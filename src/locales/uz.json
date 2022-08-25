@@ -427,6 +427,8 @@
   "Title_uz": "Sarlavha O'zbekchada",
   "Title_ru": "Sarlavha Ruschada",
   "Title_en": "Sarlavha Inglizchada",
+  "Instructions": "Yo'riqnomalar",
   "Video_instructions": "Video yo'riqnomalar",
-  "Video_instructions_Nefrit": "Video yo'riqnomalar - Nefrit"
+  "Document_instructions": "Fayl yo'riqnomalar",
+  "Instructions_Nefrit": "Yo'riqnomalar - Nefrit"
 }

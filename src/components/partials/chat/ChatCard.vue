@@ -1,8 +1,9 @@
 <script setup lang="ts">
 function updateData() {
-  // 
+  //
 }
 </script>
+
 <template>
   <div class="animated container">
     <!-- Header -->

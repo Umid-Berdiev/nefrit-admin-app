@@ -427,6 +427,8 @@
   "Title_uz": "Title in Uzbek",
   "Title_ru": "Title in Russian",
   "Title_en": "Title in English",
+  "Instructions": "Instructions",
   "Video_instructions": "Video instructions",
-  "Video_instructions_Nefrit": "Video instructions - Nefrit"
+  "Document_instructions": "Document instructions",
+  "Instructions_Nefrit": "Instructions - Nefrit"
 }

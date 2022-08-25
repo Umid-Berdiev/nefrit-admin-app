@@ -24,7 +24,6 @@ viewWrapper.setPageTitle(t('Applicant_Info'))
 useHead({
   title: computed(() => applicant.value?.title ?? 'Loading applicant...'),
 })
-
 </script>
 
 <template>
@@ -37,12 +36,6 @@ useHead({
         <div v-else-if="activeValue === 'statements'" class="mt-5">
           <ApplicantStatementsTable />
         </div>
-        <!-- <div v-else-if="activeValue === 'payments'" class="mt-5">
-          <PaymentStatusTable />
-        </div> -->
-        <!-- <div v-else-if="activeValue === 'chat'" class="mt-5">
-          <MessagingV1 />
-        </div> -->
       </template>
     </VTabs>
   </div>

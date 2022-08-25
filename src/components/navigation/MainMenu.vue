@@ -180,7 +180,7 @@ function openContractDownloadModal() {
         <span class="fa-li">
           <i class="fas fa-exclamation" aria-hidden="true"></i>
         </span>
-        {{ $t('Video_instructions') }}
+        {{ $t('Instructions') }}
       </RouterLink>
     </li>
     <div class="is-divider" />
