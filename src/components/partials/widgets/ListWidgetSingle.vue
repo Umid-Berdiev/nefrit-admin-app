@@ -14,13 +14,11 @@ const props = withDefaults(
   <div class="list-widget" :class="[props.straight && 'is-straight']">
     <div class="widget-head">
       <h3 class="dark-inverted is-size-4">{{ props.title }}</h3>
-      <slot name="actions">
-        <!-- <ListWidgetMainDropdown /> -->
-      </slot>
+      <slot name="actions" />
     </div>
 
     <div class="inner-list">
-      <slot></slot>
+      <slot />
     </div>
   </div>
 </template>

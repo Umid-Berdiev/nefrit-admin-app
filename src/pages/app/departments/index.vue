@@ -4,10 +4,6 @@ import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useHead } from '@vueuse/head'
 
-import type {
-  VFlexTableWrapperSortFunction,
-  VFlexTableWrapperFilterFunction,
-} from '/@src/components/base/table/VFlexTableWrapper.vue'
 import { useViewWrapper } from '/@src/stores/viewWrapper'
 import { useMainStore } from '/@src/stores'
 import { fetchList, removeById } from '/@src/utils/api/department';
@@ -42,48 +38,14 @@ const currentPage = computed({
 })
 const isFormModalOpen = ref(false)
 const selectedRowIds = ref<number[]>([])
-const isAllSelected = computed(() => data.result.length === selectedRowIds.value.length)
 const selectedId = ref<number>()
-// this is a sample for custom sort function
-const locationSorter: VFlexTableWrapperSortFunction<User> = ({ order, a, b }) => {
-  if (order === 'asc') {
-    return a.location.localeCompare(b.location)
-  } else if (order === 'desc') {
-    return b.location.localeCompare(a.location)
-  }
-
-  return 0
-}
-
-// this is a sample for custom filter function
-const userFilter: VFlexTableWrapperFilterFunction<User> = ({ searchTerm, row }) => {
-  if (!searchTerm) {
-    return true
-  }
-
-  // search either in the name or the bio
-  return (
-    row.name.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase()) ||
-    row.bio.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase())
-  )
-}
-
 const columns = {
-  select: {
-    label: '',
-    cellClass: 'is-flex-grow-0',
-  },
   orderNumber: {
-    // label: '#',
-    format: (value, row, index) => `${index + 1}`,
+    format: (value: string, row: any, index: number) => `${index + 1}`,
     cellClass: 'is-flex-grow-0',
   },
   name: {
-    label: t('Name'),
-    searchable: true,
-    sortable: true,
-    sort: locationSorter,
-    filter: userFilter,
+    label: t('Name')
   },
   actions: {
     label: t('Actions'),
@@ -93,27 +55,7 @@ const columns = {
 
 await fetchData()
 
-// the select all checkbox click handler
-function toggleSelection() {
-  // console.log('data:', data)
-
-  if (isAllSelected.value) {
-    selectedRowIds.value = []
-  } else {
-    selectedRowIds.value = data.map((row: any) => row.id)
-  }
-}
-
-// this it the row click handler (enabled with clickable props)
-function clickOnRow(row: any) {
-  if (selectedRowIds.value.includes(row.id)) {
-    selectedRowIds.value = selectedRowIds.value.filter((i) => i !== row.id)
-  } else {
-    selectedRowIds.value = [...selectedRowIds.value, row.id]
-  }
-}
-
-function onEdit(rowId: number | null) {
+function onEdit(rowId = undefined) {
   isFormModalOpen.value = true
   selectedId.value = rowId
 }
@@ -148,37 +90,15 @@ function successNotify() {
 <template>
   <div class="applicant-list-wrapper">
     <VFlex justify-content="end" class="mb-4">
-      <VButton outlined rounded color="info" icon="feather:plus" @click.prevent="onEdit(undefined)">
+      <VButton outlined rounded color="info" icon="feather:plus" @click.prevent="onEdit()">
         {{ $t('Add') }}
       </VButton>
     </VFlex>
     <!-- table -->
     <VFlexTableWrapper :columns="columns" :data="data.result" :limit="data.pagination.per_page"
       :total="data.pagination.total">
-      <!--
-        Here we retrieve the internal wrapperState.
-        Note that we can not destructure it
-      -->
       <template #default="wrapperState">
-        <!-- We can place any content inside the default slot-->
-        <VFlexTableToolbar>
-          <template #left>
-            <!-- We can bind wrapperState.searchInput to any input -->
-            <VField>
-              <VControl icon="feather:search">
-                <VInput v-model="wrapperState.searchInput" class="is-rounded" :placeholder="t('Search') + '...'" />
-              </VControl>
-            </VField>
-          </template>
-        </VFlexTableToolbar>
-
         <VFlexTable rounded>
-          <template #header-column="{ column }">
-            <VCheckbox v-if="column.key === 'select'" class="ml-2 mr-3" :checked="isAllSelected" name="all_selected"
-              color="primary" @click="toggleSelection" />
-            <span v-if="column.key === 'orderNumber'" class="is-flex-grow-0" v-text="'#'" />
-          </template>
-
           <template #body>
             <!-- This is the empty state -->
             <div v-if="data.result.length === 0" class="flex-list-inner">
@@ -188,9 +108,6 @@ function successNotify() {
           </template>
 
           <template #body-cell="{ row, column, value, index }">
-            <VCheckbox v-if="column.key === 'select'" v-model="selectedRowIds" :value="row.id" name="selection"
-              @change="clickOnRow" />
-
             <template v-if="column.key === 'actions'">
               <DepartmentFlexTableDropdown @edit="onEdit(row.id)" @remove="onRemove(row.id)" />
             </template>

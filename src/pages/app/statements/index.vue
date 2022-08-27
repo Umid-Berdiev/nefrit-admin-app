@@ -7,7 +7,12 @@ import moment from 'moment'
 
 import { useNotyf } from '/@src/composable/useNotyf'
 import { useViewWrapper } from '/@src/stores/viewWrapper'
-import { exportStatementToExcel, fetchList, filterStatementList, fetchStatuses } from '/@src/utils/api/statement'
+import {
+  exportStatementToExcel,
+  fetchList,
+  filterStatementList,
+  fetchStatuses,
+} from '/@src/utils/api/statement'
 import { StatusData } from '/@src/utils/interfaces'
 
 const { t, locale } = useI18n()
@@ -26,7 +31,7 @@ const data = reactive({
     per_page: 10,
     total: 10,
   },
-  result: []
+  result: [],
 })
 const filterForm = reactive({
   code: '',
@@ -36,7 +41,7 @@ const filterForm = reactive({
   country_id: '',
   drug_name: '',
   date_start: moment().subtract(1, 'month').format('YYYY-MM-DD'),
-  date_end: moment().format('YYYY-MM-DD')
+  date_end: moment().format('YYYY-MM-DD'),
 })
 
 const datePickerModelConfig = reactive({
@@ -59,7 +64,7 @@ const currentPage = computed({
   },
   set: async (page) => {
     await fetchData(page)
-  }
+  },
 })
 const statusList = ref<StatusData[]>([])
 const columns = {
@@ -144,7 +149,7 @@ async function clearFilterForm() {
     country_id: '',
     drug_name: '',
     date_start: moment().subtract(1, 'month').format('YYYY-MM-DD'),
-    date_end: moment().format('YYYY-MM-DD')
+    date_end: moment().format('YYYY-MM-DD'),
   })
   await fetchData()
   isLoading.value = false
@@ -155,16 +160,18 @@ async function exportToExcel() {
     isLoading.value = true
     const res = await exportStatementToExcel(filterForm)
 
-    const url = URL.createObjectURL(new Blob([res], {
-      type: 'application/vnd.ms-excel'
-    }))
+    const url = URL.createObjectURL(
+      new Blob([res], {
+        type: 'application/vnd.ms-excel',
+      })
+    )
     const link = document.createElement('a')
     link.href = url
     link.setAttribute('download', `Worksheet_${Date.now()}.xlsx`)
     document.body.appendChild(link)
     link.click()
   } catch (error) {
-    console.log({ error });
+    console.log({ error })
   } finally {
     isLoading.value = false
   }
@@ -173,8 +180,15 @@ async function exportToExcel() {
 
 <template>
   <div class="applicant-list-wrapper">
-    <TableActionsBlock center title="" @filter="displayFilterForm = !displayFilterForm" remove-disabled add-disabled
-      @export="exportToExcel" />
+    <TableActionsBlock
+      center
+      title=""
+      @filter="displayFilterForm = !displayFilterForm"
+      remove-disabled
+      add-disabled
+      @export="exportToExcel"
+      :export-disabled="!data.result.length"
+    />
     <div v-show="displayFilterForm" class="mb-5">
       <VCard radius="small">
         <h3 class="title is-5 mb-2">{{ t('Filter_form') }}</h3>
@@ -204,8 +218,14 @@ async function exportToExcel() {
               <CountrySelect v-model="filterForm.country_id" />
             </div>
             <div class="column">
-              <VDatePicker :locale="locale" v-model="filterForm.date_start" color="green" trim-weeks :masks="dateMasks"
-                :model-config="datePickerModelConfig">
+              <VDatePicker
+                :locale="locale"
+                v-model="filterForm.date_start"
+                color="green"
+                trim-weeks
+                :masks="dateMasks"
+                :model-config="datePickerModelConfig"
+              >
                 <template #default="{ inputValue, inputEvents }">
                   <VField :label="$t('From')">
                     <VControl icon="feather:calendar">
@@ -216,8 +236,14 @@ async function exportToExcel() {
               </VDatePicker>
             </div>
             <div class="column">
-              <VDatePicker :locale="locale" v-model="filterForm.date_end" color="green" trim-weeks :masks="dateMasks"
-                :model-config="datePickerModelConfig">
+              <VDatePicker
+                :locale="locale"
+                v-model="filterForm.date_end"
+                color="green"
+                trim-weeks
+                :masks="dateMasks"
+                :model-config="datePickerModelConfig"
+              >
                 <template #default="{ inputValue, inputEvents }">
                   <VField :label="$t('To')">
                     <VControl icon="feather:calendar">
@@ -230,14 +256,24 @@ async function exportToExcel() {
           </div>
           <VFlex justify-content="end" column-gap="1rem">
             <VFlexItem>
-              <VButton type="button" :disabled="isLoading" outlined color="warning" icon="feather:x"
-                @click="clearFilterForm">{{ t('Clear')
-                }}
+              <VButton
+                type="button"
+                :disabled="isLoading"
+                outlined
+                color="warning"
+                icon="feather:x"
+                @click="clearFilterForm"
+                >{{ t('Clear') }}
               </VButton>
             </VFlexItem>
             <VFlexItem>
-              <VButton type="submit" :disabled="isLoading" outlined color="success" icon="feather:filter">{{ t('Filter')
-              }}
+              <VButton
+                type="submit"
+                :disabled="isLoading"
+                outlined
+                color="success"
+                icon="feather:filter"
+                >{{ t('Filter') }}
               </VButton>
             </VFlexItem>
           </VFlex>
@@ -246,8 +282,12 @@ async function exportToExcel() {
     </div>
 
     <!-- table -->
-    <VFlexTableWrapper :columns="columns" :data="data.result" :limit="data.pagination.per_page"
-      :total="data.pagination.total">
+    <VFlexTableWrapper
+      :columns="columns"
+      :data="data.result"
+      :limit="data.pagination.per_page"
+      :total="data.pagination.total"
+    >
       <!--
         Here we retrieve the internal wrapperState.
         Note that we can not destructure it
@@ -268,8 +308,11 @@ async function exportToExcel() {
           <template #body>
             <!-- This is the empty state -->
             <div v-if="data.result.length === 0" class="flex-list-inner">
-              <VPlaceholderSection :title="$t('No_data')" :subtitle="$t('There_is_no_data_that_match_your_query')"
-                class="my-6" />
+              <VPlaceholderSection
+                :title="$t('No_data')"
+                :subtitle="$t('There_is_no_data_that_match_your_query')"
+                class="my-6"
+              />
             </div>
           </template>
 
@@ -288,31 +331,78 @@ async function exportToExcel() {
               <StatusTag :status="value" />
             </template>
             <template v-else-if="column.key === 'stage'">
-              <VTag class="is-size-6 px-5" color="info" rounded :label="value.name"
-                style="white-space: break-spaces; height: fit-content;" />
+              <VTag
+                class="is-size-6 px-5"
+                color="info"
+                rounded
+                :label="value.name"
+                style="white-space: break-spaces; height: fit-content"
+              />
             </template>
             <template v-else-if="column.key === 'is_paid'">
-              <VTag class="is-size-6" :color="value ? 'primary' : 'warning'" rounded
-                :label="value ? $t('Paid') : $t('Not_Paid')" />
+              <VTag
+                class="is-size-6"
+                :color="value ? 'primary' : 'warning'"
+                rounded
+                :label="value ? $t('Paid') : $t('Not_Paid')"
+              />
             </template>
             <template v-else-if="column.key === 'actions'">
               <!-- <ActionButtons @edit="isFormModalOpen = true" /> -->
-              <StatementsFlexTableDropdown @view="onActionTriggered(row.id)"
-                @conclusion:add="isConclusionFormModalOpen = true; selectedRowId = row.id"
-                @notice:add="isNoticeFormModalOpen = true; selectedRowId = row.id"
-                @conclusion:list="gotoConclusionList(row.id)" @notice:list="gotoNoticeList(row.id)" />
+              <StatementsFlexTableDropdown
+                @view="onActionTriggered(row.id)"
+                @conclusion:add="
+                  () => {
+                    isConclusionFormModalOpen = true
+                    selectedRowId = row.id
+                  }
+                "
+                @notice:add="
+                  () => {
+                    isNoticeFormModalOpen = true
+                    selectedRowId = row.id
+                  }
+                "
+                @conclusion:list="gotoConclusionList(row.id)"
+                @notice:list="gotoNoticeList(row.id)"
+              />
             </template>
           </template>
         </VFlexTable>
 
         <!-- Table Pagination with wrapperState.page binded-->
-        <VFlexPagination class="mt-6" v-model:current-page="currentPage" :item-per-page="data.pagination.per_page"
-          :total-items="data.pagination.total" />
+        <VFlexPagination
+          v-if="data.result.length"
+          class="mt-6"
+          v-model:current-page="currentPage"
+          :item-per-page="data.pagination.per_page"
+          :total-items="data.pagination.total"
+        />
       </template>
     </VFlexTableWrapper>
-    <ConclusionFormModal v-model="isConclusionFormModalOpen" :item-id="undefined" :parent-id="Number(selectedRowId)"
-      @update:list="() => { fetchData(); successNotify(); }" @close="selectedRowId = undefined" />
-    <NoticeFormModal v-model="isNoticeFormModalOpen" :item-id="undefined" :parent-id="Number(selectedRowId)"
-      @update:list="() => { fetchData(); successNotify(); }" @close="selectedRowId = undefined" />
+    <ConclusionFormModal
+      v-model="isConclusionFormModalOpen"
+      :item-id="undefined"
+      :parent-id="Number(selectedRowId)"
+      @update:list="
+        () => {
+          fetchData()
+          successNotify()
+        }
+      "
+      @close="selectedRowId = undefined"
+    />
+    <NoticeFormModal
+      v-model="isNoticeFormModalOpen"
+      :item-id="undefined"
+      :parent-id="Number(selectedRowId)"
+      @update:list="
+        () => {
+          fetchData()
+          successNotify()
+        }
+      "
+      @close="selectedRowId = undefined"
+    />
   </div>
 </template>

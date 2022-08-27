@@ -63,7 +63,7 @@ export async function updateById(id: number, payload: Object) {
   }
 }
 
-export async function removeById(id: number) {
+export async function removeById(id: number | undefined) {
   try {
     const { data } = await api({
       url: `/api/admin/department/${id}`,

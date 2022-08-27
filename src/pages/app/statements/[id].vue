@@ -22,16 +22,16 @@ const tabs = ref([
   {
     label: t('Statement_conclusions'),
     value: 'conclusions',
-    icon: 'lnil lnil-euro-down',
+    icon: 'feather:git-branch',
   },
   {
     label: t('Statement_notices'),
     value: 'notices',
-    icon: 'lnil lnil-euro-down',
+    icon: 'feather:git-merge',
   },
   { label: t('ITK'), value: 'itk', icon: 'feather:activity' },
   { label: t('Chat'), value: 'chat', icon: 'fas fa-comments' },
-]);
+])
 
 const viewWrapper = useViewWrapper()
 viewWrapper.setPageTitle(t('Statement_card'))
@@ -67,7 +67,7 @@ onMounted(() => {
         <div v-if="activeValue == 'itk'" class="mt-5">
           <UsersGridV1 />
         </div>
-        <div v-if="activeValue == 'chat'" class="mt-5">
+        <div v-if="activeValue == 'chat'" class="pt-5">
           <MessagingV1 />
         </div>
       </template>

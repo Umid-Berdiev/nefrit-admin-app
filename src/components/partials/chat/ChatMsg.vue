@@ -1,35 +1,56 @@
 <script setup lang="ts">
-import type { Message } from '/@src/utils/api/chat/messages'
-import { StatementChatMessageData } from '/@src/utils/interfaces';
+import { StatementChatMessageData } from '/@src/utils/interfaces'
 
 const props = defineProps<{
   message: StatementChatMessageData
 }>()
+
+function isImageUrl(url: string) {
+  return url.match(/\.(jpeg|jpg|gif|png)$/) != null
+}
 </script>
 
 <template>
-  <li :class="[
-    message.is_me && 'self',
-    !message.is_me && 'other',
-  ]">
+  <li :class="[message.is_me && 'self', !message.is_me && 'other']">
     <div class="avatar">
-      <img v-if="message.user?.avatar" :src="message.user.avatar" draggable="false" alt="" />
+      <img
+        v-if="message.user?.avatar"
+        :src="message.user.avatar"
+        draggable="false"
+        alt=""
+      />
     </div>
+
     <div v-if="message.message" class="msg">
       <div class="msg-inner">
-        <p style="overflow-wrap: break-word;">{{ message.message }}</p>
+        <p style="overflow-wrap: break-word">{{ message.message }}</p>
+        <VButton v-if="message.file" icon="feather:download" :href="message.file">{{
+          message.file.substring(message.file.lastIndexOf('/') + 1)
+        }}</VButton>
       </div>
-
       <time>
         {{ $h.formatDate(message.created_at, 'DD.MM.YYYY HH:mm') }}
       </time>
     </div>
-    <div v-if="message.file" class="msg is-image">
-      <div class="image-container">
+    <div v-else-if="message.file && !message.message" class="msg is-image">
+      <img
+        v-if="isImageUrl(message.file)"
+        :src="message.file"
+        alt="image message"
+        :width="200"
+        :height="200"
+      />
+      <!-- <div v-if="isImageUrl(message.file)" class="image-container">
         <figure class="image is-128x128">
-          <img :src="message.file">
+          <img :src="message.file" />
         </figure>
-      </div>
+      </div> -->
+      <VButton v-else link icon="feather:download" :href="message.file">
+        {{ message.file.substring(message.file.lastIndexOf('/') + 1) }}
+      </VButton>
+      <time>
+        {{ $h.formatDate(message.created_at, 'DD.MM.YYYY HH:mm') }}
+      </time>
     </div>
   </li>
 </template>
@@ -250,7 +271,7 @@ const props = defineProps<{
   img {
     position: relative;
     display: block;
-    width: 450px;
+    // width: 450px;
     border-radius: 5px;
     box-shadow: 0 0 3px var(--light-grey);
     transition: all 0.4s cubic-bezier(0.565, -0.26, 0.255, 1.41);

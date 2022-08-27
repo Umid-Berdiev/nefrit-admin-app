@@ -4,8 +4,8 @@ import { useRoute } from 'vue-router'
 
 import type { SidebarTheme } from '/@src/components/navigation/desktop/Sidebar.vue'
 import { useViewWrapper } from '/@src/stores/viewWrapper'
-import ApplicantsSubsidebar from './sidebar-subsidebar/ApplicantsSubsidebar.vue';
-import ApplicantsMobileSubsidebar from './mobile-subsidebars/ApplicantsMobileSubsidebar.vue';
+import MainSidebar from './sidebars/MainSidebar.vue';
+import MobileMainSidebar from './mobile-sidebars/MobileMainSidebar.vue';
 import ActivityPanel from '../components/partials/panels/ActivityPanel.vue';
 import LanguagesPanel from '../components/partials/panels/LanguagesPanel.vue';
 import VViewWrapper from '../components/base/layouts/VViewWrapper.vue';
@@ -101,19 +101,11 @@ watch(
 
     <!-- Mobile subsidebar links -->
     <Transition name="slide-x">
-      <!-- <DashboardsMobileSubsidebar v-if="isMobileSidebarOpen && activeMobileSubsidebar === 'dashboard'" /> -->
-      <ApplicantsMobileSubsidebar v-if="isMobileSidebarOpen" />
-      <!-- <StatementsMobileSubsidebar v-else-if="isMobileSidebarOpen && activeMobileSubsidebar === 'statement'" /> -->
+      <MobileMainSidebar v-if="isMobileSidebarOpen" />
     </Transition>
 
     <Transition name="slide-x">
-      <ApplicantsSubsidebar v-if="isDesktopSidebarOpen" @close="isDesktopSidebarOpen = false" />
-      <!-- <DashboardsSubsidebar v-if="isDesktopSidebarOpen && activeMobileSubsidebar === 'dashboard'"
-        @close="isDesktopSidebarOpen = false" />
-      <ApplicantsSubsidebar v-else-if="isDesktopSidebarOpen && activeMobileSubsidebar.startsWith('applicant')"
-        @close="isDesktopSidebarOpen = false" />
-      <StatementsSubsidebar v-else-if="isDesktopSidebarOpen && activeMobileSubsidebar.startsWith('statement')"
-        @close="isDesktopSidebarOpen = false" /> -->
+      <MainSidebar v-if="isDesktopSidebarOpen" @close="isDesktopSidebarOpen = false" />
     </Transition>
 
     <LanguagesPanel />

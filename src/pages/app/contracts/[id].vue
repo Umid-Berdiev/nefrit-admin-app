@@ -15,8 +15,8 @@ const currentId = (route.params?.id as string) ?? null
 const selectedTab = ref(route.hash.slice(1) || 'details')
 const tabs = ref([
   { label: t('Contract_details'), value: 'details', icon: 'lnil lnil-tap' },
-  { label: t('Payment'), value: 'payment', icon: 'fas fa-tree' }
-]);
+  { label: t('Payment'), value: 'payment', icon: 'fas fa-tree' },
+])
 const chronologyData = ref<StatementChronologyData[]>()
 const docsData = ref<StatementDocumentData[]>()
 const docIndexList = ref<number[]>()
@@ -25,7 +25,7 @@ viewWrapper.setPageTitle(t('Contract_card'))
 
 // here we setup our page meta with our statement data
 useHead({
-  title: computed(() => t('Contract_card'))
+  title: computed(() => t('Contract_card')),
 })
 
 onMounted(async () => {
@@ -35,7 +35,6 @@ onMounted(async () => {
   docsData.value = res2
   docIndexList.value = res2.map((_, index) => index)
 })
-
 </script>
 
 <template>
@@ -48,23 +47,6 @@ onMounted(async () => {
         <div v-if="activeValue === 'payment'" class="mt-5">
           <PaymentStatusTable />
         </div>
-
-        <!-- <div v-else-if="activeValue === 'docs'" class="mt-5">
-          <StatementDocumentCollapse :items="docsData" :open-items="docIndexList" with-chevron />
-        </div>
-        <div v-else-if="activeValue === 'conclusions' || route.hash == '#conclusions'" class="mt-5">
-          <StatementConclusionTable />
-        </div>
-        <div v-else-if="activeValue === 'notices' || route.hash == '#notices'" class="mt-5">
-          <StatementNoticeTable />
-        </div>
-        <div v-else-if="activeValue === 'itk'" class="mt-5">
-          <UsersGridV1 />
-        </div>
-        <div v-else-if="activeValue === 'chat'" class="mt-5">
-          <MessagingV1 />
-        </div> -->
-
       </template>
     </VTabs>
   </div>
