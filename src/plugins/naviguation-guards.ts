@@ -62,7 +62,7 @@ export default definePlugin(({ router, api, pinia }) => {
 
       return {
         // Will follow the redirection set in /@src/pages/auth/index.vue
-        name: 'auth',
+        name: '/',
         // save the location we were at to come back later
         query: { redirect: to.fullPath },
       }

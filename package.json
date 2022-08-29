@@ -33,7 +33,7 @@
     ]
   },
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --port=5175",
     "build": "run-s build:*",
     "build:update-bulma-colors": "bulma-css-vars",
     "build:vite": "vite build",

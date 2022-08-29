@@ -97,7 +97,6 @@ export const useUserSession = defineStore('userSession', () => {
       throw error
     }
   }
-
   return {
     user,
     token,

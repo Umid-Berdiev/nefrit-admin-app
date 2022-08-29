@@ -112,7 +112,7 @@ function openContractDownloadModal() {
         {{ $t('Payments') }}
       </RouterLink>
       <RouterLink
-        v-if="[1, 2, 3, 5].includes(currentRoleId)"
+        v-if="[2, 3, 5].includes(currentRoleId)"
         :to="{ name: 'app-reports-applicants' }"
         class="is-submenu is-size-6"
       >
