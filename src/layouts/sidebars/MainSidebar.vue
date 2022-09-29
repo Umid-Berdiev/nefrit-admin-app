@@ -1,13 +1,12 @@
 <script setup lang="ts">
-import { useRoute } from 'vue-router';
-import MainMenu from '/@src/components/navigation/MainMenu.vue';
-import AppLogo from '/@src/components/svg/AppLogo.vue';
+import { useRoute } from 'vue-router'
+import MainMenu from '/@src/components/navigation/MainMenu.vue'
+import AppLogo from '/@src/components/svg/AppLogo.vue'
 
 const emit = defineEmits(['close'])
 
 const route = useRoute()
 // console.log({ route: route.path });
-
 </script>
 
 <template>
@@ -16,17 +15,20 @@ const route = useRoute()
       <RouterLink :to="{ name: 'app' }">
         <div class="sidebar-brand is-flex is-align-items-start">
           <AppLogo width="36px" class="mr-3" />
-          <span class="is-size-3 has-text-primary">
-            Nefrit
-          </span>
+          <span class="is-size-3 has-text-primary"> Nefrit </span>
         </div>
       </RouterLink>
-      <div class="panel-close" tabindex="0" @keydown.space.prevent="emit('close')" @click="emit('close')">
+      <div
+        class="panel-close"
+        tabindex="0"
+        @keydown.space.prevent="emit('close')"
+        @click="emit('close')"
+      >
         <i aria-hidden="true" class="iconify" data-icon="feather:x"></i>
       </div>
     </div>
-    <p class="ml-5">Menu</p>
-    <div class="is-divider my-0"></div>
+    <!-- <p class="ml-5">Menu</p> -->
+    <div class="is-divider"></div>
     <div class="inner" data-simplebar>
       <MainMenu />
     </div>

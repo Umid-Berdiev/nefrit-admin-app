@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, h, reactive } from 'vue'
-import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useHead } from '@vueuse/head'
-
 import { useViewWrapper } from '/@src/stores/viewWrapper'
 import { useMainStore } from '/@src/stores'
 import { fetchList, removeById } from '/@src/utils/api/department';
@@ -99,6 +97,9 @@ function successNotify() {
       :total="data.pagination.total">
       <template #default="wrapperState">
         <VFlexTable rounded>
+          <template #header-column="{ column }">
+            <span v-if="column.key === 'orderNumber'" class="is-flex-grow-0" v-text="'#'" />
+          </template>
           <template #body>
             <!-- This is the empty state -->
             <div v-if="data.result.length === 0" class="flex-list-inner">

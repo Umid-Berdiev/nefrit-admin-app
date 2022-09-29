@@ -14,6 +14,9 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
     "lib": ["esnext", "dom"],
+    "noUnusedLocals": true,
+    "strictNullChecks": true,
+    "allowJs": true,
     "types": [
       "vite/client",
       "vite-plugin-pages/client",
