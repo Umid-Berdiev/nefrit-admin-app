@@ -290,7 +290,7 @@ async function clearFilterForm() {
             </template>
             <template v-if="column.key === 'applications'">
               <ul>
-                <li v-for="item in value">{{ item.code }}</li>
+                <li v-for="item in value">{{ item.uuid }}</li>
               </ul>
             </template>
             <template v-if="column.key === 'payment_amount'">

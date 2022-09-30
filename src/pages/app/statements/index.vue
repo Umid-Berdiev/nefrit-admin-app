@@ -34,7 +34,7 @@ const data = reactive({
   result: [],
 })
 const filterForm = reactive({
-  code: '',
+  uuid: '',
   applicant: '',
   status_id: '',
   stage_id: '',
@@ -68,12 +68,12 @@ const currentPage = computed({
 })
 const statusList = ref<StatusData[]>([])
 const columns = {
-  code: {
+  uuid: {
     label: t('statement_code'),
   },
-  legal_entity: {
-    label: t('applied_legal_entity'),
-  },
+  // legal_entity: {
+  //   label: t('applied_legal_entity'),
+  // },
   drug: {
     label: t('drug_name'),
   },
@@ -142,7 +142,7 @@ async function submitFilterForm() {
 async function clearFilterForm() {
   isLoading.value = true
   Object.assign(filterForm, {
-    code: '',
+    uuid: '',
     applicant: '',
     status_id: '',
     stage_id: '',
@@ -197,7 +197,7 @@ async function exportToExcel() {
             <div class="column">
               <VField :label="$t('statement_code')">
                 <VControl>
-                  <VInput v-model="filterForm.code" type="text" />
+                  <VInput v-model="filterForm.uuid" type="text" />
                 </VControl>
               </VField>
             </div>
@@ -318,10 +318,10 @@ async function exportToExcel() {
 
           <!-- Custom "name" cell content -->
           <template #body-cell="{ row, column, value, index }">
-            <template v-if="column.key === 'legal_entity'">
+            <!-- <template v-if="column.key === 'legal_entity'">
               <span>{{ value?.name }}</span>
-            </template>
-            <template v-else-if="column.key === 'drug'">
+            </template> -->
+            <template v-if="column.key === 'drug'">
               <span>{{ value?.name }}</span>
             </template>
             <template v-else-if="column.key === 'date' && value">

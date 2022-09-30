@@ -18,7 +18,7 @@ const voteList = ref<{ user: UserData; vote: StatementVoteData; is_me: boolean }
 const voteStatistics = ref<VoteStatisticsData>()
 
 await fetchList()
-await fetchStatistics()
+// await fetchStatistics()
 
 function onGivingFeedback(val: string | number) {
   isFeedbackFormModalOpen.value = true
@@ -38,7 +38,7 @@ async function fetchStatistics() {
 
 <template>
   <div class="container">
-    <div class="company-header is-dark-card-bordered is-dark-bg-6">
+    <!-- <div class="company-header is-dark-card-bordered is-dark-bg-6">
       <div class="header-item is-dark-bordered-12">
         <div class="item-inner">
           <span class="dark-inverted">{{ voteStatistics?.voted }}</span>
@@ -63,35 +63,40 @@ async function fetchStatistics() {
           <p>{{ $t('Not_voted') }}</p>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <div class="user-grid user-grid-v1">
-      <TransitionGroup name="list" tag="div" class="columns is-multiline">
+      <TransitionGroup
+        name="list"
+        tag="div"
+        class="columns is-multiline is-justify-content-center"
+      >
         <!--Grid item-->
-        <div v-for="(item, itemIndex) in voteList" :key="itemIndex" class="column is-4">
-          <div class="grid-item" :class="{ 'is-active': item.is_me }">
-            <VAvatar :picture="item.user?.avatar" size="xl" />
+        <div v-if="voteList?.length" class="column is-4">
+          <div class="grid-item is-active">
+            <VAvatar :picture="voteList[0].user?.avatar" size="xl" />
             <h3 class="dark-inverted">
-              {{ item.user?.firstname + ' ' + item.user?.lastname }}
+              {{ voteList[0].user?.firstname + ' ' + voteList[0].user?.lastname }}
             </h3>
-            <p>{{ item.user?.department }}</p>
-            <div v-if="item.is_me === true" class="is-grouped mt-5">
-              <template v-if="item.vote">
+            <p>{{ voteList[0].user?.department }}</p>
+            <div class="is-grouped mt-5">
+              <template v-if="voteList[0].vote">
                 <VButton
-                  :color="item.vote.value ? 'success' : 'danger'"
-                  style="width: 80%"
-                  class="is-justify-content-center mr-3"
+                  :color="voteList[0].vote.value ? 'success' : 'danger'"
+                  class="is-justify-content-center mr-3 is-fullwidth"
                 >
                   <span class="icon">
                     <i
                       aria-hidden="true"
                       class="iconify"
-                      :data-icon="item.vote.value ? 'feather:check' : 'feather:x'"
+                      :data-icon="voteList[0].vote.value ? 'feather:check' : 'feather:x'"
                     />
                   </span>
-                  <span>{{ item.vote.value ? $t('Accepted') : $t('Rejected') }}</span>
+                  <span>{{
+                    voteList[0].vote.value ? $t('Accepted') : $t('Rejected')
+                  }}</span>
                 </VButton>
-                <VButton
+                <!-- <VButton
                   color="warning"
                   style="width: 10%"
                   class="is-justify-content-center"
@@ -100,14 +105,13 @@ async function fetchStatistics() {
                   <span class="icon">
                     <i aria-hidden="true" class="iconify" data-icon="feather:edit-2"></i>
                   </span>
-                  <!-- <span>{{ $t('Reject') }}</span> -->
-                </VButton>
+                </VButton> -->
                 <VCollapse
                   class="mt-5"
                   :items="[
                     {
                       title: $t('Description'),
-                      content: item.vote.description,
+                      content: voteList[0].vote.description,
                     },
                   ]"
                   with-chevron
@@ -138,7 +142,7 @@ async function fetchStatistics() {
                 </VButton>
               </template>
             </div>
-            <template v-else>
+            <!-- <template v-else>
               <div v-if="item.vote" class="is-grouped mt-5">
                 <VButton
                   class="is-fullwidth is-justify-content-center"
@@ -168,14 +172,14 @@ async function fetchStatistics() {
                   <span>{{ $t('Not_voted_yet') }}</span>
                 </VButton>
               </div>
-            </template>
+            </template> -->
           </div>
         </div>
       </TransitionGroup>
     </div>
     <FeedbackFormModal
       v-model="isFeedbackFormModalOpen"
-      :item="voteList?.find((item) => item.is_me)?.vote"
+      :selected-answer="selectedAnswer"
       :parent-id="Number(currentStatementId)"
       @update:list="
         () => {

@@ -7,30 +7,48 @@ import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import { useViewWrapper } from '/@src/stores/viewWrapper'
 import StatementDocumentCollapse from '/@src/components/base/accordion/StatementDocumentCollapse.vue'
+import { useUserSession } from '/@src/stores/userSession'
 
+const { userRoleID } = useUserSession()
 const { t } = useI18n()
 const route = useRoute()
 const selectedTab = ref('details')
 const tabs = ref([
-  { label: t('Statement_details'), value: 'details', icon: 'lnil lnil-tap' },
-  // { label: t('Payment'), value: 'payment', icon: 'fas fa-tree' },
+  {
+    label: t('Statement_details'),
+    value: 'details',
+    icon: 'lnil lnil-tap',
+    included: [1, 2, 3].includes(userRoleID),
+  },
   {
     label: t('Statement_docs'),
     value: 'docs',
     icon: 'lnil lnil-files',
+    included: [1, 2, 3, 4, 5, 6].includes(userRoleID),
   },
   {
     label: t('Statement_conclusions'),
     value: 'conclusions',
     icon: 'feather:git-branch',
+    included: [1, 2, 3, 4, 5, 6].includes(userRoleID),
   },
   {
     label: t('Statement_notices'),
     value: 'notices',
     icon: 'feather:git-merge',
   },
-  { label: t('ITK'), value: 'itk', icon: 'feather:activity' },
-  { label: t('Chat'), value: 'chat', icon: 'fas fa-comments' },
+  {
+    label: t('ITK'),
+    value: 'itk',
+    icon: 'feather:activity',
+    included: [1, 2, 5].includes(userRoleID),
+  },
+  {
+    label: t('Chat'),
+    value: 'chat',
+    icon: 'fas fa-comments',
+    included: [1, 2, 3].includes(userRoleID),
+  },
 ])
 
 const viewWrapper = useViewWrapper()
@@ -50,7 +68,7 @@ onMounted(() => {
 
 <template>
   <div class="statement-detail-wrapper">
-    <VTabs v-model:selected="selectedTab" :tabs="tabs">
+    <VTabs v-model:selected="selectedTab" :tabs="tabs.filter((tab) => tab.included)">
       <template #tab="{ activeValue }">
         <div v-if="activeValue == 'details'">
           <StatementForm />

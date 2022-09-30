@@ -35,20 +35,23 @@ const props = withDefaults(defineProps<VTagProps>(), {
 </script>
 
 <template>
-  <small class="tag" :class="[
-    props.color && 'is-' + props.color,
-    props.size && 'is-' + props.size,
-    props.rounded && 'is-rounded',
-    props.curved && 'is-curved',
-    props.outlined && 'is-outlined',
-    props.elevated && 'is-elevated',
-    props.remove && 'is-delete',
-  ]">
+  <small
+    class="tag"
+    :class="[
+      props.color && 'is-' + props.color,
+      props.size && 'is-' + props.size,
+      props.rounded && 'is-rounded',
+      props.curved && 'is-curved',
+      props.outlined && 'is-outlined',
+      props.elevated && 'is-elevated',
+      props.remove && 'is-delete',
+    ]"
+  >
     <slot>{{ props.label }}</slot>
   </small>
 </template>
 
-<style lang="scss">
+<!-- <style lang="scss">
 .tag:not(body) {
   display: inline-block;
   line-height: 2.3;
@@ -265,4 +268,4 @@ const props = withDefaults(defineProps<VTagProps>(), {
     }
   }
 }
-</style>
+</style> -->

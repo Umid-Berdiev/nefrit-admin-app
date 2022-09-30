@@ -430,5 +430,6 @@
   "Instructions": "Instructions",
   "Video_instructions": "Video instructions",
   "Document_instructions": "Document instructions",
-  "Instructions_Nefrit": "Instructions - Nefrit"
+  "Instructions_Nefrit": "Instructions - Nefrit",
+  "feedback_form_attention_text": "Attention: Voice is accepted only once. There is no way to change it!"
 }

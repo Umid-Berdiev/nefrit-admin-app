@@ -208,7 +208,7 @@
   "Nov": "Noyabr",
   "Dec": "Dekabr",
   "Total_voted": "Jami ovoz beradiganlar",
-  "Accepted": "Qabul qilingan",
+  "Accepted": "Ma'qullangan",
   "Your_answer": "Sizning javobingiz",
   "Price": "Summasi",
   "Contract_amount": "Shartnoma summasi",
@@ -288,8 +288,8 @@
   "Add_vote": "Ovoz qo'shish",
   "Comment": "Izoh",
   "Add_comment": "Izoh qoldirish",
-  "Accept": "Qabul qilish",
-  "Reject": "Rad etish",
+  "Accept": "Ma'qullansin",
+  "Reject": "Rad etilsin",
   "Applicant_phone_number": "Arizachini telefon raqami",
   "Payments": "To'lovlar",
   "Updated_successfully": "Muvoffaqiyatli yangilandi",
@@ -430,5 +430,6 @@
   "Instructions": "Yo'riqnomalar",
   "Video_instructions": "Video yo'riqnomalar",
   "Document_instructions": "Fayl yo'riqnomalar",
-  "Instructions_Nefrit": "Yo'riqnomalar - Nefrit"
+  "Instructions_Nefrit": "Yo'riqnomalar - Nefrit",
+  "feedback_form_attention_text": "Diqqat: Ovoz faqat bir marta qabul qilinadi. Uni o'zgartirish imkoni yo'q!"
 }

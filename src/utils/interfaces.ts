@@ -110,6 +110,7 @@ export interface StatementVoteData {
 
 export interface StatementData {
   applicant: string
+  uuid: string
   code: string
   contract_id: number
   date: string

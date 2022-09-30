@@ -1,19 +1,27 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
-import { useI18n } from 'vue-i18n';
-import CompanyInfoModal from '../base/modal/CompanyInfoModal.vue';
-import DrugInfoModal from '../base/modal/DrugInfoModal.vue';
-import { fetchById, fetchChronologies, canChangeStage, checkPermissionForCertificate } from '/@src/utils/api/statement'
-import { useRoute } from 'vue-router';
-import { StatementChronologyData, StatementData } from '/@src/utils/interfaces';
-import { useNotyf } from '/@src/composable/useNotyf';
-import StatementCancelFormModal from '../base/modal/StatementCancelFormModal.vue';
-import { isNull } from 'lodash';
+import { computed, onMounted, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+import CompanyInfoModal from '../base/modal/CompanyInfoModal.vue'
+import DrugInfoModal from '../base/modal/DrugInfoModal.vue'
+import {
+  fetchById,
+  fetchChronologies,
+  canChangeStage,
+  checkPermissionForCertificate,
+} from '/@src/utils/api/statement'
+import { useRoute } from 'vue-router'
+import { StatementChronologyData, StatementData } from '/@src/utils/interfaces'
+import { useNotyf } from '/@src/composable/useNotyf'
+import StatementCancelFormModal from '../base/modal/StatementCancelFormModal.vue'
+import { isNull } from 'lodash'
 
 const route = useRoute()
 const { t, locale } = useI18n()
 const notif = useNotyf()
 const columns = {
+  uuid: {
+    label: t('statement_code'),
+  },
   company: {
     label: t('Applied_legal_entity'),
   },
@@ -24,19 +32,19 @@ const columns = {
     label: t('Statement_creator'),
   },
   stage: {
-    label: t('Stage')
+    label: t('Stage'),
   },
   date: {
     label: t('applied_at'),
   },
   paymentStatus: {
-    label: t('Payment_status')
+    label: t('Payment_status'),
   },
   contract: {
-    label: t('Contract')
+    label: t('Contract'),
   },
   certificate: {
-    label: t('Certificate')
+    label: t('Certificate'),
   },
 } as const
 const selectedCompanyId = ref()
@@ -95,18 +103,31 @@ async function checkStatementPermissionForCertificate() {
     <div class="column is-6">
       <ListWidgetSingle :title="$t('Statement_details')" straight class="list-widget-v3">
         <template #actions>
-          <VButton v-if="!currentStatementData?.is_canceled && isNull(currentStatementData?.certificate)" class="px-4"
-            color="danger" circle outlined @click="isStatementCancelModalOpen = true">
+          <VButton
+            v-if="
+              !currentStatementData?.is_canceled &&
+              isNull(currentStatementData?.certificate)
+            "
+            class="px-4"
+            color="danger"
+            circle
+            outlined
+            @click="isStatementCancelModalOpen = true"
+          >
             {{ $t('Cancel_statement') }}
           </VButton>
         </template>
         <table class="table is-hoverable is-bordered is-fullwidth">
           <tbody>
             <tr>
-              <td class="has-text-weight-bold">{{ columns.company.label }}</td>
+              <td class="has-text-weight-bold">{{ columns.uuid.label }}</td>
               <td>
-                <a href="javascript:;" class="has-text-primary" @click="openCompanyInfoModal(1)">
-                  {{ currentStatementData?.legal_entity?.name }}
+                <a
+                  href="javascript:;"
+                  class="has-text-primary"
+                  @click="openCompanyInfoModal(1)"
+                >
+                  {{ currentStatementData?.uuid }}
                   <i class="iconify" data-icon="feather:link" aria-hidden="true"></i>
                 </a>
               </td>
@@ -114,42 +135,66 @@ async function checkStatementPermissionForCertificate() {
             <tr>
               <td class="has-text-weight-bold">{{ columns.drug.label }}</td>
               <td>
-                <a href="javascript:;" class="has-text-primary" @click="openDrugInfoModal(1)">
+                <a
+                  href="javascript:;"
+                  class="has-text-primary"
+                  @click="openDrugInfoModal(1)"
+                >
                   {{ currentStatementData?.drug?.name }}
                   <i class="iconify" data-icon="feather:link" aria-hidden="true"></i>
                 </a>
               </td>
             </tr>
-            <tr>
+            <!-- <tr>
               <td class="has-text-weight-bold">{{ columns.statementCreator.label }}</td>
               <td>{{ currentStatementData?.applicant }}</td>
-            </tr>
+            </tr> -->
             <tr>
               <td class="has-text-weight-bold">{{ columns.stage.label }}</td>
               <td class="is-flex is-align-items-center">
                 <span class="mr-3">{{ currentStatementData?.stage?.name }}</span>
-                <VButton v-if="canChange" class="ml-auto" color="primary" rounded icon="feather:edit-2"
-                  @click="isStatementStageFormModalOpen = true">
+                <VButton
+                  v-if="canChange"
+                  class="ml-auto"
+                  color="primary"
+                  rounded
+                  icon="feather:edit-2"
+                  @click="isStatementStageFormModalOpen = true"
+                >
                   {{ $t('Change_stage') }}
                 </VButton>
               </td>
             </tr>
             <tr>
               <td class="has-text-weight-bold">{{ columns.date.label }}</td>
-              <td>{{ currentStatementData?.date && $h.formatDate(currentStatementData?.date, 'HH:mm DD.MM.YYYY') }}</td>
+              <td>
+                {{
+                  currentStatementData?.date &&
+                  $h.formatDate(currentStatementData?.date, 'HH:mm DD.MM.YYYY')
+                }}
+              </td>
             </tr>
             <tr>
               <td class="has-text-weight-bold">{{ columns.paymentStatus.label }}</td>
               <td>
-                <VTag v-if="currentStatementData?.is_paid" color="primary" :label="$t('Paid')" outlined rounded />
+                <VTag
+                  v-if="currentStatementData?.is_paid"
+                  color="primary"
+                  :label="$t('Paid')"
+                  outlined
+                  rounded
+                />
                 <VTag v-else color="danger" :label="$t('Not_Paid')" outlined rounded />
               </td>
             </tr>
             <tr>
               <td class="has-text-weight-bold">{{ columns.contract.label }}</td>
               <td>
-                <a v-if="currentStatementData?.contract_id" :href="'/app/contract/' + currentStatementData?.contract_id"
-                  class="has-text-primary">
+                <a
+                  v-if="currentStatementData?.contract_id"
+                  :href="'/app/contract/' + currentStatementData?.contract_id"
+                  class="has-text-primary"
+                >
                   {{ $t('Link_for_contract') }}
                   <i class="iconify" data-icon="feather:link" aria-hidden="true"></i>
                 </a>
@@ -161,17 +206,28 @@ async function checkStatementPermissionForCertificate() {
             <tr>
               <td class="has-text-weight-bold">{{ columns.certificate.label }}</td>
               <td class="is-flex is-align-items-center">
-                <a v-if="currentStatementData?.certificate" :href="currentStatementData?.certificate?.file"
-                  class="has-text-primary" download>
+                <a
+                  v-if="currentStatementData?.certificate"
+                  :href="currentStatementData?.certificate?.file"
+                  class="has-text-primary"
+                  download
+                >
                   {{ currentStatementData?.certificate?.number }}
                   <i class="iconify" data-icon="feather:link" aria-hidden="true"></i>
                 </a>
                 <span v-else class="has-text-danger">
                   {{ $t('No_certificate') }}
                 </span>
-                <VButton v-if="canCertify" class="ml-auto" color="primary" rounded
-                  :icon="currentStatementData?.certificate ? 'fas fa-sync' : 'fas fa-plus'"
-                  @click="isCertificateFormModalOpen = true">
+                <VButton
+                  v-if="canCertify"
+                  class="ml-auto"
+                  color="primary"
+                  rounded
+                  :icon="
+                    currentStatementData?.certificate ? 'fas fa-sync' : 'fas fa-plus'
+                  "
+                  @click="isCertificateFormModalOpen = true"
+                >
                   {{ currentStatementData?.certificate ? $t('Update') : $t('Upload') }}
                 </VButton>
               </td>
@@ -185,12 +241,34 @@ async function checkStatementPermissionForCertificate() {
         <ListWidgetIconTimeline :items="chronologyData" />
       </ListWidgetSingle>
     </div>
-    <CompanyInfoModal v-model="isCompanyInfoModalOpen" :company-data="currentStatementData?.legal_entity" />
-    <DrugInfoModal v-model="isDrugInfoModalOpen" :drug-data="currentStatementData?.drug" />
-    <CertificateFormModal v-model="isCertificateFormModalOpen" :statement-id="currentId" @close="fetchData" />
-    <StatementStageFormModal v-model="isStatementStageFormModalOpen" :statement-id="Number(currentId)"
-      :statement-stage="Number(currentState)" @update:data="() => { fetchData(); successNotify(); }" />
-    <StatementCancelFormModal v-model="isStatementCancelModalOpen" :statement-id="Number(currentId)" />
+    <CompanyInfoModal
+      v-model="isCompanyInfoModalOpen"
+      :company-data="currentStatementData?.legal_entity"
+    />
+    <DrugInfoModal
+      v-model="isDrugInfoModalOpen"
+      :drug-data="currentStatementData?.drug"
+    />
+    <CertificateFormModal
+      v-model="isCertificateFormModalOpen"
+      :statement-id="currentId"
+      @close="fetchData"
+    />
+    <StatementStageFormModal
+      v-model="isStatementStageFormModalOpen"
+      :statement-id="Number(currentId)"
+      :statement-stage="Number(currentState)"
+      @update:data="
+        () => {
+          fetchData()
+          successNotify()
+        }
+      "
+    />
+    <StatementCancelFormModal
+      v-model="isStatementCancelModalOpen"
+      :statement-id="Number(currentId)"
+    />
   </div>
 </template>
 

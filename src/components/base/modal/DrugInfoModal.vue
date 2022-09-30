@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
-import { useI18n } from 'vue-i18n';
+import { useI18n } from 'vue-i18n'
 
 const props = defineProps({
   modelValue: Boolean,
   id: Number,
   drugData: {
     type: Object,
-    default: () => { }
-  }
+    default: () => {},
+  },
 })
 
 const emit = defineEmits(['update:modelValue'])
@@ -29,12 +29,16 @@ const columns = {
   producer: t('Producer'),
   manufacturer: t('Manufacturer'),
 } as const
-
 </script>
 
 <template>
-  <VModal :open="modelValue" :title="$t('Drug_details')" actions="right" @close="emit('update:modelValue', false)"
-    :cancel-label="$t('Close')">
+  <VModal
+    :open="modelValue"
+    :title="$t('Drug_details')"
+    actions="right"
+    @close="emit('update:modelValue', false)"
+    :cancel-label="$t('Close')"
+  >
     <template #content>
       <table class="table is-hoverable is-bordered is-fullwidth">
         <tbody>
@@ -52,7 +56,7 @@ const columns = {
           </tr>
           <tr>
             <td class="has-text-weight-bold">{{ columns.drugForm }}</td>
-            <td>{{ drugData?.drug_figure }}</td>
+            <td>{{ drugData?.drug_figure?.name }}</td>
           </tr>
           <tr>
             <td class="has-text-weight-bold">{{ columns.patentNumber }}</td>

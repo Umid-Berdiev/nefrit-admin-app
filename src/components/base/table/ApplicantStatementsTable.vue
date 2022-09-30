@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue'
-import { useI18n } from 'vue-i18n';
-import { useRoute, useRouter } from 'vue-router';
-import { useMainStore } from '/@src/stores';
-import { fetchApplicantStatements } from '/@src/utils/api/applicant';
+import { useI18n } from 'vue-i18n'
+import { useRoute, useRouter } from 'vue-router'
+import { useMainStore } from '/@src/stores'
+import { fetchApplicantStatements } from '/@src/utils/api/applicant'
 
 const route = useRoute()
 const router = useRouter()
@@ -14,9 +14,9 @@ const props = defineProps({
     type: Object,
     default: () => ({
       pagination: {},
-      result: []
-    })
-  }
+      result: [],
+    }),
+  },
 })
 const emits = defineEmits<{
   (e: 'update:data', page: number): void
@@ -29,18 +29,17 @@ const currentPage = computed({
   set: async (page) => {
     // emits('update:data', page)
     await fetchStatementsData(page)
-  }
+  },
 })
 
 const columns = {
-  code: {
+  uuid: {
     label: t('statement_code'),
     // cellClass: 'is-flex-grow-0',
   },
-  legal_entity: {
-    label: t('applied_legal_entity'),
-    // grow: true,
-  },
+  // legal_entity: {
+  //   label: t('applied_legal_entity'),
+  // },
   drug: {
     label: t('drug_name'),
   },
@@ -73,15 +72,22 @@ function onView(statementId: number) {
 
 <template>
   <div>
-    <VFlexTableWrapper :columns="columns" :data="data.result" :limit="data.pagination.per_page"
-      :total="data.pagination.total">
+    <VFlexTableWrapper
+      :columns="columns"
+      :data="data.result"
+      :limit="data.pagination.per_page"
+      :total="data.pagination.total"
+    >
       <template #default="wrapperState">
         <VFlexTable rounded>
           <template #body>
             <!-- This is the empty state -->
             <div v-if="data.result.length === 0" class="flex-list-inner">
-              <VPlaceholderSection :title="$t('No_data')" :subtitle="$t('There_is_no_data_that_match_your_query')"
-                class="my-6" />
+              <VPlaceholderSection
+                :title="$t('No_data')"
+                :subtitle="$t('There_is_no_data_that_match_your_query')"
+                class="my-6"
+              />
             </div>
           </template>
 
@@ -90,10 +96,10 @@ function onView(statementId: number) {
             <!-- <VCheckbox v-if="column.key === 'select'" v-model="selectedRowsId" :value="row.id" name="selection"
         @change="clickOnRow" /> -->
 
-            <template v-if="column.key === 'legal_entity'">
+            <!-- <template v-if="column.key === 'legal_entity'">
               <span>{{ value.name }}</span>
-            </template>
-            <template v-else-if="column.key === 'drug'">
+            </template> -->
+            <template v-if="column.key === 'drug'">
               <span>{{ value.name }}</span>
             </template>
             <template v-else-if="column.key === 'date'">
@@ -119,8 +125,13 @@ function onView(statementId: number) {
         </VFlexTable>
 
         <!-- Table Pagination with wrapperState.page binded-->
-        <VFlexPagination v-if="data.result?.length" class="mt-6" v-model:current-page="currentPage"
-          :item-per-page="data.pagination.per_page" :total-items="data.pagination.total" />
+        <VFlexPagination
+          v-if="data.result?.length"
+          class="mt-6"
+          v-model:current-page="currentPage"
+          :item-per-page="data.pagination.per_page"
+          :total-items="data.pagination.total"
+        />
       </template>
     </VFlexTableWrapper>
   </div>

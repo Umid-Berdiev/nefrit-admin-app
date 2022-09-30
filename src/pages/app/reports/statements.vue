@@ -24,7 +24,7 @@ const data = reactive({
     per_page: 10,
     total: 10,
   },
-  result: []
+  result: [],
 })
 const router = useRouter()
 const currentPage = computed({
@@ -33,7 +33,7 @@ const currentPage = computed({
   },
   set: async (page) => {
     await fetchData(page)
-  }
+  },
 })
 const datePickerModelConfig = reactive({
   type: 'string',
@@ -43,24 +43,25 @@ const datePickerModelConfig = reactive({
 const range = computed({
   get: () => ({
     start: moment().subtract(1, 'month').format('YYYY-MM-DD'),
-    end: moment().format('YYYY-MM-DD')
+    end: moment().format('YYYY-MM-DD'),
   }),
   set: async (val: any) => {
-    console.log({ val });
+    console.log({ val })
 
-    if (!isEmpty(val)) await fetchData(1, {
-      date_start: val.start,
-      date_end: val.end
-    })
-  }
+    if (!isEmpty(val))
+      await fetchData(1, {
+        date_start: val.start,
+        date_end: val.end,
+      })
+  },
 })
 const columns = {
   code: {
     label: t('statement_code'),
   },
-  legal_entity: {
-    label: t('applied_legal_entity'),
-  },
+  // legal_entity: {
+  //   label: t('applied_legal_entity'),
+  // },
   drug: {
     label: t('drug_name'),
   },
@@ -83,30 +84,36 @@ const columns = {
 onMounted(async () => {
   await fetchData(1, {
     date_start: range.value.start,
-    date_end: range.value.end
+    date_end: range.value.end,
   })
 })
 
-async function fetchData(page: number = 1, range: any = {
-  date_start: '',
-  date_end: '',
-}) {
+async function fetchData(
+  page: number = 1,
+  range: any = {
+    date_start: '',
+    date_end: '',
+  }
+) {
   const res = await fetchStatementReport({ page, ...range })
   Object.assign(data, res)
 }
 
 function gotoView(rowId: number) {
-  console.log({ rowId });
+  console.log({ rowId })
   router.push('/app/statements/' + rowId)
 }
-
 </script>
 
 <template>
   <div class="applicant-list-wrapper">
     <!-- table -->
-    <VFlexTableWrapper :columns="columns" :data="data.result" :limit="data.pagination.per_page"
-      :total="data.pagination.total">
+    <VFlexTableWrapper
+      :columns="columns"
+      :data="data.result"
+      :limit="data.pagination.per_page"
+      :total="data.pagination.total"
+    >
       <!--
         Here we retrieve the internal wrapperState.
         Note that we can not destructure it
@@ -116,8 +123,15 @@ function gotoView(rowId: number) {
         <VFlexTableToolbar>
           <template #left>
             <!-- We can bind wrapperState.searchInput to any input -->
-            <VDatePicker :locale="locale" class="ml-auto" v-model="range" is-range color="green" trim-weeks
-              :model-config="datePickerModelConfig">
+            <VDatePicker
+              :locale="locale"
+              class="ml-auto"
+              v-model="range"
+              is-range
+              color="green"
+              trim-weeks
+              :model-config="datePickerModelConfig"
+            >
               <template v-slot="{ inputValue, inputEvents }">
                 <VField addons>
                   <VControl expanded icon="feather:corner-down-right">
@@ -141,17 +155,20 @@ function gotoView(rowId: number) {
           <template #body>
             <!-- This is the empty state -->
             <div v-if="data.result.length === 0" class="flex-list-inner">
-              <VPlaceholderSection :title="$t('No_data')" :subtitle="$t('There_is_no_data_that_match_your_query')"
-                class="my-6" />
+              <VPlaceholderSection
+                :title="$t('No_data')"
+                :subtitle="$t('There_is_no_data_that_match_your_query')"
+                class="my-6"
+              />
             </div>
           </template>
 
           <!-- Custom "name" cell content -->
           <template #body-cell="{ row, column, value, index }">
-            <template v-if="column.key === 'legal_entity'">
+            <!-- <template v-if="column.key === 'legal_entity'">
               <span>{{ value?.name }}</span>
-            </template>
-            <template v-else-if="column.key === 'drug'">
+            </template> -->
+            <template v-if="column.key === 'drug'">
               <span>{{ value?.name }}</span>
             </template>
             <template v-else-if="column.key === 'date' && value">
@@ -164,12 +181,22 @@ function gotoView(rowId: number) {
               <span>{{ value.name }}</span>
             </template>
             <template v-else-if="column.key === 'is_paid'">
-              <VTag class="is-size-6" :color="value ? 'primary' : 'warning'" rounded
-                :label="value ? $t('Paid') : $t('Not_Paid')" />
+              <VTag
+                class="is-size-6"
+                :color="value ? 'primary' : 'warning'"
+                rounded
+                :label="value ? $t('Paid') : $t('Not_Paid')"
+              />
             </template>
             <template v-if="column.key === 'actions'">
-              <VIconButton class="p-4" outlined circle color="info" icon="feather:eye"
-                @click.prevent="gotoView(row.id)">
+              <VIconButton
+                class="p-4"
+                outlined
+                circle
+                color="info"
+                icon="feather:eye"
+                @click.prevent="gotoView(row.id)"
+              >
                 {{ $t('View') }}
               </VIconButton>
             </template>
@@ -177,8 +204,13 @@ function gotoView(rowId: number) {
         </VFlexTable>
 
         <!-- Table Pagination with wrapperState.page binded-->
-        <VFlexPagination v-if="data.result.length" class="mt-6" v-model:current-page="currentPage"
-          :item-per-page="data.pagination.per_page" :total-items="data.pagination.total" />
+        <VFlexPagination
+          v-if="data.result.length"
+          class="mt-6"
+          v-model:current-page="currentPage"
+          :item-per-page="data.pagination.per_page"
+          :total-items="data.pagination.total"
+        />
       </template>
     </VFlexTableWrapper>
   </div>

@@ -5,7 +5,7 @@ import { useHead } from '@vueuse/head'
 
 import { useViewWrapper } from '/@src/stores/viewWrapper'
 import { useMainStore } from '/@src/stores'
-import { fetchList, removeById } from '/@src/utils/api/regulation';
+import { fetchList, removeById } from '/@src/utils/api/regulation'
 import { useNotyf } from '/@src/composable/useNotyf'
 
 const { t, locale } = useI18n()
@@ -25,7 +25,7 @@ const data = reactive({
     per_page: 10,
     total: 10,
   },
-  result: []
+  result: [],
 })
 const currentPage = computed({
   get: () => {
@@ -33,7 +33,7 @@ const currentPage = computed({
   },
   set: async (page) => {
     await fetchData(page)
-  }
+  },
 })
 const isFormModalOpen = ref(false)
 const selectedId = ref<number>()
@@ -43,10 +43,10 @@ const columns = {
     cellClass: 'is-flex-grow-0',
   },
   title: {
-    label: t('Title')
+    label: t('Title'),
   },
   date: {
-    label: t('Date')
+    label: t('Date'),
   },
   actions: {
     label: t('Actions'),
@@ -86,24 +86,41 @@ function successNotify() {
 <template>
   <div class="faq-list-wrapper">
     <VFlex justify-content="end" class="mb-4">
-      <VButton outlined rounded color="info" icon="feather:plus" @click.prevent="onEdit()">
+      <VButton
+        outlined
+        rounded
+        color="info"
+        icon="feather:plus"
+        @click.prevent="onEdit()"
+      >
         {{ $t('Add') }}
       </VButton>
     </VFlex>
     <!-- table -->
-    <VFlexTableWrapper :columns="columns" :data="data.result" :limit="data.pagination.per_page"
-      :total="data.pagination.total">
+    <VFlexTableWrapper
+      :columns="columns"
+      :data="data.result"
+      :limit="data.pagination.per_page"
+      :total="data.pagination.total"
+    >
       <template #default="wrapperState">
         <VFlexTable rounded>
           <template #header-column="{ column }">
-            <span v-if="column.key === 'orderNumber'" class="is-flex-grow-0" v-text="'#'" />
+            <span
+              v-if="column.key === 'orderNumber'"
+              class="is-flex-grow-0"
+              v-text="'#'"
+            />
           </template>
 
           <template #body>
             <!-- This is the empty state -->
             <div v-if="data.result.length === 0" class="flex-list-inner">
-              <VPlaceholderSection :title="$t('No_data')" :subtitle="$t('There_is_no_data_that_match_your_query')"
-                class="my-6" />
+              <VPlaceholderSection
+                :title="$t('No_data')"
+                :subtitle="$t('There_is_no_data_that_match_your_query')"
+                class="my-6"
+              />
             </div>
           </template>
 
@@ -112,18 +129,36 @@ function successNotify() {
               <span>{{ $h.formatDate(value, 'DD.MM.YYYY') }}</span>
             </template>
             <template v-if="column.key === 'actions'">
-              <RegulationFlexTableDropdown @edit="onEdit(row.id)" @remove="onRemove(row.id)" />
+              <RegulationFlexTableDropdown
+                @edit="onEdit(row.id)"
+                @remove="onRemove(row.id)"
+              />
             </template>
           </template>
         </VFlexTable>
 
         <!-- Table Pagination with wrapperState.page binded-->
-        <VFlexPagination v-if="data.result.length" v-model:current-page="currentPage" class="mt-6"
-          :item-per-page="data.pagination.per_page" :total-items="data.pagination.total" />
+        <VFlexPagination
+          v-if="data.result.length"
+          v-model:current-page="currentPage"
+          class="mt-6"
+          :item-per-page="data.pagination.per_page"
+          :total-items="data.pagination.total"
+        />
       </template>
     </VFlexTableWrapper>
-    <RegulationFormModal v-model="isFormModalOpen" :regulation-id="selectedId"
-      @update:list="() => { fetchData(); successNotify(); selectedId = undefined; }" @close="selectedId = undefined" />
+    <RegulationFormModal
+      v-model="isFormModalOpen"
+      :regulation-id="selectedId"
+      @update:list="
+        () => {
+          fetchData()
+          successNotify()
+          selectedId = undefined
+        }
+      "
+      @close="selectedId = undefined"
+    />
     <ConfirmActionModal @confirm-action="handleRemoveAction" />
   </div>
 </template>

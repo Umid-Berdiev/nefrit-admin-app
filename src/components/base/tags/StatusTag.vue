@@ -1,10 +1,7 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { string } from 'zod';
-
 interface Props {
   status: {
-    name: string,
+    name: string
     color: string
   }
 }
@@ -13,7 +10,11 @@ const props = defineProps<Props>()
 </script>
 
 <template>
-  <VTag class="is-size-6" rounded :color="status.color">
+  <VTag
+    class="is-size-6"
+    rounded
+    :color="status.color === 'primary' ? 'info' : status.color"
+  >
     {{ status.name }}
   </VTag>
 </template>

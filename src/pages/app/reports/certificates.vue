@@ -143,7 +143,7 @@ async function fetchData(page: number = 1, range: any = {
               </a>
             </template>
             <template v-if="column.key === 'application'">
-              <RouterLink :to="`/app/statements/${value.id}`">{{ value?.code }}</RouterLink>
+              <RouterLink :to="`/app/statements/${value.id}`">{{ value?.uuid }}</RouterLink>
             </template>
             <template v-else-if="column.key === 'drug'">
               <span>{{ value?.name }}</span>
