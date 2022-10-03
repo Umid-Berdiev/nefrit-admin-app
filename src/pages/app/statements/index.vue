@@ -14,9 +14,10 @@ import {
   fetchStatuses,
 } from '/@src/utils/api/statement'
 import { StatusData } from '/@src/utils/interfaces'
+import { useUserSession } from '/@src/stores/userSession'
 
 const { t, locale } = useI18n()
-
+const { userRoleID } = useUserSession()
 useHead({
   title: t('Statements') + ' - Nefrit',
 })
@@ -107,7 +108,9 @@ onMounted(async () => {
 })
 
 function onActionTriggered(rowId: number) {
-  router.push('/app/statements/' + rowId)
+  const url =
+    userRoleID == 5 ? `/app/statements/${rowId}#docs` : `/app/statements/${rowId}`
+  router.push(url)
 }
 
 function gotoConclusionList(statementId: number) {

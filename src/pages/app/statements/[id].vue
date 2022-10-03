@@ -36,6 +36,7 @@ const tabs = ref([
     label: t('Statement_notices'),
     value: 'notices',
     icon: 'feather:git-merge',
+    included: [1, 2, 3, 4, 5, 6, 7].includes(userRoleID),
   },
   {
     label: t('ITK'),
@@ -70,22 +71,28 @@ onMounted(() => {
   <div class="statement-detail-wrapper">
     <VTabs v-model:selected="selectedTab" :tabs="tabs.filter((tab) => tab.included)">
       <template #tab="{ activeValue }">
-        <div v-if="activeValue == 'details'">
+        <div v-if="activeValue == 'details' && [1, 2, 3].includes(userRoleID)">
           <StatementForm />
         </div>
-        <div v-if="activeValue == 'docs'" class="mt-5">
+        <div
+          v-if="activeValue == 'docs' && [1, 2, 3, 4, 5, 6].includes(userRoleID)"
+          class="mt-5"
+        >
           <StatementDocumentCollapse />
         </div>
-        <div v-if="activeValue == 'conclusions'" class="mt-5">
+        <div
+          v-if="activeValue == 'conclusions' && [1, 2, 3, 4, 5, 6].includes(userRoleID)"
+          class="mt-5"
+        >
           <StatementConclusionTable />
         </div>
         <div v-if="activeValue == 'notices'" class="mt-5">
           <StatementNoticeTable />
         </div>
-        <div v-if="activeValue == 'itk'" class="mt-5">
+        <div v-if="activeValue == 'itk' && [1, 2, 5].includes(userRoleID)" class="mt-5">
           <UsersGridV1 />
         </div>
-        <div v-if="activeValue == 'chat'" class="pt-5">
+        <div v-if="activeValue == 'chat' && [1, 2, 3].includes(userRoleID)" class="pt-5">
           <MessagingV1 />
         </div>
       </template>

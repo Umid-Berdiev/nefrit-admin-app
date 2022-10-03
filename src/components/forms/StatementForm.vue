@@ -122,14 +122,15 @@ async function checkStatementPermissionForCertificate() {
             <tr>
               <td class="has-text-weight-bold">{{ columns.uuid.label }}</td>
               <td>
-                <a
+                {{ currentStatementData?.uuid }}
+                <!-- <a
                   href="javascript:;"
                   class="has-text-primary"
                   @click="openCompanyInfoModal(1)"
                 >
                   {{ currentStatementData?.uuid }}
                   <i class="iconify" data-icon="feather:link" aria-hidden="true"></i>
-                </a>
+                </a> -->
               </td>
             </tr>
             <tr>

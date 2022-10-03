@@ -94,32 +94,43 @@ const columns = computed(() => {
 </script>
 
 <template>
-  <div class="flex-table" :class="[
-    props.compact && 'is-compact',
-    props.rounded && 'is-rounded',
-    props.separators && 'with-separators',
-    props.noHeader && 'no-header',
-    props.clickable && 'is-table-clickable',
-    props.subtable && 'sub-table',
-  ]">
+  <div
+    class="flex-table"
+    :class="[
+      props.compact && 'is-compact',
+      props.rounded && 'is-rounded',
+      props.separators && 'with-separators',
+      props.noHeader && 'no-header',
+      props.clickable && 'is-table-clickable',
+      props.subtable && 'sub-table',
+    ]"
+  >
     <slot name="header">
       <div v-if="!props.noHeader" class="flex-table-header">
         <template v-for="column in columns" :key="'col' + column.key">
           <slot name="header-column" :column="column">
-            <component :is="{ render: column.renderHeader }" v-if="column.renderHeader" :class="[
-              column.grow === true && 'is-grow',
-              column.grow === 'lg' && 'is-grow-lg',
-              column.grow === 'xl' && 'is-grow-xl',
-              column.align === 'end' && 'cell-end',
-              column.align === 'center' && 'cell-center',
-            ]"></component>
-            <span v-else :class="[
-              column.grow === true && 'is-grow',
-              column.grow === 'lg' && 'is-grow-lg',
-              column.grow === 'xl' && 'is-grow-xl',
-              column.align === 'end' && 'cell-end',
-              column.align === 'center' && 'cell-center',
-            ]">{{ column.label }}</span>
+            <component
+              :is="{ render: column.renderHeader }"
+              v-if="column.renderHeader"
+              :class="[
+                column.grow === true && 'is-grow',
+                column.grow === 'lg' && 'is-grow-lg',
+                column.grow === 'xl' && 'is-grow-xl',
+                column.align === 'end' && 'cell-end',
+                column.align === 'center' && 'cell-center',
+              ]"
+            ></component>
+            <span
+              v-else
+              :class="[
+                column.grow === true && 'is-grow',
+                column.grow === 'lg' && 'is-grow-lg',
+                column.grow === 'xl' && 'is-grow-xl',
+                column.align === 'end' && 'cell-end',
+                column.align === 'center' && 'cell-center',
+              ]"
+              >{{ column.label }}</span
+            >
           </slot>
         </template>
       </div>
@@ -127,42 +138,63 @@ const columns = computed(() => {
     <slot name="body">
       <template v-for="(row, index) in data" :key="index">
         <slot name="body-row-pre" :row="row" :columns="columns" :index="index"></slot>
-        <div class="flex-table-item"
-          :class="[props.clickable && 'is-clickable', row.bg_row && `has-background-${row.bg_row}-light`]"
-          :tabindex="props.clickable ? 0 : undefined" @keydown.space.prevent="
+        <div
+          class="flex-table-item"
+          :class="[
+            props.clickable && 'is-clickable',
+            row.bg_row && `has-background-${row.bg_row}-light has-text-dark`,
+          ]"
+          :tabindex="props.clickable ? 0 : undefined"
+          @keydown.space.prevent="
             () => {
               props.clickable && emits('rowClick', row, index)
             }
-          " @click="
-  () => {
-    props.clickable && emits('rowClick', row, index)
-  }
-">
+          "
+          @click="
+            () => {
+              props.clickable && emits('rowClick', row, index)
+            }
+          "
+        >
           <slot name="body-row" :row="row" :columns="columns" :index="index">
             <template v-for="column in columns" :key="'row' + column.key">
               <VFlexTableCell :column="column">
-                <slot name="body-cell" :row="row" :column="column" :index="index"
-                  :value="column.format(row[column.key], row, index)">
-                  <component :is="{ render: () => column.renderRow?.(row, column, index) }" v-if="column.renderRow">
+                <slot
+                  name="body-cell"
+                  :row="row"
+                  :column="column"
+                  :index="index"
+                  :value="column.format(row[column.key], row, index)"
+                >
+                  <component
+                    :is="{ render: () => column.renderRow?.(row, column, index) }"
+                    v-if="column.renderRow"
+                  >
                   </component>
-                  <span v-else-if="
-                    typeof column.format(row[column.key], row, index) === 'object'
-                  " :class="[
-  column.cellClass,
-  column.inverted && 'dark-inverted',
-  !column.inverted && (column.bold ? 'dark-text' : ''),
-]">
+                  <span
+                    v-else-if="
+                      typeof column.format(row[column.key], row, index) === 'object'
+                    "
+                    :class="[
+                      column.cellClass,
+                      column.inverted && 'dark-inverted',
+                      !column.inverted && (column.bold ? 'dark-text' : ''),
+                    ]"
+                  >
                     <details v-if="printObjects">
                       <div class="language-json py-4">
                         <pre><code>{{ column.format(row[column.key], row, index) }}</code></pre>
                       </div>
                     </details>
                   </span>
-                  <span v-else :class="[
-                    column.cellClass,
-                    column.inverted && 'dark-inverted',
-                    !column.inverted && (column.bold ? 'dark-text' : ''),
-                  ]">
+                  <span
+                    v-else
+                    :class="[
+                      column.cellClass,
+                      column.inverted && 'dark-inverted',
+                      !column.inverted && (column.bold ? 'dark-text' : ''),
+                    ]"
+                  >
                     {{ column.format(row[column.key], row, index) }}
                   </span>
                 </slot>
@@ -183,7 +215,7 @@ const columns = computed(() => {
     align-items: center;
     padding: 0 10px;
 
-    >span,
+    > span,
     .text {
       flex: 1 1 0;
       display: flex;
@@ -204,7 +236,7 @@ const columns = computed(() => {
         .checkbox {
           padding: 0;
 
-          >span {
+          > span {
             height: 22px;
           }
         }
@@ -239,7 +271,7 @@ const columns = computed(() => {
       padding-bottom: 10px;
       padding-top: 0;
 
-      >span {
+      > span {
         min-height: 20px;
       }
     }
@@ -339,7 +371,6 @@ const columns = computed(() => {
 
   &.is-table-clickable {
     .flex-table-item {
-
       &:hover,
       &:focus-within {
         background: var(--widget-grey) !important;
@@ -383,7 +414,6 @@ const columns = computed(() => {
 
     &.is-table-clickable {
       .flex-table-item {
-
         &:hover,
         &:focus-within {
           background: var(--dark-sidebar-light-12) !important;
@@ -414,7 +444,7 @@ const columns = computed(() => {
         margin-bottom: 0;
       }
 
-      >div {
+      > div {
         border: none !important;
       }
     }
@@ -422,14 +452,13 @@ const columns = computed(() => {
     &:not(.sub-table) {
       .flex-table-item {
         .flex-table-cell {
-
-          >span,
-          >small,
-          >strong,
-          >p,
-          >div,
-          >.is-pushed-mobile,
-          >.text {
+          > span,
+          > small,
+          > strong,
+          > p,
+          > div,
+          > .is-pushed-mobile,
+          > .text {
             margin-left: auto;
 
             &.no-push {
