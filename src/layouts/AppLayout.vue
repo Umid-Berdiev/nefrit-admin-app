@@ -4,13 +4,13 @@ import { useRoute } from 'vue-router'
 
 import type { SidebarTheme } from '/@src/components/navigation/desktop/Sidebar.vue'
 import { useViewWrapper } from '/@src/stores/viewWrapper'
-import MainSidebar from './sidebars/MainSidebar.vue';
-import MobileMainSidebar from './mobile-sidebars/MobileMainSidebar.vue';
-import ActivityPanel from '../components/partials/panels/ActivityPanel.vue';
-import LanguagesPanel from '../components/partials/panels/LanguagesPanel.vue';
-import VViewWrapper from '../components/base/layouts/VViewWrapper.vue';
-import Toolbar from '../components/partials/toolbars/Toolbar.vue';
-import ContractDownloadModal from '../components/base/modal/ContractDownloadModal.vue';
+import MainSidebar from './sidebars/MainSidebar.vue'
+import MobileMainSidebar from './mobile-sidebars/MobileMainSidebar.vue'
+import ActivityPanel from '../components/partials/panels/ActivityPanel.vue'
+import LanguagesPanel from '../components/partials/panels/LanguagesPanel.vue'
+import VViewWrapper from '../components/base/layouts/VViewWrapper.vue'
+import Toolbar from '../components/partials/toolbars/Toolbar.vue'
+import ContractDownloadModal from '../components/base/modal/ContractDownloadModal.vue'
 
 const props = withDefaults(
   defineProps<{
@@ -58,8 +58,6 @@ watch(
     }
   }
 )
-// console.log('activeMobileSubsidebar: ', activeMobileSubsidebar.value);
-
 </script>
 
 <template>
@@ -67,7 +65,10 @@ watch(
     <div class="app-overlay"></div>
 
     <!-- Mobile navigation -->
-    <MobileNavbar :is-open="isMobileSidebarOpen" @toggle="isMobileSidebarOpen = !isMobileSidebarOpen">
+    <MobileNavbar
+      :is-open="isMobileSidebarOpen"
+      @toggle="isMobileSidebarOpen = !isMobileSidebarOpen"
+    >
       <!-- <template #brand>
         <RouterLink :to="{ name: 'index' }" class="navbar-item is-brand">
           <AnimatedLogo width="38px" height="38px" />
@@ -81,7 +82,10 @@ watch(
     </MobileNavbar>
 
     <!-- Mobile sidebar links -->
-    <MobileSidebar :is-open="isMobileSidebarOpen" @toggle="isMobileSidebarOpen = !isMobileSidebarOpen">
+    <MobileSidebar
+      :is-open="isMobileSidebarOpen"
+      @toggle="isMobileSidebarOpen = !isMobileSidebarOpen"
+    >
       <!-- <template #links>
         <li>
           <RouterLink :to="{ name: 'app' }">
@@ -115,9 +119,12 @@ watch(
       <VPageContent class="is-relative">
         <div class="page-title has-text-centered">
           <!-- Sidebar Trigger -->
-          <div class="vuero-hamburger nav-trigger push-resize" tabindex="0"
+          <div
+            class="vuero-hamburger nav-trigger push-resize"
+            tabindex="0"
             @keydown.space.prevent="isDesktopSidebarOpen = !isDesktopSidebarOpen"
-            @click="isDesktopSidebarOpen = !isDesktopSidebarOpen">
+            @click="isDesktopSidebarOpen = !isDesktopSidebarOpen"
+          >
             <span class="menu-toggle has-chevron">
               <span :class="[isDesktopSidebarOpen && 'active']" class="icon-box-toggle">
                 <span class="rotate">

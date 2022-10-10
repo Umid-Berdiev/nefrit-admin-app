@@ -139,14 +139,7 @@ async function onSubmit() {
 function onLogoFileUpload(event: Event) {
   const target = event.target as HTMLInputElement
   if (target.files?.length) {
-    // const reader = new FileReader()
-    // reader.readAsDataURL(target.files[0])
-    // reader.onload = () => {
-    //   logoUrl.value = reader.result?.toString() || ''
-    // }
-    // reader.onerror = (error) => console.log(error)
     logoUrl.value = URL.createObjectURL(target.files[0])
-
     logoFiles.value = [target.files[0]]
   }
 }
@@ -154,24 +147,13 @@ function onLogoFileUpload(event: Event) {
 function onImageFileUpload(event: Event) {
   const target = event.target as HTMLInputElement
   if (target.files?.length) {
-    // const reader = new FileReader()
-    // reader.readAsDataURL(target.files[0])
-    // reader.onload = () => {
-    //   imageUrl.value = reader.result?.toString() || ''
-    // }
-    // reader.onerror = (error) => console.log(error)
     imageUrl.value = URL.createObjectURL(target.files[0])
-
     imageFiles.value = [target.files[0]]
   }
 }
 
 function changeLatLng(e: Event) {
   const targetLatLng = e.target.getLatLng()
-
-  console.log('lat: ', targetLatLng.lat)
-  console.log('lng: ', targetLatLng.lng)
-
   currentLocation.value[0] = targetLatLng.lat
   currentLocation.value[1] = targetLatLng.lng
 }

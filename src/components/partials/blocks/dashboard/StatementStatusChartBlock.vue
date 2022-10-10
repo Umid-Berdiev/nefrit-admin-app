@@ -22,8 +22,6 @@ const range = computed({
     end: moment().format('YYYY-MM-DD')
   }),
   set: async (val: any) => {
-    console.log({ val });
-
     if (!isEmpty(val)) await fetchStatusStatistics({
       date_start: val.start,
       date_end: val.end

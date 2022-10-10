@@ -2,12 +2,13 @@
 import { computed, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
-import { useMainStore } from '/@src/stores'
+import { useUserSession } from '/@src/stores/userSession'
 import { fetchApplicantStatements } from '/@src/utils/api/applicant'
+import { helper } from '/@src/utils/helper'
 
 const route = useRoute()
 const router = useRouter()
-const mainStore = useMainStore()
+const { userRoleID } = useUserSession()
 const { t, locale } = useI18n()
 const props = defineProps({
   data: {
@@ -66,7 +67,8 @@ async function fetchStatementsData(page: number = 1) {
 }
 
 function onView(statementId: number) {
-  router.push(`/app/statements/${statementId}`)
+  const url = helper.gotoStatementPage(statementId, userRoleID)
+  router.push(url)
 }
 </script>
 

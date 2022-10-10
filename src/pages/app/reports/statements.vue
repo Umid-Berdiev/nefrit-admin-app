@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { computed, reactive, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useHead } from '@vueuse/head'
 import { isEmpty } from 'lodash'
@@ -8,9 +7,13 @@ import moment from 'moment'
 
 import { fetchStatementReport } from '/@src/utils/api/reports'
 import { useViewWrapper } from '/@src/stores/viewWrapper'
+import { helper } from '/@src/utils/helper'
+import { useUserSession } from '/@src/stores/userSession'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const { t, locale } = useI18n()
-
+const { userRoleID } = useUserSession()
 useHead({
   title: t('Statement_report') + ' - Nefrit',
 })
@@ -26,7 +29,6 @@ const data = reactive({
   },
   result: [],
 })
-const router = useRouter()
 const currentPage = computed({
   get: () => {
     return data.pagination.current_page
@@ -46,8 +48,6 @@ const range = computed({
     end: moment().format('YYYY-MM-DD'),
   }),
   set: async (val: any) => {
-    console.log({ val })
-
     if (!isEmpty(val))
       await fetchData(1, {
         date_start: val.start,
@@ -100,8 +100,8 @@ async function fetchData(
 }
 
 function gotoView(rowId: number) {
-  console.log({ rowId })
-  router.push('/app/statements/' + rowId)
+  const url = helper.gotoStatementPage(rowId, userRoleID)
+  router.push(url)
 }
 </script>
 

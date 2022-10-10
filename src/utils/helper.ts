@@ -69,6 +69,15 @@ const helpers = {
 
     return numbers
   },
+
+  gotoStatementPage(rowId: number, userRoleID: number) {
+    let url = `/app/statements/${rowId}`
+    if (userRoleID == 5) {
+      url += '#docs'
+    }
+
+    return url
+  },
 }
 
 const install = (app: VueroAppContext['app']) => {

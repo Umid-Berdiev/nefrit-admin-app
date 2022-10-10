@@ -25,7 +25,7 @@ const data = reactive({
     per_page: 10,
     total: 10,
   },
-  result: []
+  result: [],
 })
 
 const currentPage = computed({
@@ -34,7 +34,7 @@ const currentPage = computed({
   },
   set: async (page) => {
     await fetchData(page)
-  }
+  },
 })
 
 const datePickerModelConfig = reactive({
@@ -45,16 +45,15 @@ const datePickerModelConfig = reactive({
 const range = computed({
   get: () => ({
     start: moment().subtract(1, 'month').format('YYYY-MM-DD'),
-    end: moment().format('YYYY-MM-DD')
+    end: moment().format('YYYY-MM-DD'),
   }),
   set: async (val: any) => {
-    console.log({ val });
-
-    if (!isEmpty(val)) await fetchData(1, {
-      date_start: val.start,
-      date_end: val.end
-    })
-  }
+    if (!isEmpty(val))
+      await fetchData(1, {
+        date_start: val.start,
+        date_end: val.end,
+      })
+  },
 })
 
 const columns = {
@@ -87,14 +86,17 @@ const columns = {
 onMounted(async () => {
   await fetchData(1, {
     date_start: range.value.start,
-    date_end: range.value.end
+    date_end: range.value.end,
   })
 })
 
-async function fetchData(page: number = 1, range: any = {
-  date_start: '',
-  date_end: '',
-}) {
+async function fetchData(
+  page: number = 1,
+  range: any = {
+    date_start: '',
+    date_end: '',
+  }
+) {
   const res = await fetchApplicantReport({ page, ...range })
   Object.assign(data, res)
 }
@@ -107,8 +109,12 @@ function onView(rowId: string | number) {
 <template>
   <div class="applicant-list-wrapper">
     <!-- table -->
-    <VFlexTableWrapper :columns="columns" :data="data.result" :limit="data.pagination.per_page"
-      :total="data.pagination.total">
+    <VFlexTableWrapper
+      :columns="columns"
+      :data="data.result"
+      :limit="data.pagination.per_page"
+      :total="data.pagination.total"
+    >
       <!--
         Here we retrieve the internal wrapperState.
         Note that we can not destructure it
@@ -118,8 +124,15 @@ function onView(rowId: string | number) {
         <VFlexTableToolbar>
           <template #left>
             <!-- We can bind wrapperState.searchInput to any input -->
-            <VDatePicker :locale="locale" class="ml-auto" v-model="range" is-range color="green" trim-weeks
-              :model-config="datePickerModelConfig">
+            <VDatePicker
+              :locale="locale"
+              class="ml-auto"
+              v-model="range"
+              is-range
+              color="green"
+              trim-weeks
+              :model-config="datePickerModelConfig"
+            >
               <template v-slot="{ inputValue, inputEvents }">
                 <VField addons>
                   <VControl expanded icon="feather:corner-down-right">
@@ -141,20 +154,27 @@ function onView(rowId: string | number) {
 
         <VFlexTable rounded>
           <template #header-column="{ column }">
-            <span v-if="column.key === 'orderNumber'" class="is-flex-grow-0" v-text="'#'" />
+            <span
+              v-if="column.key === 'orderNumber'"
+              class="is-flex-grow-0"
+              v-text="'#'"
+            />
           </template>
           <template #body>
             <!-- This is the empty state -->
             <div v-if="data.result.length === 0" class="flex-list-inner">
-              <VPlaceholderSection :title="$t('No_data')" :subtitle="$t('There_is_no_data_that_match_your_query')"
-                class="my-6" />
+              <VPlaceholderSection
+                :title="$t('No_data')"
+                :subtitle="$t('There_is_no_data_that_match_your_query')"
+                class="my-6"
+              />
             </div>
           </template>
 
           <!-- Custom "name" cell content -->
           <template #body-cell="{ row, column, value, index }">
             <template v-if="column.key === 'name'">
-              <p style="overflow-wrap: break-word;">{{ value }}</p>
+              <p style="overflow-wrap: break-word">{{ value }}</p>
             </template>
             <template v-if="column.key === 'status' && value">
               <StatusTag :status="value" />
@@ -169,8 +189,13 @@ function onView(rowId: string | number) {
         </VFlexTable>
 
         <!-- Table Pagination with wrapperState.page binded-->
-        <VFlexPagination v-if="data.result.length" class="mt-6" v-model:current-page="currentPage"
-          :item-per-page="data.pagination.per_page" :total-items="data.pagination.total" />
+        <VFlexPagination
+          v-if="data.result.length"
+          class="mt-6"
+          v-model:current-page="currentPage"
+          :item-per-page="data.pagination.per_page"
+          :total-items="data.pagination.total"
+        />
       </template>
     </VFlexTableWrapper>
   </div>

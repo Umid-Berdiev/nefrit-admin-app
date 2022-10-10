@@ -132,7 +132,6 @@ function clearErrors(prop: string) {
 
 function onFileUpload(event: Event) {
   const target = event.target as HTMLInputElement
-  console.log('files: ', target.files);
   files.value = target.files && [target.files[0]];
 }
 

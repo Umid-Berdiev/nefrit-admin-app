@@ -32,7 +32,6 @@ function onSubmit(event: Event) {
 }
 
 function onFileUpload(event: Event) {
-  console.log('file: ', event.target.files[0])
   uploadedFileName.value = event.target.files[0].name
 }
 </script>

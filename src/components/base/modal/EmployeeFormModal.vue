@@ -100,7 +100,6 @@ const onRemoveFile = (error: any, file: any) => {
   }
   avatarFile.value = undefined
   employeeData.avatar = ''
-  // console.log('file removed', file)
 }
 
 function onClose() {

@@ -73,7 +73,6 @@ const onRemoveFile = (error: any, file: any) => {
   }
   avatarFile.value = undefined
   userData.avatar = ''
-  // console.log('file removed', file)
 }
 
 function clearErrors() {

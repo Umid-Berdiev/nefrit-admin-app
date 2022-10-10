@@ -248,9 +248,10 @@ function successNotify() {
                 <td>
                   <RouterLink
                     class="has-text-primary"
-                    :to="`/app/statements/${item.id}`"
-                    >{{ item.uuid }}</RouterLink
+                    :to="$h.gotoStatementPage(item.id, userRoleID)"
                   >
+                    {{ item.uuid }}
+                  </RouterLink>
                 </td>
                 <td>
                   {{ item.drug }}

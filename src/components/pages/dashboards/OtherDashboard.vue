@@ -1,13 +1,11 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
-import {
-  fetchStatementsGeneralStatistics
-} from '/@src/utils/api/statement';
+import { fetchStatementsGeneralStatistics } from '/@src/utils/api/statement'
 
-const statementStatuses = reactive({
+const statementStatuses: Status = reactive({
   total: null,
-  result: []
-});
+  result: [],
+})
 
 onMounted(async () => {
   await fetchStatementsGeneralStats()
@@ -25,16 +23,32 @@ async function fetchStatementsGeneralStats() {
     <div class="columns" v-if="statementStatuses.result.length">
       <div class="column">
         <VCard radius="small" class="has-text-centered">
-          <i class="iconify" data-icon="feather:activity" data-height="32" aria-hidden="true" size="5"></i>
+          <i
+            class="iconify"
+            data-icon="feather:activity"
+            data-height="32"
+            aria-hidden="true"
+            size="5"
+          ></i>
           <h1 class="is-size-1">{{ statementStatuses.total }}</h1>
           <h3 class="title is-5 mb-2">
             {{ $t('Total') }}
           </h3>
         </VCard>
       </div>
-      <div class="column" v-for="status in statementStatuses.result">
+      <div
+        v-for="(status, index) in statementStatuses.result"
+        :key="index"
+        class="column"
+      >
         <VCard radius="small" class="has-text-centered" :color="status.color">
-          <i class="iconify" data-icon="feather:activity" data-height="32" aria-hidden="true" size="5"></i>
+          <i
+            class="iconify"
+            data-icon="feather:activity"
+            data-height="32"
+            aria-hidden="true"
+            size="5"
+          ></i>
           <h1 class="is-size-1">{{ status.applications }}</h1>
           <h3 class="title is-5 mb-2">
             {{ status.name }}
@@ -121,14 +135,14 @@ async function fetchStatementsGeneralStats() {
         }
       }
 
-      >h3 {
+      > h3 {
         color: var(--dark-text);
         font-family: var(--font-alt);
         font-size: 1.2rem;
         font-weight: 600;
       }
 
-      >p {
+      > p {
         font-size: 0.9rem;
       }
 
@@ -224,7 +238,7 @@ async function fetchStatementsGeneralStats() {
         padding: 10px 0;
 
         .media-flex {
-          +.media-flex {
+          + .media-flex {
             margin-top: 20px;
             padding-top: 20px;
             border-top: 1px solid var(--fade-grey-dark-3);

@@ -12,8 +12,6 @@ const openConfirmModal = ref(false)
 const currentUser = computed(() => userSession.user)
 
 function onLogout() {
-  console.log('in onLogout func')
-
   openConfirmModal.value = true
 }
 

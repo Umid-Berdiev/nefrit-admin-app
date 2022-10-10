@@ -5,25 +5,22 @@ import { useI18n } from 'vue-i18n'
 import { isEmpty } from 'lodash'
 import moment from 'moment'
 
-import {
-  fetchStatementStageStatistics
-} from '/@src/utils/api/statement'
+import { fetchStatementStageStatistics } from '/@src/utils/api/statement'
 
 const { t, locale } = useI18n()
 
 const range = computed({
   get: () => ({
     start: moment().subtract(1, 'month').format('YYYY-MM-DD'),
-    end: moment().format('YYYY-MM-DD')
+    end: moment().format('YYYY-MM-DD'),
   }),
   set: async (val: any) => {
-    console.log({ val });
-
-    if (!isEmpty(val)) await fetchStageStatistics({
-      date_start: val.start,
-      date_end: val.end
-    })
-  }
+    if (!isEmpty(val))
+      await fetchStageStatistics({
+        date_start: val.start,
+        date_end: val.end,
+      })
+  },
 })
 
 const datePickerModelConfig = reactive({
@@ -62,7 +59,7 @@ const stageChartOptions = reactive({
     horizontalAlign: 'center',
     formatter: (val, opt) => {
       return `<span style="overflow-wrap: break-word;">${val}</span>`
-    }
+    },
   },
   plotOptions: {
     pie: {
@@ -89,27 +86,41 @@ const stageChartOptions = reactive({
 onMounted(async () => {
   await fetchStageStatistics({
     date_start: range.value.start,
-    date_end: range.value.end
+    date_end: range.value.end,
   })
 })
 
-async function fetchStageStatistics(range: any = {
-  date_start: '',
-  date_end: '',
-}) {
+async function fetchStageStatistics(
+  range: any = {
+    date_start: '',
+    date_end: '',
+  }
+) {
   const res = await fetchStatementStageStatistics(range)
-  Object.assign(stageChartSeries, res.map(item => item.applications))
-  Object.assign(stageChartOptions.labels, res.map(item => `${item.name}: ${item.applications}`))
+  Object.assign(
+    stageChartSeries,
+    res.map((item) => item.applications)
+  )
+  Object.assign(
+    stageChartOptions.labels,
+    res.map((item) => `${item.name}: ${item.applications}`)
+  )
 }
-
 </script>
 
 <template>
   <div class="dashboard-card is-base-chart">
     <div class="content-box is-flex">
       <h1 class="is-size-4">{{ $t('Statement_stages') }}</h1>
-      <VDatePicker :locale="locale" class="ml-auto" v-model="range" is-range color="green" trim-weeks
-        :model-config="datePickerModelConfig">
+      <VDatePicker
+        :locale="locale"
+        class="ml-auto"
+        v-model="range"
+        is-range
+        color="green"
+        trim-weeks
+        :model-config="datePickerModelConfig"
+      >
         <template v-slot="{ inputValue, inputEvents }">
           <VField addons>
             <VControl expanded icon="feather:corner-down-right">
@@ -128,8 +139,12 @@ async function fetchStageStatistics(range: any = {
       </VDatePicker>
     </div>
     <div>
-      <ApexChart :type="stageChartOptions.chart.type" :height="400" :series="stageChartSeries"
-        :options="stageChartOptions" />
+      <ApexChart
+        :type="stageChartOptions.chart.type"
+        :height="400"
+        :series="stageChartSeries"
+        :options="stageChartOptions"
+      />
     </div>
   </div>
 </template>

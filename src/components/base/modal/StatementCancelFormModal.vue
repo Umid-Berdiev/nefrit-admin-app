@@ -35,7 +35,6 @@ async function onSubmit(event: Event) {
   try {
     isLoading.value = true
     const values = new FormData(event.target)
-    // console.log({ values });
 
     await cancelStatementById(props.statementId, values)
     clearFields()

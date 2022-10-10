@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { useWindowScroll } from '@vueuse/core'
 import { computed, reactive, ref } from 'vue'
-import { useI18n } from 'vue-i18n';
+import { useI18n } from 'vue-i18n'
 import { useNotyf } from '/@src/composable/useNotyf'
-import { useUserSession } from '/@src/stores/userSession';
+import { useUserSession } from '/@src/stores/userSession'
 
 const notyf = useNotyf()
 const { y } = useWindowScroll()
@@ -26,7 +26,6 @@ async function onSave(event: Event) {
     clearErrors()
     const values = Object.fromEntries(new FormData(event.target))
     await updateProfilePassword(values)
-    console.log({ values });
 
     notyf.success(t('Updated_successfully'))
   } catch (error: any) {
@@ -41,7 +40,7 @@ function clearErrors() {
   Object.assign(errors, {
     old_password: [],
     password: [],
-    password_confirmation: []
+    password_confirmation: [],
   })
 }
 </script>
@@ -60,7 +59,14 @@ function clearErrors() {
             <!-- <VButton type="button" :to="{ name: 'app' }" icon="lnir lnir-arrow-left rem-100" light dark-outlined>
               {{ $t('Go_Back') }}
             </VButton> -->
-            <VButton type="submit" color="primary" raised :loading="isLoading" tabindex="0" form="pwd-update-form">
+            <VButton
+              type="submit"
+              color="primary"
+              raised
+              :loading="isLoading"
+              tabindex="0"
+              form="pwd-update-form"
+            >
               {{ $t('Save_changes') }}
             </VButton>
           </div>
@@ -79,7 +85,11 @@ function clearErrors() {
           <div class="column is-12">
             <VField>
               <VControl icon="feather:unlock">
-                <VInput type="password" :placeholder="$t('Old_Password')" name="old_password" />
+                <VInput
+                  type="password"
+                  :placeholder="$t('Old_Password')"
+                  name="old_password"
+                />
                 <p class="help has-text-danger">{{ errors.old_password[0] }}</p>
               </VControl>
             </VField>
@@ -88,7 +98,11 @@ function clearErrors() {
           <div class="column is-12">
             <VField>
               <VControl icon="feather:lock">
-                <VInput type="password" :placeholder="$t('New_Password')" name="password" />
+                <VInput
+                  type="password"
+                  :placeholder="$t('New_Password')"
+                  name="password"
+                />
                 <p class="help has-text-danger">{{ errors.password[0] }}</p>
               </VControl>
             </VField>
@@ -97,7 +111,11 @@ function clearErrors() {
           <div class="column is-12">
             <VField>
               <VControl icon="feather:lock">
-                <VInput type="password" :placeholder="$t('Repeat_New_Password')" name="password_confirmation" />
+                <VInput
+                  type="password"
+                  :placeholder="$t('Repeat_New_Password')"
+                  name="password_confirmation"
+                />
                 <p class="help has-text-danger">{{ errors.password_confirmation[0] }}</p>
               </VControl>
             </VField>

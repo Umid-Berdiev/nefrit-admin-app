@@ -40,7 +40,6 @@ import routes from 'pages-generated'
  *
  * Uncomment the line below to view the generated routes
  */
-// console.log(routes)
 
 export function createRouter() {
   const router = createClientRouter({

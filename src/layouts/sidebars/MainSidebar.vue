@@ -1,12 +1,8 @@
 <script setup lang="ts">
-import { useRoute } from 'vue-router'
 import MainMenu from '/@src/components/navigation/MainMenu.vue'
 import AppLogo from '/@src/components/svg/AppLogo.vue'
 
 const emit = defineEmits(['close'])
-
-const route = useRoute()
-// console.log({ route: route.path });
 </script>
 
 <template>

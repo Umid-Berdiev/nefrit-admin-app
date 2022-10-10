@@ -2,14 +2,14 @@
 import { computed, onMounted, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
+import { useUserSession } from '/@src/stores/userSession'
 
-import {
-  fetchLatestStatementsStatistics
-} from '/@src/utils/api/statement'
+import { fetchLatestStatementsStatistics } from '/@src/utils/api/statement'
+import { helper } from '/@src/utils/helper'
 
 const router = useRouter()
 const { t } = useI18n()
-
+const { userRoleID } = useUserSession()
 const columns = {
   code: {
     label: t('statement_code'),
@@ -36,7 +36,7 @@ const statementData = reactive({
     per_page: 10,
     total: 10,
   },
-  result: []
+  result: [],
 })
 const currentPage = computed({
   get: () => {
@@ -44,7 +44,7 @@ const currentPage = computed({
   },
   set: async (page) => {
     await fetchLatestStatements(page)
-  }
+  },
 })
 
 onMounted(async () => {
@@ -52,8 +52,8 @@ onMounted(async () => {
 })
 
 function gotoView(rowId: number) {
-  console.log({ rowId });
-  router.push('/app/statements/' + rowId)
+  const url = helper.gotoStatementPage(rowId, userRoleID)
+  router.push(url)
 }
 
 async function fetchLatestStatements(page: number = 1) {
@@ -77,16 +77,27 @@ async function fetchLatestStatements(page: number = 1) {
                 <span>{{ $h.formatDate(value, 'HH:mm DD.MM.YYYY') }}</span>
               </template>
               <template v-if="column.key === 'actions'">
-                <VIconButton class="ml-auto p-4" outlined circle color="info" icon="feather:eye"
-                  @click.prevent="gotoView(row.id)">
+                <VIconButton
+                  class="ml-auto p-4"
+                  outlined
+                  circle
+                  color="info"
+                  icon="feather:eye"
+                  @click.prevent="gotoView(row.id)"
+                >
                   {{ $t('View') }}
                 </VIconButton>
               </template>
             </template>
           </VFlexTable>
 
-          <VFlexPagination v-if="statementData.result.length" v-model:current-page="currentPage" class="mt-6"
-            :item-per-page="statementData.pagination.per_page" :total-items="statementData.pagination.total" />
+          <VFlexPagination
+            v-if="statementData.result.length"
+            v-model:current-page="currentPage"
+            class="mt-6"
+            :item-per-page="statementData.pagination.per_page"
+            :total-items="statementData.pagination.total"
+          />
         </template>
       </VFlexTableWrapper>
     </div>

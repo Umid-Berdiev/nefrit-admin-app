@@ -7,8 +7,12 @@ import { isEmpty } from 'lodash'
 
 // we import our useApi helper
 import { useViewWrapper } from '/@src/stores/viewWrapper'
-import { fetchById, fetchPermissionByRoleId, updatePermissionMethodById } from "/@src/utils/api/role";
-import { PermissionData, RoleData } from "/@src/utils/interfaces";
+import {
+  fetchById,
+  fetchPermissionByRoleId,
+  updatePermissionMethodById,
+} from '/@src/utils/api/role'
+import { PermissionData, RoleData } from '/@src/utils/interfaces'
 
 const { t, locale } = useI18n()
 const viewWrapper = useViewWrapper()
@@ -17,17 +21,19 @@ const viewWrapper = useViewWrapper()
 const route = useRoute()
 const currentId = (route.params?.id as string) ?? ''
 const currentRole = ref<RoleData>()
-const permissionTabs = ref<PermissionData[]>([]);
+const permissionTabs = ref<PermissionData[]>([])
 const selectedTab = ref<PermissionData>()
 
 // here we setup our page meta with our permissions data
 useHead({
-  title: computed(() => t('Role_permissions'))
+  title: computed(() => t('Role_permissions')),
 })
 
 await fetchCurrentRole()
 await fetchPermissions()
-viewWrapper.setPageTitle(`${t('Role_permissions')}: ${currentRole.value?.name[locale.value]}`)
+viewWrapper.setPageTitle(
+  `${t('Role_permissions')}: ${currentRole.value?.name[locale.value]}`
+)
 
 async function fetchCurrentRole() {
   const res = await fetchById(Number(currentId))
@@ -41,34 +47,30 @@ async function fetchPermissions() {
 }
 
 function setSelectedTab(val: string) {
-  selectedTab.value = permissionTabs.value?.find(item => item.value === val) || permissionTabs.value[0]
+  selectedTab.value =
+    permissionTabs.value?.find((item) => item.value === val) || permissionTabs.value[0]
 }
 
 async function updatePermissionMethod(methodValue: boolean, methodId: number) {
-  // const target = event.target as HTMLInputElement
-  console.log({ methodValue });
-  console.log({ methodId });
-
   const res1 = await updatePermissionMethodById(methodId, Number(methodValue))
+
   if (res1.status === 200) {
     const res2 = await fetchPermissionByRoleId(Number(currentId))
     permissionTabs.value = await res2
   }
 }
-
-// async function updatePermissionMethod(event: Event) {
-//   const target = event.target as HTMLInputElement
-//   console.log({ target });
-
-//   const res = await updatePermissionMethodById(Number(target.name), Number(target.checked))
-// }
 </script>
 
 <template>
   <div class="permissions-detail-wrapper">
     <!-- <ListWidgetSingle :title="currentRole?.name[locale]" straight class="list-widget-v3"> -->
-    <VTabs :selected="selectedTab?.value" :tabs="permissionTabs" type="boxed" class="boxed_tabs"
-      @update:selected="setSelectedTab">
+    <VTabs
+      :selected="selectedTab?.value"
+      :tabs="permissionTabs"
+      type="boxed"
+      class="boxed_tabs"
+      @update:selected="setSelectedTab"
+    >
       <template #tab="{ activeValue }">
         <div class="active_tab_content p-5">
           <h1 class="is-size-5 mb-5">{{ $t('Methods') }}: {{ selectedTab?.label }}</h1>
@@ -79,8 +81,12 @@ async function updatePermissionMethod(methodValue: boolean, methodId: number) {
                 <td>
                   <VField>
                     <VControl>
-                      <VSwitchBlock :name="method.id" color="primary" :checked="method.value === 1 ? true : false"
-                        @update:modelValue="(val: boolean) => updatePermissionMethod(val, method.id)" />
+                      <VSwitchBlock
+                        :name="method.id"
+                        color="primary"
+                        :checked="method.value === 1 ? true : false"
+                        @update:modelValue="(val: boolean) => updatePermissionMethod(val, method.id)"
+                      />
                     </VControl>
                   </VField>
                 </td>

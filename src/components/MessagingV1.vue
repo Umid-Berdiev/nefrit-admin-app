@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { computed, onMounted, onUpdated, reactive, ref, watch } from 'vue'
-import { useI18n } from 'vue-i18n';
-import { useRoute } from 'vue-router';
-import { fetchStatementChatMessages } from "/@src/utils/api/statement";
-import { StatementChatMessageData } from "/@src/utils/interfaces";
+import { useI18n } from 'vue-i18n'
+import { useRoute } from 'vue-router'
+import { fetchStatementChatMessages } from '/@src/utils/api/statement'
+import { StatementChatMessageData } from '/@src/utils/interfaces'
 
 const { t, locale } = useI18n()
 const route = useRoute()
@@ -11,19 +11,9 @@ const currentId = (route.params?.id as string) ?? null
 
 // Those utilities are used to manage the layout
 const messages: StatementChatMessageData[] = reactive([])
-const chatBoxBody = ref<HTMLDivElement>();
+const chatBoxBody = ref<HTMLDivElement>()
 
 await fetchChatMessages()
-
-// onMounted(() => {
-//   console.log('on mounted hook');
-//   scrollToBottom();
-// });
-
-// onUpdated(() => {
-//   console.log('on updated hook');
-//   scrollToBottom();
-// });
 
 watch(
   () => messages,
@@ -39,12 +29,10 @@ async function fetchChatMessages() {
 }
 
 async function scrollToBottom() {
-  const chatBody = document.getElementById('chat-body');
-  console.log('chatBody.offsetHeight: ', chatBody?.offsetHeight);
+  const chatBody = document.getElementById('chat-body')
 
-  if (chatBody) chatBody.scrollTop = chatBody.offsetHeight + 50;
+  if (chatBody) chatBody.scrollTop = chatBody.offsetHeight + 50
 }
-
 </script>
 
 <template>
@@ -80,7 +68,6 @@ async function scrollToBottom() {
         }
 
         .user-container {
-
           .is-badge,
           .is-count {
             border-color: var(--dark-sidebar-light-5) !important;

@@ -84,8 +84,6 @@ async function onSubmit(event: Event) {
     emits('update:list')
     onClose()
   } catch (error: any) {
-    console.log({ error });
-
     Object.assign(errors, error.response?.data?.errors)
     // throw error
   } finally {
@@ -114,7 +112,6 @@ function clearErrors(event: Event) {
 
 function onFileUpload(event: Event) {
   const target = event.target as HTMLInputElement
-  console.log('files: ', target.files);
   target.files && files.value?.push(target.files[0]);
 }
 

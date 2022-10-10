@@ -61,31 +61,7 @@ const pages = computed(() => {
 
 const showLastLink = computed(() => lastPage.value > 1)
 
-// const paginatedLink = (page = 1) => {
-//   console.log('paginatedLink: ', page);
-
-//   if (props.noRouter) {
-//     return {}
-//   }
-
-//   const _page = Math.max(1, Math.min(page, lastPage.value))
-//   const query: any = {
-//     ...route.query,
-//   }
-
-//   if (props.routerQueryKey) {
-//     query[props.routerQueryKey] = _page <= 1 ? undefined : _page
-//   }
-
-//   return {
-//     name: route.name,
-//     params: route.params,
-//     query,
-//   } as RouteLocationOptions
-// }
-
 const handleLinkClick = (e: Event, page = 1) => {
-  // console.log('handleLinkClick: ', page);
   const _page = Math.max(1, Math.min(page, lastPage.value))
   emits('update:currentPage', _page)
 
@@ -99,13 +75,22 @@ const handleLinkClick = (e: Event, page = 1) => {
 </script>
 
 <template>
-  <VFlex role="navigation" class="flex-pagination pagination is-rounded" aria-label="pagination"
-    justify-content="space-between">
+  <VFlex
+    role="navigation"
+    class="flex-pagination pagination is-rounded"
+    aria-label="pagination"
+    justify-content="space-between"
+  >
     <ul class="pagination-list">
       <slot name="before-pagination"></slot>
       <li>
-        <VButton tabindex="0" class="pagination-link" :aria-label="t('goto-page-title', { page: 1 })"
-          :class="[currentPage === 1 && 'is-current']" @click="(e: Event) => handleLinkClick(e)">
+        <VButton
+          tabindex="0"
+          class="pagination-link"
+          :aria-label="t('goto-page-title', { page: 1 })"
+          :class="[currentPage === 1 && 'is-current']"
+          @click="(e: Event) => handleLinkClick(e)"
+        >
           1
         </VButton>
       </li>
@@ -115,9 +100,14 @@ const handleLinkClick = (e: Event, page = 1) => {
       </li> -->
 
       <li v-for="page in pages" :key="page">
-        <VButton tabindex="0" class="pagination-link" :aria-label="t('goto-page-title', { page: page })"
-          :aria-current="currentPage === page ? 'page' : undefined" :class="[currentPage === page && 'is-current']"
-          @click="(e: Event) => handleLinkClick(e, page)">
+        <VButton
+          tabindex="0"
+          class="pagination-link"
+          :aria-label="t('goto-page-title', { page: page })"
+          :aria-current="currentPage === page ? 'page' : undefined"
+          :class="[currentPage === page && 'is-current']"
+          @click="(e: Event) => handleLinkClick(e, page)"
+        >
           {{ page }}
         </VButton>
       </li>
@@ -127,8 +117,13 @@ const handleLinkClick = (e: Event, page = 1) => {
       </li> -->
 
       <li v-if="showLastLink">
-        <VButton tabindex="0" class="pagination-link" :aria-label="t('goto-page-title', { page: lastPage })"
-          :class="[currentPage === lastPage && 'is-current']" @click="(e: Event) => handleLinkClick(e, lastPage)">
+        <VButton
+          tabindex="0"
+          class="pagination-link"
+          :aria-label="t('goto-page-title', { page: lastPage })"
+          :class="[currentPage === lastPage && 'is-current']"
+          @click="(e: Event) => handleLinkClick(e, lastPage)"
+        >
           {{ lastPage }}
         </VButton>
       </li>
@@ -136,12 +131,20 @@ const handleLinkClick = (e: Event, page = 1) => {
     </ul>
 
     <slot name="before-navigation"></slot>
-    <VButton :disabled="currentPage === 1" tabindex="0" class="pagination-previous has-chevron"
-      @click="(e: Event) => handleLinkClick(e, currentPage - 1)">
+    <VButton
+      :disabled="currentPage === 1"
+      tabindex="0"
+      class="pagination-previous has-chevron"
+      @click="(e: Event) => handleLinkClick(e, currentPage - 1)"
+    >
       <i aria-hidden="true" class="iconify" data-icon="feather:chevron-left"></i>
     </VButton>
-    <VButton :disabled="currentPage === lastPage" tabindex="0" class="pagination-next has-chevron"
-      @click="(e: Event) => handleLinkClick(e, currentPage + 1)">
+    <VButton
+      :disabled="currentPage === lastPage"
+      tabindex="0"
+      class="pagination-next has-chevron"
+      @click="(e: Event) => handleLinkClick(e, currentPage + 1)"
+    >
       <i aria-hidden="true" class="iconify" data-icon="feather:chevron-right"></i>
     </VButton>
     <slot name="after-navigation"></slot>

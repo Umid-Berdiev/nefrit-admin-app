@@ -15,6 +15,7 @@ import {
 } from '/@src/utils/api/statement'
 import { StatusData } from '/@src/utils/interfaces'
 import { useUserSession } from '/@src/stores/userSession'
+import { helper } from '/@src/utils/helper'
 
 const { t, locale } = useI18n()
 const { userRoleID } = useUserSession()
@@ -108,8 +109,7 @@ onMounted(async () => {
 })
 
 function onActionTriggered(rowId: number) {
-  const url =
-    userRoleID == 5 ? `/app/statements/${rowId}#docs` : `/app/statements/${rowId}`
+  const url = helper.gotoStatementPage(rowId, userRoleID)
   router.push(url)
 }
 
@@ -186,11 +186,11 @@ async function exportToExcel() {
     <TableActionsBlock
       center
       title=""
-      @filter="displayFilterForm = !displayFilterForm"
       remove-disabled
       add-disabled
-      @export="exportToExcel"
       :export-disabled="!data.result.length"
+      @filter="displayFilterForm = !displayFilterForm"
+      @export="exportToExcel"
     />
     <div v-show="displayFilterForm" class="mb-5">
       <VCard radius="small">
@@ -222,8 +222,8 @@ async function exportToExcel() {
             </div>
             <div class="column">
               <VDatePicker
-                :locale="locale"
                 v-model="filterForm.date_start"
+                :locale="locale"
                 color="green"
                 trim-weeks
                 :masks="dateMasks"
@@ -240,8 +240,8 @@ async function exportToExcel() {
             </div>
             <div class="column">
               <VDatePicker
-                :locale="locale"
                 v-model="filterForm.date_end"
+                :locale="locale"
                 color="green"
                 trim-weeks
                 :masks="dateMasks"
@@ -320,10 +320,7 @@ async function exportToExcel() {
           </template>
 
           <!-- Custom "name" cell content -->
-          <template #body-cell="{ row, column, value, index }">
-            <!-- <template v-if="column.key === 'legal_entity'">
-              <span>{{ value?.name }}</span>
-            </template> -->
+          <template #body-cell="{ row, column, value }">
             <template v-if="column.key === 'drug'">
               <span>{{ value?.name }}</span>
             </template>
@@ -376,8 +373,8 @@ async function exportToExcel() {
         <!-- Table Pagination with wrapperState.page binded-->
         <VFlexPagination
           v-if="data.result.length"
-          class="mt-6"
           v-model:current-page="currentPage"
+          class="mt-6"
           :item-per-page="data.pagination.per_page"
           :total-items="data.pagination.total"
         />
