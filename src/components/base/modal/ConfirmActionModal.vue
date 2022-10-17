@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
-import { useMainStore } from "/@src/stores";
+import { computed, ref } from 'vue'
+import { useMainStore } from '/@src/stores'
 
 const emits = defineEmits<{
   (e: 'confirmAction'): void
@@ -26,14 +26,27 @@ async function onConfirm() {
 </script>
 
 <template>
-  <VModal :open="state" actions="center" :title="$t('Confirm_action')" :noclose="true" @close="onClose"
-    :cancel-label="$t('No')">
+  <VModal
+    actions="center"
+    :open="state"
+    :title="$t('Confirm_action')"
+    :noclose="true"
+    :cancel-label="$t('No')"
+    @close="onClose"
+  >
     <template #content>
       <VPlaceholderSection :title="$t('Are_you_sure')" />
     </template>
     <template #action>
-      <VButton type="button" class="is-justify-content-center" :color="color" outlined @click="onConfirm"
-        :disabled="isLoading" :loading="isLoading">
+      <VButton
+        type="button"
+        class="is-justify-content-center"
+        outlined
+        :color="color"
+        :disabled="isLoading"
+        :loading="isLoading"
+        @click="onConfirm"
+      >
         {{ $t('Yes') }}
       </VButton>
     </template>

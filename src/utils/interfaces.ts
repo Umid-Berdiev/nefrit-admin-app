@@ -321,6 +321,14 @@ export interface AboutPageData {
   point_y: number | string
 }
 
+export interface OfertaPageData {
+  description: {
+    uz: string
+    ru: string
+    en: string
+  }
+}
+
 export interface ContactItemData {
   icon?: File | string
   name: string

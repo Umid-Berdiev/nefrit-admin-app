@@ -24,7 +24,7 @@ import { useNotyf } from '/@src/composable/useNotyf'
  *  // HTML content
  * </template>
  */
-export default definePlugin(({ router, api, pinia }) => {
+export default definePlugin(async ({ router, api, pinia }) => {
   router.beforeEach(async (to, from) => {
     const userSession = useUserSession(pinia)
     const notyf = useNotyf()

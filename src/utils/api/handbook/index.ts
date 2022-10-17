@@ -2,6 +2,7 @@ import { useApi } from '/@src/composable/useApi'
 
 const api = useApi()
 
+// About page api
 export async function fetchAboutPageData() {
   try {
     const { data } = await api({
@@ -19,6 +20,33 @@ export async function updateAboutPageContent(payload: FormData) {
     const { data } = await api({
       url: `/api/admin/about`,
       method: 'POST',
+      data: payload,
+    })
+
+    return data.data
+  } catch (error) {
+    throw error
+  }
+}
+
+// Oferta page api
+export async function fetchOfertaPageData() {
+  try {
+    const { data } = await api({
+      url: `/api/admin/oferta`,
+    })
+
+    return data.data
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function updateOfertaPageContent(payload: Object) {
+  try {
+    const { data } = await api({
+      url: `/api/admin/oferta`,
+      method: 'PUT',
       data: payload,
     })
 

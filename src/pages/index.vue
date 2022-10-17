@@ -6,7 +6,6 @@ import { useI18n } from 'vue-i18n'
 import { useDarkmode } from '/@src/stores/darkmode'
 import { useUserSession } from '/@src/stores/userSession'
 import { useNotyf } from '/@src/composable/useNotyf'
-import LocalesDropdown from '/@src/components/partials/dropdowns/LocalesDropdown.vue'
 import AppLogo from '../components/svg/AppLogo.vue'
 
 const { t } = useI18n()
@@ -47,7 +46,8 @@ const handleLogin = async (event: Event) => {
     }
   } catch (error: any) {
     Object.assign(errors, error.response?.data?.errors)
-    error.response?.data?.errors.message && notif.error(error.response?.data?.errors.message[0])
+    error.response?.data?.errors.message &&
+      notif.error(error.response?.data?.errors.message[0])
   } finally {
     isLoading.value = false
   }
@@ -75,9 +75,16 @@ function clearErrors(event: Event) {
             </RouterLink>
           </div>
           <div class="right">
-            <label class="dark-mode ml-auto" tabindex="0"
-              @keydown.space.prevent="(e) => (e.target as HTMLLabelElement).click()">
-              <input type="checkbox" :checked="!darkmode.isDark" @change="darkmode.onChange" />
+            <label
+              class="dark-mode ml-auto"
+              tabindex="0"
+              @keydown.space.prevent="(e) => (e.target as HTMLLabelElement).click()"
+            >
+              <input
+                type="checkbox"
+                :checked="!darkmode.isDark"
+                @change="darkmode.onChange"
+              />
               <span></span>
             </label>
           </div>
@@ -101,30 +108,47 @@ function clearErrors(event: Event) {
                 <div class="login-form">
                   <VField>
                     <VControl icon="feather:user">
-                      <VInput type="text" name="username" :placeholder="$t('Username')" autocomplete="username"
-                        @input="clearErrors" />
+                      <VInput
+                        type="text"
+                        name="username"
+                        :placeholder="$t('Username')"
+                        autocomplete="username"
+                        @input="clearErrors"
+                      />
                       <p class="help has-text-danger">{{ errors.username[0] }}</p>
                     </VControl>
                   </VField>
                   <VField>
                     <VControl icon="feather:lock">
-                      <VInput type="password" name="password" :placeholder="$t('Password')"
-                        autocomplete="current-password" @input="clearErrors" />
+                      <VInput
+                        type="password"
+                        name="password"
+                        :placeholder="$t('Password')"
+                        autocomplete="current-password"
+                        @input="clearErrors"
+                      />
                       <p class="help has-text-danger">{{ errors.password[0] }}</p>
                     </VControl>
                   </VField>
 
                   <!-- Switch -->
-                  <VField>
+                  <!-- <VField>
                     <VControl class="setting-item">
                       <VCheckbox :label="$t('Remember_me')" paddingless />
                     </VControl>
-                  </VField>
+                  </VField> -->
 
                   <!-- Submit -->
                   <div class="login">
-                    <VButton :loading="isLoading" color="primary" type="submit" bold fullwidth raised
-                      :disabled="isLoading">
+                    <VButton
+                      :loading="isLoading"
+                      color="primary"
+                      type="submit"
+                      bold
+                      fullwidth
+                      raised
+                      :disabled="isLoading"
+                    >
                       {{ $t('Sign_In') }}
                     </VButton>
                   </div>

@@ -374,7 +374,7 @@
   "Select_a_type": "Turini tanlang",
   "Select_a_status": "Statusni tanlang",
   "Value": "Qiymati",
-  "About_page_form": "\"Biz haqimizda\" sahifasini formasi",
+  "About_page_form": "daOferta sahifasini formasi sahifasini formasi",
   "Type_value": "Qiymatini kiriting",
   "Author": "Muallif",
   "Title": "Sarlavha",
@@ -431,5 +431,7 @@
   "Video_instructions": "Video yo'riqnomalar",
   "Document_instructions": "Fayl yo'riqnomalar",
   "Instructions_Nefrit": "Yo'riqnomalar - Nefrit",
-  "feedback_form_attention_text": "Diqqat: Ovoz faqat bir marta qabul qilinadi. Uni o'zgartirish imkoni yo'q!"
+  "feedback_form_attention_text": "Diqqat: Ovoz faqat bir marta qabul qilinadi. Uni o'zgartirish imkoni yo'q!",
+  "Oferta": "Oferta",
+  "Oferta_page_form": "\"Oferta sahifasini formasi\""
 }
