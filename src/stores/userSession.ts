@@ -14,7 +14,7 @@ export const useUserSession = defineStore('userSession', () => {
   const loading = ref(true)
 
   const isLoggedIn = computed(() => token.value !== undefined && token.value !== '')
-  const userRoleID = computed(() => user.value?.role_id)
+  const userRoleID = computed(() => Number(user.value?.role_id) ?? null)
 
   function setUser(newUser: UserData | undefined) {
     user.value = newUser

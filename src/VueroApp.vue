@@ -13,12 +13,27 @@ initDarkmode()
 
 <template>
   <div>
-    <Suspense>
+    <!-- <Suspense>
       <RouterView v-slot="{ Component }">
         <Transition name="fade-slow" mode="out-in">
           <component :is="Component" />
         </Transition>
       </RouterView>
-    </Suspense>
+    </Suspense> -->
+    <RouterView v-slot="{ Component, route }">
+      <template v-if="Component">
+        <Transition mode="out-in" name="fade">
+          <KeepAlive>
+            <Suspense>
+              <!-- main content -->
+              <component :is="Component" :key="route.fullPath" />
+
+              <!-- loading state -->
+              <template #fallback> Loading... </template>
+            </Suspense>
+          </KeepAlive>
+        </Transition>
+      </template>
+    </RouterView>
   </div>
 </template>

@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useRoute } from 'vue-router';
-import { useNotyf } from '/@src/composable/useNotyf';
+import { useRoute } from 'vue-router'
+import { useNotyf } from '/@src/composable/useNotyf'
 
 import { useMainStore } from '/@src/stores'
-import { fetchContractPayments } from '/@src/utils/api/statement';
-import { verifyAllPayments, cancelPayment } from '/@src/utils/api/payment';
-import { StatementContractData } from '/@src/utils/interfaces';
-import { useUserSession } from '/@src/stores/userSession';
+import { fetchContractPayments } from '/@src/utils/api/statement'
+import { verifyAllPayments, cancelPayment } from '/@src/utils/api/payment'
+import { StatementContractData } from '/@src/utils/interfaces'
+import { useUserSession } from '/@src/stores/userSession'
 
 const { t, locale } = useI18n()
 const { userRoleID } = useUserSession()
@@ -25,7 +25,7 @@ const columns = {
   },
   file: {
     label: t('Invoice'),
-    grow: true
+    grow: true,
   },
   amount: {
     label: t('Amount'),
@@ -92,8 +92,14 @@ function notify() {
         <h1 class="is-size-3 mb-3">{{ $t('Payments') }}</h1>
       </VFlexItem>
       <VFlexItem class="ml-auto">
-        <VButton type="button" v-if="!contractData?.verified_at && [1, 2, 7].includes(userRoleID)" rounded
-          color="primary" icon="feather:check" @click="onAllVerify">
+        <VButton
+          type="button"
+          v-if="!contractData?.verified_at && [1, 2, 7].includes(userRoleID)"
+          rounded
+          color="primary"
+          icon="feather:check"
+          @click="onAllVerify"
+        >
           {{ $t('Verify_contract') }}
         </VButton>
       </VFlexItem>
@@ -107,7 +113,11 @@ function notify() {
         <VFlexTable rounded>
           <!-- header-column slot -->
           <template #header-column="{ column }">
-            <span v-if="column.key === 'orderNumber'" class="is-flex-grow-0" v-text="'#'" />
+            <span
+              v-if="column.key === 'orderNumber'"
+              class="is-flex-grow-0"
+              v-text="'#'"
+            />
           </template>
 
           <template #body-cell="{ row, column, value }">
@@ -133,20 +143,38 @@ function notify() {
               {{ $h.formatDate(value, 'DD.MM.YYYY HH:mm') }}
             </template>
             <template v-if="column.key === 'actions'">
-              <VButtons v-if="row.status?.color === 'warning' && [1, 2, 7].includes(userRoleID)">
-                <VButton class="is-primary is-outlined px-3" @click="onOneVerify(row.id)">{{
-                    $t('Verify')
+              <VButtons
+                v-if="row.status?.color === 'warning' && [1, 2, 7].includes(userRoleID)"
+              >
+                <VButton
+                  class="is-primary is-outlined px-3"
+                  @click="onOneVerify(row.id)"
+                  >{{ $t('Verify') }}</VButton
+                >
+                <VButton class="is-danger is-outlined px-3" @click="onReject(row.id)">{{
+                  $t('Cancel')
                 }}</VButton>
-                <VButton class="is-danger is-outlined px-3" @click="onReject(row.id)">{{ $t('Cancel') }}</VButton>
               </VButtons>
             </template>
           </template>
         </VFlexTable>
       </template>
     </VFlexTableWrapper>
-    <VerifyPaymentModal v-model="isVerifyModalOpen" :payment-id="Number(selectedId)"
-      @update:list="() => { fetchData(); notify(); }" />
-    <ContractVerifyModal v-model="isVerifyAllModalOpen" :contract="contractData" @confirm-action="handleVerifyAction" />
+    <VerifyPaymentModal
+      v-model="isVerifyModalOpen"
+      :payment-id="Number(selectedId)"
+      @update:list="
+        () => {
+          fetchData()
+          notify()
+        }
+      "
+    />
+    <ContractVerifyModal
+      v-model="isVerifyAllModalOpen"
+      :contract="contractData"
+      @confirm-action="handleVerifyAction"
+    />
     <ConfirmActionModal @confirm-action="handleCancelAction" />
   </div>
 </template>

@@ -4,7 +4,7 @@ import { useHead } from '@vueuse/head'
 
 // we import our useApi helper
 import { useI18n } from 'vue-i18n'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 import { useViewWrapper } from '/@src/stores/viewWrapper'
 import StatementDocumentCollapse from '/@src/components/base/accordion/StatementDocumentCollapse.vue'
 import { useUserSession } from '/@src/stores/userSession'
@@ -24,6 +24,12 @@ const tabs = ref([
     label: t('Statement_docs'),
     value: 'docs',
     icon: 'lnil lnil-files',
+    included: [1, 2, 3, 4, 5, 6].includes(userRoleID),
+  },
+  {
+    label: t('Drug_instructions'),
+    value: 'drug-instructions',
+    icon: 'feather:file-text',
     included: [1, 2, 3, 4, 5, 6].includes(userRoleID),
   },
   {
@@ -79,6 +85,14 @@ onMounted(() => {
           class="mt-5"
         >
           <StatementDocumentCollapse />
+        </div>
+        <div
+          v-if="
+            activeValue == 'drug-instructions' && [1, 2, 3, 4, 5, 6].includes(userRoleID)
+          "
+          class="mt-5"
+        >
+          <StatementDrugInstructionBlock />
         </div>
         <div
           v-if="activeValue == 'conclusions' && [1, 2, 3, 4, 5, 6].includes(userRoleID)"

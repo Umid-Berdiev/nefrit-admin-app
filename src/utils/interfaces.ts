@@ -62,11 +62,39 @@ export interface TabHeader {
   icon: string
 }
 
+export interface DrugInstructionInterface {
+  general: {
+    uz: string
+    ru: string
+    en: string
+  }
+  pharmacological: {
+    uz: string
+    ru: string
+    en: string
+  }
+  usage: {
+    uz: string
+    ru: string
+    en: string
+  }
+  prevention: {
+    uz: string
+    ru: string
+    en: string
+  }
+  protest: {
+    uz: string
+    ru: string
+    en: string
+  }
+}
 export interface DrugData {
   id?: number
   name: string
   trade_name: string
   patent: string
+  instruction: DrugInstructionInterface
 }
 
 export interface LegalEntityData {
@@ -87,15 +115,15 @@ export interface StageData {
 export type StatementStatusType = 'completed' | 'created'
 
 export interface StatementCertificateData {
-  application_id?: string | number
+  application_id: string | number
   file?: File
   id?: number
   number?: string | number
-  drug_name: string
-  start_date: string
-  end_date: string
-  manufacturer_name: string
-  status_id: number
+  drug_name?: string
+  start_date?: string
+  end_date?: string
+  manufacturer_name?: string
+  status_id?: number
 }
 
 export interface StatementVoteData {

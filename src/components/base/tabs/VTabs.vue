@@ -7,6 +7,7 @@ export interface VTabsItem {
   label: string
   value: string
   icon?: string
+  // to?: RouteLocationAsString
 }
 export interface VTabsProps {
   tabs: VTabsItem[]
@@ -74,20 +75,42 @@ watch(activeValue, (value) => {
 <template>
   <div class="tabs-wrapper" :class="[sliderClass]">
     <div class="tabs-inner">
-      <div class="tabs mb-0" :class="[
-        props.align === 'centered' && 'is-centered',
-        props.align === 'right' && 'is-right',
-        props.type === 'rounded' && !props.slider && 'is-toggle is-toggle-rounded',
-        props.type === 'toggle' && 'is-toggle',
-        props.type === 'boxed' && 'is-boxed',
-      ]">
+      <div
+        class="tabs mb-0"
+        :class="[
+          props.align === 'centered' && 'is-centered',
+          props.align === 'right' && 'is-right',
+          props.type === 'rounded' && !props.slider && 'is-toggle is-toggle-rounded',
+          props.type === 'toggle' && 'is-toggle',
+          props.type === 'boxed' && 'is-boxed',
+        ]"
+      >
         <ul>
-          <li v-for="(tab, key) in tabs" :key="key" :class="[activeValue === tab.value && 'is-active']">
-            <slot name="tab-link" :active-value="activeValue" :tab="tab" :index="key" :toggle="toggle">
-              <a tabindex="0" @keydown.space.prevent="toggle(tab.value)" @click="toggle(tab.value)">
+          <li
+            v-for="(tab, key) in tabs"
+            :key="key"
+            :class="[activeValue === tab.value && 'is-active']"
+          >
+            <slot
+              name="tab-link"
+              :active-value="activeValue"
+              :tab="tab"
+              :index="key"
+              :toggle="toggle"
+            >
+              <a
+                tabindex="0"
+                @keydown.space.prevent="toggle(tab.value)"
+                @click="toggle(tab.value)"
+              >
                 <VIcon v-if="tab.icon" :icon="tab.icon" />
                 <span>
-                  <slot name="tab-link-label" :active-value="activeValue" :tab="tab" :index="key">
+                  <slot
+                    name="tab-link-label"
+                    :active-value="activeValue"
+                    :tab="tab"
+                    :index="key"
+                  >
                     {{ tab.label }}
                   </slot>
                 </span>

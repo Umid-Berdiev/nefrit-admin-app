@@ -29,17 +29,18 @@ const emits = defineEmits<{
   (e: 'filter'): void
   (e: 'remove'): void
 }>()
-
 </script>
 
 <template>
-  <div :class="[
-    !props.center && 'media-flex',
-    props.center && 'media-flex-center',
-    props.narrow && 'no-margin',
-    props.mResponsive && 'is-responsive-mobile',
-    props.tResponsive && 'is-responsive-tablet-p',
-  ]">
+  <div
+    :class="[
+      !props.center && 'media-flex',
+      props.center && 'media-flex-center',
+      props.narrow && 'no-margin',
+      props.mResponsive && 'is-responsive-mobile',
+      props.tResponsive && 'is-responsive-tablet-p',
+    ]"
+  >
     <slot name="icon"></slot>
     <div class="flex-meta" :class="[props.lighter && 'is-lighter']">
       <slot name="title">
@@ -51,26 +52,60 @@ const emits = defineEmits<{
     </div>
     <div class="flex-end">
       <VButtons>
-        <VButton outlined rounded color="info" icon="feather:plus" @click.prevent="
-        () => {
-          emits('add')
-        }" v-if="!addDisabled"> {{ $t('Add') }}
+        <VButton
+          v-if="!addDisabled"
+          outlined
+          rounded
+          color="info"
+          icon="feather:plus"
+          @click.prevent="
+            () => {
+              emits('add')
+            }
+          "
+        >
+          {{ $t('Add') }}
         </VButton>
-        <VButton outlined rounded color="primary" icon="feather:printer" @click.prevent="
-        () => {
-          emits('export')
-        }" v-if="!exportDisabled">
+        <VButton
+          v-if="!exportDisabled"
+          outlined
+          rounded
+          color="primary"
+          icon="feather:printer"
+          @click.prevent="
+            () => {
+              emits('export')
+            }
+          "
+        >
           {{ $t('Export_to_excel') }}
         </VButton>
-        <VButton outlined rounded color="warning" icon="feather:filter" @click.prevent="() => {
-          emits('filter')
-        }" v-if="!filterDisabled">
+        <VButton
+          v-if="!filterDisabled"
+          outlined
+          rounded
+          color="warning"
+          icon="feather:filter"
+          @click.prevent="
+            () => {
+              emits('filter')
+            }
+          "
+        >
           {{ $t('Filter') }}
         </VButton>
-        <VButton outlined rounded color="danger" icon="feather:trash" @click.prevent="
-        () => {
-          emits('remove')
-        }" v-if="!removeDisabled">
+        <VButton
+          v-if="!removeDisabled"
+          outlined
+          rounded
+          color="danger"
+          icon="feather:trash"
+          @click.prevent="
+            () => {
+              emits('remove')
+            }
+          "
+        >
           {{ $t('Delete_selected') }}
         </VButton>
       </VButtons>
@@ -94,9 +129,8 @@ const emits = defineEmits<{
     line-height: 1.3;
 
     &.is-lighter {
-
       span,
-      >a {
+      > a {
         &:first-child {
           font-weight: 400;
         }
@@ -104,9 +138,8 @@ const emits = defineEmits<{
     }
 
     &.is-light {
-
       span,
-      >a {
+      > a {
         &:first-child {
           font-weight: 500;
         }
@@ -114,7 +147,7 @@ const emits = defineEmits<{
     }
 
     span,
-    >a {
+    > a {
       display: block;
 
       &:first-child {
@@ -162,9 +195,8 @@ const emits = defineEmits<{
     line-height: 1.4;
 
     &.is-lighter {
-
       span,
-      >a {
+      > a {
         &:first-child {
           font-weight: 400;
         }
@@ -172,9 +204,8 @@ const emits = defineEmits<{
     }
 
     &.is-light {
-
       span,
-      >a {
+      > a {
         &:first-child {
           font-weight: 500;
         }
@@ -182,7 +213,7 @@ const emits = defineEmits<{
     }
 
     span,
-    >a {
+    > a {
       display: block;
 
       &:first-child {
@@ -217,11 +248,9 @@ const emits = defineEmits<{
 }
 
 .is-dark {
-
   .media-flex-center,
   .media-flex {
     .flex-meta {
-
       span,
       a {
         &:first-child {
@@ -237,7 +266,6 @@ const emits = defineEmits<{
 }
 
 @media only screen and (max-width: 767px) {
-
   .media-flex,
   .media-flex-center {
     &.is-responsive-mobile {
@@ -269,7 +297,6 @@ const emits = defineEmits<{
 }
 
 @media only screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
-
   .media-flex,
   .media-flex-center {
     &.is-responsive-tablet-p {
@@ -301,7 +328,6 @@ const emits = defineEmits<{
 }
 
 @media only screen and (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
-
   .media-flex,
   .media-flex-center {
     &.is-responsive-tablet-l {

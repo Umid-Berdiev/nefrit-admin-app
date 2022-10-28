@@ -8,12 +8,14 @@ import {
   fetchChronologies,
   canChangeStage,
   checkPermissionForCertificate,
+  createStatementCertificate,
 } from '/@src/utils/api/statement'
 import { useRoute } from 'vue-router'
 import { StatementChronologyData, StatementData } from '/@src/utils/interfaces'
 import { useNotyf } from '/@src/composable/useNotyf'
 import StatementCancelFormModal from '../base/modal/StatementCancelFormModal.vue'
 import { isNull } from 'lodash'
+import { useMainStore } from '/@src/stores'
 
 const route = useRoute()
 const { t, locale } = useI18n()
@@ -48,7 +50,6 @@ const columns = {
   },
 } as const
 const selectedCompanyId = ref()
-const selectedDrugId = ref()
 const isCompanyInfoModalOpen = ref(false)
 const isDrugInfoModalOpen = ref(false)
 const isCertificateFormModalOpen = ref(false)
@@ -60,6 +61,8 @@ const currentState = computed(() => currentStatementData.value?.stage.id as numb
 const chronologyData = ref<StatementChronologyData[]>()
 const canChange = ref(false)
 const canCertify = ref(false)
+const isConfirmActionModalOpen = ref(false)
+const mainStore = useMainStore()
 
 onMounted(async () => {
   await fetchData()
@@ -72,8 +75,7 @@ function openCompanyInfoModal(id: number) {
   isCompanyInfoModalOpen.value = true
 }
 
-function openDrugInfoModal(id: number) {
-  selectedDrugId.value = id
+function openDrugInfoModal() {
   isDrugInfoModalOpen.value = true
 }
 
@@ -95,6 +97,21 @@ function successNotify() {
 async function checkStatementPermissionForCertificate() {
   const res = await checkPermissionForCertificate(currentId)
   canCertify.value = res
+}
+
+function openConfirmActionModal() {
+  mainStore.confirmModalState = true
+  mainStore.confirmModalOkButtonColor = 'primary'
+}
+
+async function generateCertificate() {
+  try {
+    await createStatementCertificate({ application_id: currentId })
+    await fetchData()
+    notif.success()
+  } catch (error: any) {
+    notif.error(error.message)
+  }
 }
 </script>
 
@@ -139,7 +156,7 @@ async function checkStatementPermissionForCertificate() {
                 <a
                   href="javascript:;"
                   class="has-text-primary"
-                  @click="openDrugInfoModal(1)"
+                  @click="openDrugInfoModal"
                 >
                   {{ currentStatementData?.drug?.name }}
                   <i class="iconify" data-icon="feather:link" aria-hidden="true"></i>
@@ -220,16 +237,14 @@ async function checkStatementPermissionForCertificate() {
                   {{ $t('No_certificate') }}
                 </span>
                 <VButton
-                  v-if="canCertify"
+                  v-if="canCertify && !currentStatementData?.certificate"
                   class="ml-auto"
                   color="primary"
                   rounded
-                  :icon="
-                    currentStatementData?.certificate ? 'fas fa-sync' : 'fas fa-plus'
-                  "
-                  @click="isCertificateFormModalOpen = true"
+                  :icon="'fas fa-plus'"
+                  @click="openConfirmActionModal"
                 >
-                  {{ currentStatementData?.certificate ? $t('Update') : $t('Upload') }}
+                  {{ $t('Generate') }}
                 </VButton>
               </td>
             </tr>
@@ -250,11 +265,11 @@ async function checkStatementPermissionForCertificate() {
       v-model="isDrugInfoModalOpen"
       :drug-data="currentStatementData?.drug"
     />
-    <CertificateFormModal
+    <!-- <CertificateFormModal
       v-model="isCertificateFormModalOpen"
       :statement-id="currentId"
       @close="fetchData"
-    />
+    /> -->
     <StatementStageFormModal
       v-model="isStatementStageFormModalOpen"
       :statement-id="Number(currentId)"
@@ -270,6 +285,7 @@ async function checkStatementPermissionForCertificate() {
       v-model="isStatementCancelModalOpen"
       :statement-id="Number(currentId)"
     />
+    <ConfirmActionModal @confirm-action="generateCertificate" />
   </div>
 </template>
 

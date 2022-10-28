@@ -433,5 +433,7 @@
   "Instructions_Nefrit": "Инструкции - Nefrit",
   "feedback_form_attention_text": "Внимание: Голос принимается только один раз. Нет никакого способа изменить его!",
   "Oferta": "Оферта",
-  "Oferta_page_form": "форма страницы \"Оферта\""
+  "Oferta_page_form": "форма страницы \"Оферта\"",
+  "Drug_instructions": "Инструкция лекарства",
+  "Generate": "Сгенерировать"
 }

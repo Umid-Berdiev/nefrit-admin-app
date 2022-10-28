@@ -8,8 +8,8 @@ import { useViewWrapper } from '/@src/stores/viewWrapper'
 import {
   exportApplicantToExcel,
   fetchList,
-  fetchApplicantStatuses
-} from '/@src/utils/api/applicant';
+  fetchApplicantStatuses,
+} from '/@src/utils/api/applicant'
 import { useNotyf } from '/@src/composable/useNotyf'
 import { StatusData } from '/@src/utils/interfaces'
 
@@ -30,7 +30,7 @@ const data = reactive({
     per_page: 10,
     total: 10,
   },
-  result: []
+  result: [],
 })
 const filterForm = reactive({
   name: '',
@@ -47,7 +47,7 @@ const currentPage = computed({
   },
   set: async (page) => {
     await fetchData(page)
-  }
+  },
 })
 const statusList = ref<StatusData[]>([])
 const columns = {
@@ -132,16 +132,18 @@ async function exportToExcel() {
     isLoading.value = true
     const res = await exportApplicantToExcel(filterForm)
 
-    const url = URL.createObjectURL(new Blob([res], {
-      type: 'application/vnd.ms-excel'
-    }))
+    const url = URL.createObjectURL(
+      new Blob([res], {
+        type: 'application/vnd.ms-excel',
+      })
+    )
     const link = document.createElement('a')
     link.href = url
     link.setAttribute('download', `Worksheet_${Date.now()}.xlsx`)
     document.body.appendChild(link)
     link.click()
   } catch (error) {
-    console.log({ error });
+    console.log({ error })
   } finally {
     isLoading.value = false
   }
@@ -150,8 +152,14 @@ async function exportToExcel() {
 
 <template>
   <div class="applicant-list-wrapper">
-    <TableActionsBlock center title="" add-disabled remove-disabled @filter="displayFilterForm = !displayFilterForm"
-      @export="exportToExcel" />
+    <TableActionsBlock
+      center
+      title=""
+      add-disabled
+      remove-disabled
+      @filter="displayFilterForm = !displayFilterForm"
+      @export="exportToExcel"
+    />
     <div v-show="displayFilterForm" class="mb-5">
       <VCard radius="small">
         <h3 class="title is-5 mb-2">{{ t('Filter_form') }}</h3>
@@ -180,14 +188,24 @@ async function exportToExcel() {
           </div>
           <VFlex justify-content="end" column-gap="1rem">
             <VFlexItem>
-              <VButton type="button" :disabled="isLoading" outlined color="warning" icon="feather:x"
-                @click="clearFilterForm">{{ t('Clear')
-                }}
+              <VButton
+                type="button"
+                :disabled="isLoading"
+                outlined
+                color="warning"
+                icon="feather:x"
+                @click="clearFilterForm"
+                >{{ t('Clear') }}
               </VButton>
             </VFlexItem>
             <VFlexItem>
-              <VButton type="submit" :disabled="isLoading" outlined color="success" icon="feather:filter">{{ t('Filter')
-              }}
+              <VButton
+                type="submit"
+                :disabled="isLoading"
+                outlined
+                color="success"
+                icon="feather:filter"
+                >{{ t('Filter') }}
               </VButton>
             </VFlexItem>
           </VFlex>
@@ -196,8 +214,12 @@ async function exportToExcel() {
     </div>
 
     <!-- table -->
-    <VFlexTableWrapper :columns="columns" :data="data.result" :limit="data.pagination.per_page"
-      :total="data.pagination.total">
+    <VFlexTableWrapper
+      :columns="columns"
+      :data="data.result"
+      :limit="data.pagination.per_page"
+      :total="data.pagination.total"
+    >
       <!--
         Here we retrieve the internal wrapperState.
         Note that we can not destructure it
@@ -205,21 +227,28 @@ async function exportToExcel() {
       <template #default="wrapperState">
         <VFlexTable rounded>
           <template #header-column="{ column }">
-            <span v-if="column.key === 'orderNumber'" class="is-flex-grow-0" v-text="'#'" />
+            <span
+              v-if="column.key === 'orderNumber'"
+              class="is-flex-grow-0"
+              v-text="'#'"
+            />
             <!-- <span v-if="column.key === 'name'" style="overflow-wrap: break-word;" v-text="column.label" /> -->
           </template>
           <template #body>
             <!-- This is the empty state -->
             <div v-if="data.result.length === 0" class="flex-list-inner">
-              <VPlaceholderSection :title="$t('No_data')" :subtitle="$t('There_is_no_data_that_match_your_query')"
-                class="my-6" />
+              <VPlaceholderSection
+                :title="$t('No_data')"
+                :subtitle="$t('There_is_no_data_that_match_your_query')"
+                class="my-6"
+              />
             </div>
           </template>
 
           <!-- Custom "name" cell content -->
           <template #body-cell="{ row, column, value, index }">
             <template v-if="column.key === 'name'">
-              <p style="overflow-wrap: break-word;">{{ value }}</p>
+              <p style="overflow-wrap: break-word">{{ value }}</p>
             </template>
             <template v-if="column.key === 'status' && value">
               <StatusTag :status="value" />
@@ -229,14 +258,18 @@ async function exportToExcel() {
             </template>
             <template v-if="column.key === 'actions'">
               <ApplicantFlexTableDropdown @view="onView(row.id)" />
-              <!-- <ApplicantFlexTableDropdown @view="onView(row.id)" @edit="onEdit(row.id)" @block="onBlock(row.id)" /> -->
             </template>
           </template>
         </VFlexTable>
 
         <!-- Table Pagination with wrapperState.page binded-->
-        <VFlexPagination v-if="data.result.length" v-model:current-page="currentPage" class="mt-6"
-          :item-per-page="data.pagination.per_page" :total-items="data.pagination.total" />
+        <VFlexPagination
+          v-if="data.result.length"
+          v-model:current-page="currentPage"
+          class="mt-6"
+          :item-per-page="data.pagination.per_page"
+          :total-items="data.pagination.total"
+        />
       </template>
     </VFlexTableWrapper>
   </div>

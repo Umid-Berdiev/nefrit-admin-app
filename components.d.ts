@@ -114,6 +114,7 @@ declare module '@vue/runtime-core' {
     StatementCancelFormModal: typeof import('./src/components/base/modal/StatementCancelFormModal.vue')['default']
     StatementConclusionTable: typeof import('./src/components/base/table/StatementConclusionTable.vue')['default']
     StatementDocumentCollapse: typeof import('./src/components/base/accordion/StatementDocumentCollapse.vue')['default']
+    StatementDrugInstructionBlock: typeof import('./src/components/partials/blocks/StatementDrugInstructionBlock.vue')['default']
     StatementForm: typeof import('./src/components/forms/StatementForm.vue')['default']
     StatementMultiSelect: typeof import('./src/components/forms/selects/StatementMultiSelect.vue')['default']
     StatementNoticeTable: typeof import('./src/components/base/table/StatementNoticeTable.vue')['default']
