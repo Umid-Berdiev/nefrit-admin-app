@@ -435,5 +435,9 @@
   "Oferta": "Oferta",
   "Oferta_page_form": "Oferta page form",
   "Drug_instructions": "Drug instruction",
-  "Generate": "Generate"
+  "Generate": "Generate",
+  "Approve_drug_data": "Approve drug data",
+  "Add_letter_number": "Enter letter number",
+  "Letter_number": "Letter number",
+  "Cancel_letter": "Cancel letter"
 }

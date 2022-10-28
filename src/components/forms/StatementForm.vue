@@ -48,6 +48,9 @@ const columns = {
   certificate: {
     label: t('Certificate'),
   },
+  cancel: {
+    label: t('Cancel_letter'),
+  },
 } as const
 const selectedCompanyId = ref()
 const isCompanyInfoModalOpen = ref(false)
@@ -221,7 +224,7 @@ async function generateCertificate() {
                 </span>
               </td>
             </tr>
-            <tr>
+            <tr v-if="!currentStatementData?.is_canceled">
               <td class="has-text-weight-bold">{{ columns.certificate.label }}</td>
               <td class="is-flex is-align-items-center">
                 <a
@@ -237,7 +240,11 @@ async function generateCertificate() {
                   {{ $t('No_certificate') }}
                 </span>
                 <VButton
-                  v-if="canCertify && !currentStatementData?.certificate"
+                  v-if="
+                    canCertify &&
+                    !currentStatementData?.certificate &&
+                    currentStatementData?.voice_status
+                  "
                   class="ml-auto"
                   color="primary"
                   rounded
@@ -246,6 +253,19 @@ async function generateCertificate() {
                 >
                   {{ $t('Generate') }}
                 </VButton>
+              </td>
+            </tr>
+            <tr v-if="currentStatementData?.is_canceled">
+              <td class="has-text-weight-bold">{{ columns.cancel.label }}</td>
+              <td>
+                <a
+                  :href="currentStatementData?.cancel?.file"
+                  class="has-text-warning"
+                  download
+                >
+                  {{ currentStatementData?.cancel?.number }}
+                  <i class="iconify" data-icon="feather:link" aria-hidden="true"></i>
+                </a>
               </td>
             </tr>
           </tbody>
@@ -285,7 +305,10 @@ async function generateCertificate() {
       v-model="isStatementCancelModalOpen"
       :statement-id="Number(currentId)"
     />
-    <ConfirmActionModal @confirm-action="generateCertificate" />
+    <ConfirmGeneratingCertificateModal
+      :drug-data="currentStatementData?.drug"
+      @confirm-action="generateCertificate"
+    />
   </div>
 </template>
 

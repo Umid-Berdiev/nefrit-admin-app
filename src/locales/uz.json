@@ -435,5 +435,9 @@
   "Oferta": "Oferta",
   "Oferta_page_form": "\"Oferta sahifasini formasi\"",
   "Drug_instructions": "Dori yo'riqnomasi",
-  "Generate": "Shakillantirish"
+  "Generate": "Shakillantirish",
+  "Approve_drug_data": "Dori ma'lumotlarini tasdiqlang",
+  "Add_letter_number": "Xat raqamini kiriting",
+  "Letter_number": "Xat raqami",
+  "Cancel_letter": "Bekor qilish xati"
 }

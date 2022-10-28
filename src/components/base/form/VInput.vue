@@ -29,6 +29,7 @@ const value = ref(vFieldContext.field?.value ?? props.modelValue)
 watch(value, () => {
   emits('update:modelValue', value.value)
 })
+
 watch(
   () => props.modelValue,
   () => {
@@ -44,9 +45,16 @@ const classes = computed(() => {
 </script>
 
 <template>
-  <input :id="vFieldContext.id" v-model="value" :class="classes" :name="vFieldContext.id" :true-value="props.trueValue"
-    :false-value="props.falseValue" @change="vFieldContext.field?.handleChange"
-    @blur="vFieldContext.field?.handleBlur" />
+  <input
+    :id="vFieldContext.id"
+    v-model="value"
+    :class="classes"
+    :name="vFieldContext.id"
+    :true-value="props.trueValue"
+    :false-value="props.falseValue"
+    @change="vFieldContext.field?.handleChange"
+    @blur="vFieldContext.field?.handleBlur"
+  />
 </template>
 
 <style scoped lang="scss">

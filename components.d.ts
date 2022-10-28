@@ -36,6 +36,7 @@ declare module '@vue/runtime-core' {
     ConclusionFlexTableDropdown: typeof import('./src/components/partials/dropdowns/ConclusionFlexTableDropdown.vue')['default']
     ConclusionFormModal: typeof import('./src/components/base/modal/ConclusionFormModal.vue')['default']
     ConfirmActionModal: typeof import('./src/components/base/modal/ConfirmActionModal.vue')['default']
+    ConfirmGeneratingCertificateModal: typeof import('./src/components/base/modal/ConfirmGeneratingCertificateModal.vue')['default']
     ContactItemFlexTableDropdown: typeof import('./src/components/partials/dropdowns/ContactItemFlexTableDropdown.vue')['default']
     ContactItemFormModal: typeof import('./src/components/base/modal/ContactItemFormModal.vue')['default']
     ContractDownloadModal: typeof import('./src/components/base/modal/ContractDownloadModal.vue')['default']

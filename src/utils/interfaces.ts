@@ -89,12 +89,35 @@ export interface DrugInstructionInterface {
     en: string
   }
 }
+
+export interface DrugFigureInterface {
+  id?: number
+  name: number
+}
+
+export interface ManufacturerData {
+  id: number
+  name: string
+  phone: string
+  address: string
+  type: string
+  fax: string
+  email: string
+}
+
 export interface DrugData {
   id?: number
   name: string
   trade_name: string
+  structure: string
+  drug_figure: DrugFigureInterface
+  usage: string
+  country: CountryData
   patent: string
   instruction: DrugInstructionInterface
+  created_by: LegalEntityData
+  manufacturer: ManufacturerData
+  preparer: ManufacturerData
 }
 
 export interface LegalEntityData {
@@ -151,6 +174,7 @@ export interface StatementData {
   stage: StageData
   status: StatementStatusType
   certificate: StatementCertificateData
+  voice_status: boolean
 }
 
 export interface StatementChronologyData {
