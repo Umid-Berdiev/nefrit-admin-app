@@ -66,6 +66,10 @@ export default definePlugin(async ({ router, api, pinia }) => {
         // save the location we were at to come back later
         query: { redirect: to.fullPath },
       }
+    } else if (to.path === '/' && userSession.isLoggedIn) {
+      return {
+        name: 'app',
+      }
     }
   })
 })

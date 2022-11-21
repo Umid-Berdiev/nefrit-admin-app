@@ -21,11 +21,11 @@ const errors = reactive({
   password: '',
 })
 
-if (isLoggedIn) {
-  router.push({
-    name: 'app',
-  })
-}
+// if (isLoggedIn) {
+//   router.push({
+//     name: 'app',
+//   })
+// }
 
 const handleLogin = async (event: Event) => {
   try {
