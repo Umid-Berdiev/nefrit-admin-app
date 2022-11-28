@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { computed } from "vue";
-import { useMainStore } from "/@src/stores";
-import { StatementContractData } from "/@src/utils/interfaces";
+import { computed } from 'vue'
+import { useMainStore } from '/@src/stores'
+import { StatementContractData } from '/@src/utils/interfaces'
 
 const props = defineProps<{
-  contract: StatementContractData,
+  contract: StatementContractData
   modelValue: Boolean
 }>()
 
@@ -28,10 +28,16 @@ function onClose() {
 </script>
 
 <template>
-  <VModal :open="modelValue" actions="center" :title="$t('Confirm_action')" :noclose="true" @close="onClose"
-    :cancel-label="$t('No')">
+  <VModal
+    :open="modelValue"
+    actions="center"
+    :title="$t('Confirm_action')"
+    :noclose="true"
+    @close="onClose"
+    :cancel-label="$t('No')"
+  >
     <template #content>
-      <VPlaceholderSection :title="$t('Are_you_sure') + '?'" />
+      <VPlaceholderSection :title="$t('Are_you_sure')" />
       <table class="table is-bordered is-fullwidth">
         <tbody>
           <tr>
@@ -53,13 +59,15 @@ function onClose() {
           <tr>
             <td colspan="2" class="is-size-5 has-text-weight-bold">
               <span v-if="contract.payment_amount > contract.payment_total_sum">
-                {{ $t('Contract_sum_more') }}: {{ (contract.payment_amount -
-                    contract.payment_total_sum).toLocaleString()
+                {{ $t('Contract_sum_more') }}:
+                {{
+                  (contract.payment_amount - contract.payment_total_sum).toLocaleString()
                 }}
               </span>
               <span v-else-if="contract.payment_amount < contract.payment_total_sum">
-                {{ $t('Contract_sum_less') }}: {{ (contract.payment_total_sum -
-                    contract.payment_amount).toLocaleString()
+                {{ $t('Contract_sum_less') }}:
+                {{
+                  (contract.payment_total_sum - contract.payment_amount).toLocaleString()
                 }}
               </span>
             </td>
@@ -68,8 +76,14 @@ function onClose() {
       </table>
     </template>
     <template #action>
-      <VButton type="button" class="is-justify-content-center" :color="color" outlined @click="onConfirm">{{ $t('Yes')
-      }}</VButton>
+      <VButton
+        type="button"
+        class="is-justify-content-center"
+        :color="color"
+        outlined
+        @click="onConfirm"
+        >{{ $t('Yes') }}</VButton
+      >
     </template>
   </VModal>
 </template>

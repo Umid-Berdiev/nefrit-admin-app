@@ -6,7 +6,7 @@ import { useI18n } from 'vue-i18n'
 import { useViewWrapper } from '/@src/stores/viewWrapper'
 import { useMainStore } from '/@src/stores'
 import { useHead } from '@vueuse/head'
-import { fetchStatementContracts, removeContractById } from '/@src/utils/api/statement';
+import { fetchStatementContracts, removeContractById } from '/@src/utils/api/statement'
 import { useNotyf } from '/@src/composable/useNotyf'
 import { useUserSession } from '/@src/stores/userSession'
 import moment from 'moment'
@@ -24,7 +24,7 @@ const data = reactive({
     per_page: 10,
     total: 10,
   },
-  result: []
+  result: [],
 })
 const currentPage = computed({
   get: () => {
@@ -32,7 +32,7 @@ const currentPage = computed({
   },
   set: async (page) => {
     await fetchData(page)
-  }
+  },
 })
 const isLoading = ref(false)
 const isFormModalOpen = ref(false)
@@ -84,7 +84,7 @@ const filterForm = reactive({
   application_code: '',
   is_paid: '',
   start_contract_date: moment().subtract(1, 'month').format('YYYY-MM-DD'),
-  end_contract_date: moment().format('YYYY-MM-DD')
+  end_contract_date: moment().format('YYYY-MM-DD'),
 })
 const datePickerModelConfig = reactive({
   type: 'string',
@@ -127,7 +127,7 @@ async function handleRemoveAction() {
   }
 }
 
-async function fetchData(page:number = 1) {
+async function fetchData(page: number = 1) {
   const res = await fetchStatementContracts({ page, ...filterForm })
   Object.assign(data, res)
 }
@@ -160,7 +160,7 @@ async function clearFilterForm() {
     application_code: '',
     is_paid: '',
     start_contract_date: moment().subtract(1, 'month').format('YYYY-MM-DD'),
-    end_contract_date: moment().format('YYYY-MM-DD')
+    end_contract_date: moment().format('YYYY-MM-DD'),
   })
   await fetchData()
   isLoading.value = false
@@ -170,12 +170,23 @@ async function clearFilterForm() {
 <template>
   <div class="applicant-list-wrapper">
     <VFlex justify-content="end" class="mb-4" column-gap="1rem">
-      <VButton v-if="[1, 2, 7].includes(userRoleID)" outlined rounded color="info" icon="feather:plus"
-        @click.prevent="onAdd">
+      <VButton
+        v-if="[1, 2, 7].includes(userRoleID)"
+        outlined
+        rounded
+        color="info"
+        icon="feather:plus"
+        @click.prevent="onAdd"
+      >
         {{ $t('Add') }}
       </VButton>
-      <VButton outlined rounded color="warning" icon="feather:filter"
-        @click.prevent="displayFilterForm = !displayFilterForm">
+      <VButton
+        outlined
+        rounded
+        color="warning"
+        icon="feather:filter"
+        @click.prevent="displayFilterForm = !displayFilterForm"
+      >
         {{ $t('Filter') }}
       </VButton>
     </VFlex>
@@ -216,15 +227,15 @@ async function clearFilterForm() {
                 </VControl>
               </VField>
             </div>
-            <!-- <div class="column">
-              <StatusSelect v-model="filterForm.status_id" :list="statusList" />
-            </div>
             <div class="column">
-              <CountrySelect v-model="filterForm.country_id" />
-            </div> -->
-            <div class="column">
-              <VDatePicker :locale="locale" v-model="filterForm.start_contract_date" color="green" trim-weeks
-                :masks="dateMasks" :model-config="datePickerModelConfig">
+              <VDatePicker
+                :locale="locale"
+                v-model="filterForm.start_contract_date"
+                color="green"
+                trim-weeks
+                :masks="dateMasks"
+                :model-config="datePickerModelConfig"
+              >
                 <template #default="{ inputValue, inputEvents }">
                   <VField :label="$t('From')">
                     <VControl icon="feather:calendar">
@@ -235,8 +246,14 @@ async function clearFilterForm() {
               </VDatePicker>
             </div>
             <div class="column">
-              <VDatePicker :locale="locale" v-model="filterForm.end_contract_date" color="green" trim-weeks
-                :masks="dateMasks" :model-config="datePickerModelConfig">
+              <VDatePicker
+                :locale="locale"
+                v-model="filterForm.end_contract_date"
+                color="green"
+                trim-weeks
+                :masks="dateMasks"
+                :model-config="datePickerModelConfig"
+              >
                 <template #default="{ inputValue, inputEvents }">
                   <VField :label="$t('To')">
                     <VControl icon="feather:calendar">
@@ -249,14 +266,24 @@ async function clearFilterForm() {
           </div>
           <VFlex justify-content="end" column-gap="1rem">
             <VFlexItem>
-              <VButton type="button" :disabled="isLoading" outlined color="warning" icon="feather:x"
-                @click="clearFilterForm">{{ t('Clear')
-                }}
+              <VButton
+                type="button"
+                :disabled="isLoading"
+                outlined
+                color="warning"
+                icon="feather:x"
+                @click="clearFilterForm"
+                >{{ t('Clear') }}
               </VButton>
             </VFlexItem>
             <VFlexItem>
-              <VButton type="submit" :disabled="isLoading" outlined color="success" icon="feather:filter">{{ t('Filter')
-              }}
+              <VButton
+                type="submit"
+                :disabled="isLoading"
+                outlined
+                color="success"
+                icon="feather:filter"
+                >{{ t('Filter') }}
               </VButton>
             </VFlexItem>
           </VFlex>
@@ -265,8 +292,12 @@ async function clearFilterForm() {
     </div>
 
     <!-- table -->
-    <VFlexTableWrapper :columns="columns" :data="data.result" :limit="data.pagination.per_page"
-      :total="data.pagination.total">
+    <VFlexTableWrapper
+      :columns="columns"
+      :data="data.result"
+      :limit="data.pagination.per_page"
+      :total="data.pagination.total"
+    >
       <!--
         Here we retrieve the internal wrapperState.
         Note that we can not destructure it
@@ -274,13 +305,20 @@ async function clearFilterForm() {
       <template #default="wrapperState">
         <VFlexTable rounded>
           <template #header-column="{ column }">
-            <span v-if="column.key === 'orderNumber'" class="is-flex-grow-0" v-text="'#'" />
+            <span
+              v-if="column.key === 'orderNumber'"
+              class="is-flex-grow-0"
+              v-text="'#'"
+            />
           </template>
           <template #body>
             <!-- This is the empty state -->
             <div v-if="data.result.length === 0" class="flex-list-inner">
-              <VPlaceholderSection :title="$t('No_data')" :subtitle="$t('There_is_no_data_that_match_your_query')"
-                class="my-6" />
+              <VPlaceholderSection
+                :title="$t('No_data')"
+                :subtitle="$t('There_is_no_data_that_match_your_query')"
+                class="my-6"
+              />
             </div>
           </template>
 
@@ -297,8 +335,12 @@ async function clearFilterForm() {
               <span>{{ Number(value).toLocaleString() }}</span>
             </template>
             <template v-if="column.key === 'is_paid'">
-              <VTag class="is-size-6" :color="value ? 'primary' : 'warning'" rounded
-                :label="value ? $t('Paid') : $t('Not_Paid')" />
+              <VTag
+                class="is-size-6"
+                :color="value ? 'primary' : 'warning'"
+                rounded
+                :label="value ? $t('Paid') : $t('Not_Paid')"
+              />
             </template>
             <template v-if="column.key === 'contract_date' && value">
               <span>{{ $h.formatDate(value, 'DD.MM.YYYY') }}</span>
@@ -307,19 +349,37 @@ async function clearFilterForm() {
               <span>{{ $h.formatDate(value, 'DD.MM.YYYY') }}</span>
             </template>
             <template v-if="column.key === 'actions'">
-              <ContractFlexTableDropdown @view="onEdit(row.id)" @remove="onRemove(row.id)"
-                :remove-btn="[1, 2, 7].includes(userRoleID)" />
+              <ContractFlexTableDropdown
+                @view="onEdit(row.id)"
+                @remove="onRemove(row.id)"
+                :remove-btn="[1, 2, 7].includes(userRoleID)"
+              />
             </template>
           </template>
         </VFlexTable>
 
         <!-- Table Pagination with wrapperState.page binded-->
-        <VFlexPagination v-if="data.result.length" v-model:current-page="currentPage" class="mt-6"
-          :item-per-page="data.pagination.per_page" :total-items="data.pagination.total" />
+        <VFlexPagination
+          v-if="data.result.length"
+          v-model:current-page="currentPage"
+          class="mt-6"
+          :item-per-page="data.pagination.per_page"
+          :total-items="data.pagination.total"
+        />
       </template>
     </VFlexTableWrapper>
-    <ContractFormModal v-model="isFormModalOpen" :item-id="selectedId"
-      @update:list="() => { fetchData(); notify(); onModalClose() }" @close="onModalClose" />
+    <ContractFormModal
+      v-model="isFormModalOpen"
+      :item-id="selectedId"
+      @update:list="
+        () => {
+          fetchData()
+          notify()
+          onModalClose()
+        }
+      "
+      @close="onModalClose"
+    />
     <ConfirmActionModal @confirm-action="handleRemoveAction" />
   </div>
 </template>

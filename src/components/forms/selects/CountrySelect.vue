@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { isEmpty } from 'lodash'
 import { computed, onMounted, ref, watchEffect } from 'vue'
-import { string } from 'zod'
 import { useApi } from '/@src/composable/useApi'
 import { useNotyf } from '/@src/composable/useNotyf'
 import { CountryData } from '/@src/utils/interfaces'

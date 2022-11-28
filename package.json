@@ -57,7 +57,6 @@
     "@ckeditor/ckeditor5-vue": "4.0.0",
     "@iconify/iconify": "2.2.1",
     "@popperjs/core": "2.11.5",
-    "@vee-validate/zod": "^4.5.11",
     "@vueform/multiselect": "2.3.3",
     "@vueform/slider": "2.0.9",
     "@vueuse/core": "8.3.1",
@@ -97,7 +96,7 @@
     "tslib": "2.4.0",
     "uuid": "^8.3.2",
     "v-calendar": "3.0.0-alpha.8",
-    "vee-validate": "4.5.11",
+    "vee-validate": "^4.7.3",
     "vite": "^3.0.4",
     "vivus": "0.4.6",
     "vue": "3.2.33",
@@ -106,8 +105,7 @@
     "vue-router": "4.0.14",
     "vue-scrollto": "2.20.0",
     "vue-tippy": "6.0.0-alpha.57",
-    "vue3-apexcharts": "1.4.1",
-    "zod": "^3.14.4"
+    "vue3-apexcharts": "1.4.1"
   },
   "devDependencies": {
     "@commitlint/cli": "16.2.3",
@@ -119,9 +117,6 @@
     "@types/dragula": "3.7.1",
     "@types/leaflet": "^1.7.11",
     "@types/lodash": "^4.14.182",
-    "@types/mapbox-gl": "2.7.0",
-    "@types/mapbox__mapbox-gl-geocoder": "4.7.2",
-    "@types/markdown-it": "12.2.3",
     "@types/node": "17.0.26",
     "@types/nprogress": "0.2.0",
     "@types/photoswipe": "4.1.2",
@@ -141,7 +136,6 @@
     "eslint-plugin-vuejs-accessibility": "1.1.1",
     "gray-matter": "4.0.3",
     "jiti": "1.13.0",
-    "json-server": "0.17.0",
     "lint-staged": "12.4.0",
     "npm-run-all": "4.1.5",
     "plyr": "3.7.2",
@@ -169,9 +163,8 @@
     "vite-plugin-pages": "^0.25.0",
     "vite-plugin-pages-sitemap": "^1.2.2",
     "vite-plugin-purge-icons": "^0.9.0",
-    "vite-plugin-pwa": "^0.12.3",
     "vite-plugin-radar": "^0.5.0",
-    "vue-tsc": "0.34.10",
+    "vue-tsc": "1.0.9",
     "yorkie": "2.0.0"
   }
 }

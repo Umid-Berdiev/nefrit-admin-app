@@ -73,7 +73,7 @@ function onClose() {
                   :searchable="false"
                   :options="statementsList"
                   :placeholder="$t('Select_statements')"
-                  valueProp="id"
+                  value-prop="id"
                   label="code"
                   mode="tags"
                   :close-on-select="false"

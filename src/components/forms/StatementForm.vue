@@ -60,7 +60,7 @@ const isStatementStageFormModalOpen = ref(false)
 const isStatementCancelModalOpen = ref(false)
 const currentId = (route.params?.id as string) ?? null
 const currentStatementData = ref<StatementData>()
-const currentState = computed(() => currentStatementData.value?.stage.id as number)
+const currentStage = computed(() => currentStatementData.value?.stage.id as number)
 const chronologyData = ref<StatementChronologyData[]>()
 const canChange = ref(false)
 const canCertify = ref(false)
@@ -213,7 +213,7 @@ async function generateCertificate() {
               <td>
                 <a
                   v-if="currentStatementData?.contract_id"
-                  :href="'/app/contract/' + currentStatementData?.contract_id"
+                  :href="'/app/contracts/' + currentStatementData?.contract_id"
                   class="has-text-primary"
                 >
                   {{ $t('Link_for_contract') }}
@@ -230,6 +230,7 @@ async function generateCertificate() {
                 <a
                   v-if="currentStatementData?.certificate"
                   :href="currentStatementData?.certificate?.file"
+                  target="_blank"
                   class="has-text-primary"
                   download
                 >
@@ -293,7 +294,7 @@ async function generateCertificate() {
     <StatementStageFormModal
       v-model="isStatementStageFormModalOpen"
       :statement-id="Number(currentId)"
-      :statement-stage="Number(currentState)"
+      :statement-stage="Number(currentStage)"
       @update:data="
         () => {
           fetchData()

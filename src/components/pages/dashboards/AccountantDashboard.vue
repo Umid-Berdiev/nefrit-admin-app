@@ -2,16 +2,14 @@
 import { computed, onMounted, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
-import {
-  fetchShouldPaidStatementsStatistics
-} from '/@src/utils/api/statement'
+import { fetchShouldPaidStatementsStatistics } from '/@src/utils/api/statement'
 
 const { t } = useI18n()
 const router = useRouter()
 
 const columns2 = {
-  code: {
-    label: 'Ariza qabul raqami',
+  uuid: {
+    label: t('statement_code'),
     // cellClass: 'is-flex-grow-0',
   },
   applicant: {
@@ -34,7 +32,7 @@ const statementData = reactive({
     per_page: 5,
     total: 5,
   },
-  result: []
+  result: [],
 })
 
 const currentPage2 = computed({
@@ -43,7 +41,7 @@ const currentPage2 = computed({
   },
   set: async (page) => {
     await fetchShouldPaidStatements(page)
-  }
+  },
 })
 
 onMounted(async () => {
@@ -79,8 +77,12 @@ async function fetchShouldPaidStatements(page: number = 1) {
             <h1 class="is-size-4">{{ $t('Statement_should_paid') }}</h1>
           </div>
           <div class="p-5">
-            <VFlexTableWrapper :columns="columns2" :data="statementData.result"
-              :limit="statementData.pagination.per_page" :total="statementData.pagination.total">
+            <VFlexTableWrapper
+              :columns="columns2"
+              :data="statementData.result"
+              :limit="statementData.pagination.per_page"
+              :total="statementData.pagination.total"
+            >
               <template #default="wrapperState">
                 <VFlexTable rounded>
                   <!-- Custom "name" cell content -->
@@ -89,16 +91,27 @@ async function fetchShouldPaidStatements(page: number = 1) {
                       <span>{{ $h.formatDate(value, 'HH:mm DD.MM.YYYY') }}</span>
                     </template>
                     <template v-if="column.key === 'actions'">
-                      <VIconButton class="p-4" outlined circle color="info" icon="feather:eye"
-                        @click.prevent="gotoView(row.id)">
+                      <VIconButton
+                        class="p-4"
+                        outlined
+                        circle
+                        color="info"
+                        icon="feather:eye"
+                        @click.prevent="gotoView(row.id)"
+                      >
                         {{ $t('View') }}
                       </VIconButton>
                     </template>
                   </template>
                 </VFlexTable>
 
-                <VFlexPagination v-if="statementData.result.length" v-model:current-page="currentPage2" class="mt-6"
-                  :item-per-page="statementData.pagination.per_page" :total-items="statementData.pagination.total" />
+                <VFlexPagination
+                  v-if="statementData.result.length"
+                  v-model:current-page="currentPage2"
+                  class="mt-6"
+                  :item-per-page="statementData.pagination.per_page"
+                  :total-items="statementData.pagination.total"
+                />
               </template>
             </VFlexTableWrapper>
           </div>
@@ -179,14 +192,14 @@ async function fetchShouldPaidStatements(page: number = 1) {
         }
       }
 
-      >h3 {
+      > h3 {
         color: var(--dark-text);
         font-family: var(--font-alt);
         font-size: 1.2rem;
         font-weight: 600;
       }
 
-      >p {
+      > p {
         font-size: 0.9rem;
       }
 
@@ -282,7 +295,7 @@ async function fetchShouldPaidStatements(page: number = 1) {
         padding: 10px 0;
 
         .media-flex {
-          +.media-flex {
+          + .media-flex {
             margin-top: 20px;
             padding-top: 20px;
             border-top: 1px solid var(--fade-grey-dark-3);

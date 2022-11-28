@@ -34,7 +34,6 @@ export default definePlugin(async ({ router, api, pinia }) => {
       // and we are logged in, so we should check user information from the server
       try {
         // Do api request call to retreive user profile.
-        // Note that the api is provided with json-server
         userSession.fetchProfile()
         // notyf.success(`Welcome back, ${data.data.username?.toUpperCase()}`)
       } catch (err) {

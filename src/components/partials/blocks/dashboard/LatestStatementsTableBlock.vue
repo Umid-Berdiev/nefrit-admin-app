@@ -11,7 +11,7 @@ const router = useRouter()
 const { t } = useI18n()
 const { userRoleID } = useUserSession()
 const columns = {
-  code: {
+  uuid: {
     label: t('statement_code'),
     // cellClass: 'is-flex-grow-0',
   },

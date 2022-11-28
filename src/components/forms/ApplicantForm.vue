@@ -1,16 +1,20 @@
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useRoute, useRouter } from 'vue-router';
-import moment from 'moment';
-import { fetchById, unblockApplicant, updateApplicant, verifyApplicant } from '/@src/utils/api/applicant';
-import { ApplicantData } from '/@src/utils/interfaces';
-import { useMainStore } from '/@src/stores';
-import CountrySelect from './selects/CountrySelect.vue';
-import { useNotyf } from '/@src/composable/useNotyf';
-import ApplicantBlockFormModal from '../base/modal/ApplicantBlockFormModal.vue';
+import { useRoute } from 'vue-router'
+import {
+  fetchById,
+  unblockApplicant,
+  updateApplicant,
+  verifyApplicant,
+} from '/@src/utils/api/applicant'
+import { ApplicantData } from '/@src/utils/interfaces'
+import { useMainStore } from '/@src/stores'
+import CountrySelect from './selects/CountrySelect.vue'
+import { useNotyf } from '/@src/composable/useNotyf'
+import ApplicantBlockFormModal from '../base/modal/ApplicantBlockFormModal.vue'
 
-const { t, locale } = useI18n()
+const { t } = useI18n()
 const route = useRoute()
 const mainStore = useMainStore()
 const currentId = (route.params?.id as string) ?? ''
@@ -26,7 +30,7 @@ const errors = reactive({
   name: '',
   country: '',
   address: '',
-  is_national: ''
+  is_national: '',
 })
 const isLoading = ref(false)
 const notif = useNotyf()
@@ -109,16 +113,37 @@ async function onUnblockAction() {
     <div class="form-layout is-separate">
       <VBlock title="" center>
         <template #action>
-          <VButton v-if="!applicantData.blocked_at" type="button" class="mr-3" outlined color="danger" icon="fas fa-ban"
-            @click="onBlockAction">
+          <VButton
+            v-if="!applicantData.blocked_at"
+            type="button"
+            class="mr-3"
+            outlined
+            color="danger"
+            icon="fas fa-ban"
+            @click="onBlockAction"
+          >
             {{ $t('Block') }}
           </VButton>
-          <VButton v-if="applicantData.blocked_at" type="button" class="mr-3" outlined color="warning" icon="fas fa-ban"
-            @click="onUnblockAction">
+          <VButton
+            v-if="applicantData.blocked_at"
+            type="button"
+            class="mr-3"
+            outlined
+            color="warning"
+            icon="fas fa-ban"
+            @click="onUnblockAction"
+          >
             {{ $t('Unblock') }}
           </VButton>
-          <VButton v-if="!applicantData.verified_at" type="button" class="mr-3" outlined color="primary"
-            icon="fas fa-check-double" @click="onVerifyAction">
+          <VButton
+            v-if="!applicantData.verified_at"
+            type="button"
+            class="mr-3"
+            outlined
+            color="primary"
+            icon="fas fa-check-double"
+            @click="onVerifyAction"
+          >
             {{ $t('Verify') }}
           </VButton>
           <!-- <VButton class="mr-3" outlined color="success" icon="fas fa-user-edit" type="submit">
@@ -128,7 +153,11 @@ async function onUnblockAction() {
       </VBlock>
       <div class="form-outer">
         <div class="form-body">
-          <form id="first-block-form" class="form-section" @submit.prevent="onFirstFormSubmit">
+          <form
+            id="first-block-form"
+            class="form-section"
+            @submit.prevent="onFirstFormSubmit"
+          >
             <div class="form-section-inner has-padding-bottom">
               <h3 class="has-text-centered">
                 {{ t('Applicant_details') }}
@@ -150,8 +179,14 @@ async function onUnblockAction() {
                 <div class="column is-12 mb-3">
                   <VField required :label="$t('Boss_name')">
                     <VControl icon="feather:user">
-                      <VInput :disabled="!isFirstBlockEditable" type="text" name="boss_name"
-                        v-model="applicantData.boss_name" placeholder="" autocomplete="boss-name" />
+                      <VInput
+                        :disabled="!isFirstBlockEditable"
+                        type="text"
+                        name="boss_name"
+                        v-model="applicantData.boss_name"
+                        placeholder=""
+                        autocomplete="boss-name"
+                      />
                       <p class="help has-text-danger">{{ errors.boss_name[0] }}</p>
                     </VControl>
                   </VField>
@@ -159,8 +194,13 @@ async function onUnblockAction() {
                 <div class="column is-12 mb-3">
                   <VField required :label="$t('Applicant_phone_number')">
                     <VControl icon="feather:phone" required>
-                      <VInput :disabled="!isFirstBlockEditable" type="tel" name="phone" v-model="applicantData.phone"
-                        autocomplete="applicant-name" />
+                      <VInput
+                        :disabled="!isFirstBlockEditable"
+                        type="tel"
+                        name="phone"
+                        v-model="applicantData.phone"
+                        autocomplete="applicant-name"
+                      />
                       <p class="help has-text-danger">{{ errors.phone[0] }}</p>
                     </VControl>
                   </VField>
@@ -168,8 +208,13 @@ async function onUnblockAction() {
                 <div class="column is-12 mb-3">
                   <VField required :label="$t('Website')">
                     <VControl icon="feather:globe" required>
-                      <VInput :disabled="!isFirstBlockEditable" type="text" name="website"
-                        v-model="applicantData.website" autocomplete="website-name" />
+                      <VInput
+                        :disabled="!isFirstBlockEditable"
+                        type="text"
+                        name="website"
+                        v-model="applicantData.website"
+                        autocomplete="website-name"
+                      />
                       <p class="help has-text-danger">{{ errors.website[0] }}</p>
                     </VControl>
                   </VField>
@@ -177,22 +222,41 @@ async function onUnblockAction() {
                 <div class="column is-12 mb-3">
                   <VField required :label="$t('Email_address')">
                     <VControl icon="feather:mail" required>
-                      <VInput :disabled="!isFirstBlockEditable" type="email" name="email" v-model="applicantData.email"
-                        autocomplete="email" inputmode="email" />
+                      <VInput
+                        :disabled="!isFirstBlockEditable"
+                        type="email"
+                        name="email"
+                        v-model="applicantData.email"
+                        autocomplete="email"
+                        inputmode="email"
+                      />
                       <p class="help has-text-danger">{{ errors.email[0] }}</p>
                     </VControl>
                   </VField>
                 </div>
                 <div class="column is-12 is-flex">
-                  <VButton :loading="isLoading" v-if="isFirstBlockEditable" class="ml-auto" outlined color="success"
-                    icon="fas fa-save" type="submit" form="first-block-form" :disabled="isLoading">
+                  <VButton
+                    :loading="isLoading"
+                    v-if="isFirstBlockEditable"
+                    class="ml-auto"
+                    outlined
+                    color="success"
+                    icon="fas fa-save"
+                    type="submit"
+                    form="first-block-form"
+                    :disabled="isLoading"
+                  >
                     {{ $t('Save') }}
                   </VButton>
                 </div>
               </div>
             </div>
           </form>
-          <form id="second-block-form" class="form-section" @submit.prevent="onSecondFormSubmit">
+          <form
+            id="second-block-form"
+            class="form-section"
+            @submit.prevent="onSecondFormSubmit"
+          >
             <div class="form-section-inner has-padding-bottom">
               <h3 class="has-text-centered">
                 {{ t('Company_information') }}
@@ -205,8 +269,11 @@ async function onUnblockAction() {
                 <div class="column is-12 mb-3">
                   <VField required :label="$t('Company_name')">
                     <VControl icon="feather:briefcase" required>
-                      <VInput :disabled="!isSecondBlockEditable" v-model="applicantData.name"
-                        autocomplete="company_name" />
+                      <VInput
+                        :disabled="!isSecondBlockEditable"
+                        v-model="applicantData.name"
+                        autocomplete="company_name"
+                      />
                       <p class="help has-text-danger">{{ errors.name[0] }}</p>
                     </VControl>
                   </VField>
@@ -223,14 +290,22 @@ async function onUnblockAction() {
                 <div class="column is-6 mb-3">
                   <VField :label="$t('Company_fax')">
                     <VControl icon="feather:printer" required>
-                      <VInput :disabled="!isSecondBlockEditable" v-model="applicantData.fax" autocomplete="tel"
-                        inputmode="tel" />
+                      <VInput
+                        :disabled="!isSecondBlockEditable"
+                        v-model="applicantData.fax"
+                        autocomplete="tel"
+                        inputmode="tel"
+                      />
                       <p class="help has-text-danger">{{ errors.fax[0] }}</p>
                     </VControl>
                   </VField>
                 </div>
                 <div class="column is-6 mb-3">
-                  <CountrySelect :disabled="!isSecondBlockEditable" v-model="applicantData.country_id" required />
+                  <CountrySelect
+                    :disabled="!isSecondBlockEditable"
+                    v-model="applicantData.country_id"
+                    required
+                  />
                 </div>
                 <div class="column is-6 mb-3">
                   <VField :label="$t('stir')">
@@ -242,7 +317,11 @@ async function onUnblockAction() {
                 <div class="column is-12 mb-3">
                   <VField required :label="$t('Address')">
                     <VControl>
-                      <VTextarea v-model="applicantData.address" :rows="2" />
+                      <VTextarea
+                        v-model="applicantData.address"
+                        :rows="2"
+                        :disabled="!isSecondBlockEditable"
+                      />
                       <p class="help has-text-danger">{{ errors.address[0] }}</p>
                     </VControl>
                   </VField>
@@ -253,14 +332,30 @@ async function onUnblockAction() {
                       v-model="applicantData.is_national" :checked="applicantData.is_national" />
                     {{ $t('isNational') }}
                   </label> -->
-                  <VControl raw subcontrol>
-                    <VCheckbox class="pl-1" v-model="applicantData.is_national" :label="$t('isNational')"
-                      color="primary" :true-value="1" :false-value="0" :disabled="!isSecondBlockEditable" />
-                  </VControl>
+                  <!-- <VControl raw subcontrol>
+                    <VCheckbox
+                      class="pl-1"
+                      v-model="applicantData.is_national"
+                      :label="$t('isNational')"
+                      color="primary"
+                      :true-value="1"
+                      :false-value="0"
+                      :disabled="!isSecondBlockEditable"
+                    />
+                  </VControl> -->
                 </div>
                 <div class="column is-12 is-flex">
-                  <VButton :loading="isLoading" v-if="isSecondBlockEditable" class="ml-auto" outlined color="success"
-                    icon="fas fa-save" type="submit" form="second-block-form" :disabled="isLoading">
+                  <VButton
+                    :loading="isLoading"
+                    v-if="isSecondBlockEditable"
+                    class="ml-auto"
+                    outlined
+                    color="success"
+                    icon="fas fa-save"
+                    type="submit"
+                    form="second-block-form"
+                    :disabled="isLoading"
+                  >
                     {{ $t('Save') }}
                   </VButton>
                 </div>
@@ -279,7 +374,11 @@ async function onUnblockAction() {
                           <div class="name dark-inverted">{{ $t('Status') }}</div>
                         </td>
                         <td>
-                          <VTag :color="applicantData.status.color" rounded v-text="applicantData.status?.name" />
+                          <VTag
+                            :color="applicantData.status.color"
+                            rounded
+                            v-text="applicantData.status?.name"
+                          />
                         </td>
                       </tr>
                       <tr v-if="applicantData.verified_at">
@@ -287,8 +386,12 @@ async function onUnblockAction() {
                           <div class="name dark-inverted">{{ $t('verified_at') }}</div>
                         </td>
                         <td>
-                          <span class="has-text-primary is-size-6"
-                            v-text="$h.formatDate(applicantData.verified_at, 'DD.MM.YYYY')" />
+                          <span
+                            class="has-text-primary is-size-6"
+                            v-text="
+                              $h.formatDate(applicantData.verified_at, 'DD.MM.YYYY')
+                            "
+                          />
                         </td>
                       </tr>
                       <tr v-if="applicantData.block_reason">
@@ -296,7 +399,10 @@ async function onUnblockAction() {
                           <div class="name dark-inverted">{{ $t('block_reason') }}</div>
                         </td>
                         <td>
-                          <span color="danger is-size-6" v-text="applicantData.block_reason" />
+                          <span
+                            color="danger is-size-6"
+                            v-text="applicantData.block_reason"
+                          />
                         </td>
                       </tr>
                       <tr v-if="applicantData.blocked_at">
@@ -304,8 +410,10 @@ async function onUnblockAction() {
                           <div class="name dark-inverted">{{ $t('blocked_at') }}</div>
                         </td>
                         <td>
-                          <span class="has-text-danger is-size-6"
-                            v-text="$h.formatDate(applicantData.blocked_at, 'DD.MM.YYYY')" />
+                          <span
+                            class="has-text-danger is-size-6"
+                            v-text="$h.formatDate(applicantData.blocked_at, 'DD.MM.YYYY')"
+                          />
                         </td>
                       </tr>
                     </tbody>
@@ -319,7 +427,11 @@ async function onUnblockAction() {
     </div>
 
     <ConfirmActionModal @confirm-action="onConfirmAction" />
-    <ApplicantBlockFormModal v-model="isBlockFormModalOpen" :item-id="Number(currentId)" @update:list="fetchData" />
+    <ApplicantBlockFormModal
+      v-model="isBlockFormModalOpen"
+      :item-id="Number(currentId)"
+      @update:list="fetchData"
+    />
   </div>
 </template>
 
@@ -361,7 +473,7 @@ async function onUnblockAction() {
               height: 100%;
             }
 
-            >h3 {
+            > h3 {
               font-family: var(--font-alt);
               font-size: 1.2rem;
               font-weight: 600;
@@ -405,7 +517,7 @@ async function onUnblockAction() {
                   cursor: pointer;
 
                   &:checked {
-                    +.radio-box-inner {
+                    + .radio-box-inner {
                       background: var(--primary);
                       border-color: var(--primary);
                       box-shadow: var(--primary-box-shadow);
@@ -455,10 +567,10 @@ async function onUnblockAction() {
             }
 
             .control {
-              >p {
+              > p {
                 padding-top: 12px;
 
-                >span {
+                > span {
                   display: block;
                   font-size: 0.9rem;
 
@@ -507,13 +619,13 @@ async function onUnblockAction() {
             .form-section-inner {
               @include vuero-card--dark;
 
-              >h3 {
+              > h3 {
                 color: var(--dark-dark-text);
               }
 
               .radio-boxes {
                 .radio-box {
-                  input:checked+.radio-box-inner {
+                  input:checked + .radio-box-inner {
                     background: var(--primary);
                     border-color: var(--primary);
                     box-shadow: var(--primary-box-shadow);

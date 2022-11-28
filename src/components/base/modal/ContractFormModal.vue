@@ -1,22 +1,23 @@
 <script setup lang="ts">
-import { onMounted, reactive, ref, watch } from 'vue';
-import { useI18n } from 'vue-i18n';
+import { onMounted, reactive, ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 import {
   createStatementContract,
   updateContractById,
   fetchStatementContractById,
-} from '/@src/utils/api/statement';
+} from '/@src/utils/api/statement'
+import { fetchApplicants, fetchApplicantStatementsList } from '/@src/utils/api/applicant'
 import {
-  fetchApplicants,
-  fetchApplicantStatementsList
-} from '/@src/utils/api/applicant';
-import { StatementContractData, ApplicantData, StatementData } from '/@src/utils/interfaces'
+  StatementContractData,
+  ApplicantData,
+  StatementData,
+} from '/@src/utils/interfaces'
 
 const props = defineProps({
   modelValue: Boolean,
   itemId: {
     type: Number,
-    default: null
+    default: null,
   },
 })
 
@@ -27,7 +28,7 @@ const emits = defineEmits<{
 
 const { t, locale } = useI18n()
 let title = ref(t('Add'))
-const files = ref<File[]>([]);
+const files = ref<File[]>([])
 const applicantsList = ref<ApplicantData[]>()
 const statementsList = ref<StatementData[]>()
 const contractObj: StatementContractData = reactive({
@@ -35,7 +36,7 @@ const contractObj: StatementContractData = reactive({
   name: '',
   payment_amount: 0,
   template_file: '',
-  applications: []
+  applications: [],
 })
 const contractObjStatementIds = ref<number[]>([])
 const errors = reactive({
@@ -59,7 +60,9 @@ watch(
       title.value = t('Edit')
       const res = await fetchStatementContractById(Number(props.itemId))
       Object.assign(contractObj, res)
-      contractObjStatementIds.value = res.applications.map((item: StatementData) => item.id)
+      contractObjStatementIds.value = res.applications.map(
+        (item: StatementData) => item.id
+      )
     }
   },
   { deep: true, immediate: true }
@@ -86,13 +89,13 @@ async function onSubmit(event: Event) {
     formData.append('template_file', files.value.length ? files.value[0] : '')
     formData.append('legal_entity_id', contractObj.legal_entity_id)
 
-    contractObjStatementIds.value.forEach(item => {
+    contractObjStatementIds.value.forEach((item) => {
       formData.append('applications[]', item)
     })
 
-    props.itemId ?
-      await updateContractById(props.itemId, formData) :
-      await createStatementContract(formData)
+    props.itemId
+      ? await updateContractById(props.itemId, formData)
+      : await createStatementContract(formData)
     emits('update:list')
     onClose()
   } catch (error: any) {
@@ -112,7 +115,7 @@ function onClose() {
       name: '',
       payment_amount: 0,
       template_file: '',
-      applications: []
+      applications: [],
     })
 
     Object.assign(errors, {
@@ -132,13 +135,12 @@ function clearErrors(prop: string) {
 
 function onFileUpload(event: Event) {
   const target = event.target as HTMLInputElement
-  files.value = target.files && [target.files[0]];
+  files.value = target.files && [target.files[0]]
 }
 
 function onFileRemove(id: number) {
   files.value = []
 }
-
 </script>
 
 <template>
@@ -154,16 +156,23 @@ function onFileRemove(id: number) {
           </div>
           <div class="column is-12">
             <VField :label="$t('Contract_amount')" required>
-              <VInput type="number" v-model="contractObj.payment_amount" />
+              <VInput v-model="contractObj.payment_amount" type="number" />
               <p class="help has-text-danger">{{ errors.payment_amount[0] }}</p>
             </VField>
           </div>
           <div class="column is-12">
             <VField v-slot="{ id }">
               <VControl>
-                <Multiselect v-model="contractObj.legal_entity_id" :attrs="{ id }" :searchable="true"
-                  :options="applicantsList" :placeholder="$t('Select_applicant')" valueProp="id" label="name"
-                  :disabled="Boolean(itemId)" />
+                <Multiselect
+                  v-model="contractObj.legal_entity_id"
+                  :attrs="{ id }"
+                  :searchable="true"
+                  :options="applicantsList"
+                  :placeholder="$t('Select_applicant')"
+                  value-prop="id"
+                  label="name"
+                  :disabled="Boolean(itemId)"
+                />
               </VControl>
             </VField>
             <p class="help has-text-danger">{{ errors.legal_entity_id[0] }}</p>
@@ -171,23 +180,44 @@ function onFileRemove(id: number) {
           <div class="column is-12">
             <VField v-slot="{ id }">
               <VControl>
-                <Multiselect v-model="contractObjStatementIds" :attrs="{ id }" :searchable="false"
-                  :options="statementsList" :placeholder="$t('Select_statements')" valueProp="id" label="code"
-                  mode="tags" :close-on-select="false" :disabled="!contractObj.legal_entity_id">
+                <Multiselect
+                  v-model="contractObjStatementIds"
+                  :attrs="{ id }"
+                  :searchable="false"
+                  :options="statementsList"
+                  :placeholder="$t('Select_statements')"
+                  value-prop="id"
+                  label="code"
+                  mode="tags"
+                  :close-on-select="false"
+                  :disabled="!contractObj.legal_entity_id"
+                >
                 </Multiselect>
               </VControl>
             </VField>
             <p class="help has-text-danger">{{ errors.applications[0] }}</p>
           </div>
           <div class="column is-12">
-            <VFileInput @file-upload="onFileUpload" @file-remove="onFileRemove" :error-message="errors.template_file[0]"
-              :files="files" :remote-files="[]" />
+            <VFileInput
+              :error-message="errors.template_file[0]"
+              :files="files"
+              :remote-files="[]"
+              @file-upload="onFileUpload"
+              @file-remove="onFileRemove"
+            />
           </div>
         </div>
       </form>
     </template>
-    <template #action="{ close }">
-      <VButton :loading="isLoading" color="primary" outlined type="submit" form="contract-form" :disabled="isLoading">
+    <template #action>
+      <VButton
+        :loading="isLoading"
+        color="primary"
+        outlined
+        type="submit"
+        form="contract-form"
+        :disabled="isLoading"
+      >
         {{ $t('Save') }}
       </VButton>
     </template>

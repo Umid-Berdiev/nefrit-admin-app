@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { useI18n } from 'vue-i18n'
+import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import {
   fetchStatementVotes,
@@ -9,16 +8,13 @@ import {
 import { StatementVoteData, UserData, VoteStatisticsData } from '/@src/utils/interfaces'
 
 const route = useRoute()
-const { t, locale } = useI18n()
 const currentStatementId = (route.params?.id as string) ?? null
-const files = ref([])
 const isFeedbackFormModalOpen = ref(false)
 const selectedAnswer = ref<string | number>()
 const voteList = ref<{ user: UserData; vote: StatementVoteData; is_me: boolean }[]>()
 const voteStatistics = ref<VoteStatisticsData>()
 
 await fetchList()
-// await fetchStatistics()
 
 function onGivingFeedback(val: string | number) {
   isFeedbackFormModalOpen.value = true
@@ -38,33 +34,6 @@ async function fetchStatistics() {
 
 <template>
   <div class="container">
-    <!-- <div class="company-header is-dark-card-bordered is-dark-bg-6">
-      <div class="header-item is-dark-bordered-12">
-        <div class="item-inner">
-          <span class="dark-inverted">{{ voteStatistics?.voted }}</span>
-          <p>{{ $t('Total_voted') }}</p>
-        </div>
-      </div>
-      <div class="header-item is-dark-bordered-12">
-        <div class="item-inner">
-          <span class="dark-inverted">{{ voteStatistics?.agree }}</span>
-          <p>{{ $t('Accepted') }}</p>
-        </div>
-      </div>
-      <div class="header-item is-dark-bordered-12">
-        <div class="item-inner">
-          <span class="dark-inverted">{{ voteStatistics?.disagre }}</span>
-          <p>{{ $t('Rejected') }}</p>
-        </div>
-      </div>
-      <div class="header-item is-dark-bordered-12">
-        <div class="item-inner">
-          <span class="dark-inverted">{{ voteStatistics?.didnt_vote }}</span>
-          <p>{{ $t('Not_voted') }}</p>
-        </div>
-      </div>
-    </div> -->
-
     <div class="user-grid user-grid-v1">
       <TransitionGroup
         name="list"
@@ -72,109 +41,68 @@ async function fetchStatistics() {
         class="columns is-multiline is-justify-content-center"
       >
         <!--Grid item-->
-        <div v-if="voteList?.length" class="column is-4">
-          <div class="grid-item is-active">
-            <VAvatar :picture="voteList[0].user?.avatar" size="xl" />
-            <h3 class="dark-inverted">
-              {{ voteList[0].user?.firstname + ' ' + voteList[0].user?.lastname }}
-            </h3>
-            <p>{{ voteList[0].user?.department }}</p>
-            <div class="is-grouped mt-5">
-              <template v-if="voteList[0].vote">
-                <VButton
-                  :color="voteList[0].vote.value ? 'success' : 'danger'"
-                  class="is-justify-content-center mr-3 is-fullwidth"
-                >
-                  <span class="icon">
-                    <i
-                      aria-hidden="true"
-                      class="iconify"
-                      :data-icon="voteList[0].vote.value ? 'feather:check' : 'feather:x'"
-                    />
-                  </span>
-                  <span>{{
-                    voteList[0].vote.value ? $t('Accepted') : $t('Rejected')
-                  }}</span>
-                </VButton>
-                <!-- <VButton
-                  color="warning"
-                  style="width: 10%"
-                  class="is-justify-content-center"
-                  @click="onGivingFeedback(0)"
-                >
-                  <span class="icon">
-                    <i aria-hidden="true" class="iconify" data-icon="feather:edit-2"></i>
-                  </span>
-                </VButton> -->
-                <VCollapse
-                  class="mt-5"
-                  :items="[
-                    {
-                      title: $t('Description'),
-                      content: voteList[0].vote.description,
-                    },
-                  ]"
-                  with-chevron
-                />
-              </template>
-              <template v-else>
-                <VButton
-                  color="success"
-                  style="width: 45%"
-                  class="is-justify-content-center mr-3"
-                  @click="onGivingFeedback(1)"
-                >
-                  <span class="icon">
-                    <i aria-hidden="true" class="iconify" data-icon="feather:check" />
-                  </span>
-                  <span>{{ $t('Accept') }}</span>
-                </VButton>
-                <VButton
-                  color="danger"
-                  style="width: 45%"
-                  class="is-justify-content-center"
-                  @click="onGivingFeedback(0)"
-                >
-                  <span class="icon">
-                    <i aria-hidden="true" class="iconify" data-icon="feather:x"></i>
-                  </span>
-                  <span>{{ $t('Reject') }}</span>
-                </VButton>
-              </template>
+        <template v-if="voteList?.length">
+          <div v-for="(vote, voteIndex) in voteList" :key="voteIndex" class="column is-4">
+            <div class="grid-item is-active">
+              <VAvatar :picture="vote.user?.avatar" size="xl" />
+              <h3 class="dark-inverted">
+                {{ vote.user?.firstname + ' ' + vote.user?.lastname }}
+              </h3>
+              <p>{{ vote.user?.department }}</p>
+              <div class="is-grouped mt-5">
+                <template v-if="vote.vote">
+                  <VButton
+                    :color="vote.vote.value ? 'success' : 'danger'"
+                    class="is-justify-content-center mr-3 is-fullwidth"
+                  >
+                    <span class="icon">
+                      <i
+                        aria-hidden="true"
+                        class="iconify"
+                        :data-icon="vote.vote.value ? 'feather:check' : 'feather:x'"
+                      />
+                    </span>
+                    <span>{{ vote.vote.value ? $t('Accepted') : $t('Rejected') }}</span>
+                  </VButton>
+                  <VCollapse
+                    class="mt-5"
+                    :items="[
+                      {
+                        title: $t('Description'),
+                        content: vote.vote.description,
+                      },
+                    ]"
+                    with-chevron
+                  />
+                </template>
+                <template v-else>
+                  <VButton
+                    color="success"
+                    style="width: 45%"
+                    class="is-justify-content-center mr-3"
+                    @click="onGivingFeedback(1)"
+                  >
+                    <span class="icon">
+                      <i aria-hidden="true" class="iconify" data-icon="feather:check" />
+                    </span>
+                    <span>{{ $t('Accept') }}</span>
+                  </VButton>
+                  <VButton
+                    color="danger"
+                    style="width: 45%"
+                    class="is-justify-content-center"
+                    @click="onGivingFeedback(0)"
+                  >
+                    <span class="icon">
+                      <i aria-hidden="true" class="iconify" data-icon="feather:x"></i>
+                    </span>
+                    <span>{{ $t('Reject') }}</span>
+                  </VButton>
+                </template>
+              </div>
             </div>
-            <!-- <template v-else>
-              <div v-if="item.vote" class="is-grouped mt-5">
-                <VButton
-                  class="is-fullwidth is-justify-content-center"
-                  :color="item.vote.value ? 'success' : 'danger'"
-                >
-                  <span class="icon">
-                    <i
-                      aria-hidden="true"
-                      class="iconify"
-                      :data-icon="item.vote.value ? 'feather:check' : 'feather:x'"
-                    />
-                  </span>
-                  <span>{{ item.vote.value ? $t('Accepted') : $t('Rejected') }}</span>
-                </VButton>
-                <VCollapse
-                  :items="[
-                    {
-                      title: $t('Description'),
-                      content: item.vote.description,
-                    },
-                  ]"
-                  with-chevron
-                />
-              </div>
-              <div v-else class="is-grouped mt-5">
-                <VButton class="is-fullwidth is-justify-content-center" static>
-                  <span>{{ $t('Not_voted_yet') }}</span>
-                </VButton>
-              </div>
-            </template> -->
           </div>
-        </div>
+        </template>
       </TransitionGroup>
     </div>
     <FeedbackFormModal

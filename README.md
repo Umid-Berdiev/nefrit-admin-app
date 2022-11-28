@@ -66,7 +66,6 @@ yarn dev
 ```
 
 This will run the `dev` script from the `package.json` file.
-You will notice that two servers are started: one for the frontend (vite) and one for the backend (json-server).
 
 ### Useful links
 
