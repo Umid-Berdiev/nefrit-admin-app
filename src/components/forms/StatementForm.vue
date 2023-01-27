@@ -16,6 +16,7 @@ import { useNotyf } from '/@src/composable/useNotyf'
 import StatementCancelFormModal from '../base/modal/StatementCancelFormModal.vue'
 import { isNull } from 'lodash'
 import { useMainStore } from '/@src/stores'
+import { useUserSession } from '/@src/stores/userSession'
 
 const route = useRoute()
 const { t, locale } = useI18n()
@@ -66,6 +67,7 @@ const canChange = ref(false)
 const canCertify = ref(false)
 const isConfirmActionModalOpen = ref(false)
 const mainStore = useMainStore()
+const { userRoleID } = useUserSession()
 
 onMounted(async () => {
   await fetchData()
@@ -126,7 +128,8 @@ async function generateCertificate() {
           <VButton
             v-if="
               !currentStatementData?.is_canceled &&
-              isNull(currentStatementData?.certificate)
+              isNull(currentStatementData?.certificate) &&
+              userRoleID !== 7
             "
             class="px-4"
             color="danger"

@@ -18,7 +18,7 @@ const tabs = ref([
     label: t('Statement_details'),
     value: 'details',
     icon: 'lnil lnil-tap',
-    included: [1, 2, 3].includes(userRoleID),
+    included: [1, 2, 3, 7].includes(userRoleID),
   },
   {
     label: t('Statement_docs'),
