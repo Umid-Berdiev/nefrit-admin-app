@@ -77,7 +77,7 @@ onMounted(() => {
   <div class="statement-detail-wrapper">
     <VTabs v-model:selected="selectedTab" :tabs="tabs.filter((tab) => tab.included)">
       <template #tab="{ activeValue }">
-        <div v-if="activeValue == 'details' && [1, 2, 3].includes(userRoleID)">
+        <div v-if="activeValue == 'details' && [1, 2, 3, 7].includes(userRoleID)">
           <StatementForm />
         </div>
         <div
