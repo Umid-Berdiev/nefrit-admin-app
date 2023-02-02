@@ -19,6 +19,7 @@ async function confirmAction() {
   try {
     // setLoading(true)
     await userSession.logoutUser()
+    openConfirmModal.value = false
     router.push('/')
   } catch (error: any) {
     notif.error(error.message)

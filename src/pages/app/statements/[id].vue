@@ -10,6 +10,7 @@ import StatementDocumentCollapse from '/@src/components/base/accordion/Statement
 import { useUserSession } from '/@src/stores/userSession'
 
 const { userRoleID } = useUserSession()
+console.log({ userRoleID })
 const { t } = useI18n()
 const route = useRoute()
 const selectedTab = ref('details')

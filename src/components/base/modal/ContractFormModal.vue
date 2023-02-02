@@ -31,7 +31,7 @@ let title = ref(t('Add'))
 const files = ref<File[]>([])
 const applicantsList = ref<ApplicantData[]>()
 const statementsList = ref<StatementData[]>()
-const contractObj: StatementContractData = reactive({
+const contractObj = ref<StatementContractData>({
   legal_entity_id: null,
   name: '',
   payment_amount: 0,
@@ -40,11 +40,11 @@ const contractObj: StatementContractData = reactive({
 })
 const contractObjStatementIds = ref<number[]>([])
 const errors = reactive({
-  name: '',
-  payment_amount: '',
-  template_file: '',
-  legal_entity_id: '',
-  applications: '',
+  name: [],
+  payment_amount: [],
+  template_file: [],
+  legal_entity_id: [],
+  applications: [],
 })
 const isLoading = ref(false)
 
@@ -59,7 +59,7 @@ watch(
     if (newVal) {
       title.value = t('Edit')
       const res = await fetchStatementContractById(Number(props.itemId))
-      Object.assign(contractObj, res)
+      contractObj.value = res
       contractObjStatementIds.value = res.applications.map(
         (item: StatementData) => item.id
       )
@@ -69,9 +69,9 @@ watch(
 )
 
 watch(
-  () => contractObj.legal_entity_id,
+  () => contractObj.value.legal_entity_id,
   async (newVal, oldVal) => {
-    contractObj.applications = []
+    contractObj.value.applications = []
     if (newVal) {
       const res = await fetchApplicantStatementsList(Number(newVal))
       statementsList.value = res
@@ -84,10 +84,10 @@ async function onSubmit(event: Event) {
   try {
     isLoading.value = true
     const formData = new FormData()
-    formData.append('name', contractObj.name)
-    formData.append('payment_amount', contractObj.payment_amount)
+    formData.append('name', contractObj.value.name)
+    formData.append('payment_amount', contractObj.value.payment_amount)
     formData.append('template_file', files.value.length ? files.value[0] : '')
-    formData.append('legal_entity_id', contractObj.legal_entity_id)
+    formData.append('legal_entity_id', contractObj.value.legal_entity_id)
 
     contractObjStatementIds.value.forEach((item) => {
       formData.append('applications[]', item)
@@ -110,27 +110,23 @@ function onClose() {
   if (!props.itemId) {
     title.value = t('Add')
     files.value = []
-    Object.assign(contractObj, {
+    contractObj.value = {
       legal_entity_id: null,
       name: '',
       payment_amount: 0,
       template_file: '',
       applications: [],
-    })
+    }
 
-    Object.assign(errors, {
-      name: '',
-      payment_amount: '',
-      template_file: '',
-      applications: '',
-      legal_entity_id: '',
-    })
+    clearErrors()
   }
   emits('update:modelValue', false)
 }
 
-function clearErrors(prop: string) {
-  errors[prop] = ''
+function clearErrors() {
+  Object.keys(errors).forEach((prop) => {
+    errors[prop] = []
+  })
 }
 
 function onFileUpload(event: Event) {
@@ -187,11 +183,14 @@ function onFileRemove(id: number) {
                   :options="statementsList"
                   :placeholder="$t('Select_statements')"
                   value-prop="id"
-                  label="code"
+                  label="uuid"
                   mode="tags"
                   :close-on-select="false"
                   :disabled="!contractObj.legal_entity_id"
                 >
+                  <template #nooptions>
+                    <span class="p-3">{{ $t('The_list_is_empty') }}</span>
+                  </template>
                 </Multiselect>
               </VControl>
             </VField>

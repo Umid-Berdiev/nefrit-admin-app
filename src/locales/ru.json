@@ -439,5 +439,6 @@
   "Approve_drug_data": "Подтвердите данные лекарства",
   "Add_letter_number": "Введите номер письмо",
   "Letter_number": "Номер письмо",
-  "Cancel_letter": "Письмо отказа"
+  "Cancel_letter": "Письмо отказа",
+  "The_list_is_empty": "Список пуст"
 }

@@ -5,9 +5,7 @@ import { useI18n } from 'vue-i18n'
 import { isEmpty } from 'lodash'
 import moment from 'moment'
 
-import {
-  fetchStatementStatusStatistics,
-} from '/@src/utils/api/statement'
+import { fetchStatementStatusStatistics } from '/@src/utils/api/statement'
 
 const { t, locale } = useI18n()
 
@@ -19,14 +17,15 @@ const datePickerModelConfig = reactive({
 const range = computed({
   get: () => ({
     start: moment().subtract(1, 'month').format('YYYY-MM-DD'),
-    end: moment().format('YYYY-MM-DD')
+    end: moment().format('YYYY-MM-DD'),
   }),
   set: async (val: any) => {
-    if (!isEmpty(val)) await fetchStatusStatistics({
-      date_start: val.start,
-      date_end: val.end
-    })
-  }
+    if (!isEmpty(val))
+      await fetchStatusStatistics({
+        date_start: val.start,
+        date_end: val.end,
+      })
+  },
 })
 
 const statusChartSeries = reactive([])
@@ -60,7 +59,7 @@ const statusChartOptions = reactive({
     horizontalAlign: 'center',
     formatter: (val, opt) => {
       return `<span style="overflow-wrap: break-word;">${val}</span>`
-    }
+    },
   },
   plotOptions: {
     pie: {
@@ -87,27 +86,41 @@ const statusChartOptions = reactive({
 onMounted(async () => {
   await fetchStatusStatistics({
     date_start: range.value.start,
-    date_end: range.value.end
+    date_end: range.value.end,
   })
 })
 
-async function fetchStatusStatistics(range: any = {
-  date_start: '',
-  date_end: '',
-}) {
+async function fetchStatusStatistics(
+  range: any = {
+    date_start: '',
+    date_end: '',
+  }
+) {
   const res = await fetchStatementStatusStatistics(range)
-  Object.assign(statusChartSeries, res.map(item => item.applications))
-  Object.assign(statusChartOptions.labels, res.map(item => `${item.name}: ${item.applications}`))
+  Object.assign(
+    statusChartSeries,
+    res.map((item) => item.applications)
+  )
+  Object.assign(
+    statusChartOptions.labels,
+    res.map((item) => `${item.name}: ${item.applications}`)
+  )
 }
-
 </script>
 
 <template>
   <div class="dashboard-card is-base-chart">
     <div class="content-box is-flex">
       <h1 class="is-size-4">{{ $t('Statement_statuses') }}</h1>
-      <VDatePicker :locale="locale" class="ml-auto" v-model="range" is-range color="green" trim-weeks
-        :model-config="datePickerModelConfig">
+      <VDatePicker
+        v-model="range"
+        :locale="locale"
+        class="ml-auto"
+        is-range
+        color="green"
+        trim-weeks
+        :model-config="datePickerModelConfig"
+      >
         <template v-slot="{ inputValue, inputEvents }">
           <VField addons>
             <VControl expanded icon="feather:corner-down-right">
@@ -126,8 +139,12 @@ async function fetchStatusStatistics(range: any = {
       </VDatePicker>
     </div>
     <div class="p-5">
-      <ApexChart :type="statusChartOptions.chart.type" :height="400" :series="statusChartSeries"
-        :options="statusChartOptions" />
+      <ApexChart
+        :type="statusChartOptions.chart.type"
+        :height="400"
+        :series="statusChartSeries"
+        :options="statusChartOptions"
+      />
     </div>
   </div>
 </template>

@@ -10,7 +10,6 @@ import { useViewWrapper } from '/@src/stores/viewWrapper'
 import {
   exportStatementToExcel,
   fetchList,
-  filterStatementList,
   fetchStatuses,
 } from '/@src/utils/api/statement'
 import { StatusData } from '/@src/utils/interfaces'
@@ -19,6 +18,8 @@ import { helper } from '/@src/utils/helper'
 
 const { t, locale } = useI18n()
 const { userRoleID } = useUserSession()
+console.log({ userRoleID })
+
 useHead({
   title: t('Statements') + ' - Nefrit',
 })
@@ -73,9 +74,9 @@ const columns = {
   uuid: {
     label: t('statement_code'),
   },
-  // legal_entity: {
-  //   label: t('applied_legal_entity'),
-  // },
+  legal_entity: {
+    label: t('applied_legal_entity'),
+  },
   drug: {
     label: t('drug_name'),
   },
@@ -100,6 +101,13 @@ const columns = {
     align: 'center',
   },
 } as const
+
+const computedColumns = computed(() => {
+  if (userRoleID != 7) {
+    delete columns.legal_entity
+  }
+  return columns
+})
 
 await fetchData()
 
@@ -286,7 +294,7 @@ async function exportToExcel() {
 
     <!-- table -->
     <VFlexTableWrapper
-      :columns="columns"
+      :columns="computedColumns"
       :data="data.result"
       :limit="data.pagination.per_page"
       :total="data.pagination.total"
@@ -297,16 +305,6 @@ async function exportToExcel() {
       -->
       <template #default="wrapperState">
         <!-- We can place any content inside the default slot-->
-        <!-- <VFlexTableToolbar>
-          <template #left>
-            <VField>
-              <VControl icon="feather:search">
-                <VInput v-model="wrapperState.searchInput" class="is-rounded" :placeholder="t('Search') + '...'" />
-              </VControl>
-            </VField>
-          </template>
-        </VFlexTableToolbar> -->
-
         <VFlexTable rounded>
           <template #body>
             <!-- This is the empty state -->
@@ -321,6 +319,9 @@ async function exportToExcel() {
 
           <!-- Custom "name" cell content -->
           <template #body-cell="{ row, column, value }">
+            <template v-if="column.key === 'legal_entity'">
+              <span>{{ row.applicant }}</span>
+            </template>
             <template v-if="column.key === 'drug'">
               <span>{{ value?.name }}</span>
             </template>

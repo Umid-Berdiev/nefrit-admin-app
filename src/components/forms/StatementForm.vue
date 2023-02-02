@@ -146,14 +146,21 @@ async function generateCertificate() {
               <td class="has-text-weight-bold">{{ columns.uuid.label }}</td>
               <td>
                 {{ currentStatementData?.uuid }}
-                <!-- <a
+              </td>
+            </tr>
+            <tr v-if="userRoleID === 7">
+              <td class="has-text-weight-bold">
+                {{ columns.company.label }}
+              </td>
+              <td>
+                <a
                   href="javascript:;"
                   class="has-text-primary"
-                  @click="openCompanyInfoModal(1)"
+                  @click="openCompanyInfoModal"
                 >
-                  {{ currentStatementData?.uuid }}
+                  {{ currentStatementData?.applicant }}
                   <i class="iconify" data-icon="feather:link" aria-hidden="true"></i>
-                </a> -->
+                </a>
               </td>
             </tr>
             <tr>

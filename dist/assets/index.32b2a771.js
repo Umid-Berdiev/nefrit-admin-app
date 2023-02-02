@@ -1,1 +1,0 @@
-import{V as e}from"./index.d938ffdf.js";const a=e("main",{state:()=>({todos:[],filter:"all",nextId:0,confirmModalState:!1,contractDownloadModalState:!1,confirmModalOkButtonColor:"danger",confirmState:!1}),getters:{getConfirmModalState(t){return t.confirmModalState},getConfirmState(t){return t.confirmState}}});export{a as u};
